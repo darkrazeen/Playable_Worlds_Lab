@@ -1,3 +1,34 @@
+# Cursor Project Context - Playable Worlds Lab
+
+> **Use this file as the main Cursor-readable project document.**
+> Recommended repo path: `docs/cursor-project-context.md`
+
+This document is written for Cursor or any AI coding tool working inside the Playable Worlds Lab repository. It summarizes the project vision, scope, architecture, source priority, implementation rules, and roadmap in a plain Markdown format that is easier for Cursor to read than PDF or DOCX.
+
+## Cursor Usage Rules
+
+Before implementing any code, Cursor should:
+
+1. Treat this file as project context, not as permission to build everything at once.
+2. Implement only the current human-approved step.
+3. List allowed scope, blocked scope, expected files, tests, and assumptions before coding.
+4. Keep AI advisory only: AI proposes, validators check, deterministic engine executes.
+5. Prefer schemas, validators, fixtures, and tests before UI or generated content.
+6. Stop when credentials, external setup, Supabase, API keys, billing, or unclear scope is required.
+7. End every task with files changed, tests run, result, blockers, and next safe step.
+
+## Source Priority
+
+1. Current human-approved task prompt.
+2. This Cursor Project Context document.
+3. Existing repository code.
+4. Archived or older PDFs only as historical references.
+5. Cursor suggestions.
+
+If instructions conflict, Cursor should stop and ask the human owner which instruction wins.
+
+---
+
 # Playable Worlds Lab
 
 > **A schema-first, text-first AI-directed world engine where player choices change remembered world state.**
@@ -17,10 +48,6 @@ The first proof world is **Stonepass Valley**, a compact fantasy scenario where 
 ## Table of Contents
 
 - [Project Status](#project-status)
-- [Implementation Progress](#implementation-progress)
-- [Environment](#environment)
-- [Current Repository Layout](#current-repository-layout)
-- [How to Run](#how-to-run)
 - [What This Project Is](#what-this-project-is)
 - [What This Project Is Not](#what-this-project-is-not)
 - [Core Product Thesis](#core-product-thesis)
@@ -54,7 +81,7 @@ The first proof world is **Stonepass Valley**, a compact fantasy scenario where 
 
 ## Project Status
 
-**Status:** Early implementation — **Phase 0 / W1-S1 complete.** Monorepo skeleton runs locally. Game schemas, Stonepass content, and runtime are not started yet.
+**Status:** Early implementation / pre-MVP foundation.
 
 Playable Worlds Lab should be treated as an active experimental product and engineering prototype. The current priority is to build the foundation correctly, not to overbuild visuals, social systems, marketplaces, or multiplayer too early.
 
@@ -63,157 +90,6 @@ The first milestone is not “build the full game.”
 The first milestone is:
 
 > Make Stonepass Valley playable in the browser as a text-first world where choices update world state, consequences are recorded in a ledger, AI can suggest next steps safely, and invalid generated output is rejected.
-
----
-
-## Implementation Progress
-
-Progress is tracked in `Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv`. Update this table when a step is finished.
-
-| Step ID | Phase | Name | Status |
-| --- | --- | --- | --- |
-| **W1-S1** | Phase 0 — Foundation | Create repo and app skeleton | **Done** |
-| W1-S2 | Phase 0 — Foundation | Create WorldDNA schema | Not started |
-| W1-S3 … W1-S16 | Phase 0 — Foundation | Remaining schemas, validator, Stonepass JSON, FakeProvider | Not started |
-| W2-S1 … | Phase 1+ | Text runtime, AI, instances, UI, etc. | Not started |
-
-**W1-S1 done when (met):**
-
-- Project runs locally (`npm run dev`)
-- Basic home page loads at `http://localhost:3000` (local dev only — not a public deploy)
-- `npm test` passes (Vitest smoke test)
-- `npm run typecheck`, `npm run lint`, and `npm run build` succeed
-
-**Next step:** W1-S2 — Create WorldDNA schema in `packages/core`.
-
----
-
-## Environment
-
-### Prerequisites
-
-| Requirement | Notes |
-| --- | --- |
-| **Node.js** | 20+ (see `.nvmrc`; tested with v22.x) |
-| **npm** | Workspaces monorepo; use npm at repo root |
-| **Git** | Optional; use GitHub Desktop or CLI as you prefer |
-| **Editor** | Cursor or VS Code recommended |
-
-Check versions:
-
-```bash
-node -v
-npm -v
-```
-
-### Environment variables
-
-Copy the template — **no API keys are required yet** for W1-S1 or early Phase 0:
-
-```bash
-cp .env.example .env.local
-```
-
-| Variable | Needed now? | Purpose |
-| --- | --- | --- |
-| `OPENAI_API_KEY`, `ANTHROPIC_API_KEY`, `GEMINI_API_KEY` | No | Phase 2+ AI providers |
-| `SUPABASE_*` | No | Persistence / share phases |
-| `NEXT_PUBLIC_APP_URL` | No | App URL when deploying later |
-
-Do not commit `.env` or `.env.local`. See [Environment Variables](#environment-variables) for full rules.
-
-### Local dev URL
-
-`npm run dev` starts the Next.js app at **`http://localhost:3000`** on your machine only. That verifies the web shell works; it is not production hosting and does not include game logic yet.
-
----
-
-## Current Repository Layout
-
-What exists after W1-S1 (stubs are placeholders for later phases):
-
-```text
-playable-worlds-lab/
-  apps/
-    web/                    # @playable-worlds/web — Next.js 15, React, Tailwind, ESLint
-      app/                  # App Router (home page)
-  packages/
-    core/                   # @playable-worlds/core — deterministic logic (schemas in W1-S2+)
-    ai/                     # @playable-worlds/ai — gateway/agents (Phase 2+)
-    content/                # @playable-worlds/content — world data (Stonepass in W1-S15+)
-  tests/
-    smoke.test.ts           # Root Vitest smoke test
-  package.json              # npm workspaces + root scripts
-  package-lock.json
-  vitest.config.ts
-  tsconfig.base.json
-  .nvmrc
-  .env.example
-  .gitignore
-  .prettierrc
-  README.md
-  PROJECT_CONTEXT_Playable_Worlds_Lab.md
-  Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv
-```
-
-**Not created yet:** Zod schemas, `validateWorldDefinition`, Stonepass JSON, AI providers, game runtime, Supabase, `scripts/validate-content.ts`.
-
----
-
-## How to Run
-
-All commands run from the **repository root** unless noted.
-
-### First-time setup
-
-```bash
-npm install
-cp .env.example .env.local   # optional for now
-```
-
-### Development (local UI)
-
-```bash
-npm run dev
-```
-
-Open **http://localhost:3000** in your browser. You should see the Playable Worlds Lab placeholder home page. Stop the server with `Ctrl+C`.
-
-### Verify the project
-
-```bash
-npm test              # Vitest — tests/smoke.test.ts
-npm run typecheck     # TypeScript — web + all workspace packages
-npm run lint          # ESLint — apps/web
-npm run build         # Production build — apps/web
-```
-
-### Production-style local server (after build)
-
-```bash
-npm run build
-npm run start
-```
-
-### Formatting (optional)
-
-```bash
-npm run format:check
-npm run format
-```
-
-### Root `package.json` scripts
-
-| Script | What it does |
-| --- | --- |
-| `npm run dev` | Next.js dev server (`@playable-worlds/web`) |
-| `npm run build` | Next.js production build |
-| `npm run start` | Next.js production server (after build) |
-| `npm test` | Vitest unit tests at repo root |
-| `npm run typecheck` | `tsc --noEmit` in all workspaces that define it |
-| `npm run lint` | `next lint` in `apps/web` |
-| `npm run format` | Prettier write |
-| `npm run format:check` | Prettier check |
 
 ---
 
@@ -1063,22 +939,20 @@ Do not add state-management libraries, UI kits, game engines, auth systems, mark
 
 ## Recommended Repository Structure
 
-**W1-S1 implemented:** `apps/web`, `packages/core`, `packages/ai`, `packages/content`, root `tests/`. Remaining paths below are the target layout as phases complete.
-
 ```text
 playable-worlds-lab/
   apps/
-    web/                    # exists — expand with features/ as phases land
+    web/
       app/
-      components/           # planned
-      features/             # planned
+      components/
+      features/
         world-create/
         world-play/
         world-debug/
         world-share/
         creator/
 
-  docs/                     # planned (spec lives in README + PROJECT_CONTEXT today)
+  docs/
     source-priority.md
     content-safety-rules.md
     decision-log.md
@@ -1150,31 +1024,69 @@ This structure can be adjusted as the implementation becomes real, but the separ
 
 ## Getting Started
 
-> **Implemented:** W1-S1 monorepo skeleton. For prerequisites, env vars, layout, and commands, see [Implementation Progress](#implementation-progress), [Environment](#environment), [Current Repository Layout](#current-repository-layout), and [How to Run](#how-to-run).
+> These instructions assume the repository has been initialized and the planned JavaScript/TypeScript stack has been installed. Adjust commands if the package manager changes.
 
-### Clone or open the repo
+### Prerequisites
+
+Recommended:
+
+- Node.js 20+
+- npm
+- Git
+- A code editor such as Cursor or VS Code
+
+Check your local versions:
+
+```bash
+node -v
+npm -v
+git --version
+```
+
+### Clone the repo
 
 ```bash
 git clone https://github.com/YOUR_USERNAME/playable-worlds-lab.git
 cd playable-worlds-lab
 ```
 
-Or open an existing local clone (e.g. via GitHub Desktop) and use that folder as the repo root.
-
-### Install and run
+### Install dependencies
 
 ```bash
 npm install
+```
+
+### Create environment file
+
+```bash
+cp .env.example .env.local
+```
+
+For early phases, real provider keys are not required. The project should support FakeProvider tests before real AI calls.
+
+### Run development server
+
+```bash
 npm run dev
 ```
 
-Open http://localhost:3000, then in another terminal:
+### Run tests
 
 ```bash
 npm test
 ```
 
-Optional: `cp .env.example .env.local` — not required until later phases need API keys or Supabase.
+### Run type checks
+
+```bash
+npm run typecheck
+```
+
+### Run linting
+
+```bash
+npm run lint
+```
 
 ---
 
@@ -1211,28 +1123,32 @@ Rules:
 
 ## Common Commands
 
-Run from the **repository root** (npm workspaces).
+Recommended scripts:
 
-**Available now (W1-S1):**
+```json
+{
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "test": "vitest",
+    "typecheck": "tsc --noEmit",
+    "lint": "next lint",
+    "validate:content": "tsx scripts/validate-content.ts"
+  }
+}
+```
+
+Expected usage:
 
 ```bash
 npm run dev
-npm run build
-npm run start
 npm test
 npm run typecheck
 npm run lint
-npm run format
-npm run format:check
+npm run validate:content
 ```
 
-**Planned later (not implemented yet):**
-
-```bash
-npm run validate:content   # scripts/validate-content.ts — Phase 0+ content validation
-```
-
-See [How to Run](#how-to-run) for what each script does.
+The exact scripts may change during implementation, but every phase should keep testing and validation easy to run.
 
 ---
 
