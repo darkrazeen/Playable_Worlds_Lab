@@ -1,0 +1,9 @@
+{
+  "genre": "fantasy",
+  "tone": "heroic",
+  "sessionLengthMinutes": 15,
+  "coreLoop": ["reach obstacle", "make choice", "face consequence", "pursue next goal"],
+  "consequenceIntensity": "medium",
+  "aiCreativity": "balanced",
+  "safetyMode": "teen"
+}

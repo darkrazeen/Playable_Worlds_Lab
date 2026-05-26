@@ -1,0 +1,6 @@
+{
+  "id": "feed_ogre",
+  "label": "Offer food to the ogre",
+  "description": "Maybe hunger matters more than the bridge.",
+  "consequenceId": "consequence_feed_ogre"
+}

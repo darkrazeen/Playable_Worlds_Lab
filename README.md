@@ -54,7 +54,7 @@ The first proof world is **Stonepass Valley**, a compact fantasy scenario where 
 
 ## Project Status
 
-**Status:** Early implementation — **Phase 0 / W1-S1 complete.** Monorepo skeleton runs locally. Game schemas, Stonepass content, and runtime are not started yet.
+**Status:** Early implementation — **Phase 0 / W1-S1–S3 complete.** Monorepo skeleton + `WorldDNA` + `PlayerChoice` schemas. Stonepass content and runtime are not started yet.
 
 Playable Worlds Lab should be treated as an active experimental product and engineering prototype. The current priority is to build the foundation correctly, not to overbuild visuals, social systems, marketplaces, or multiplayer too early.
 
@@ -73,8 +73,9 @@ Progress is tracked in `Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv`. Updat
 | Step ID | Phase | Name | Status |
 | --- | --- | --- | --- |
 | **W1-S1** | Phase 0 — Foundation | Create repo and app skeleton | **Done** |
-| W1-S2 | Phase 0 — Foundation | Create WorldDNA schema | Not started |
-| W1-S3 … W1-S16 | Phase 0 — Foundation | Remaining schemas, validator, Stonepass JSON, FakeProvider | Not started |
+| **W1-S2** | Phase 0 — Foundation | Create WorldDNA schema | **Done** |
+| **W1-S3** | Phase 0 — Foundation | Create PlayerChoice schema | **Done** |
+| W1-S4 … W1-S16 | Phase 0 — Foundation | Remaining schemas, validator, Stonepass JSON, FakeProvider | Not started |
 | W2-S1 … | Phase 1+ | Text runtime, AI, instances, UI, etc. | Not started |
 
 **W1-S1 done when (met):**
@@ -84,7 +85,9 @@ Progress is tracked in `Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv`. Updat
 - `npm test` passes (Vitest smoke test)
 - `npm run typecheck`, `npm run lint`, and `npm run build` succeed
 
-**Next step:** W1-S2 — Create WorldDNA schema in `packages/core`.
+**W1-S2 done when (met):** `WorldDNASchema` and `SafetyModeSchema` in `packages/core`; teen/adult examples pass; invalid modes and missing fields fail; `npm test` includes core schema tests.
+
+**Next step:** W1-S4 — Create StoryBeat schema in `packages/core`.
 
 ---
 
@@ -138,9 +141,11 @@ playable-worlds-lab/
     web/                    # @playable-worlds/web — Next.js 15, React, Tailwind, ESLint
       app/                  # App Router (home page)
   packages/
-    core/                   # @playable-worlds/core — deterministic logic (schemas in W1-S2+)
+    core/                   # @playable-worlds/core — WorldDNA, PlayerChoice, … (Phase 0)
+      src/schemas/
+      tests/unit/schemas/
     ai/                     # @playable-worlds/ai — gateway/agents (Phase 2+)
-    content/                # @playable-worlds/content — world data (Stonepass in W1-S15+)
+    content/                # @playable-worlds/content — examples/ (world-dna-*.json)
   tests/
     smoke.test.ts           # Root Vitest smoke test
   package.json              # npm workspaces + root scripts
@@ -156,7 +161,7 @@ playable-worlds-lab/
   Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv
 ```
 
-**Not created yet:** Zod schemas, `validateWorldDefinition`, Stonepass JSON, AI providers, game runtime, Supabase, `scripts/validate-content.ts`.
+**Not created yet:** `StoryBeat`, `Consequence`, `WorldDefinition`, `validateWorldDefinition`, Stonepass JSON, AI providers, game runtime, Supabase, `scripts/validate-content.ts`.
 
 ---
 

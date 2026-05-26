@@ -1,0 +1,9 @@
+{
+  "genre": "mystery",
+  "tone": "dark",
+  "sessionLengthMinutes": 30,
+  "coreLoop": ["investigate clue", "choose approach", "pay the cost", "uncover truth"],
+  "consequenceIntensity": "major",
+  "aiCreativity": "conservative",
+  "safetyMode": "adult"
+}
