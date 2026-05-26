@@ -1,0 +1,19 @@
+{
+  "activeFlags": ["ogre_defeated", "bridge_open", "landslide_triggered"],
+  "completedFlags": [],
+  "activeGoals": ["goal_reach_valley"],
+  "completedGoals": [],
+  "discoveredLocations": ["location_hidden_cave"],
+  "events": [
+    {
+      "id": "event_fight_ogre",
+      "type": "consequence",
+      "summary": "Player defeated the ogre at the bridge.",
+      "turnNumber": 1,
+      "metadata": {
+        "consequenceId": "consequence_fight_ogre",
+        "choiceId": "fight_ogre"
+      }
+    }
+  ]
+}

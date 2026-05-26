@@ -59,7 +59,7 @@ The first proof world is **Stonepass Valley** — a compact fantasy scenario use
 
 ## Project Status
 
-**Status:** Early implementation — **Phase 0 / W1-S1–S5 complete.** Monorepo skeleton + `WorldDNA`, `PlayerChoice`, `StoryBeat`, `Consequence` schemas. Stonepass content and runtime are not started yet.
+**Status:** Early implementation — **Phase 0 / W1-S1–S7 complete.** Monorepo skeleton + core schemas through `DirectorDecision`. Stonepass content and runtime are not started yet.
 
 Playable Worlds Lab should be treated as an active experimental product and engineering prototype. The current priority is to build the foundation correctly, not to overbuild visuals, social systems, marketplaces, or multiplayer too early.
 
@@ -84,7 +84,9 @@ Progress is tracked in `Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv`. Updat
 | **W1-S3** | Phase 0 — Foundation | Create PlayerChoice schema | **Done** |
 | **W1-S4** | Phase 0 — Foundation | Create StoryBeat schema | **Done** |
 | **W1-S5** | Phase 0 — Foundation | Create Consequence schema | **Done** |
-| W1-S6 … W1-S16 | Phase 0 — Foundation | Remaining schemas, validator, Stonepass JSON, FakeProvider | Not started |
+| **W1-S6** | Phase 0 — Foundation | Create WorldLedger and WorldEvent schemas | **Done** |
+| **W1-S7** | Phase 0 — Foundation | Create DirectorDecision schema | **Done** |
+| W1-S8 … W1-S16 | Phase 0 — Foundation | Remaining schemas, validator, Stonepass JSON, FakeProvider | Not started |
 | W2-S1 … | Phase 1+ | Text runtime, AI, instances, UI, etc. | Not started |
 
 **W1-S1 done when (met):**
@@ -98,7 +100,11 @@ Progress is tracked in `Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv`. Updat
 
 **W1-S5 done when (met):** `ConsequenceSchema` in `packages/core`; fight-ogre example passes; missing summary and malformed arrays fail; omitted arrays default to `[]`; `npm test` includes consequence schema tests.
 
-**Next step:** W1-S6 — Create WorldLedger and WorldEvent schemas in `packages/core`.
+**W1-S6 done when (met):** `WorldLedgerSchema` and `WorldEventSchema` in `packages/core`; empty ledger and post-ogre example pass; malformed events fail; omitted arrays default to `[]`; `npm test` includes ledger schema tests.
+
+**W1-S7 done when (met):** `DirectorDecisionSchema` in `packages/core`; allowed `action` enum with required `targetId`/`reason` and `confidence` in `0..1`; invalid action, missing target, and out-of-range confidence fail; `npm test` includes DirectorDecision schema tests.
+
+**Next step:** W1-S8 — Create TemporaryInstance schema in `packages/core`.
 
 ---
 
@@ -152,7 +158,7 @@ playable-worlds-lab/
     web/                    # @playable-worlds/web — Next.js 15, React, Tailwind, ESLint
       app/                  # App Router (home page)
   packages/
-    core/                   # @playable-worlds/core — WorldDNA, PlayerChoice, StoryBeat, Consequence (Phase 0)
+    core/                   # @playable-worlds/core — schemas through WorldLedger (Phase 0)
       src/schemas/
       tests/unit/schemas/
     ai/                     # @playable-worlds/ai — gateway/agents (Phase 2+)
@@ -173,7 +179,7 @@ playable-worlds-lab/
   Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv
 ```
 
-**Not created yet:** `WorldLedger`, `WorldDefinition`, `validateWorldDefinition`, Stonepass JSON, AI providers, game runtime, Supabase, `scripts/validate-content.ts`.
+**Not created yet:** `WorldDefinition`, `validateWorldDefinition`, Stonepass JSON, AI providers, game runtime, Supabase, `scripts/validate-content.ts`.
 
 ---
 
