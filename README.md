@@ -10,7 +10,7 @@ The short version:
 
 This project is not trying to become a giant 3D metaverse on day one. The first goal is smaller, stricter, and more useful: prove that an AI-assisted game world can be represented as structured game logic, validated safely, played through meaningful choices, remembered through state, tested for broken paths, and eventually rendered through richer visual layers.
 
-The first proof world is **Stonepass Valley**, a compact fantasy scenario where a player reaches a bridge blocked by an ogre. The player can fight, trick, feed, talk to, or sneak around the ogre. Each choice changes world state. One path causes a landslide, exposes a temporary cave, sends the player through a short instance, and awakens a dragon. That small chain proves the core systems before bigger generation, sharing, multiplayer, 2D, or 3D layers are added.
+The first proof world is **Stonepass Valley** — a compact fantasy scenario used to prove the engine, with a planned evolution into a **strong text showcase** (multiple loops, encounters, AI-directed variation) and later **2D/3D output layers** using the same world data. See [First Proof World: Stonepass Valley](#first-proof-world-stonepass-valley) for the minimum proof chain, showcase intent, and the [regional quest reference scenario](#reference-scenario-regional-quest-offer) to implement when the runtime is ready.
 
 ---
 
@@ -18,6 +18,7 @@ The first proof world is **Stonepass Valley**, a compact fantasy scenario where 
 
 - [Project Status](#project-status)
 - [Implementation Progress](#implementation-progress)
+- [Future Features (brainstorm)](./Future_Features/README.md)
 - [Environment](#environment)
 - [Current Repository Layout](#current-repository-layout)
 - [How to Run](#how-to-run)
@@ -26,6 +27,10 @@ The first proof world is **Stonepass Valley**, a compact fantasy scenario where 
 - [Core Product Thesis](#core-product-thesis)
 - [Why Text First](#why-text-first)
 - [First Proof World: Stonepass Valley](#first-proof-world-stonepass-valley)
+  - [Stonepass: Minimum vs Showcase](#stonepass-minimum-vs-showcase)
+  - [Long-term demo and 2D/3D path](#long-term-demo-and-2d3d-path)
+  - [Reference scenario: Regional quest offer](#reference-scenario-regional-quest-offer)
+  - [How Stonepass and quests relate to phases](#how-stonepass-and-quests-relate-to-phases)
 - [Core Operating Principles](#core-operating-principles)
 - [MVP Scope](#mvp-scope)
 - [High-Level Architecture](#high-level-architecture)
@@ -54,7 +59,7 @@ The first proof world is **Stonepass Valley**, a compact fantasy scenario where 
 
 ## Project Status
 
-**Status:** Early implementation — **Phase 0 / W1-S1–S3 complete.** Monorepo skeleton + `WorldDNA` + `PlayerChoice` schemas. Stonepass content and runtime are not started yet.
+**Status:** Early implementation — **Phase 0 / W1-S1–S5 complete.** Monorepo skeleton + `WorldDNA`, `PlayerChoice`, `StoryBeat`, `Consequence` schemas. Stonepass content and runtime are not started yet.
 
 Playable Worlds Lab should be treated as an active experimental product and engineering prototype. The current priority is to build the foundation correctly, not to overbuild visuals, social systems, marketplaces, or multiplayer too early.
 
@@ -70,12 +75,16 @@ The first milestone is:
 
 Progress is tracked in `Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv`. Update this table when a step is finished.
 
+**Future ideas (not step-tracker work yet):** see [Future_Features/](./Future_Features/README.md) — quest generator, [quest blueprint vs AI flavor](./Future_Features/Quest_Generation.md#quest-foundation-vs-ai-flavor-creator-contract).
+
 | Step ID | Phase | Name | Status |
 | --- | --- | --- | --- |
 | **W1-S1** | Phase 0 — Foundation | Create repo and app skeleton | **Done** |
 | **W1-S2** | Phase 0 — Foundation | Create WorldDNA schema | **Done** |
 | **W1-S3** | Phase 0 — Foundation | Create PlayerChoice schema | **Done** |
-| W1-S4 … W1-S16 | Phase 0 — Foundation | Remaining schemas, validator, Stonepass JSON, FakeProvider | Not started |
+| **W1-S4** | Phase 0 — Foundation | Create StoryBeat schema | **Done** |
+| **W1-S5** | Phase 0 — Foundation | Create Consequence schema | **Done** |
+| W1-S6 … W1-S16 | Phase 0 — Foundation | Remaining schemas, validator, Stonepass JSON, FakeProvider | Not started |
 | W2-S1 … | Phase 1+ | Text runtime, AI, instances, UI, etc. | Not started |
 
 **W1-S1 done when (met):**
@@ -87,7 +96,9 @@ Progress is tracked in `Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv`. Updat
 
 **W1-S2 done when (met):** `WorldDNASchema` and `SafetyModeSchema` in `packages/core`; teen/adult examples pass; invalid modes and missing fields fail; `npm test` includes core schema tests.
 
-**Next step:** W1-S4 — Create StoryBeat schema in `packages/core`.
+**W1-S5 done when (met):** `ConsequenceSchema` in `packages/core`; fight-ogre example passes; missing summary and malformed arrays fail; omitted arrays default to `[]`; `npm test` includes consequence schema tests.
+
+**Next step:** W1-S6 — Create WorldLedger and WorldEvent schemas in `packages/core`.
 
 ---
 
@@ -141,7 +152,7 @@ playable-worlds-lab/
     web/                    # @playable-worlds/web — Next.js 15, React, Tailwind, ESLint
       app/                  # App Router (home page)
   packages/
-    core/                   # @playable-worlds/core — WorldDNA, PlayerChoice, … (Phase 0)
+    core/                   # @playable-worlds/core — WorldDNA, PlayerChoice, StoryBeat, Consequence (Phase 0)
       src/schemas/
       tests/unit/schemas/
     ai/                     # @playable-worlds/ai — gateway/agents (Phase 2+)
@@ -158,10 +169,11 @@ playable-worlds-lab/
   .prettierrc
   README.md
   PROJECT_CONTEXT_Playable_Worlds_Lab.md
+  Future_Features/            # brainstorm specs (e.g. Quest_Generation.md)
   Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv
 ```
 
-**Not created yet:** `StoryBeat`, `Consequence`, `WorldDefinition`, `validateWorldDefinition`, Stonepass JSON, AI providers, game runtime, Supabase, `scripts/validate-content.ts`.
+**Not created yet:** `WorldLedger`, `WorldDefinition`, `validateWorldDefinition`, Stonepass JSON, AI providers, game runtime, Supabase, `scripts/validate-content.ts`.
 
 ---
 
@@ -314,11 +326,16 @@ The world engine comes first.
 
 ## First Proof World: Stonepass Valley
 
-**Stonepass Valley** is the first official proof world.
+**Stonepass Valley** is the first official world in Playable Worlds Lab. It serves two related purposes:
 
-It is intentionally small. That is the point.
+1. **Engine proof (required)** — a small, validatable text world that proves choices, consequences, ledger memory, instances, and AI assistance work end-to-end.
+2. **Capability showcase (intended)** — a richer demo that heavily uses the framework: multiple loops, branching designs, encounters, and an AI Director so runs feel different while state changes remain explainable and fair.
 
-The player reaches a bridge blocked by an ogre. The player can choose different approaches:
+Stonepass is **not** the final product and **not** a substitute for later 2D or 3D games. It is the reference world that must work in text before visuals, sharing, or generated worlds scale up. If Stonepass cannot survive as validated logic, graphics will not fix it.
+
+### Minimal proof chain (Stonepass v1 — gate)
+
+The player reaches a bridge blocked by an ogre and can:
 
 - Fight the ogre.
 - Trick the ogre.
@@ -326,9 +343,7 @@ The player reaches a bridge blocked by an ogre. The player can choose different 
 - Talk to the ogre.
 - Sneak around the ogre.
 
-Each path changes world state differently.
-
-A core proof chain looks like this:
+Each path applies different consequences and flags. One flagship path demonstrates instances and long-term state:
 
 ```text
 Player reaches ogre-blocked bridge
@@ -344,25 +359,201 @@ Player reaches ogre-blocked bridge
 -> New goal appears
 ```
 
-This one small loop proves:
+**Stonepass v1 is done** when this chain (and core ogre choices) is playable in the browser as text, with ledger/debug visibility, validators passing, and AI suggesting — not mutating — truth (see [Definitions of Done](#definitions-of-done)).
+
+This loop proves:
 
 - Story beat selection.
 - Player choice handling.
 - Consequence application.
-- World flags.
+- World flags and goals.
 - Ledger memory.
 - Temporary instance support.
-- AI Director suggestions.
-- NPC reactions.
-- Validation and fallback behavior.
-- Debug visibility.
-- Future save/share/fork/remix support.
+- AI Director suggestions and NPC reactions (with fallbacks).
+- Validation and debug visibility.
+- Foundation for save / share / fork / remix.
 
-Stonepass Valley is the hello-world world.
-
-If Stonepass does not work, the larger platform should not move forward.
+If this minimum chain does not work, the larger platform should not move forward.
 
 ---
+
+### Stonepass: Minimum vs Showcase
+
+The project deliberately separates **proof** from **showcase** so phase gates stay honest.
+
+| Layer | Purpose | Scope (illustrative) | When |
+| --- | --- | --- | --- |
+| **Stonepass Minimum (v1)** | Prove the engine | Ogre bridge + consequence branches + one landslide → cave → dragon path; text-only; deterministic runtime works without AI | Phase 0–4 gate (30-day north star) |
+| **Stonepass Showcase (v2)** | Demonstrate platform depth | Multiple replayable loops, side arcs, richer encounters, archetype/route flavor, Director/NPC variation on major beats, health/playtest clean | After v1 gate, before treating 2D as default |
+| **World packs / other worlds** | Show reuse of framework | Different `WorldDNA` (genre, tone, session length), new `WorldDefinition`s from templates or prompt-to-world | Phase 5+ / official packs |
+
+**Showcase intent (product vision):**
+
+- **Multiple loops** — consequence branches, optional side beats, temporary instances, and goals that reopen or close paths; replay should differ by flags and choices, not random AI rewrites.
+- **Designs and world types** — expressed through `WorldDNA` and authored (or later generated) `WorldDefinition` data; Stonepass remains fantasy-first, but the same engine should load other tones/genres once validators and runtime are stable.
+- **Encounters** — structured as story beats, choices, consequences, and/or **temporary instance** rooms (combat, puzzle, social), not one-off prose with no state.
+- **AI Director** — makes each run *feel* different (hints, recap, NPC reaction tone, suggested next beat) while **only the Consequence Engine** updates `WorldSession` and `WorldLedger`. Invalid AI output is rejected; fallbacks keep play going.
+
+Stonepass Showcase is still **text-first** on purpose: it stress-tests the framework without art pipeline cost. A successful showcase is the green light for investing in Phaser 2D (Phase 8) and later 3D as **output layers** on the same JSON — not a rewrite of core logic.
+
+---
+
+### Long-term demo and 2D/3D path
+
+Playable Worlds Lab is built for **complex games eventually**, with disciplined sequencing:
+
+```text
+Schemas + validators (Phase 0)
+  -> deterministic text runtime (Phase 1)
+  -> AI Director + NPC (Phase 2)
+  -> temporary instances + encounters (Phase 3)
+  -> browser UI + persistence (Phase 4)
+  -> prompt-to-world, share/fork/remix, health, playtester (Phase 5–7)
+  -> 2D renderer reads same WorldDefinition (Phase 8)
+  -> 3D / hub as thin output layer (Phase 13)
+```
+
+**Realistic expectations:**
+
+- **Strong text showcase in Stonepass** — aligned and achievable if v1 gate passes and v2 content is authored deliberately.
+- **Moderate 2D worlds** (adventure, exploration, state-driven scenes) — aligned if the same beat/flag/instance model powers sprites and interactions.
+- **Heavy 3D** — possible as presentation of validated state for scoped experiences; not the near-term center of this repo.
+
+Variation must stay **explainable**: player profile, route, flags, consequences, NPC attitude, validated Director suggestion, or approved fork — not unstructured AI improvisation.
+
+---
+
+### Reference scenario: Regional quest offer
+
+This section documents a **fallback reference scenario** discussed for Stonepass (or a Stonepass-adjacent region). Implement it only when the runtime supports beats, consequences, goals, instances, and optional sharing — do not skip phase gates to build UI-only quest popups.
+
+#### Player fantasy
+
+```text
+Player enters a region / area
+  -> a pre-defined quest for that region is offered (popup / beat text)
+  -> player accepts or declines
+  -> if accept: a self-contained mini-adventure runs (branching, encounters, consequences)
+  -> state is remembered in the World Ledger
+  -> optionally: player shares that run or outcome with others (snapshot or fork)
+```
+
+#### Design principles (framework alignment)
+
+| Principle | Meaning |
+| --- | --- |
+| **Pre-defined quest** | Authored in `WorldDefinition` (beats, choices, consequences, goals). Reliable and validatable. |
+| **Region gating** | Entering a location or satisfying a trigger flag fires a **StoryBeat** — not a hardcoded UI-only modal. |
+| **Accept / decline** | Two (or more) `PlayerChoice`s with distinct `consequenceId`s (e.g. start quest vs dismiss). |
+| **Mini-adventure** | Either a **temporary instance** (dungeon, grove, ruin) or a **flag-gated subgraph** of beats only active while quest is active. |
+| **Matters / changes** | Accepting updates goals and flags; steps inside the arc apply consequences; ledger records the full trail. |
+| **AI Director** | After accept, Director may suggest reactions, pacing, or optional beats — engine still executes only validated consequences. |
+| **Share** | Phase 6: share link or fork preserves world version + session/ledger snapshot; broken worlds must not ship to public discovery. |
+
+#### Example region: Mosswood Errand (illustrative data shape)
+
+Names are placeholders; wire to real IDs when authoring Stonepass JSON.
+
+**1. Enter region**
+
+- **Location:** `location_mosswood_border` (in `WorldDefinition.locations` when locations exist).
+- **Trigger:** player enters location → runtime sets flag `entered_mosswood` and selects beat `beat_mosswood_quest_offer`.
+
+**2. Quest offer beat** (`beat_mosswood_quest_offer`)
+
+- **Title:** “A courier’s errand”
+- **Description:** Pre-defined offer text for this region only.
+- **Choices:**
+  - `choice_accept_errand` → `consequence_accept_mosswood_errand` (add goal `goal_mosswood_errand`, flag `quest_mosswood_active`, ledger event).
+  - `choice_decline_errand` → `consequence_decline_mosswood_errand` (flag `quest_mosswood_declined`; beat may re-offer later via flags).
+
+**3. Mini-adventure (pick one or combine)**
+
+- **Option A — Temporary instance** `instance_mosswood_trail`:
+  - Entrance condition: `quest_mosswood_active`.
+  - Rooms: trail → encounter (e.g. wounded animal / bandit sketch) → puzzle or social choice → completion.
+  - Exit consequence: `consequence_mosswood_complete` (complete goal, remove active quest flag, add `mosswood_errand_done`, optional reward flag).
+  - Cleanup: `collapse` or `seal` per instance rules.
+
+- **Option B — Subgraph in main world:**
+  - Hidden beats `beat_mosswood_01` … `beat_mosswood_finale` with `requiredFlags: ["quest_mosswood_active"]`.
+  - Finale consequence completes goal and clears active quest.
+
+**4. Return to main Stonepass**
+
+- Completing the errand updates NPC attitudes or world flags visible in later beats (e.g. elder trusts player, shortcut unlocked).
+- **World Ledger** shows: offered → accepted/declined → steps taken → completed/failed.
+
+**5. Share (later phase)**
+
+- Player finishes errand → UI offers **share snapshot** (session + ledger at completion) or **fork** for others to replay from that world version.
+- Fork/remix does not overwrite the canonical `WorldDefinition`; lineage tracked via version metadata.
+
+#### Flow diagram
+
+```text
+                    ┌─────────────────────────┐
+                    │  Enter region/location   │
+                    └───────────┬─────────────┘
+                                v
+                    ┌─────────────────────────┐
+                    │ beat: quest offer        │
+                    │ (pre-defined copy)       │
+                    └───────────┬─────────────┘
+              ┌─────────────────┴─────────────────┐
+              v                                   v
+     ┌────────────────┐                 ┌────────────────┐
+     │ Accept choice   │                 │ Decline choice  │
+     └────────┬───────┘                 └────────┬───────┘
+              v                                   v
+     goal + quest_active flag            declined flag (optional re-offer)
+              v
+     ┌────────────────────────────────────────────┐
+     │ Mini-adventure: instance OR beat subgraph   │
+     │ (encounters, choices, consequences)         │
+     └────────┬───────────────────────────────────┘
+              v
+     ┌────────────────────────────────────────────┐
+     │ Complete: goal done, flags, ledger events    │
+     └────────┬───────────────────────────────────┘
+              v
+     ┌────────────────────────────────────────────┐
+     │ Optional: share / fork run (Phase 6)         │
+     └────────────────────────────────────────────┘
+```
+
+#### Relation to ogre → cave → dragon chain
+
+| Chain | Role in Stonepass |
+| --- | --- |
+| Ogre bridge + cave + dragon | **Minimum v1** — proves flagship consequence + instance + long-term flag (`dragon_awake`) |
+| Regional quest (e.g. Mosswood) | **Showcase v2** — proves area entry, optional quest, side loop, ledger clarity, later share |
+
+Both use the same contracts; neither requires custom engine code beyond generic beat selection, consequence application, and instance lifecycle.
+
+---
+
+### How Stonepass and quests relate to phases
+
+Use this table when deciding whether to implement part of the reference scenario.
+
+| Capability | Needed for regional quest | Phase (approx.) |
+| --- | --- | --- |
+| `PlayerChoice`, `StoryBeat`, `Consequence` | Quest offer + branches | Phase 0 (W1-S3–S5) |
+| `WorldDefinition`, locations, goals | Region + quest definition | Phase 0 (W1-S10, W1-S15) |
+| Text runtime, beat selector, consequence engine | Enter region → offer → accept | Phase 1 |
+| `WorldLedger`, `DebugEvent` | Remember and explain run | Phase 1 |
+| AI Director / NPC | Flavor and variation on beats | Phase 2 |
+| `TemporaryInstance` + rooms/encounters | Instance-style mini-adventure | Phase 3 |
+| Play UI + ledger/debug panels | Player sees quest and history | Phase 4 |
+| Save / share / fork | Share mini-adventure with others | Phase 6 |
+| 2D map / enter region visually | Same triggers, visual layer | Phase 8 |
+
+**Current build status:** Phase 0 schemas partially complete (`WorldDNA`, `PlayerChoice`). Story beats, consequences, Stonepass JSON, runtime, Director, instances, and share are **not implemented yet**. Treat this scenario as the **target authoring pattern**, not as permission to skip steps.
+
+---
+
+## Core Operating Principles
 
 ## Core Operating Principles
 

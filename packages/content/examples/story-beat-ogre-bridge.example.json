@@ -1,0 +1,40 @@
+{
+  "id": "beat_ogre_bridge",
+  "title": "The Blocked Bridge",
+  "description": "An ogre blocks the only bridge into Stonepass Valley.",
+  "trigger": "player_reaches_bridge",
+  "availableChoices": [
+    {
+      "id": "fight_ogre",
+      "label": "Fight the ogre",
+      "consequenceId": "consequence_fight_ogre"
+    },
+    {
+      "id": "trick_ogre",
+      "label": "Trick the ogre",
+      "consequenceId": "consequence_trick_ogre"
+    },
+    {
+      "id": "feed_ogre",
+      "label": "Offer food",
+      "consequenceId": "consequence_feed_ogre"
+    },
+    {
+      "id": "talk_ogre",
+      "label": "Talk to the ogre",
+      "consequenceId": "consequence_talk_ogre"
+    },
+    {
+      "id": "sneak_ogre",
+      "label": "Sneak past",
+      "consequenceId": "consequence_sneak_ogre"
+    }
+  ],
+  "possibleConsequences": [
+    "consequence_fight_ogre",
+    "consequence_trick_ogre",
+    "consequence_feed_ogre",
+    "consequence_talk_ogre",
+    "consequence_sneak_ogre"
+  ]
+}

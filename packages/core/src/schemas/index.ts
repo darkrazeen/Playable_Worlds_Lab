@@ -18,3 +18,27 @@ export {
   safeParsePlayerChoice,
   type PlayerChoice,
 } from "./playerChoice.js";
+export {
+  ConsequenceIdSchema,
+  ConsequenceSchema,
+  GoalIdListSchema,
+  GoalIdSchema,
+  LocationIdListSchema,
+  LocationIdSchema,
+  NpcAttitudeSchema,
+  NpcAttitudeUpdateSchema,
+  parseConsequence,
+  safeParseConsequence,
+  TemporaryInstanceIdListSchema,
+  TemporaryInstanceIdSchema,
+  VisibleChangeListSchema,
+  VisibleChangeSchema,
+  type Consequence,
+  type NpcAttitudeUpdate,
+} from "./consequence.js";
+export {
+  parseStoryBeat,
+  safeParseStoryBeat,
+  StoryBeatSchema,
+  type StoryBeat,
+} from "./storyBeat.js";
