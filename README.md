@@ -81,7 +81,7 @@ Progress is tracked in `Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv`. Updat
 
 **Agent handoff (latest session):** [AGENT_SESSION_HANDOFF.md](./AGENT_SESSION_HANDOFF.md) — current state, v4.2 contract, next step **W2-S1**.
 
-**Future ideas (not step-tracker work yet):** see [Future_Features/](./Future_Features/README.md) — quest generator, [quest blueprint vs AI flavor](./Future_Features/Quest_Generation.md#quest-foundation-vs-ai-flavor-creator-contract).
+**Future ideas (scheduled in step tracker as Not started):** see [Future_Features/](./Future_Features/README.md) — [player-themed worlds + content libraries](./Future_Features/Player_World_Generation_and_Content_Libraries.md), [quest generation (W8-S9–S12)](./Future_Features/Quest_Generation.md#quest-foundation-vs-ai-flavor-creator-contract).
 
 | Step ID | Phase | Name | Status |
 | --- | --- | --- | --- |
@@ -101,8 +101,14 @@ Progress is tracked in `Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv`. Updat
 | **W1-S14** | Phase 0 — Foundation | validateWorldDefinition | **Done** |
 | **W1-S15** | Phase 0 — Foundation | Stonepass Valley world JSON | **Done** |
 | **W1-S16** | Phase 0 — Foundation | FakeProvider + AIProvider | **Done** |
-| **W2-S1** | Phase 1 — Text runtime | Build world JSON loader | **Next** |
-| W2-S2 … | Phase 1+ | Session init, choice resolver, play UI, etc. | Not started |
+| **W2-S1** | Phase 1 — Text runtime | Build world JSON loader | **Done** |
+| **W2-S2** | Phase 1 — Text runtime | Initialize WorldSession | **Done** |
+| **W2-S3** | Phase 1 — Text runtime | Story beat selector | **Done** |
+| **W2-S4** | Phase 1 — Text runtime | Choice resolver | **Done** |
+| **W2-S5** | Phase 1 — Text runtime | Apply consequence through runtime | **Done** |
+| **W2-S6** | Phase 1 — Text runtime | Build text play screen | **Next** |
+| W2-S7 … W3-* | Phase 1+ | Path tests, consequence engine, debug UI | Not started |
+| W7-S7–S11, W8-S6–S12 | Phase 5 extension | Content libraries, WorldBlueprint, quest generation | Scheduled (`Not started`) |
 
 **W1-S1 done when (met):**
 

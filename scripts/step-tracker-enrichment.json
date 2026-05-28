@@ -98,10 +98,73 @@
     "evidence": "Whole-world validation exists; broken fixtures fail with error paths."
   },
   "W1-S15": {
-    "implementation": "PLANNED (Status Next): Create packages/content/worlds/stonepass/stonepass-valley.world.json — full v1 proof graph: 5 ogre consequences, post-ogre beats, landslide→cave→dragon chain. Integration test load + parse + validateWorldDefinition. Invalid fixture for negative test.",
-    "relevance": "Canonical authored Stonepass data for W2-S1 loader and Phase 1–3 proof playthrough. Separates schema demo (examples/) from production world path (worlds/stonepass/).",
-    "future": "W2-S7 path tests; W5 cave chain; W6 end-to-end Stonepass; showcase v2 content extends same file; Mosswood quest (README) authors as additional WorldDefinition later.",
-    "tests": "PLANNED: stonepassWorld.test.ts or validator integration test; must run npm test after authoring.",
-    "evidence": "Awaiting implementation. Minimal example already passes validator — full world not yet at worlds/stonepass/."
+    "implementation": "Created packages/content/worlds/stonepass/stonepass-valley.world.json (schemaVersion 0.2.0): 5 ogre beats/choices with fully authored consequences, post-ogre beats, hidden cave TemporaryInstance, ogre+elder NPCs, fight→landslide→cave→dragon_awake proof chain. stonepassWorld.test.ts (3 tests).",
+    "relevance": "Canonical authored Stonepass data for W2-S1 loader and Phase 1–3 proof playthrough.",
+    "future": "W2-S7 path tests; W5 cave chain; W6 end-to-end Stonepass; W7-S10 library seed; Mosswood quest via W8-S9–S12.",
+    "tests": "packages/core/tests/unit/content/stonepassWorld.test.ts (3 tests). Full suite 2026-05-28: npm test 145+ passed.",
+    "evidence": "Canonical Stonepass v1 world passes parseAndValidateWorldDefinition."
+  },
+  "W2-S1": {
+    "implementation": "packages/core/src/world/loadWorld.ts (loadWorldFromFile, loadWorld, isKnownWorldId); packages/content/src/paths.ts. Unit + integration tests.",
+    "relevance": "First Phase 1 runtime piece; loads validated WorldDefinition from disk.",
+    "future": "W2-S2 session init; W2-S4–S7 runtime; W7 generated worlds use same loader.",
+    "tests": "loadWorld.test.ts (6); loadStonepassWorld.test.ts (3). Suite: 176 passed.",
+    "evidence": "Stonepass loads via loadWorld without throwing on validation failures."
+  },
+  "W2-S2": {
+    "implementation": "packages/core/src/session/initializeWorldSession.ts",
+    "relevance": "Bridges loaded world to playable session state.",
+    "future": "W2-S3 beat selector; W9 save/load.",
+    "tests": "initializeWorldSession.test.ts (4); initStonepassSession.test.ts (1). Suite: 181 passed.",
+    "evidence": "Fresh session at startingBeatId with turn 0 and empty ledger."
+  },
+  "W2-S3": {
+    "implementation": "packages/core/src/story/selectStoryBeat.ts, beatAccessibility.ts",
+    "relevance": "Presents beat content; gates beats by ledger flags.",
+    "future": "W2-S4 choice resolver; W4-S4 Director select_next_beat.",
+    "tests": "selectStoryBeat.test.ts (7); selectStonepassBeat.test.ts (1). Suite: 189 passed.",
+    "evidence": "Fresh Stonepass session selects beat_ogre_bridge."
+  },
+  "W2-S4": {
+    "implementation": "packages/core/src/runtime/resolvePlayerChoice.ts (resolvePlayerChoice, listAvailableChoices)",
+    "relevance": "Deterministic player input gate before consequence application.",
+    "future": "W2-S5 apply consequence; W2-S6 text play UI.",
+    "tests": "resolvePlayerChoice.test.ts (5); resolveStonepassChoice.test.ts (1). Suite: 195 passed.",
+    "evidence": "All five ogre bridge choices resolve; fake choice blocked."
+  },
+  "W2-S5": {
+    "implementation": "packages/core/src/runtime/applyConsequence.ts, applyConsequenceToLedger.ts (applyConsequence, applyPlayerChoice)",
+    "relevance": "First remembered world change from player choice; completes core engine loop.",
+    "future": "W2-S6 text play UI; Phase 3 temporaryInstances/npcUpdates deferred.",
+    "tests": "applyConsequence.test.ts (4); applyStonepassConsequence.test.ts (1). Suite: 200 passed.",
+    "evidence": "fight_ogre updates flags, goals, locations, worldEvents, debug trace."
+  },
+  "W2-S6": {
+    "implementation": "PLANNED (Status Next): apps/web/features/world-play — minimal text UI wired to @playable-worlds/core runtime.",
+    "relevance": "First human-playable Stonepass proof in browser.",
+    "future": "W2-S7 path tests; W3 world-play expansion.",
+    "tests": "PLANNED: web smoke test for play page and valid choice buttons.",
+    "evidence": "Awaiting implementation."
+  },
+  "W7-S7": {
+    "implementation": "PLANNED: packages/core/schemas/library — CreatureTemplate, NpcArchetype, EncounterTemplate, PuzzleTemplate Zod schemas.",
+    "relevance": "Tagged reusable content for themed worlds (lava/ocean/machine).",
+    "future": "W7-S8–S11; W8-S8 Architect composition; Future_Features/Player_World_Generation_and_Content_Libraries.md.",
+    "tests": "PLANNED: valid/invalid library fixture tests.",
+    "evidence": "Tracker row added 2026-05-28; not started."
+  },
+  "W8-S6": {
+    "implementation": "PLANNED: packages/core/schemas/worldBlueprint — player knobs (theme, beat outline, difficulty, reward bounds).",
+    "relevance": "High-level player controls for generated worlds.",
+    "future": "W8-S7–S8 Architect wiring; W7-S6 preview extension.",
+    "tests": "PLANNED: blueprint valid/invalid fixture tests.",
+    "evidence": "Tracker row added 2026-05-28; not started."
+  },
+  "W8-S9": {
+    "implementation": "PLANNED: packages/core/schemas/questBlueprint per Future_Features/Quest_Generation.md.",
+    "relevance": "Per-quest creator contract distinct from play-time AI flavor.",
+    "future": "W8-S10–S12 quest pipeline.",
+    "tests": "PLANNED: quest blueprint schema tests.",
+    "evidence": "Tracker row added 2026-05-28; not started."
   }
 }

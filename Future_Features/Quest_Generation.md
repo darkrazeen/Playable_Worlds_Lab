@@ -1,6 +1,6 @@
 # Future Features & Brainstorm Log
 
-> **Living document** for ideas discussed during Playable Worlds Lab development that are **not yet scheduled as step-tracker work**. Use this file to capture intent, architecture, phase gates, and implementation notes so features can be picked up safely later without re-deriving context from chat.
+> **Living document** for quest generation architecture and phase gates. **Tracker rows W8-S9–S12** were added 2026-05-28 — implement only when each step is human-approved as `Next`.
 
 **Rules for this file:**
 
@@ -14,6 +14,7 @@
 - [README.md](../README.md) — product spec, roadmap, Stonepass, regional quest reference scenario
 - [AGENT_SESSION_HANDOFF.md](../AGENT_SESSION_HANDOFF.md) — Cursor/agent onboarding and rules
 - [Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv](../Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv) — execution steps
+- [Player_World_Generation_and_Content_Libraries.md](./Player_World_Generation_and_Content_Libraries.md) — full-world generation, content libraries, WorldBlueprint (parent vision)
 
 ---
 
@@ -23,6 +24,7 @@
 | --- | --- | --- | --- |
 | [Quest generator](#quest-generator) | Brainstorm / approved direction | Phase 5–7 (after Phase 0–4 gates) | 2026-05-26 |
 | [Quest foundation vs AI flavor](#quest-foundation-vs-ai-flavor-creator-contract) | Approved design direction | Phase 0–2+ (schema/runtime), generator Phase 5+ | 2026-05-26 |
+| [Player world generation](../Player_World_Generation_and_Content_Libraries.md) | See linked doc | Phase 5–7 | 2026-05-28 |
 
 ---
 
@@ -516,12 +518,13 @@ Do **not** skip gates. Approximate mapping to README roadmap / step tracker:
 | 10 | Phase 9 Creator Cockpit | Preview, approve, regenerate, rollback |
 | 11 | Phase 8+ 2D | Visual quest markers / region enter (same triggers) |
 
-**Suggested step-tracker items (future — not in CSV yet):**
+**Step-tracker items (CSV rows W8-S9–S12, added 2026-05-28):**
 
-- `QuestDraft` schema + `validateQuestDraft.ts`
-- `QuestArchitectAgent` + FakeProvider fixtures
-- `generateQuest()` orchestration + unit/integration tests
-- Creator UI: quest preview panel + approve merge
+- W8-S9 — `QuestBlueprint` schema
+- W8-S10 — `validateQuestDraft.ts`
+- W8-S11 — `generateQuest()` orchestration + QuestArchitectAgent + tests
+- W8-S12 — Merge QuestDraft into WorldDefinition + creator preview
+- Creator UI (W12-S*): quest preview panel + approve merge
 - One Stonepass showcase quest slot filled via generator (dogfood)
 
 ---

@@ -3,7 +3,7 @@
 **Handoff date:** 2026-05-28  
 **Last reconciled:** 2026-05-28  
 **Workspace:** `Playable_Worlds_Lab`  
-**Purpose:** Onboard a Cursor/agent on the current repo state, contract rules, Phase 0 complete (W1-S16), and the next approved step (W2-S1).
+**Purpose:** Onboard a Cursor/agent on the current repo state, contract rules, Phase 0 complete, Phase 1 W2-S1–S5 complete, and the next approved step (**W2-S6**).
 
 ---
 
@@ -24,7 +24,7 @@
 | 2 | Human-approved step prompt |
 | 3 | Repository code in `packages/core` |
 | 4 | [README.md](./README.md) (secondary) |
-| 5 | [Future_Features/](./Future_Features/README.md) (not step-tracker work) |
+| 5 | [Future_Features/](./Future_Features/README.md) — specs for W7-S7+ / W8-S6+ (scheduled `Not started`; not current work) |
 
 ---
 
@@ -34,7 +34,7 @@
 
 - **First proof world:** Stonepass Valley (ogre bridge → choice branches → landslide → cave → dragon).
 - **Not day one:** 3D metaverse, full economy, multiplayer, public UGC marketplace.
-- **Long-term vision:** Rich Stonepass showcase (v2), then AI Director variation, quest generation, 2D/3D as output layers on same JSON.
+- **Long-term vision:** Rich Stonepass showcase (v2), AI Director variation, **player-themed worlds** (WorldBlueprint + content libraries — [Future_Features/Player_World_Generation_and_Content_Libraries.md](./Future_Features/Player_World_Generation_and_Content_Libraries.md)), **quest generation** ([Future_Features/Quest_Generation.md](./Future_Features/Quest_Generation.md), tracker W8-S9–S12), 2D/3D as output layers on same JSON.
 
 ```text
 WorldDefinition → StoryBeats → PlayerChoices → Consequences → WorldLedger
@@ -44,38 +44,43 @@ WorldDefinition → StoryBeats → PlayerChoices → Consequences → WorldLedge
 
 ---
 
-## 3. Phase 0 progress (step tracker)
+## 3. Phase progress (step tracker)
 
 Tracked in [Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv](./Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv).
 
+### Phase 0 — complete (16/16)
+
+W1-S1 through W1-S16 — all **Complete**.
+
+### Phase 1 — in progress (5/7+ through W2-S7)
+
 | Step | Name | Status |
 | --- | --- | --- |
-| W1-S1 | Repo and app skeleton | **Done** |
-| W1-S2 | WorldDNA schema | **Done** |
-| W1-S3 | PlayerChoice schema | **Done** |
-| W1-S4 | StoryBeat schema | **Done** |
-| W1-S5 | Consequence schema | **Done** |
-| W1-S6 | WorldLedger + WorldEvent | **Done** |
-| W1-S7 | DirectorDecision schema | **Done** |
-| W1-S8 | TemporaryInstance schema | **Done** |
-| W1-S9 | NPC schema | **Done** |
-| W1-S10 | WorldDefinition schema | **Done** |
-| W1-S11 | WorldSession schema | **Done** |
-| W1-S12 | DebugEvent schema | **Done** |
-| W1-S13 | AIResult contract | **Done** |
-| W1-S14 | validateWorldDefinition | **Done** |
-| W1-S15 | Stonepass Valley world JSON | **Done** |
-| W1-S16 | FakeProvider + AIProvider | **Done** |
-| W2-S1 | Phase 1 — world JSON loader | **Next ← approved** |
-| W2-S2+ | Phase 1 text runtime | Not started |
+| W2-S1 | World JSON loader | **Complete** |
+| W2-S2 | Initialize WorldSession | **Complete** |
+| W2-S3 | Story beat selector | **Complete** |
+| W2-S4 | Choice resolver | **Complete** |
+| W2-S5 | Apply consequence through runtime | **Complete** |
+| W2-S6 | Text play screen | **Next ← approved** |
+| W2-S7+ | Path tests, W3 consequence engine | Not started |
 
-**Phase 0 completion:** 16 / 16 steps (100%) — **Phase 0 gate complete.**
+**Engine loop (working):** `loadWorld` → `initializeWorldSession` → `selectStoryBeat` → `resolvePlayerChoice` → `applyPlayerChoice`
 
-Detailed per-step notes (implementation, relevance, future impact, tests) are in the CSV documentation columns — see §5.
+### Phase 5 extension — scheduled, not current work
+
+Tracker rows added 2026-05-28 (all `Not started` until human approval):
+
+- **W7-S7–S11** — Content Libraries (schemas, queryLibrary, Stonepass + theme packs)
+- **W8-S6–S8** — WorldBlueprint + Architect wiring
+- **W8-S9–S12** — Quest generation (QuestBlueprint → merge into WorldDefinition)
+
+Chain: W7-S6 → W7-S7 … → W7-S11 → W8-S1 … → W8-S5 → W8-S6 … → W8-S12 → W9-S1. See FULL_CURSOR *Phase 5 extension* and [Future_Features/](./Future_Features/README.md).
+
+Detailed per-step notes are in the CSV documentation columns — see §5.
 
 ---
 
-## 4. Work completed (cumulative through W1-S16)
+## 4. Work completed (cumulative through W2-S5)
 
 ### 4.1 Phase 0 schemas (`packages/core/src/schemas/`)
 
@@ -155,30 +160,47 @@ Documented in [Playable_Worlds_Lab_v4_1_FULL_CURSOR.md §22](./Playable_Worlds_L
 
 **Canonical world:** `packages/content/worlds/stonepass/stonepass-valley.world.json` (W1-S15). The minimal example is a **composition demo**, not the production world file.
 
-### 4.6 Documentation and process updates (2026-05-28)
+### 4.6 Phase 1 runtime (`packages/core/src/` — W2-S1–S5)
 
-- [Playable_Worlds_Lab_v4_1_FULL_CURSOR.md](./Playable_Worlds_Lab_v4_1_FULL_CURSOR.md) — §17 *Step tracker CSV* expanded with five documentation columns; all step cards include CSV update bullet.
-- [Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv](./Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv) — W1-S1–S16 complete; W2-S1 marked `Next`.
-- [scripts/step-tracker-enrichment.json](./scripts/step-tracker-enrichment.json) — source text for backfill (reference only).
-- [scripts/merge-step-tracker-columns.mjs](./scripts/merge-step-tracker-columns.mjs) — optional merge helper if columns are re-added.
+| Module | Path | Notes |
+| --- | --- | --- |
+| World loader | `world/loadWorld.ts` | `loadWorldFromFile`, `loadWorld`, `isKnownWorldId` |
+| Session init | `session/initializeWorldSession.ts` | Play-ready session at `startingBeatId` |
+| Beat selector | `story/selectStoryBeat.ts`, `beatAccessibility.ts` | Flag-gated beat selection |
+| Choice resolver | `runtime/resolvePlayerChoice.ts` | `resolvePlayerChoice`, `listAvailableChoices` |
+| Consequence apply | `runtime/applyConsequence.ts`, `applyConsequenceToLedger.ts` | `applyConsequence`, `applyPlayerChoice` |
+| Content paths | `packages/content/src/paths.ts` | `contentRoot`, Stonepass paths |
 
-### 4.7 Verification state (2026-05-28)
+Integration tests use `contentRoot = join(__dirname, "../../../content")`.
+
+### 4.7 Documentation and process updates (2026-05-28)
+
+- [Playable_Worlds_Lab_v4_1_FULL_CURSOR.md](./Playable_Worlds_Lab_v4_1_FULL_CURSOR.md) — §17 step tracker rules; **Phase 5 extension** (W7-S7–W8-S12); replay layer 10 (content libraries).
+- [Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv](./Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv) — W1-S1–S16 and W2-S1–S5 **Complete**; W2-S6 **Next**; W7-S7–S11 and W8-S6–S12 added as `Not started`.
+- [Future_Features/](./Future_Features/README.md) — player world generation + quest specs linked to tracker rows.
+- [scripts/step-tracker-enrichment.json](./scripts/step-tracker-enrichment.json) — reference text for backfill.
+
+### 4.8 Verification state (2026-05-28)
 
 ```bash
-npm test         # 167 tests passing (18 test files)
+npm test         # 200 tests passing (28 test files)
 npm run typecheck
 npm run lint
 npm run build
 ```
 
-Test layout:
+Test layout (additions since Phase 0):
 
-- `tests/smoke.test.ts` (1)
-- `packages/core/tests/unit/schemas/*.test.ts` (13+ files)
-- `packages/core/tests/unit/validators/validateWorldDefinition.test.ts` (1)
-- `packages/core/tests/unit/debug/appendDebugEvent.test.ts` (1)
-- `packages/core/tests/unit/content/stonepassWorld.test.ts` (1)
-- `packages/ai/tests/unit/providers/fakeProvider.test.ts` (1)
+- `packages/core/tests/unit/world/loadWorld.test.ts`
+- `packages/core/tests/integration/loadStonepassWorld.test.ts`
+- `packages/core/tests/unit/session/initializeWorldSession.test.ts`
+- `packages/core/tests/integration/initStonepassSession.test.ts`
+- `packages/core/tests/unit/story/selectStoryBeat.test.ts`
+- `packages/core/tests/integration/selectStonepassBeat.test.ts`
+- `packages/core/tests/unit/runtime/resolvePlayerChoice.test.ts`
+- `packages/core/tests/integration/resolveStonepassChoice.test.ts`
+- `packages/core/tests/unit/runtime/applyConsequence.test.ts`
+- `packages/core/tests/integration/applyStonepassConsequence.test.ts`
 
 ---
 
@@ -206,10 +228,14 @@ Full rules: FULL_CURSOR §17. Do not fill `Commit Hash` unless the human provide
 
 ```text
 playable-worlds-lab/
-  apps/web/                              # Next.js shell (no game logic)
+  apps/web/                              # Next.js shell (W2-S6 world-play UI next)
   packages/
     core/
       src/schemas/                       # All Zod contracts
+      src/world/                         # loadWorld (W2-S1)
+      src/session/                       # initializeWorldSession (W2-S2)
+      src/story/                         # selectStoryBeat (W2-S3)
+      src/runtime/                       # resolvePlayerChoice, applyConsequence (W2-S4–S5)
       src/validators/                    # validateWorldDefinition (W1-S14)
       src/debug/                         # appendDebugEvent (W1-S12)
       src/index.ts                       # Re-exports schemas + validators + debug
@@ -243,11 +269,14 @@ playable-worlds-lab/
 | --- | --- |
 | Full Stonepass JSON at `packages/content/worlds/stonepass/` | **Done (W1-S15)** |
 | `AIProvider` + `FakeProvider` | **Done (W1-S16)** |
-| World loader | **W2-S1 ← NEXT** |
-| Session init at runtime | W2-S2 |
-| Choice resolver, consequence engine, text play UI | W2-S4–S6, W3-* |
+| World loader | **Done (W2-S1)** |
+| Session init at runtime | **Done (W2-S2)** |
+| Beat selector, choice resolver, first consequence apply | **Done (W2-S3–S5)** |
+| Browser text play UI | **W2-S6 ← NEXT** |
+| Consequence Engine core, ledger/debug UI | W3-* |
 | AI Gateway, DirectorAgent | Phase 2 (W4-*) |
 | Temporary instance runtime | Phase 3 (W5-*) |
+| Content libraries, WorldBlueprint, quest generation | Phase 5 extension (W7-S7+, W8-S6+) — scheduled only |
 
 **Validation layers today:**
 
@@ -256,33 +285,24 @@ playable-worlds-lab/
 
 ---
 
-## 8. Next step: W2-S1 — World JSON loader
+## 8. Next step: W2-S6 — Text play screen
 
-**Goal:** Load canonical world JSON from disk, parse with Zod, and run cross-file validation via a single API.
+**Goal:** Minimal browser text play screen for Stonepass choices wired to `@playable-worlds/core` runtime.
 
-**Allowed scope:** `packages/core/src/world/` (or agreed loader path), `packages/content/worlds/stonepass/`, loader unit/integration tests.
+**Allowed scope:** `apps/web/features/world-play`, minimal components, smoke tests.
 
-**Blocked:** Session init, choice resolver, consequence engine, UI, AI Gateway, cross-phase work.
+**Blocked:** Consequence Engine refactor (W3-S1), ledger/debug panels, AI Gateway, cross-phase work.
 
 ### Deliverables
 
-1. **World loader** — `loadWorldFromFile(path)` or `loadWorld(id)` using `parseAndValidateWorldDefinition` (consistent `{ ok, errors }` for schema and graph failures).
-
-2. **Stonepass integration test** under `packages/core/tests/integration/` — load `stonepass-valley.world.json` → `ok: true`.
-
-3. **Optional:** `packages/content/src/paths.ts` for `worldsDir` / `examplesDir` constants.
-
+1. **Play page** — load Stonepass, init session, show beat text + valid choice buttons.
+2. **Wire runtime** — use `loadWorld`, `initializeWorldSession`, `selectStoryBeat`, `listAvailableChoices`, `applyPlayerChoice` (no direct ledger mutation in UI).
+3. **Smoke test** — page renders and offers valid choices.
 4. **Update step tracker CSV** — all documentation columns per §17.
 
-### Reference material
+**Done when:** User can start Stonepass in browser and choose a valid action; smoke test passes.
 
-- [stonepass-valley.world.json](./packages/content/worlds/stonepass/stonepass-valley.world.json)
-- `parseAndValidateWorldDefinition` in `packages/core/src/validators/`
-- Mark Stonepass JSON **read-only during Phase 1** (content changes go to a new file after gates pass).
-
-**Done when:** Loader returns typed `WorldDefinition` or structured errors; Stonepass loads green in integration test.
-
-**After W2-S1:** W2-S2 Initialize WorldSession at runtime.
+**After W2-S6:** W2-S7 manual Stonepass path tests.
 
 ---
 
@@ -297,6 +317,7 @@ playable-worlds-lab/
 | **Package manager** | npm workspaces |
 | **Git** | Agent should not commit unless asked |
 | **Step tracker detail** | Five documentation columns required post-step (2026-05-28) |
+| **Phase 5 extension tracker** | W7-S7–S11 libraries + W8-S6–S12 WorldBlueprint/quest rows in CSV (2026-05-28); implement when `Next` |
 
 ---
 
@@ -333,10 +354,11 @@ npm run dev    # http://localhost:3000 — web shell only
 
 1. This file — `AGENT_SESSION_HANDOFF.md`
 2. [Playable_Worlds_Lab_v4_1_FULL_CURSOR.md §22](./Playable_Worlds_Lab_v4_1_FULL_CURSOR.md#22-contract-v42-hybrid-addendum-implementation-tracking)
-3. W2-S1 step card in FULL_CURSOR (§17)
-4. [Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv](./Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv) — row W2-S1 (`Next`)
-5. `packages/core/src/schemas/` and `packages/core/src/validators/` for conventions
+3. W2-S6 step card in FULL_CURSOR
+4. [Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv](./Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv) — row W2-S6 (`Next`)
+5. `packages/core/src/runtime/` and `packages/core/src/world/` for conventions
 6. `stonepass-valley.world.json` as reference content
+7. [Future_Features/](./Future_Features/README.md) — long-term vision (not current implementation)
 
 ---
 
@@ -354,9 +376,12 @@ TemporaryInstance (W1-S8) ─────────────┘
 WorldLedger (W1-S6) ──► WorldSession (W1-S11)
 DebugEvent (W1-S12) ──┘
 
-DirectorDecision (W1-S7) ──► AIResult<T> (W1-S13) ──► FakeProvider (W1-S16, Done) ──► World loader (W2-S1, Next)
+DirectorDecision (W1-S7) ──► AIResult<T> (W1-S13) ──► FakeProvider (W1-S16, Done)
+WorldDefinition ──► loadWorld (W2-S1) ──► initializeWorldSession (W2-S2)
+  ──► selectStoryBeat (W2-S3) ──► resolvePlayerChoice (W2-S4) ──► applyPlayerChoice (W2-S5)
+  ──► text play UI (W2-S6, Next)
 ```
 
 ---
 
-*End of agent session handoff. Next approved implement: **W2-S1 world JSON loader** in `packages/core/world/`.*
+*End of agent session handoff. Next approved implement: **W2-S6 text play screen** in `apps/web/features/world-play`.*

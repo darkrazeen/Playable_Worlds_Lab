@@ -98,6 +98,7 @@ Idea
 -> Validation
 -> Playtesting
 -> Save/share/fork/remix
+-> Player-themed worlds (WorldBlueprint + content libraries — Phase 5+)
 -> Later visual runtime
 
 
@@ -151,13 +152,18 @@ Replay variation layers
                                                timeline/version
 9                        Generated world       prompt creates a new     Phase 5+
                          variation             valid world
+10                       Content library       Architect/Director pull  Phase 5–7
+                         composition           tagged creatures, NPCs,
+                                               encounters, puzzles
+                                               (lava/ocean/machine)
 
 
 <!-- Source PDF page 4 -->
 
 Replay variation guardrails
   •    Every variation must be explainable by profile, route, seed, flag, NPC attitude, validated
-       AI suggestion, or approved remix.
+       AI suggestion, approved remix, or content library entry (see
+       [Future_Features/Player_World_Generation_and_Content_Libraries.md](./Future_Features/Player_World_Generation_and_Content_Libraries.md)).
   •    Do not use random AI improvisation as a substitute for world logic.
   •    Do not build full RPG stats, inventory, economy, skill trees, or combat math in the MVP.
   •    MVP replay variation may use lightweight archetype, route, consequence flags,
@@ -812,11 +818,11 @@ Persistence           usable in browser      panel, ledger panel,     play/resum
                       with save/resume.      reasoning panel, local   browser; no terminal
                                              persistence or           required.
                                              approved DB.
-5. Prompt-to-World    Generate basic valid   WorldArchitectAgent      Prompt creates valid
-                      playable text worlds   ,                        WorldDefinition with
-                      from prompts.          DNA/title/summary        goal, choice,
-                                             /starting beat, graph    consequence, and
-                                             generation, preview,     playable text start.
+5. Prompt-to-World    Generate valid         WorldArchitectAgent,      Prompt + WorldBlueprint
+                      playable text worlds   WorldBlueprint,           + libraries create
+                      from prompts and       Content Libraries,         valid themed world;
+                      player knobs.          QuestBlueprint,            quest merge validates;
+                                             generateQuest, preview,    playtester gates publish
                                              validator.
 6. Share/Fork/Remix   Make worlds            Share links,             Fork/remix do not
                       portable and           snapshot/fresh start,    modify original;
@@ -1008,7 +1014,7 @@ These columns were added so each step records **what changed**, **why it matters
 | **Completion Evidence** | One-screen summary | 1–3 sentences: step outcome, date if known, pass/fail gate. Example: `WorldSession schema done; 108 tests passing (2026-05-28).` |
 | **Implementation Added Changed** | Files, APIs, data | Bullet-style in one cell: every **new/changed** path (`packages/core/src/...`, `apps/web/...`, `packages/content/examples/...`, `packages/content/worlds/...`). List exports (`parseX`, `createY`), schemas, validators, JSON fixtures. Note contract deltas (v4.2 renames, `schemaVersion: "0.2.0"`). Say what was **not** built if scope was split (e.g. DebugEvent schema in W1-S11, tests in W1-S12). |
 | **Project Relevance** | Why this step exists | Tie to **Stonepass proof chain**, phase gate, or core mantra (AI proposes → validators check → engine executes). Explain which pillar this enables (WorldDefinition, ledger, session, validation, AI wrapper, etc.). |
-| **Future Features Impact** | Downstream use | List **step IDs and phases** unlocked (e.g. W2-S1 loader, W4-S4 Director, W5 cave, W7 generated worlds). Mention [Future_Features/](./Future_Features/README.md), showcase v2, 2D/3D output layers, quest generator, share/fork, playtester — only what this step actually enables. |
+| **Future Features Impact** | Downstream use | List **step IDs and phases** unlocked (e.g. W2-S1 loader, W4-S4 Director, W5 cave, W7 generated worlds, **W7-S7–S11 libraries**, **W8-S6–S12 WorldBlueprint/quest**). Mention [Future_Features/](./Future_Features/README.md) ([Quest_Generation.md](./Future_Features/Quest_Generation.md), [Player_World_Generation_and_Content_Libraries.md](./Future_Features/Player_World_Generation_and_Content_Libraries.md)), showcase v2, 2D/3D output layers, share/fork, playtester — only what this step actually enables. |
 | **Tests And Verification** | Proof the step works | Test **file paths** and **counts** added; example JSON validated; commands run (`npm test`, `npm run typecheck`, `npm run lint`) with **exact pass counts** and date; any failing test left unfixed (should be none). |
 | **Last Updated** | ISO date | `YYYY-MM-DD` when the row was last updated. Use `YYYY-MM-DD (planned)` for `Next` rows. |
 
@@ -1021,6 +1027,8 @@ These columns were added so each step records **what changed**, **why it matters
 - `Tests Required` / `Done When` — only if the definition of done changed during the step.
 
 **Do not fill** `Commit Hash` unless the human provides a hash. Leave `Blocked By` empty unless blocked.
+
+**Future_Features specs:** [Future_Features/Quest_Generation.md](./Future_Features/Quest_Generation.md) and [Future_Features/Player_World_Generation_and_Content_Libraries.md](./Future_Features/Player_World_Generation_and_Content_Libraries.md) define **W8-S9–S12** (quest) and **W7-S7–S11 / W8-S6–S8** (libraries + WorldBlueprint) — tracker rows added 2026-05-28; implement only when step reaches `Next` with human approval.
 
 #### Reference: enrichment backfill
 
@@ -6260,6 +6268,35 @@ Completion report required:
 Stop after this step.
 
 
+### Phase 5 extension — Content Libraries, WorldBlueprint, Quest Generation (tracker W7-S7–W8-S12)
+
+**Status:** Scheduled in step tracker (2026-05-28). **Do not implement** until each row is human-approved as `Next` and prior gates pass (Phase 1 complete, Phase 3 encounter/puzzle runtime recommended before library seed W7-S10).
+
+**Full specs:**
+
+- [Future_Features/Player_World_Generation_and_Content_Libraries.md](./Future_Features/Player_World_Generation_and_Content_Libraries.md) — themed worlds (lava/ocean/machine), player knobs, content libraries, Architect composition
+- [Future_Features/Quest_Generation.md](./Future_Features/Quest_Generation.md) — QuestBlueprint, generateQuest, merge into WorldDefinition
+
+| Step ID | Phase | Name | Depends on (recommended) |
+| --- | --- | --- | --- |
+| W7-S7 | Phase 5 — Content Libraries | Create library entry schemas | W7-S6 |
+| W7-S8 | Phase 5 — Content Libraries | Create validateLibraryEntry | W7-S7 |
+| W7-S9 | Phase 5 — Content Libraries | Create queryLibrary API | W7-S8 |
+| W7-S10 | Phase 5 — Content Libraries | Seed Stonepass library pack | W7-S9, W5-S3, W5-S4 |
+| W7-S11 | Phase 5 — Content Libraries | Seed theme packs (lava/ocean/machine) | W7-S10 |
+| W8-S6 | Phase 5 — World Blueprint | Create WorldBlueprint schema | W8-S5 |
+| W8-S7 | Phase 5 — World Blueprint | Wire Architect to WorldBlueprint | W8-S6, W7-S1+ |
+| W8-S8 | Phase 5 — World Blueprint | Wire Architect to queryLibrary | W8-S7, W7-S9 |
+| W8-S9 | Phase 5 — Quest Generation | Create QuestBlueprint schema | W8-S5 |
+| W8-S10 | Phase 5 — Quest Generation | Create validateQuestDraft | W8-S9 |
+| W8-S11 | Phase 5 — Quest Generation | Build generateQuest API | W8-S10, W4-S1+ |
+| W8-S12 | Phase 5 — Quest Generation | Merge QuestDraft into WorldDefinition | W8-S11, W7-S5 |
+
+**Chain:** W7-S6 → W7-S7 … → W7-S11 → W8-S1 … → W8-S5 → W8-S6 … → W8-S12 → W9-S1.
+
+Full step cards for W7-S7–W8-S12 live in the step tracker CSV; expand into FULL_CURSOR step cards when each step becomes `Next`.
+
+
 <!-- Source PDF page 130 -->
 
 
@@ -8683,4 +8720,11 @@ Replaces pre-v4.2 `suggest_*` / `request_*` action names.
 | W1-S14 validateWorldDefinition | Done — `validateWorldDefinition`, `parseAndValidateWorldDefinition` |
 | W1-S15 Stonepass JSON | Done — `packages/content/worlds/stonepass/stonepass-valley.world.json` |
 | W1-S16 AIProvider + FakeProvider | Done — `packages/ai/src/{contracts,providers}/` |
-| W2-S1 World JSON loader | Next |
+| W2-S1 World JSON loader | Done — `packages/core/src/world/loadWorld.ts` |
+| W2-S2 Initialize WorldSession | Done — `packages/core/src/session/initializeWorldSession.ts` |
+| W2-S3 Story beat selector | Done — `packages/core/src/story/selectStoryBeat.ts` |
+| W2-S4 Choice resolver | Done — `packages/core/src/runtime/resolvePlayerChoice.ts` |
+| W2-S5 Apply consequence | Done — `packages/core/src/runtime/applyConsequence.ts` |
+| W2-S6 Text play screen | Next |
+| W7-S7–S11 Content Libraries | Scheduled (tracker 2026-05-28) |
+| W8-S6–S12 WorldBlueprint + Quest | Scheduled (tracker 2026-05-28) |
