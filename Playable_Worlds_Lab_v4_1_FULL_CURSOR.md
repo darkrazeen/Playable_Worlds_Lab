@@ -8681,4 +8681,6 @@ Replaces pre-v4.2 `suggest_*` / `request_*` action names.
 | W1-S12 DebugEvent | Done — tests, 3 examples, `appendDebugEvent` in `packages/core/debug` |
 | W1-S13 AIResult | Done — `aiResult.ts`, `createAIResultSchema`, typed Director wrapper |
 | W1-S14 validateWorldDefinition | Done — `validateWorldDefinition`, `parseAndValidateWorldDefinition` |
-| W1-S15 Stonepass JSON | Next |
+| W1-S15 Stonepass JSON | Done — `packages/content/worlds/stonepass/stonepass-valley.world.json` |
+| W1-S16 AIProvider + FakeProvider | Done — `packages/ai/src/{contracts,providers}/` |
+| W2-S1 World JSON loader | Next |

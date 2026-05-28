@@ -1,6 +1,8 @@
 import { z } from "zod";
 
-export const DirectorDecisionTargetIdSchema = z.string().min(1);
+import { NamedIdSchema } from "./ids.js";
+
+export const DirectorDecisionTargetIdSchema = NamedIdSchema;
 
 /** v4.1 canonical Director actions — see Playable_Worlds_Lab_v4_1_FULL_CURSOR.md §22 */
 export const DirectorDecisionActionSchema = z.enum([

@@ -1,36 +1,19 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# @playable-worlds/web
 
-## Getting Started
+Next.js presentation layer for Playable Worlds Lab. **No game logic here** — runtime lives in `@playable-worlds/core`.
 
-First, run the development server:
+## Commands
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm run dev -w @playable-worlds/web    # http://localhost:3000
+npm run build -w @playable-worlds/web
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Phase 1+
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+UI features under `features/` (world-play, debug, creator). When importing workspace packages, configure `transpilePackages` in `next.config.ts` for `@playable-worlds/core`, `@playable-worlds/ai`, and `@playable-worlds/content`.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Source of truth
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- [AGENT_SESSION_HANDOFF.md](../../AGENT_SESSION_HANDOFF.md)
+- [Playable_Worlds_Lab_v4_1_FULL_CURSOR.md](../../Playable_Worlds_Lab_v4_1_FULL_CURSOR.md)

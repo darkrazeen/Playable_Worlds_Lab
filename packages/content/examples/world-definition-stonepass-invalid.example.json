@@ -1,0 +1,40 @@
+{
+  "schemaVersion": "0.2.0",
+  "id": "world_stonepass_invalid",
+  "title": "Broken Stonepass Fixture",
+  "summary": "Intentionally invalid world for negative validation tests.",
+  "worldDNA": {
+    "genre": "fantasy",
+    "tone": "heroic",
+    "sessionLengthMinutes": 15,
+    "coreLoop": ["reach obstacle", "make choice"],
+    "consequenceIntensity": "medium",
+    "aiCreativity": "balanced",
+    "safetyMode": "teen"
+  },
+  "startingBeatId": "beat_ogre_bridge",
+  "storyBeats": [
+    {
+      "id": "beat_ogre_bridge",
+      "title": "The Blocked Bridge",
+      "description": "Broken fixture beat.",
+      "trigger": "player_reaches_bridge",
+      "availableChoices": [
+        {
+          "id": "fight_ogre",
+          "label": "Fight the ogre",
+          "consequenceId": "consequence_missing"
+        }
+      ],
+      "possibleConsequences": ["consequence_missing"]
+    }
+  ],
+  "consequences": [
+    {
+      "id": "consequence_unused_stub",
+      "summary": "Unused stub so the fixture fails on reference integrity, not empty array shape."
+    }
+  ],
+  "npcs": [],
+  "temporaryInstances": []
+}

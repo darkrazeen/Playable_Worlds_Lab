@@ -1,20 +1,21 @@
 import { z } from "zod";
 
+import { EntityIdSchema, NamedIdSchema } from "./ids.js";
 import { FlagIdListSchema } from "./playerChoice.js";
 
 /** Reference to a Consequence defined elsewhere in the world. */
-export const ConsequenceIdSchema = z.string().min(1);
+export const ConsequenceIdSchema = NamedIdSchema;
 
-export const GoalIdSchema = z.string().min(1);
+export const GoalIdSchema = EntityIdSchema;
 export const GoalIdListSchema = z.array(GoalIdSchema);
 
-export const LocationIdSchema = z.string().min(1);
+export const LocationIdSchema = EntityIdSchema;
 export const LocationIdListSchema = z.array(LocationIdSchema);
 
-export const TemporaryInstanceIdSchema = z.string().min(1);
+export const TemporaryInstanceIdSchema = NamedIdSchema;
 export const TemporaryInstanceIdListSchema = z.array(TemporaryInstanceIdSchema);
 
-export const NpcIdSchema = z.string().min(1);
+export const NpcIdSchema = NamedIdSchema;
 
 /** Merged v4.1 + v4.2 attitude enum — see Playable_Worlds_Lab_v4_1_FULL_CURSOR.md §22 */
 export const NpcAttitudeSchema = z.enum([

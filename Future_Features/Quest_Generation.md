@@ -12,7 +12,7 @@
 **Related docs:**
 
 - [README.md](../README.md) — product spec, roadmap, Stonepass, regional quest reference scenario
-- [PROJECT_CONTEXT_Playable_Worlds_Lab.md](../PROJECT_CONTEXT_Playable_Worlds_Lab.md) — Cursor/agent rules
+- [AGENT_SESSION_HANDOFF.md](../AGENT_SESSION_HANDOFF.md) — Cursor/agent onboarding and rules
 - [Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv](../Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv) — execution steps
 
 ---
@@ -568,14 +568,17 @@ Illustrative only—IDs and consequence bodies must match real `Consequence` sch
       "unlockGoals": ["goal_mosswood_errand"]
     }
   ],
-  "temporaryInstance": {
+  "temporaryInstances": [{
     "id": "instance_mosswood_trail",
+    "type": "dungeon",
     "title": "Mosswood Trail",
-    "entranceConditionFlags": ["quest_mosswood_active"],
+    "entranceText": "The mosswood path opens before you.",
+    "requiredEntryFlags": ["quest_mosswood_active"],
     "completionCondition": "found_satchel",
-    "exitConsequenceId": "consequence_mosswood_complete",
-    "cleanupBehavior": "seal"
-  }
+    "completionConsequenceId": "consequence_mosswood_complete",
+    "cleanupBehavior": "seal",
+    "rooms": [{ "id": "room_trail_start", "title": "Trail Head", "description": "A narrow path.", "connectedRoomIds": [] }]
+  }]
 }
 ```
 

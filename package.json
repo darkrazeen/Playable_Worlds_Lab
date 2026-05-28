@@ -12,13 +12,16 @@
     "start": "npm run start -w @playable-worlds/web",
     "test": "vitest run",
     "typecheck": "npm run typecheck --workspaces --if-present",
-    "lint": "npm run lint -w @playable-worlds/web",
+    "lint": "npm run lint --workspaces --if-present",
     "format": "prettier --write .",
     "format:check": "prettier --check ."
   },
   "devDependencies": {
+    "@eslint/js": "^9.22.0",
+    "eslint": "^9.22.0",
     "prettier": "^3.5.3",
     "typescript": "^5.8.2",
+    "typescript-eslint": "^8.26.1",
     "vitest": "^3.1.1"
   },
   "engines": {

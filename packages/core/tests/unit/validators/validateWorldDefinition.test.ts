@@ -4,6 +4,8 @@ import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
 
 import {
+  parseAndValidateWorldDefinition,
+  parseConsequence,
   parseWorldDefinition,
   validateWorldDefinition,
   type WorldDefinition,
@@ -141,5 +143,82 @@ describe("validateWorldDefinition", () => {
     world.storyBeats[0]!.requiredFlags = ["system_intro_complete"];
     const result = validateWorldDefinition(world);
     expect(result.ok).toBe(true);
+  });
+
+  it("rejects unsupported schemaVersion", () => {
+    const world = loadMinimalWorld();
+    world.schemaVersion = "0.1.0";
+    const result = validateWorldDefinition(world);
+    expect(result.ok).toBe(false);
+    expect(result.errors.some((e) => e.includes("schemaVersion"))).toBe(true);
+  });
+
+  it("does not flag isEnding beats as unreachable", () => {
+    const world = loadMinimalWorld();
+    const result = validateWorldDefinition(world);
+    for (const beat of world.storyBeats.filter((b) => b.isEnding)) {
+      expect(
+        result.errors.some((e) => e.includes("unreachable") && e.includes(beat.id)),
+      ).toBe(false);
+    }
+  });
+
+  it("rejects starting beat blocked by flags never satisfiable at start", () => {
+    const world = loadMinimalWorld();
+    const starting = world.storyBeats.find((b) => b.id === world.startingBeatId)!;
+    starting.requiredFlags = ["flag_never_produced"];
+    const result = validateWorldDefinition(world);
+    expect(result.ok).toBe(false);
+    expect(
+      result.errors.some(
+        (e) => e.includes("unreachable") || e.includes("dead_end"),
+      ),
+    ).toBe(true);
+  });
+
+  it("converges on circular flag dependencies", () => {
+    const world = loadMinimalWorld();
+    world.consequences.push(
+      parseConsequence({
+        id: "consequence_cycle_a",
+        summary: "Cycle A",
+        addFlags: ["flag_b"],
+        removeFlags: ["flag_a"],
+      }),
+    );
+    world.consequences.push(
+      parseConsequence({
+        id: "consequence_cycle_b",
+        summary: "Cycle B",
+        addFlags: ["flag_a"],
+        removeFlags: ["flag_b"],
+      }),
+    );
+    world.storyBeats[0]!.availableChoices.push({
+      id: "trigger_cycle",
+      label: "Cycle",
+      consequenceId: "consequence_cycle_a",
+      requiredFlags: ["flag_a"],
+    });
+    world.storyBeats[0]!.possibleConsequences.push("consequence_cycle_a");
+    const result = validateWorldDefinition(world);
+    expect(result.ok).toBe(true);
+  });
+});
+
+describe("parseAndValidateWorldDefinition", () => {
+  it("returns schema errors instead of throwing on invalid shape", () => {
+    const result = parseAndValidateWorldDefinition({ not: "a world" });
+    expect(result.ok).toBe(false);
+    expect(result.world).toBeUndefined();
+    expect(result.errors.some((e) => e.startsWith("schema:"))).toBe(true);
+  });
+
+  it("returns graph errors for valid shape with broken refs", () => {
+    const world = loadMinimalWorld();
+    world.startingBeatId = "beat_does_not_exist";
+    const result = parseAndValidateWorldDefinition(world);
+    expect(result.ok).toBe(false);
+    expect(result.errors.some((e) => e.includes("startingBeatId"))).toBe(true);
   });
 });

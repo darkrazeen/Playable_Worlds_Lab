@@ -1,6 +1,8 @@
 import { z } from "zod";
 
-export const DebugEventIdSchema = z.string().min(1);
+import { NamedIdSchema } from "./ids.js";
+
+export const DebugEventIdSchema = NamedIdSchema;
 
 export const DebugEventTypeSchema = z.enum([
   "choice_selected",

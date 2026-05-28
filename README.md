@@ -59,7 +59,11 @@ The first proof world is **Stonepass Valley** — a compact fantasy scenario use
 
 ## Project Status
 
-**Status:** Early implementation — **Phase 0 / W1-S1–S10 complete.** Monorepo skeleton + core schemas through `WorldDefinition`. Stonepass full JSON and runtime are not started yet.
+**Last reconciled:** 2026-05-28
+
+[![CI](https://github.com/darkrazeen/Playable_Worlds_Lab/actions/workflows/ci.yml/badge.svg)](https://github.com/darkrazeen/Playable_Worlds_Lab/actions/workflows/ci.yml)
+
+**Status:** **Phase 0 complete (16/16 steps).** Monorepo skeleton, all Phase 0 schemas, cross-file validator, canonical Stonepass world JSON, and `FakeProvider`. Phase 1 text runtime starts at W2-S1.
 
 Playable Worlds Lab should be treated as an active experimental product and engineering prototype. The current priority is to build the foundation correctly, not to overbuild visuals, social systems, marketplaces, or multiplayer too early.
 
@@ -75,7 +79,7 @@ The first milestone is:
 
 Progress is tracked in `Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv`. Update this table when a step is finished.
 
-**Agent handoff (latest session):** [AGENT_SESSION_HANDOFF.md](./AGENT_SESSION_HANDOFF.md) — current state, v4.2 contract, next step W1-S11.
+**Agent handoff (latest session):** [AGENT_SESSION_HANDOFF.md](./AGENT_SESSION_HANDOFF.md) — current state, v4.2 contract, next step **W2-S1**.
 
 **Future ideas (not step-tracker work yet):** see [Future_Features/](./Future_Features/README.md) — quest generator, [quest blueprint vs AI flavor](./Future_Features/Quest_Generation.md#quest-foundation-vs-ai-flavor-creator-contract).
 
@@ -91,8 +95,14 @@ Progress is tracked in `Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv`. Updat
 | **W1-S8** | Phase 0 — Foundation | Create TemporaryInstance schema | **Done** |
 | **W1-S9** | Phase 0 — Foundation | Create NPC schema | **Done** |
 | **W1-S10** | Phase 0 — Foundation | Create WorldDefinition schema | **Done** |
-| W1-S11 … W1-S16 | Phase 0 — Foundation | WorldSession, DebugEvent, AIResult, validator, Stonepass JSON, FakeProvider | Not started |
-| W2-S1 … | Phase 1+ | Text runtime, AI, instances, UI, etc. | Not started |
+| **W1-S11** | Phase 0 — Foundation | Create WorldSession schema | **Done** |
+| **W1-S12** | Phase 0 — Foundation | Create DebugEvent schema | **Done** |
+| **W1-S13** | Phase 0 — Foundation | Create AIResult contract | **Done** |
+| **W1-S14** | Phase 0 — Foundation | validateWorldDefinition | **Done** |
+| **W1-S15** | Phase 0 — Foundation | Stonepass Valley world JSON | **Done** |
+| **W1-S16** | Phase 0 — Foundation | FakeProvider + AIProvider | **Done** |
+| **W2-S1** | Phase 1 — Text runtime | Build world JSON loader | **Next** |
+| W2-S2 … | Phase 1+ | Session init, choice resolver, play UI, etc. | Not started |
 
 **W1-S1 done when (met):**
 
@@ -115,7 +125,9 @@ Progress is tracked in `Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv`. Updat
 
 **W1-S10 done when (met):** `WorldDefinitionSchema` in `packages/core`; minimal Stonepass-like example passes at `schemaVersion: "0.2.0"`; missing `startingBeatId` or components fail; `npm test` includes WorldDefinition schema tests.
 
-**Next step:** W1-S11 — Create WorldSession schema in `packages/core`.
+**W1-S11–S16 done when (met):** WorldSession, DebugEvent, AIResult schemas; `validateWorldDefinition` + Stonepass canonical JSON at `packages/content/worlds/stonepass/`; `FakeProvider` in `packages/ai`; **150+ tests** green.
+
+**Next step:** **W2-S1** — Build world JSON loader in `packages/core`.
 
 ### Data contract (v4.2 hybrid)
 

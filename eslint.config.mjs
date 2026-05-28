@@ -1,0 +1,20 @@
+import eslint from "@eslint/js";
+import tseslint from "typescript-eslint";
+
+export default tseslint.config(
+  { ignores: ["**/node_modules/**", "**/.next/**", "**/dist/**", "**/.vitest/**"] },
+  eslint.configs.recommended,
+  ...tseslint.configs.recommended,
+  {
+    files: ["packages/**/src/**/*.ts", "packages/**/tests/**/*.ts", "tests/**/*.ts"],
+  },
+  {
+    files: ["packages/**/tests/**/*.ts", "tests/**/*.ts"],
+    rules: {
+      "@typescript-eslint/no-unused-vars": [
+        "error",
+        { argsIgnorePattern: "^_", varsIgnorePattern: "^_" },
+      ],
+    },
+  },
+);

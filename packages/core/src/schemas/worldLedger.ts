@@ -3,8 +3,9 @@ import { z } from "zod";
 import { GoalIdListSchema } from "./consequence.js";
 import { FlagIdListSchema } from "./playerChoice.js";
 import { LocationIdListSchema } from "./consequence.js";
+import { NamedIdSchema } from "./ids.js";
 
-export const WorldEventIdSchema = z.string().min(1);
+export const WorldEventIdSchema = NamedIdSchema;
 
 export const WorldEventTypeSchema = z.enum([
   "choice",

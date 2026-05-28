@@ -1,17 +1,19 @@
 import { z } from "zod";
 
+import { EntityIdSchema, NamedIdSchema } from "./ids.js";
+
 /** Non-empty flag identifier used by choices and beats. */
-export const FlagIdSchema = z.string().min(1);
+export const FlagIdSchema = EntityIdSchema;
 
 export const FlagIdListSchema = z.array(FlagIdSchema);
 
 export const PlayerChoiceSchema = z.object({
-  id: z.string().min(1),
+  id: NamedIdSchema,
   label: z.string().min(1),
   description: z.string().min(1).optional(),
   requiredFlags: FlagIdListSchema.optional(),
   blockedByFlags: FlagIdListSchema.optional(),
-  consequenceId: z.string().min(1),
+  consequenceId: NamedIdSchema,
 });
 
 export type PlayerChoice = z.infer<typeof PlayerChoiceSchema>;

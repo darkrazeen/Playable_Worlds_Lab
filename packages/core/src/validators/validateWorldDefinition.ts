@@ -1,7 +1,8 @@
 import type { Consequence } from "../schemas/consequence.js";
 import type { StoryBeat } from "../schemas/storyBeat.js";
+import { SUPPORTED_SCHEMA_VERSIONS } from "../schemas/schemaVersion.js";
 import type { WorldDefinition } from "../schemas/worldDefinition.js";
-import { parseWorldDefinition } from "../schemas/worldDefinition.js";
+import { WorldDefinitionSchema } from "../schemas/worldDefinition.js";
 
 export type WorldValidationResult = {
   ok: boolean;
@@ -47,9 +48,19 @@ function choiceAccessible(
   );
 }
 
-/** Cross-file integrity checks beyond Zod shape validation (§11). */
+/**
+ * Cross-file integrity checks beyond Zod shape validation (§11).
+ * Dead-end detection uses the union of all achievable flags (approximation);
+ * per-path simulation belongs in the W11 AI Playtester path runner.
+ */
 export function validateWorldDefinition(world: WorldDefinition): WorldValidationResult {
   const errors: string[] = [];
+
+  if (!SUPPORTED_SCHEMA_VERSIONS.has(world.schemaVersion)) {
+    errors.push(
+      `schemaVersion: "${world.schemaVersion}" is not in supported set (${[...SUPPORTED_SCHEMA_VERSIONS].join(", ")})`,
+    );
+  }
 
   const beatById = new Map(world.storyBeats.map((beat) => [beat.id, beat]));
   const consequenceById = new Map(world.consequences.map((c) => [c.id, c]));
@@ -97,7 +108,7 @@ export function validateWorldDefinition(world: WorldDefinition): WorldValidation
     beatIds.add(beat.id);
 
     const choiceIdsInBeat = new Set<string>();
-    for (const [choiceIndex, choice] of beat.availableChoices.entries()) {
+    for (const choice of beat.availableChoices) {
       if (choiceIdsInBeat.has(choice.id)) {
         errors.push(
           `duplicate_id: choice id "${choice.id}" is duplicated within beat "${beat.id}"`,
@@ -286,11 +297,20 @@ export function validateWorldDefinition(world: WorldDefinition): WorldValidation
   return { ok: errors.length === 0, errors };
 }
 
-/** Parse with Zod, then run cross-file validation. */
+/** Parse with Zod, then run cross-file validation. Returns errors instead of throwing. */
 export function parseAndValidateWorldDefinition(input: unknown): WorldValidationResult & {
   world?: WorldDefinition;
 } {
-  const parsed = parseWorldDefinition(input);
-  const validation = validateWorldDefinition(parsed);
-  return { ...validation, world: parsed };
+  const parseResult = WorldDefinitionSchema.safeParse(input);
+  if (!parseResult.success) {
+    return {
+      ok: false,
+      errors: parseResult.error.issues.map(
+        (issue) => `schema: ${issue.path.join(".") || "<root>"}: ${issue.message}`,
+      ),
+    };
+  }
+
+  const validation = validateWorldDefinition(parseResult.data);
+  return { ...validation, world: parseResult.data };
 }

@@ -6,6 +6,7 @@ import { describe, expect, it } from "vitest";
 import {
   createWorldSession,
   CURRENT_SCHEMA_VERSION,
+  parseWorldDefinition,
   parseWorldSession,
   safeParseWorldSession,
   WorldSessionSchema,
@@ -85,6 +86,28 @@ describe("WorldSessionSchema", () => {
     expect(session.ledger.worldEvents).toEqual([]);
     expect(session.choiceHistory).toEqual([]);
     expect(session.debugEvents).toEqual([]);
+  });
+
+  it("throws when startingBeatId is not in the provided world", () => {
+    const world = parseWorldDefinition(
+      JSON.parse(
+        readFileSync(
+          join(examplesDir, "world-definition-stonepass-minimal.example.json"),
+          "utf8",
+        ),
+      ),
+    );
+    expect(() =>
+      createWorldSession(
+        {
+          id: "session_bad_beat",
+          worldId: world.id,
+          worldVersionId: "v1",
+          startingBeatId: "beat_nonexistent",
+        },
+        world,
+      ),
+    ).toThrow(/startingBeatId/);
   });
 
   it("accepts optional active temporary instance and room ids", () => {

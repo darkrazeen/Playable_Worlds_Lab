@@ -1,0 +1,359 @@
+{
+  "schemaVersion": "0.2.0",
+  "id": "world_stonepass_valley",
+  "title": "Stonepass Valley",
+  "summary": "The canonical Stonepass v1 proof world: an ogre blocks the bridge, five choices branch the story, and the fight path triggers a landslide that exposes a hidden cave and awakens a dragon.",
+  "worldDNA": {
+    "genre": "fantasy",
+    "tone": "heroic",
+    "sessionLengthMinutes": 15,
+    "coreLoop": ["reach obstacle", "make choice", "face consequence", "pursue next goal"],
+    "consequenceIntensity": "medium",
+    "aiCreativity": "balanced",
+    "safetyMode": "teen"
+  },
+  "startingBeatId": "beat_ogre_bridge",
+  "storyBeats": [
+    {
+      "id": "beat_ogre_bridge",
+      "title": "The Blocked Bridge",
+      "description": "An ogre blocks the only bridge into Stonepass Valley. Mist hangs over the river and the old stones groan under its weight.",
+      "trigger": "player_reaches_bridge",
+      "availableChoices": [
+        {
+          "id": "fight_ogre",
+          "label": "Fight the ogre",
+          "description": "Draw steel and challenge the bridge guardian.",
+          "consequenceId": "consequence_fight_ogre"
+        },
+        {
+          "id": "trick_ogre",
+          "label": "Trick the ogre",
+          "description": "Lure the ogre away with a false alarm upstream.",
+          "consequenceId": "consequence_trick_ogre"
+        },
+        {
+          "id": "feed_ogre",
+          "label": "Offer food",
+          "description": "Share travel rations and hope hunger wins over hostility.",
+          "consequenceId": "consequence_feed_ogre"
+        },
+        {
+          "id": "talk_ogre",
+          "label": "Talk to the ogre",
+          "description": "Ask why the bridge is guarded and listen for a peaceful way forward.",
+          "consequenceId": "consequence_talk_ogre"
+        },
+        {
+          "id": "sneak_ogre",
+          "label": "Sneak past",
+          "description": "Slip through the river reeds while the ogre watches the treeline.",
+          "consequenceId": "consequence_sneak_ogre"
+        }
+      ],
+      "possibleConsequences": [
+        "consequence_fight_ogre",
+        "consequence_trick_ogre",
+        "consequence_feed_ogre",
+        "consequence_talk_ogre",
+        "consequence_sneak_ogre"
+      ]
+    },
+    {
+      "id": "beat_landslide_aftermath",
+      "title": "After the Landslide",
+      "description": "The battle shook the cliffs. Fresh rubble covers the path and cold air breathes from a newly torn cave mouth beneath the bridge.",
+      "trigger": "landslide_after_fight",
+      "requiredFlags": ["landslide_triggered"],
+      "availableChoices": [
+        {
+          "id": "enter_hidden_cave",
+          "label": "Enter the hidden cave",
+          "description": "Climb over fallen stone and follow the draft into the dark.",
+          "consequenceId": "consequence_enter_cave"
+        },
+        {
+          "id": "survey_landslide",
+          "label": "Survey the rubble first",
+          "description": "Search the slope for survivors or safer footing before going deeper.",
+          "consequenceId": "consequence_survey_landslide"
+        }
+      ],
+      "possibleConsequences": ["consequence_enter_cave", "consequence_survey_landslide"]
+    },
+    {
+      "id": "beat_valley_square",
+      "title": "Stonepass Square",
+      "description": "You cross the bridge into Stonepass Valley. Lanterns flicker in the square and Elder Mara watches travelers from the old well.",
+      "trigger": "player_enters_valley",
+      "requiredFlags": ["ogre_peaceful_crossing"],
+      "availableChoices": [
+        {
+          "id": "greet_elder",
+          "label": "Greet Elder Mara",
+          "description": "Introduce yourself and ask what troubles the valley.",
+          "consequenceId": "consequence_greet_elder"
+        },
+        {
+          "id": "explore_market",
+          "label": "Explore the market stalls",
+          "description": "Walk the square and listen for rumors before committing to a plan.",
+          "consequenceId": "consequence_explore_market"
+        }
+      ],
+      "possibleConsequences": ["consequence_greet_elder", "consequence_explore_market"]
+    },
+    {
+      "id": "beat_elder_counsel",
+      "title": "The Elder's Counsel",
+      "description": "Elder Mara pulls you aside. The ogre's words still echo, and the elder seems ready to trust you with valley secrets.",
+      "trigger": "elder_private_talk",
+      "requiredFlags": ["ogre_talked"],
+      "availableChoices": [
+        {
+          "id": "accept_elder_quest",
+          "label": "Accept the elder's request",
+          "description": "Promise to help Stonepass without reckless violence.",
+          "consequenceId": "consequence_accept_elder_quest"
+        },
+        {
+          "id": "decline_elder_quest",
+          "label": "Keep your own counsel",
+          "description": "Thank the elder but stay focused on your own path.",
+          "consequenceId": "consequence_decline_elder_quest"
+        }
+      ],
+      "possibleConsequences": ["consequence_accept_elder_quest", "consequence_decline_elder_quest"]
+    },
+    {
+      "id": "beat_dragon_stirring",
+      "title": "The Dragon Stirs",
+      "description": "Heat rolls through the valley. From the collapsed cave mouth, a low roar answers the thunder — something ancient has woken beneath Stonepass.",
+      "trigger": "dragon_awakens",
+      "requiredFlags": ["dragon_awake"],
+      "isEnding": true,
+      "availableChoices": [
+        {
+          "id": "warn_the_valley",
+          "label": "Warn the valley",
+          "description": "Race back toward Stonepass Square to raise the alarm.",
+          "consequenceId": "consequence_warn_valley"
+        }
+      ],
+      "possibleConsequences": ["consequence_warn_valley"]
+    }
+  ],
+  "consequences": [
+    {
+      "id": "consequence_fight_ogre",
+      "summary": "You defeat the ogre in a fierce struggle. The bridge clears, but the battle shakes the valley slopes.",
+      "addFlags": ["ogre_defeated", "bridge_open", "landslide_triggered"],
+      "removeFlags": ["ogre_blocks_bridge"],
+      "unlockGoals": ["goal_reach_valley", "goal_explore_cave"],
+      "exposeLocations": ["location_hidden_cave"],
+      "temporaryInstances": ["instance_hidden_cave"],
+      "visibleChanges": [
+        "The ogre collapses and the bridge is passable.",
+        "Rocks tumble from the cliffs, revealing a hidden cave mouth."
+      ],
+      "npcUpdates": [{ "npcId": "npc_ogre", "attitude": "hostile" }]
+    },
+    {
+      "id": "consequence_trick_ogre",
+      "summary": "You trick the ogre into chasing a false alarm. It lumbers upstream, leaving the bridge unguarded.",
+      "addFlags": ["ogre_tricked", "bridge_open", "ogre_peaceful_crossing"],
+      "removeFlags": ["ogre_blocks_bridge"],
+      "unlockGoals": ["goal_reach_valley"],
+      "visibleChanges": [
+        "The ogre stomps away into the treeline.",
+        "The bridge stands open, swaying slightly in the wind."
+      ],
+      "npcUpdates": [{ "npcId": "npc_ogre", "attitude": "curious" }]
+    },
+    {
+      "id": "consequence_feed_ogre",
+      "summary": "You offer food and the ogre grudgingly allows passage, chewing while it watches you cross.",
+      "addFlags": ["ogre_fed", "ogre_allied", "bridge_open", "ogre_peaceful_crossing"],
+      "removeFlags": ["ogre_blocks_bridge"],
+      "unlockGoals": ["goal_reach_valley"],
+      "visibleChanges": [
+        "The ogre accepts the rations and steps aside.",
+        "It grunts approval as you cross the bridge."
+      ],
+      "npcUpdates": [{ "npcId": "npc_ogre", "attitude": "friendly" }]
+    },
+    {
+      "id": "consequence_talk_ogre",
+      "summary": "You talk to the ogre and learn the bridge was blocked after valley hunters broke an old truce.",
+      "addFlags": ["ogre_talked", "bridge_open", "elder_knows_player", "ogre_peaceful_crossing"],
+      "removeFlags": ["ogre_blocks_bridge"],
+      "unlockGoals": ["goal_reach_valley", "goal_hear_elder_counsel"],
+      "visibleChanges": [
+        "The ogre lowers its club and listens.",
+        "It admits the valley elders broke a promise first."
+      ],
+      "npcUpdates": [{ "npcId": "npc_ogre", "attitude": "neutral" }]
+    },
+    {
+      "id": "consequence_sneak_ogre",
+      "summary": "You sneak past the ogre along the riverbank. It never turns from the treeline.",
+      "addFlags": ["ogre_avoided", "bridge_open", "ogre_peaceful_crossing"],
+      "removeFlags": ["ogre_blocks_bridge"],
+      "unlockGoals": ["goal_reach_valley"],
+      "visibleChanges": [
+        "You slip through the reeds unseen.",
+        "The ogre keeps scanning the forest, unaware you crossed."
+      ],
+      "npcUpdates": [{ "npcId": "npc_ogre", "attitude": "hostile" }]
+    },
+    {
+      "id": "consequence_enter_cave",
+      "summary": "You commit to the hidden cave. The temporary instance opens beneath the broken cliff.",
+      "addFlags": ["cave_entered"],
+      "unlockGoals": ["goal_explore_cave"],
+      "visibleChanges": [
+        "You duck beneath fallen stone and enter the cold dark.",
+        "The cave mouth seals behind you with a grinding shudder."
+      ]
+    },
+    {
+      "id": "consequence_survey_landslide",
+      "summary": "You search the rubble and confirm no villagers were caught in the slide, but the cave mouth remains the only lead.",
+      "addFlags": ["landslide_surveyed"],
+      "exposeLocations": ["location_hidden_cave"],
+      "unlockGoals": ["goal_explore_cave"],
+      "visibleChanges": [
+        "No survivors call from the rubble.",
+        "The exposed cave still breathes cold air onto the path."
+      ]
+    },
+    {
+      "id": "consequence_greet_elder",
+      "summary": "Elder Mara welcomes you and warns that strange tremors have been felt beneath the valley.",
+      "addFlags": ["elder_met"],
+      "unlockGoals": ["goal_hear_elder_counsel"],
+      "visibleChanges": [
+        "Elder Mara studies you with sharp, kind eyes.",
+        "She speaks of tremors and old promises broken at the bridge."
+      ],
+      "npcUpdates": [{ "npcId": "npc_elder", "attitude": "trusting" }]
+    },
+    {
+      "id": "consequence_explore_market",
+      "summary": "You walk the square and hear traders gossip about a sealed cave and a sleeping wyrm.",
+      "addFlags": ["valley_rumors_heard"],
+      "unlockGoals": ["goal_reach_valley"],
+      "visibleChanges": [
+        "Traders mention tremors and a cave that was buried for generations.",
+        "One stall keeper crosses their fingers when the word dragon is spoken."
+      ]
+    },
+    {
+      "id": "consequence_accept_elder_quest",
+      "summary": "You accept Elder Mara's request to investigate the valley's tremors without reckless bloodshed.",
+      "addFlags": ["elder_quest_accepted"],
+      "completeGoals": ["goal_hear_elder_counsel"],
+      "unlockGoals": ["goal_protect_valley"],
+      "visibleChanges": [
+        "Elder Mara presses a valley sigil into your palm.",
+        "She asks you to report anything that moves beneath the old stone."
+      ],
+      "npcUpdates": [{ "npcId": "npc_elder", "attitude": "trusting" }]
+    },
+    {
+      "id": "consequence_decline_elder_quest",
+      "summary": "You thank the elder but keep your own counsel, leaving the square on your own terms.",
+      "addFlags": ["elder_quest_declined"],
+      "completeGoals": ["goal_hear_elder_counsel"],
+      "unlockGoals": ["goal_reach_valley"],
+      "visibleChanges": [
+        "Elder Mara nods without offense.",
+        "You leave the square with the valley's secrets still unclaimed."
+      ],
+      "npcUpdates": [{ "npcId": "npc_elder", "attitude": "neutral" }]
+    },
+    {
+      "id": "consequence_cave_complete",
+      "summary": "You reach the dragon chamber and ancient power stirs. The cave collapses as something vast wakes beneath Stonepass.",
+      "addFlags": ["dragon_awake", "cave_collapsed"],
+      "removeFlags": ["cave_entered"],
+      "completeGoals": ["goal_explore_cave"],
+      "unlockGoals": ["goal_face_dragon"],
+      "visibleChanges": [
+        "Runes flare in the dark and the chamber trembles.",
+        "Stone rains down behind you as a deep roar shakes the valley."
+      ],
+      "npcUpdates": [{ "npcId": "npc_elder", "attitude": "fearful" }]
+    },
+    {
+      "id": "consequence_warn_valley",
+      "summary": "You race toward Stonepass Square to warn the valley that the dragon has awakened.",
+      "addFlags": ["valley_warned"],
+      "completeGoals": ["goal_face_dragon"],
+      "unlockGoals": ["goal_protect_valley"],
+      "visibleChanges": [
+        "Lanterns flare awake across the square.",
+        "Elder Mara hears your warning and orders the bells rung."
+      ],
+      "npcUpdates": [{ "npcId": "npc_elder", "attitude": "fearful" }]
+    }
+  ],
+  "npcs": [
+    {
+      "id": "npc_ogre",
+      "name": "Bridge Ogre",
+      "role": "blocker",
+      "description": "A hulking ogre guarding the only bridge into Stonepass Valley.",
+      "attitude": "hostile",
+      "toneRules": ["gruff", "simple speech", "teen-safe threats"],
+      "knownFlags": ["ogre_blocks_bridge", "bridge_open", "ogre_allied", "ogre_tricked"]
+    },
+    {
+      "id": "npc_elder",
+      "name": "Elder Mara",
+      "role": "elder",
+      "description": "The village elder who watches over Stonepass from the town square.",
+      "attitude": "neutral",
+      "toneRules": ["wise", "warm but cautious", "heroic fantasy"],
+      "knownFlags": ["ogre_defeated", "dragon_awake", "elder_knows_player", "elder_met"]
+    }
+  ],
+  "temporaryInstances": [
+    {
+      "id": "instance_hidden_cave",
+      "title": "The Hidden Cave",
+      "type": "cave",
+      "description": "An unstable cave exposed by the landslide beneath Stonepass Bridge.",
+      "entranceText": "Cold air spills from a jagged opening in the cliff. Loose stones still skitter down the slope.",
+      "requiredEntryFlags": ["landslide_triggered"],
+      "rooms": [
+        {
+          "id": "room_cave_entrance",
+          "title": "Cave Mouth",
+          "description": "Mud and broken roots line the narrow entrance.",
+          "interactions": ["inspect_mud", "listen_for_drips"],
+          "connectedRoomIds": ["room_fallen_rocks"]
+        },
+        {
+          "id": "room_fallen_rocks",
+          "title": "Fallen Rocks",
+          "description": "A pile of boulders blocks the path deeper into the cave.",
+          "interactions": ["climb_rocks", "search_for_gaps"],
+          "encounter": "encounter_cave_bats",
+          "connectedRoomIds": ["room_cave_entrance", "room_dragon_chamber"]
+        },
+        {
+          "id": "room_dragon_chamber",
+          "title": "Dragon Chamber",
+          "description": "A vast chamber opens ahead. Something ancient stirs in the dark.",
+          "interactions": ["observe_chamber"],
+          "puzzle": "puzzle_dragon_runes",
+          "connectedRoomIds": ["room_fallen_rocks"]
+        }
+      ],
+      "completionCondition": "reached_dragon_chamber",
+      "completionConsequenceId": "consequence_cave_complete",
+      "cleanupBehavior": "collapse"
+    }
+  ]
+}

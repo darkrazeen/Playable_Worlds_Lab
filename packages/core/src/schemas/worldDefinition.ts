@@ -5,9 +5,10 @@ import { NpcSchema } from "./npc.js";
 import { CURRENT_SCHEMA_VERSION, SchemaVersionSchema } from "./schemaVersion.js";
 import { StoryBeatSchema } from "./storyBeat.js";
 import { TemporaryInstanceSchema } from "./temporaryInstance.js";
+import { NamedIdSchema } from "./ids.js";
 import { WorldDNASchema } from "./worldDna.js";
 
-export const WorldIdSchema = z.string().min(1);
+export const WorldIdSchema = NamedIdSchema;
 
 export const WorldDefinitionSchema = z.object({
   schemaVersion: SchemaVersionSchema,
@@ -15,7 +16,7 @@ export const WorldDefinitionSchema = z.object({
   title: z.string().min(1),
   summary: z.string().min(1),
   worldDNA: WorldDNASchema,
-  startingBeatId: z.string().min(1),
+  startingBeatId: NamedIdSchema,
   storyBeats: z.array(StoryBeatSchema).min(1),
   consequences: z.array(ConsequenceSchema).min(1),
   npcs: z.array(NpcSchema).default([]),

@@ -1,10 +1,13 @@
 import { z } from "zod";
 
 import { ConsequenceIdSchema } from "./consequence.js";
+import { NamedIdSchema } from "./ids.js";
 import { FlagIdListSchema, PlayerChoiceSchema } from "./playerChoice.js";
 
+export const StoryBeatIdSchema = NamedIdSchema;
+
 export const StoryBeatSchema = z.object({
-  id: z.string().min(1),
+  id: StoryBeatIdSchema,
   title: z.string().min(1),
   description: z.string().min(1),
   trigger: z.string().min(1),

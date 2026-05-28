@@ -1,9 +1,10 @@
 import { z } from "zod";
 
 import { ConsequenceIdSchema, TemporaryInstanceIdSchema } from "./consequence.js";
+import { NamedIdSchema } from "./ids.js";
 import { FlagIdListSchema } from "./playerChoice.js";
 
-export const TemporaryInstanceRoomIdSchema = z.string().min(1);
+export const TemporaryInstanceRoomIdSchema = NamedIdSchema;
 export const TemporaryInstanceRoomIdListSchema = z.array(TemporaryInstanceRoomIdSchema);
 
 export const TemporaryInstanceTypeSchema = z.enum(["cave", "ruin", "trial", "dream", "dungeon"]);

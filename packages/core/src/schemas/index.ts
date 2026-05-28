@@ -39,6 +39,7 @@ export {
 export {
   parseStoryBeat,
   safeParseStoryBeat,
+  StoryBeatIdSchema,
   StoryBeatSchema,
   type StoryBeat,
 } from "./storyBeat.js";
@@ -94,7 +95,12 @@ export {
   safeParseNpc,
   type Npc,
 } from "./npc.js";
-export { CURRENT_SCHEMA_VERSION, SchemaVersionSchema } from "./schemaVersion.js";
+export {
+  CURRENT_SCHEMA_VERSION,
+  SchemaVersionSchema,
+  SUPPORTED_SCHEMA_VERSIONS,
+} from "./schemaVersion.js";
+export { EntityIdSchema, NamedIdSchema } from "./ids.js";
 export {
   createWorldDefinitionShell,
   parseWorldDefinition,
@@ -118,7 +124,6 @@ export {
   createWorldSession,
   parseWorldSession,
   safeParseWorldSession,
-  StoryBeatIdSchema,
   WorldSessionIdSchema,
   WorldSessionSchema,
   WorldVersionIdSchema,
