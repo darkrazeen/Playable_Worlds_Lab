@@ -57,15 +57,15 @@ Tracked in [Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv](./Playable_Worlds_
 | W1-S8 | TemporaryInstance schema | **Done** |
 | W1-S9 | NPC schema | **Done** |
 | W1-S10 | WorldDefinition schema | **Done** |
-| W1-S11 | WorldSession schema | **Not started ← NEXT** |
-| W1-S12 | DebugEvent schema | Not started |
-| W1-S13 | AIResult contract | Not started |
+| W1-S11 | WorldSession schema | **Done** |
+| W1-S12 | DebugEvent schema | **Done** |
+| W1-S13 | AIResult contract | **Not started ← NEXT** |
 | W1-S14 | validateWorldDefinition | Not started |
 | W1-S15 | Stonepass Valley world JSON | Not started |
 | W1-S16 | FakeProvider + AIProvider | Not started |
 | W2-S1+ | Phase 1 text runtime | Not started |
 
-**Phase 0 completion:** 10 / 16 steps (62.5%).
+**Phase 0 completion:** 12 / 16 steps (75%).
 
 ---
 
@@ -254,6 +254,7 @@ After each step, report:
 6. Human action required (if any)
 7. Blocked items intentionally not touched
 8. Next safe step only
+9. **Update step tracker CSV** — Required by [Playable_Worlds_Lab_v4_1_FULL_CURSOR.md §17](./Playable_Worlds_Lab_v4_1_FULL_CURSOR.md#17-step-cards-and-cursor-prompts) (*Step tracker CSV*). Update [Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv](./Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv): set `Status` to `Complete`, fill `Completion Evidence`, and update contract columns if scope shifted.
 
 ---
 
@@ -277,6 +278,7 @@ npm run dev    # http://localhost:3000 — web shell only
 3. W1-S11 step card in FULL_CURSOR (§17 step cards)
 4. [Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv](./Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv)
 5. Existing schemas in `packages/core/src/schemas/` for conventions
+6. [Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv](./Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv) — update after each step (Status, Completion Evidence, contract deltas)
 
 ---
 
@@ -297,4 +299,4 @@ DirectorDecision (W1-S7) ──► Phase 2 AI (not yet)
 
 ---
 
-*End of agent session handoff. Next approved implement: **W1-S11 WorldSession schema**.*
+*End of agent session handoff. Next approved implement: **W1-S13 AIResult contract**.*

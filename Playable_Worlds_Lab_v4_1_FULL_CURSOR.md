@@ -13,6 +13,8 @@
 
 Use this file as the project source-of-truth context. Do not skip the step cards. Do not jump phases. When implementing in Cursor, copy exactly one step card at a time and require Cursor to stop after the completion report.
 
+**After every completed step:** Update [Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv](./Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv) — see **§17 Step tracker CSV** (required; do not skip).
+
 **Contract v4.2:** See **§22** at the bottom of this file for hybrid schema field names and `schemaVersion: "0.2.0"` (supersedes §9 on listed conflicts).
 
 ---
@@ -192,6 +194,10 @@ character-builder system.
  Completion report                 Review evidence before next Report files changed, tests
                                    step.                         run, result, blockers, next
                                                                  safe step.
+ Step tracker CSV                  Import/sync tracker in        After each step: set Status,
+                                   Notion if used.               fill Completion Evidence,
+                                                                 update contract columns if
+                                                                 scope shifted (§17).
 
 Source priority order
  Priority                                           Source
@@ -974,6 +980,34 @@ Each step below is self-contained. The human operator should copy exactly one st
 into Cursor, require the pre-coding plan, approve or reject that plan, then require a completion
 report before moving to the next step.
 
+### Step tracker CSV (required after every step)
+
+**File:** [Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv](./Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv)
+
+AI coding tools **must** update this CSV as part of the completion report, **before stopping**. Do not defer to a later session or assume the human will update it.
+
+| When | Action |
+| --- | --- |
+| Step finished and accepted | Set that row's `Status` to `Complete`. |
+| Human approved next step | Set the next row's `Status` to `Next` (optional but recommended). |
+| Still pending | Leave `Status` as `Not started`. |
+
+**`Completion Evidence` (required notes):** Summarize what was built — schema/runtime file paths, unit test file and count, example JSON under `packages/content/examples/`, npm test result, and any on-the-fly contract changes (e.g. v4.2 field renames per §22). Keep it factual and import-safe (quote fields that contain commas).
+
+**Update other columns when the implementation diverged from the step card:**
+
+- `Contracts Touched` — e.g. v4.2 hybrid labels, `schemaVersion: "0.2.0"`.
+- `Validators Required` — actual Zod rules or cross-file checks added.
+- `Tests Required` / `Done When` — only if the done definition changed during the step.
+
+**Do not fill** `Commit Hash` unless the human provides a hash.
+
+**Status values:** `Complete` | `Next` | `Not started` (use `In progress` only if a step is explicitly paused mid-work).
+
+**Also update** [AGENT_SESSION_HANDOFF.md](./AGENT_SESSION_HANDOFF.md) when the human uses session handoff — tracker CSV and handoff should agree on phase progress.
+
+This requirement applies to **every** step card below (W1-S1 through W12-S7), in addition to each card's "Completion report required" list.
+
 
 ### Week 1
 
@@ -1061,6 +1095,7 @@ Completion report required:
 - Validation/fallback added
 - Human action required
 - Blocked items intentionally not touched
+- Step tracker CSV updated (§17 Step tracker CSV)
 
 
 <!-- Source PDF page 23 -->
@@ -1149,6 +1184,7 @@ Completion report required:
 - Validation/fallback added
 - Human action required
 - Blocked items intentionally not touched
+- Step tracker CSV updated (§17 Step tracker CSV)
 - Next safe task only
 
 Stop after this step.
@@ -1236,6 +1272,7 @@ Completion report required:
 - Validation/fallback added
 - Human action required
 - Blocked items intentionally not touched
+- Step tracker CSV updated (§17 Step tracker CSV)
 - Next safe task only
 
 Stop after this step.
@@ -1325,6 +1362,7 @@ Completion report required:
 - Validation/fallback added
 - Human action required
 - Blocked items intentionally not touched
+- Step tracker CSV updated (§17 Step tracker CSV)
 - Next safe task only
 
 Stop after this step.
@@ -1414,6 +1452,7 @@ Completion report required:
 - Validation/fallback added
 - Human action required
 - Blocked items intentionally not touched
+- Step tracker CSV updated (§17 Step tracker CSV)
 - Next safe task only
 
 Stop after this step.
@@ -1502,6 +1541,7 @@ Completion report required:
 - Validation/fallback added
 - Human action required
 - Blocked items intentionally not touched
+- Step tracker CSV updated (§17 Step tracker CSV)
 - Next safe task only
 
 Stop after this step.
@@ -1586,6 +1626,7 @@ Completion report required:
 <!-- Source PDF page 34 -->
 
 - Blocked items intentionally not touched
+- Step tracker CSV updated (§17 Step tracker CSV)
 - Next safe task only
 
 Stop after this step.
@@ -1668,6 +1709,7 @@ Completion report required:
 - Validation/fallback added
 - Human action required
 - Blocked items intentionally not touched
+- Step tracker CSV updated (§17 Step tracker CSV)
 - Next safe task only
 
 Stop after this step.
@@ -1756,6 +1798,7 @@ Completion report required:
 - Validation/fallback added
 - Human action required
 - Blocked items intentionally not touched
+- Step tracker CSV updated (§17 Step tracker CSV)
 - Next safe task only
 
 Stop after this step.
@@ -1847,6 +1890,7 @@ Completion report required:
 - Validation/fallback added
 - Human action required
 - Blocked items intentionally not touched
+- Step tracker CSV updated (§17 Step tracker CSV)
 - Next safe task only
 
 Stop after this step.
@@ -1939,6 +1983,7 @@ Completion report required:
 - Validation/fallback added
 - Human action required
 - Blocked items intentionally not touched
+- Step tracker CSV updated (§17 Step tracker CSV)
 - Next safe task only
 
 Stop after this step.
@@ -2026,6 +2071,7 @@ Completion report required:
 - Validation/fallback added
 - Human action required
 - Blocked items intentionally not touched
+- Step tracker CSV updated (§17 Step tracker CSV)
 - Next safe task only
 
 Stop after this step.
@@ -2113,6 +2159,7 @@ Completion report required:
 - Validation/fallback added
 - Human action required
 - Blocked items intentionally not touched
+- Step tracker CSV updated (§17 Step tracker CSV)
 - Next safe task only
 
 Stop after this step.
@@ -2205,6 +2252,7 @@ Completion report required:
 
 - Human action required
 - Blocked items intentionally not touched
+- Step tracker CSV updated (§17 Step tracker CSV)
 - Next safe task only
 
 Stop after this step.
@@ -2290,6 +2338,7 @@ Completion report required:
 - Validation/fallback added
 - Human action required
 - Blocked items intentionally not touched
+- Step tracker CSV updated (§17 Step tracker CSV)
 - Next safe task only
 
 Stop after this step.
@@ -2383,6 +2432,7 @@ Completion report required:
 - Validation/fallback added
 - Human action required
 - Blocked items intentionally not touched
+- Step tracker CSV updated (§17 Step tracker CSV)
 - Next safe task only
 
 Stop after this step.
@@ -2470,6 +2520,7 @@ Completion report required:
 - Validation/fallback added
 - Human action required
 - Blocked items intentionally not touched
+- Step tracker CSV updated (§17 Step tracker CSV)
 - Next safe task only
 
 Stop after this step.
@@ -2555,6 +2606,7 @@ Completion report required:
 - Validation/fallback added
 - Human action required
 - Blocked items intentionally not touched
+- Step tracker CSV updated (§17 Step tracker CSV)
 - Next safe task only
 
 Stop after this step.
@@ -2639,6 +2691,7 @@ Completion report required:
 - Validation/fallback added
 - Human action required
 - Blocked items intentionally not touched
+- Step tracker CSV updated (§17 Step tracker CSV)
 - Next safe task only
 
 Stop after this step.
@@ -2717,6 +2770,7 @@ Completion report required:
 - Validation/fallback added
 - Human action required
 - Blocked items intentionally not touched
+- Step tracker CSV updated (§17 Step tracker CSV)
 - Next safe task only
 
 Stop after this step.
@@ -2800,6 +2854,7 @@ Completion report required:
 - Validation/fallback added
 - Human action required
 - Blocked items intentionally not touched
+- Step tracker CSV updated (§17 Step tracker CSV)
 - Next safe task only
 
 Stop after this step.
@@ -2884,6 +2939,7 @@ Completion report required:
 - Validation/fallback added
 - Human action required
 - Blocked items intentionally not touched
+- Step tracker CSV updated (§17 Step tracker CSV)
 - Next safe task only
 
 Stop after this step.
@@ -2968,6 +3024,7 @@ Completion report required:
 - Validation/fallback added
 - Human action required
 - Blocked items intentionally not touched
+- Step tracker CSV updated (§17 Step tracker CSV)
 - Next safe task only
 
 Stop after this step.
@@ -3050,6 +3107,7 @@ Completion report required:
 - Validation/fallback added
 - Human action required
 - Blocked items intentionally not touched
+- Step tracker CSV updated (§17 Step tracker CSV)
 - Next safe task only
 
 
@@ -3132,6 +3190,7 @@ Completion report required:
 - Validation/fallback added
 - Human action required
 - Blocked items intentionally not touched
+- Step tracker CSV updated (§17 Step tracker CSV)
 - Next safe task only
 
 Stop after this step.
@@ -3215,6 +3274,7 @@ Completion report required:
 - Validation/fallback added
 - Human action required
 - Blocked items intentionally not touched
+- Step tracker CSV updated (§17 Step tracker CSV)
 - Next safe task only
 
 Stop after this step.
@@ -3299,6 +3359,7 @@ Completion report required:
 - Validation/fallback added
 - Human action required
 - Blocked items intentionally not touched
+- Step tracker CSV updated (§17 Step tracker CSV)
 - Next safe task only
 
 Stop after this step.
@@ -3382,6 +3443,7 @@ Completion report required:
 - Validation/fallback added
 - Human action required
 - Blocked items intentionally not touched
+- Step tracker CSV updated (§17 Step tracker CSV)
 
 
 <!-- Source PDF page 72 -->
@@ -3464,6 +3526,7 @@ Completion report required:
 - Validation/fallback added
 - Human action required
 - Blocked items intentionally not touched
+- Step tracker CSV updated (§17 Step tracker CSV)
 - Next safe task only
 
 Stop after this step.
@@ -3551,6 +3614,7 @@ Completion report required:
 - Validation/fallback added
 - Human action required
 - Blocked items intentionally not touched
+- Step tracker CSV updated (§17 Step tracker CSV)
 - Next safe task only
 
 Stop after this step.
@@ -3638,6 +3702,7 @@ Completion report required:
 - Validation/fallback added
 - Human action required
 - Blocked items intentionally not touched
+- Step tracker CSV updated (§17 Step tracker CSV)
 - Next safe task only
 
 Stop after this step.
@@ -3716,6 +3781,7 @@ Completion report required:
 - Validation/fallback added
 - Human action required
 - Blocked items intentionally not touched
+- Step tracker CSV updated (§17 Step tracker CSV)
 - Next safe task only
 
 
@@ -3801,6 +3867,7 @@ Completion report required:
 - Validation/fallback added
 - Human action required
 - Blocked items intentionally not touched
+- Step tracker CSV updated (§17 Step tracker CSV)
 - Next safe task only
 
 Stop after this step.
@@ -3887,6 +3954,7 @@ Completion report required:
 - Validation/fallback added
 - Human action required
 - Blocked items intentionally not touched
+- Step tracker CSV updated (§17 Step tracker CSV)
 - Next safe task only
 
 Stop after this step.
@@ -3971,6 +4039,7 @@ Completion report required:
 - Validation/fallback added
 - Human action required
 - Blocked items intentionally not touched
+- Step tracker CSV updated (§17 Step tracker CSV)
 - Next safe task only
 
 Stop after this step.
@@ -4055,6 +4124,7 @@ Completion report required:
 <!-- Source PDF page 86 -->
 
 - Blocked items intentionally not touched
+- Step tracker CSV updated (§17 Step tracker CSV)
 - Next safe task only
 
 Stop after this step.
@@ -4135,6 +4205,7 @@ Completion report required:
 - Validation/fallback added
 - Human action required
 - Blocked items intentionally not touched
+- Step tracker CSV updated (§17 Step tracker CSV)
 - Next safe task only
 
 Stop after this step.
@@ -4223,6 +4294,7 @@ Completion report required:
 - Validation/fallback added
 - Human action required
 - Blocked items intentionally not touched
+- Step tracker CSV updated (§17 Step tracker CSV)
 - Next safe task only
 
 Stop after this step.
@@ -4307,6 +4379,7 @@ Completion report required:
 - Validation/fallback added
 - Human action required
 - Blocked items intentionally not touched
+- Step tracker CSV updated (§17 Step tracker CSV)
 - Next safe task only
 
 Stop after this step.
@@ -4390,6 +4463,7 @@ Completion report required:
 <!-- Source PDF page 93 -->
 
 - Blocked items intentionally not touched
+- Step tracker CSV updated (§17 Step tracker CSV)
 - Next safe task only
 
 Stop after this step.
@@ -4467,6 +4541,7 @@ Completion report required:
 - Validation/fallback added
 - Human action required
 - Blocked items intentionally not touched
+- Step tracker CSV updated (§17 Step tracker CSV)
 - Next safe task only
 
 Stop after this step.
@@ -4556,6 +4631,7 @@ Completion report required:
 - Validation/fallback added
 - Human action required
 - Blocked items intentionally not touched
+- Step tracker CSV updated (§17 Step tracker CSV)
 - Next safe task only
 
 Stop after this step.
@@ -4641,6 +4717,7 @@ Completion report required:
 - Validation/fallback added
 - Human action required
 - Blocked items intentionally not touched
+- Step tracker CSV updated (§17 Step tracker CSV)
 - Next safe task only
 
 Stop after this step.
@@ -4726,6 +4803,7 @@ Completion report required:
 - Validation/fallback added
 - Human action required
 - Blocked items intentionally not touched
+- Step tracker CSV updated (§17 Step tracker CSV)
 - Next safe task only
 
 Stop after this step.
@@ -4807,6 +4885,7 @@ Completion report required:
 - Validation/fallback added
 - Human action required
 - Blocked items intentionally not touched
+- Step tracker CSV updated (§17 Step tracker CSV)
 - Next safe task only
 
 Stop after this step.
@@ -4893,6 +4972,7 @@ Completion report required:
 - Validation/fallback added
 - Human action required
 - Blocked items intentionally not touched
+- Step tracker CSV updated (§17 Step tracker CSV)
 - Next safe task only
 
 Stop after this step.
@@ -4978,6 +5058,7 @@ Completion report required:
 - Validation/fallback added
 - Human action required
 - Blocked items intentionally not touched
+- Step tracker CSV updated (§17 Step tracker CSV)
 - Next safe task only
 
 Stop after this step.
@@ -5063,6 +5144,7 @@ Completion report required:
 - Validation/fallback added
 - Human action required
 - Blocked items intentionally not touched
+- Step tracker CSV updated (§17 Step tracker CSV)
 - Next safe task only
 
 Stop after this step.
@@ -5143,6 +5225,7 @@ Completion report required:
 - Validation/fallback added
 - Human action required
 - Blocked items intentionally not touched
+- Step tracker CSV updated (§17 Step tracker CSV)
 - Next safe task only
 
 Stop after this step.
@@ -5224,6 +5307,7 @@ Completion report required:
 - Validation/fallback added
 - Human action required
 - Blocked items intentionally not touched
+- Step tracker CSV updated (§17 Step tracker CSV)
 - Next safe task only
 
 Stop after this step.
@@ -5313,6 +5397,7 @@ Completion report required:
 - Validation/fallback added
 - Human action required
 - Blocked items intentionally not touched
+- Step tracker CSV updated (§17 Step tracker CSV)
 - Next safe task only
 
 Stop after this step.
@@ -5396,6 +5481,7 @@ Completion report required:
 - Validation/fallback added
 - Human action required
 - Blocked items intentionally not touched
+- Step tracker CSV updated (§17 Step tracker CSV)
 - Next safe task only
 
 Stop after this step.
@@ -5472,6 +5558,7 @@ Completion report required:
 - Validation/fallback added
 - Human action required
 - Blocked items intentionally not touched
+- Step tracker CSV updated (§17 Step tracker CSV)
 - Next safe task only
 
 Stop after this step.
@@ -5555,6 +5642,7 @@ Completion report required:
 - Validation/fallback added
 - Human action required
 - Blocked items intentionally not touched
+- Step tracker CSV updated (§17 Step tracker CSV)
 - Next safe task only
 
 Stop after this step.
@@ -5643,6 +5731,7 @@ Completion report required:
 - Validation/fallback added
 - Human action required
 - Blocked items intentionally not touched
+- Step tracker CSV updated (§17 Step tracker CSV)
 - Next safe task only
 
 Stop after this step.
@@ -5728,6 +5817,7 @@ Completion report required:
 - Validation/fallback added
 - Human action required
 - Blocked items intentionally not touched
+- Step tracker CSV updated (§17 Step tracker CSV)
 - Next safe task only
 
 Stop after this step.
@@ -5814,6 +5904,7 @@ Completion report required:
 <!-- Source PDF page 123 -->
 
 - Blocked items intentionally not touched
+- Step tracker CSV updated (§17 Step tracker CSV)
 - Next safe task only
 
 Stop after this step.
@@ -5892,6 +5983,7 @@ Completion report required:
 - Validation/fallback added
 - Human action required
 - Blocked items intentionally not touched
+- Step tracker CSV updated (§17 Step tracker CSV)
 - Next safe task only
 
 Stop after this step.
@@ -5976,6 +6068,7 @@ Completion report required:
 - Validation/fallback added
 - Human action required
 - Blocked items intentionally not touched
+- Step tracker CSV updated (§17 Step tracker CSV)
 - Next safe task only
 
 Stop after this step.
@@ -6059,6 +6152,7 @@ Completion report required:
 - Validation/fallback added
 - Human action required
 - Blocked items intentionally not touched
+- Step tracker CSV updated (§17 Step tracker CSV)
 - Next safe task only
 
 Stop after this step.
@@ -6136,6 +6230,7 @@ Completion report required:
 - Validation/fallback added
 - Human action required
 - Blocked items intentionally not touched
+- Step tracker CSV updated (§17 Step tracker CSV)
 - Next safe task only
 
 Stop after this step.
@@ -6223,6 +6318,7 @@ Completion report required:
 - Validation/fallback added
 - Human action required
 - Blocked items intentionally not touched
+- Step tracker CSV updated (§17 Step tracker CSV)
 - Next safe task only
 
 Stop after this step.
@@ -6305,6 +6401,7 @@ Completion report required:
 - Validation/fallback added
 - Human action required
 - Blocked items intentionally not touched
+- Step tracker CSV updated (§17 Step tracker CSV)
 - Next safe task only
 
 Stop after this step.
@@ -6387,6 +6484,7 @@ Completion report required:
 - Validation/fallback added
 - Human action required
 - Blocked items intentionally not touched
+- Step tracker CSV updated (§17 Step tracker CSV)
 - Next safe task only
 
 Stop after this step.
@@ -6462,6 +6560,7 @@ Completion report required:
 - Validation/fallback added
 - Human action required
 - Blocked items intentionally not touched
+- Step tracker CSV updated (§17 Step tracker CSV)
 - Next safe task only
 
 Stop after this step.
@@ -6545,6 +6644,7 @@ Completion report required:
 - Validation/fallback added
 - Human action required
 - Blocked items intentionally not touched
+- Step tracker CSV updated (§17 Step tracker CSV)
 - Next safe task only
 
 Stop after this step.
@@ -6631,6 +6731,7 @@ Completion report required:
 - Validation/fallback added
 - Human action required
 - Blocked items intentionally not touched
+- Step tracker CSV updated (§17 Step tracker CSV)
 - Next safe task only
 
 Stop after this step.
@@ -6715,6 +6816,7 @@ Completion report required:
 <!-- Source PDF page 142 -->
 
 - Blocked items intentionally not touched
+- Step tracker CSV updated (§17 Step tracker CSV)
 - Next safe task only
 
 Stop after this step.
@@ -6793,6 +6895,7 @@ Completion report required:
 - Validation/fallback added
 - Human action required
 - Blocked items intentionally not touched
+- Step tracker CSV updated (§17 Step tracker CSV)
 - Next safe task only
 
 Stop after this step.
@@ -6874,6 +6977,7 @@ Completion report required:
 - Validation/fallback added
 - Human action required
 - Blocked items intentionally not touched
+- Step tracker CSV updated (§17 Step tracker CSV)
 - Next safe task only
 
 Stop after this step.
@@ -6959,6 +7063,7 @@ Completion report required:
 - Validation/fallback added
 - Human action required
 - Blocked items intentionally not touched
+- Step tracker CSV updated (§17 Step tracker CSV)
 - Next safe task only
 
 Stop after this step.
@@ -7037,6 +7142,7 @@ Completion report required:
 - Validation/fallback added
 - Human action required
 - Blocked items intentionally not touched
+- Step tracker CSV updated (§17 Step tracker CSV)
 - Next safe task only
 
 Stop after this step.
@@ -7118,6 +7224,7 @@ Completion report required:
 - Validation/fallback added
 - Human action required
 - Blocked items intentionally not touched
+- Step tracker CSV updated (§17 Step tracker CSV)
 - Next safe task only
 
 Stop after this step.
@@ -7205,6 +7312,7 @@ Completion report required:
 - Validation/fallback added
 - Human action required
 - Blocked items intentionally not touched
+- Step tracker CSV updated (§17 Step tracker CSV)
 - Next safe task only
 
 Stop after this step.
@@ -7285,6 +7393,7 @@ Completion report required:
 
 - Human action required
 - Blocked items intentionally not touched
+- Step tracker CSV updated (§17 Step tracker CSV)
 - Next safe task only
 
 Stop after this step.
@@ -7363,6 +7472,7 @@ Completion report required:
 - Validation/fallback added
 - Human action required
 - Blocked items intentionally not touched
+- Step tracker CSV updated (§17 Step tracker CSV)
 - Next safe task only
 
 Stop after this step.
@@ -7444,6 +7554,7 @@ Completion report required:
 - Validation/fallback added
 - Human action required
 - Blocked items intentionally not touched
+- Step tracker CSV updated (§17 Step tracker CSV)
 - Next safe task only
 
 Stop after this step.
@@ -7528,6 +7639,7 @@ Completion report required:
 - Validation/fallback added
 - Human action required
 - Blocked items intentionally not touched
+- Step tracker CSV updated (§17 Step tracker CSV)
 - Next safe task only
 
 Stop after this step.
@@ -7605,6 +7717,7 @@ Completion report required:
 - Validation/fallback added
 - Human action required
 - Blocked items intentionally not touched
+- Step tracker CSV updated (§17 Step tracker CSV)
 - Next safe task only
 
 Stop after this step.
@@ -7689,6 +7802,7 @@ Completion report required:
 - Validation/fallback added
 - Human action required
 - Blocked items intentionally not touched
+- Step tracker CSV updated (§17 Step tracker CSV)
 - Next safe task only
 
 Stop after this step.
@@ -7774,6 +7888,7 @@ Completion report required:
 - Validation/fallback added
 - Human action required
 - Blocked items intentionally not touched
+- Step tracker CSV updated (§17 Step tracker CSV)
 - Next safe task only
 
 Stop after this step.
@@ -7856,6 +7971,7 @@ Completion report required:
 - Validation/fallback added
 - Human action required
 - Blocked items intentionally not touched
+- Step tracker CSV updated (§17 Step tracker CSV)
 - Next safe task only
 
 Stop after this step.
@@ -7932,6 +8048,7 @@ Completion report required:
 - Validation/fallback added
 - Human action required
 - Blocked items intentionally not touched
+- Step tracker CSV updated (§17 Step tracker CSV)
 - Next safe task only
 
 Stop after this step.
@@ -8015,6 +8132,7 @@ Completion report required:
 - Validation/fallback added
 - Human action required
 - Blocked items intentionally not touched
+- Step tracker CSV updated (§17 Step tracker CSV)
 - Next safe task only
 
 Stop after this step.
@@ -8096,6 +8214,7 @@ Completion report required:
 - Validation/fallback added
 - Human action required
 - Blocked items intentionally not touched
+- Step tracker CSV updated (§17 Step tracker CSV)
 - Next safe task only
 
 Stop after this step.
@@ -8257,6 +8376,7 @@ Completion report required:
 - Validation/fallback added
 - Human action required
 - Blocked items intentionally not touched
+- Step tracker CSV updated (§17 Step tracker CSV)
 - Next safe task only
 
 Stop after this step.
@@ -8426,6 +8546,7 @@ Date               Decision           Reason             Affects            Revi
 2. Human-approved step prompt
 3. Repository code
 4. README / PROJECT_CONTEXT (secondary)
+5. [Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv](./Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv) — progress log; agents must update after each step (§17)
 
 ### schemaVersion
 
@@ -8532,4 +8653,6 @@ Replaces pre-v4.2 `suggest_*` / `request_*` action names.
 | W1-S8 TemporaryInstance | Done |
 | W1-S9 NPC | Done |
 | W1-S10 WorldDefinition | Done |
-| W1-S11 WorldSession | Next — use `schemaVersion: "0.2.0"` |
+| W1-S11 WorldSession | Done — `worldSession.ts`, `createWorldSession`, `schemaVersion: "0.2.0"` |
+| W1-S12 DebugEvent | Done — tests, 3 examples, `appendDebugEvent` in `packages/core/debug` |
+| W1-S13 AIResult | Next |

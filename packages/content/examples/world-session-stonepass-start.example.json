@@ -1,0 +1,28 @@
+{
+  "id": "session_stonepass_demo_001",
+  "schemaVersion": "0.2.0",
+  "worldId": "world_stonepass_valley",
+  "worldVersionId": "world_stonepass_valley_v1",
+  "currentBeatId": "beat_ogre_bridge",
+  "ledger": {
+    "activeFlags": [],
+    "resolvedFlags": [],
+    "unlockedGoals": [],
+    "completedGoals": [],
+    "discoveredLocations": [],
+    "worldEvents": []
+  },
+  "turnNumber": 0,
+  "choiceHistory": [],
+  "debugEvents": [
+    {
+      "id": "debug_session_loaded_001",
+      "turnNumber": 0,
+      "type": "session_loaded",
+      "summary": "World session started at ogre bridge beat.",
+      "metadata": {
+        "worldVersionId": "world_stonepass_valley_v1"
+      }
+    }
+  ]
+}

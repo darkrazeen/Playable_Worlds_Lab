@@ -1,0 +1,10 @@
+{
+  "id": "debug_fallback_director_001",
+  "turnNumber": 2,
+  "type": "fallback_used",
+  "summary": "Director suggestion failed validation; used deterministic next beat.",
+  "metadata": {
+    "provider": "fake",
+    "validationErrors": ["confidence out of range"]
+  }
+}

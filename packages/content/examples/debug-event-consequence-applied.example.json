@@ -1,0 +1,10 @@
+{
+  "id": "debug_consequence_fight_ogre",
+  "turnNumber": 1,
+  "type": "consequence_applied",
+  "summary": "Applied consequence_fight_ogre.",
+  "metadata": {
+    "consequenceId": "consequence_fight_ogre",
+    "choiceId": "fight_ogre"
+  }
+}

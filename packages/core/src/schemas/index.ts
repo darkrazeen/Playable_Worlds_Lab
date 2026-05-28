@@ -103,3 +103,25 @@ export {
   WorldIdSchema,
   type WorldDefinition,
 } from "./worldDefinition.js";
+export {
+  DebugEventIdSchema,
+  DebugEventSchema,
+  DebugEventTypeSchema,
+  parseDebugEvent,
+  safeParseDebugEvent,
+  type DebugEvent,
+  type DebugEventType,
+} from "./debugEvent.js";
+export {
+  ChoiceHistorySchema,
+  ChoiceIdSchema,
+  createWorldSession,
+  parseWorldSession,
+  safeParseWorldSession,
+  StoryBeatIdSchema,
+  WorldSessionIdSchema,
+  WorldSessionSchema,
+  WorldVersionIdSchema,
+  type CreateWorldSessionInput,
+  type WorldSession,
+} from "./worldSession.js";

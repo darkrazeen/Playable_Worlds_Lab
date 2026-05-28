@@ -2,3 +2,4 @@
 export const CORE_PACKAGE = "@playable-worlds/core";
 
 export * from "./schemas/index.js";
+export * from "./debug/index.js";

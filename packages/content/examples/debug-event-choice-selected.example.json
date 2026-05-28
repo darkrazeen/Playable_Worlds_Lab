@@ -1,0 +1,10 @@
+{
+  "id": "debug_choice_fight_ogre",
+  "turnNumber": 1,
+  "type": "choice_selected",
+  "summary": "Player chose to fight the ogre.",
+  "metadata": {
+    "choiceId": "fight_ogre",
+    "beatId": "beat_ogre_bridge"
+  }
+}
