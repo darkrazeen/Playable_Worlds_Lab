@@ -6,7 +6,8 @@ World data and JSON fixtures — **no runtime logic**.
 
 - `worlds/stonepass/` — canonical Stonepass Valley (`stonepass-valley.world.json`)
 - `examples/` — schema example fixtures and invalid validator demos
-- `src/index.ts` — package marker (loader API arrives in W2-S1)
+- `src/paths.ts` — `contentRoot`, `worldsDir`, `examplesDir`, canonical Stonepass paths
+- `src/index.ts` — re-exports path constants
 
 ## Depends on
 
