@@ -1,0 +1,9 @@
+{
+  "id": "npc_ogre",
+  "name": "Bridge Ogre",
+  "role": "blocker",
+  "description": "A hulking ogre guarding the only bridge into Stonepass Valley.",
+  "attitude": "hostile",
+  "toneRules": ["gruff", "simple speech", "teen-safe threats"],
+  "knownFlags": ["ogre_blocks_bridge", "bridge_open"]
+}

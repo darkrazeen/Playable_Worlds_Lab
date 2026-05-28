@@ -67,3 +67,39 @@ export {
   type DirectorDecision,
   type DirectorDecisionAction,
 } from "./directorDecision.js";
+export {
+  InstanceCleanupBehaviorSchema,
+  parseTemporaryInstance,
+  parseTemporaryInstanceRoom,
+  RoomInteractionListSchema,
+  RoomInteractionSchema,
+  safeParseTemporaryInstance,
+  safeParseTemporaryInstanceRoom,
+  TemporaryInstanceRoomIdListSchema,
+  TemporaryInstanceRoomIdSchema,
+  TemporaryInstanceRoomSchema,
+  TemporaryInstanceSchema,
+  TemporaryInstanceTypeSchema,
+  type InstanceCleanupBehavior,
+  type TemporaryInstance,
+  type TemporaryInstanceRoom,
+  type TemporaryInstanceType,
+} from "./temporaryInstance.js";
+export {
+  NpcRoleSchema,
+  NpcSchema,
+  NpcToneRuleListSchema,
+  NpcToneRuleSchema,
+  parseNpc,
+  safeParseNpc,
+  type Npc,
+} from "./npc.js";
+export { CURRENT_SCHEMA_VERSION, SchemaVersionSchema } from "./schemaVersion.js";
+export {
+  createWorldDefinitionShell,
+  parseWorldDefinition,
+  safeParseWorldDefinition,
+  WorldDefinitionSchema,
+  WorldIdSchema,
+  type WorldDefinition,
+} from "./worldDefinition.js";

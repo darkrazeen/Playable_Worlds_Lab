@@ -1,0 +1,9 @@
+{
+  "id": "npc_elder",
+  "name": "Elder Mara",
+  "role": "elder",
+  "description": "The village elder who watches over Stonepass from the town square.",
+  "attitude": "neutral",
+  "toneRules": ["wise", "warm but cautious", "heroic fantasy"],
+  "knownFlags": ["ogre_defeated", "dragon_awake"]
+}

@@ -1,0 +1,36 @@
+{
+  "id": "instance_hidden_cave",
+  "title": "The Hidden Cave",
+  "type": "cave",
+  "description": "A unstable cave exposed by the landslide beneath Stonepass Bridge.",
+  "entranceText": "Cold air spills from a jagged opening in the cliff. Loose stones still skitter down the slope.",
+  "requiredEntryFlags": ["landslide_triggered"],
+  "rooms": [
+    {
+      "id": "room_cave_entrance",
+      "title": "Cave Mouth",
+      "description": "Mud and broken roots line the narrow entrance.",
+      "interactions": ["inspect_mud", "listen_for_drips"],
+      "connectedRoomIds": ["room_fallen_rocks"]
+    },
+    {
+      "id": "room_fallen_rocks",
+      "title": "Fallen Rocks",
+      "description": "A pile of boulders blocks the path deeper into the cave.",
+      "interactions": ["climb_rocks", "search_for_gaps"],
+      "encounter": "encounter_cave_bats",
+      "connectedRoomIds": ["room_cave_entrance", "room_dragon_chamber"]
+    },
+    {
+      "id": "room_dragon_chamber",
+      "title": "Dragon Chamber",
+      "description": "A vast chamber opens ahead. Something ancient stirs in the dark.",
+      "interactions": ["observe_chamber"],
+      "puzzle": "puzzle_dragon_runes",
+      "connectedRoomIds": ["room_fallen_rocks"]
+    }
+  ],
+  "completionCondition": "reached_dragon_chamber",
+  "completionConsequenceId": "consequence_cave_complete",
+  "cleanupBehavior": "collapse"
+}

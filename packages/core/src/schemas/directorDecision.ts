@@ -2,13 +2,14 @@ import { z } from "zod";
 
 export const DirectorDecisionTargetIdSchema = z.string().min(1);
 
+/** v4.1 canonical Director actions — see Playable_Worlds_Lab_v4_1_FULL_CURSOR.md §22 */
 export const DirectorDecisionActionSchema = z.enum([
-  "suggest_next_beat",
-  "suggest_npc_reaction",
-  "suggest_recap",
-  "suggest_hint",
-  "request_temporary_instance",
-  "suggest_session_wrap_up",
+  "select_next_beat",
+  "generate_consequence",
+  "generate_instance",
+  "generate_npc_reaction",
+  "summarize_world",
+  "suggest_session_wrapup",
 ]);
 
 export const SafetyNoteSchema = z.string().min(1);

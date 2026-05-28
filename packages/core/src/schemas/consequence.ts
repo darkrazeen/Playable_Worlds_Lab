@@ -16,10 +16,13 @@ export const TemporaryInstanceIdListSchema = z.array(TemporaryInstanceIdSchema);
 
 export const NpcIdSchema = z.string().min(1);
 
+/** Merged v4.1 + v4.2 attitude enum — see Playable_Worlds_Lab_v4_1_FULL_CURSOR.md §22 */
 export const NpcAttitudeSchema = z.enum([
-  "hostile",
-  "neutral",
   "friendly",
+  "neutral",
+  "hostile",
+  "afraid",
+  "curious",
   "trusting",
   "fearful",
 ]);
@@ -43,7 +46,7 @@ export const ConsequenceSchema = z.object({
   closeLocations: LocationIdListSchema.default([]),
   visibleChanges: VisibleChangeListSchema.default([]),
   npcUpdates: z.array(NpcAttitudeUpdateSchema).default([]),
-  startTemporaryInstanceIds: TemporaryInstanceIdListSchema.default([]),
+  temporaryInstances: TemporaryInstanceIdListSchema.default([]),
 });
 
 export type Consequence = z.infer<typeof ConsequenceSchema>;

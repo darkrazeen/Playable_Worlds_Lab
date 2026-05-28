@@ -59,7 +59,7 @@ The first proof world is **Stonepass Valley** — a compact fantasy scenario use
 
 ## Project Status
 
-**Status:** Early implementation — **Phase 0 / W1-S1–S7 complete.** Monorepo skeleton + core schemas through `DirectorDecision`. Stonepass content and runtime are not started yet.
+**Status:** Early implementation — **Phase 0 / W1-S1–S10 complete.** Monorepo skeleton + core schemas through `WorldDefinition`. Stonepass full JSON and runtime are not started yet.
 
 Playable Worlds Lab should be treated as an active experimental product and engineering prototype. The current priority is to build the foundation correctly, not to overbuild visuals, social systems, marketplaces, or multiplayer too early.
 
@@ -75,6 +75,8 @@ The first milestone is:
 
 Progress is tracked in `Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv`. Update this table when a step is finished.
 
+**Agent handoff (latest session):** [AGENT_SESSION_HANDOFF.md](./AGENT_SESSION_HANDOFF.md) — current state, v4.2 contract, next step W1-S11.
+
 **Future ideas (not step-tracker work yet):** see [Future_Features/](./Future_Features/README.md) — quest generator, [quest blueprint vs AI flavor](./Future_Features/Quest_Generation.md#quest-foundation-vs-ai-flavor-creator-contract).
 
 | Step ID | Phase | Name | Status |
@@ -86,7 +88,10 @@ Progress is tracked in `Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv`. Updat
 | **W1-S5** | Phase 0 — Foundation | Create Consequence schema | **Done** |
 | **W1-S6** | Phase 0 — Foundation | Create WorldLedger and WorldEvent schemas | **Done** |
 | **W1-S7** | Phase 0 — Foundation | Create DirectorDecision schema | **Done** |
-| W1-S8 … W1-S16 | Phase 0 — Foundation | Remaining schemas, validator, Stonepass JSON, FakeProvider | Not started |
+| **W1-S8** | Phase 0 — Foundation | Create TemporaryInstance schema | **Done** |
+| **W1-S9** | Phase 0 — Foundation | Create NPC schema | **Done** |
+| **W1-S10** | Phase 0 — Foundation | Create WorldDefinition schema | **Done** |
+| W1-S11 … W1-S16 | Phase 0 — Foundation | WorldSession, DebugEvent, AIResult, validator, Stonepass JSON, FakeProvider | Not started |
 | W2-S1 … | Phase 1+ | Text runtime, AI, instances, UI, etc. | Not started |
 
 **W1-S1 done when (met):**
@@ -104,7 +109,19 @@ Progress is tracked in `Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv`. Updat
 
 **W1-S7 done when (met):** `DirectorDecisionSchema` in `packages/core`; allowed `action` enum with required `targetId`/`reason` and `confidence` in `0..1`; invalid action, missing target, and out-of-range confidence fail; `npm test` includes DirectorDecision schema tests.
 
-**Next step:** W1-S8 — Create TemporaryInstance schema in `packages/core`.
+**W1-S8 done when (met):** `TemporaryInstanceSchema` and `TemporaryInstanceRoomSchema` in `packages/core`; hidden-cave example passes; missing entrance text, completion condition, exit consequence, or rooms fail; `npm test` includes temporary instance schema tests.
+
+**W1-S9 done when (met):** `NpcSchema` in `packages/core`; ogre and elder examples pass; missing name and invalid attitude fail; `toneRules` and `knownFlags` validate and default to `[]`; `npm test` includes NPC schema tests.
+
+**W1-S10 done when (met):** `WorldDefinitionSchema` in `packages/core`; minimal Stonepass-like example passes at `schemaVersion: "0.2.0"`; missing `startingBeatId` or components fail; `npm test` includes WorldDefinition schema tests.
+
+**Next step:** W1-S11 — Create WorldSession schema in `packages/core`.
+
+### Data contract (v4.2 hybrid)
+
+**Source priority:** [Playable_Worlds_Lab_v4_1_FULL_CURSOR.md](./Playable_Worlds_Lab_v4_1_FULL_CURSOR.md) — §22 on conflicts, otherwise §9 and step cards. New worlds and sessions use `schemaVersion: "0.2.0"`.
+
+W1-S5–S9 schemas were aligned to v4.2 (v4.1 naming spine + v4.2 extensions). Key renames: `worldEvents`, `resolvedFlags`, `unlockedGoals`, `temporaryInstances`, `requiredEntryFlags`, `completionConsequenceId`, Director `select_next_beat` / `generate_*` actions.
 
 ---
 
@@ -179,7 +196,7 @@ playable-worlds-lab/
   Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv
 ```
 
-**Not created yet:** `WorldDefinition`, `validateWorldDefinition`, Stonepass JSON, AI providers, game runtime, Supabase, `scripts/validate-content.ts`.
+**Not created yet:** `validateWorldDefinition`, full Stonepass world file (`packages/content/worlds/stonepass`), AI providers, game runtime, Supabase, `scripts/validate-content.ts`.
 
 ---
 

@@ -1,7 +1,8 @@
 import { z } from "zod";
 
-import { GoalIdListSchema, LocationIdListSchema } from "./consequence.js";
+import { GoalIdListSchema } from "./consequence.js";
 import { FlagIdListSchema } from "./playerChoice.js";
+import { LocationIdListSchema } from "./consequence.js";
 
 export const WorldEventIdSchema = z.string().min(1);
 
@@ -25,11 +26,11 @@ export const WorldEventSchema = z.object({
 
 export const WorldLedgerSchema = z.object({
   activeFlags: FlagIdListSchema.default([]),
-  completedFlags: FlagIdListSchema.default([]),
-  activeGoals: GoalIdListSchema.default([]),
+  resolvedFlags: FlagIdListSchema.default([]),
+  unlockedGoals: GoalIdListSchema.default([]),
   completedGoals: GoalIdListSchema.default([]),
   discoveredLocations: LocationIdListSchema.default([]),
-  events: z.array(WorldEventSchema).default([]),
+  worldEvents: z.array(WorldEventSchema).default([]),
 });
 
 export type WorldEvent = z.infer<typeof WorldEventSchema>;

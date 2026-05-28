@@ -25,11 +25,11 @@ const validEvent = {
 
 const validPostOgreLedger = {
   activeFlags: ["ogre_defeated", "bridge_open", "landslide_triggered"],
-  completedFlags: [],
-  activeGoals: ["goal_reach_valley"],
+  resolvedFlags: [],
+  unlockedGoals: ["goal_reach_valley"],
   completedGoals: [],
   discoveredLocations: ["location_hidden_cave"],
-  events: [validEvent],
+  worldEvents: [validEvent],
 };
 
 describe("WorldEventSchema", () => {
@@ -75,7 +75,7 @@ describe("WorldLedgerSchema", () => {
     expect(result.success).toBe(true);
     if (result.success) {
       expect(result.data.activeFlags).toEqual([]);
-      expect(result.data.events).toEqual([]);
+      expect(result.data.worldEvents).toEqual([]);
       expect(result.data.discoveredLocations).toEqual([]);
     }
   });
@@ -83,27 +83,27 @@ describe("WorldLedgerSchema", () => {
   it("creates an empty ledger via createEmptyWorldLedger", () => {
     const ledger = createEmptyWorldLedger();
     expect(ledger.activeFlags).toEqual([]);
-    expect(ledger.completedFlags).toEqual([]);
-    expect(ledger.activeGoals).toEqual([]);
+    expect(ledger.resolvedFlags).toEqual([]);
+    expect(ledger.unlockedGoals).toEqual([]);
     expect(ledger.completedGoals).toEqual([]);
     expect(ledger.discoveredLocations).toEqual([]);
-    expect(ledger.events).toEqual([]);
+    expect(ledger.worldEvents).toEqual([]);
   });
 
-  it("accepts a post-ogre ledger with flags, goals, locations, and events", () => {
+  it("accepts a post-ogre ledger with flags, goals, locations, and worldEvents", () => {
     const result = WorldLedgerSchema.safeParse(validPostOgreLedger);
     expect(result.success).toBe(true);
     if (result.success) {
       expect(result.data.activeFlags).toContain("ogre_defeated");
-      expect(result.data.activeGoals).toContain("goal_reach_valley");
+      expect(result.data.unlockedGoals).toContain("goal_reach_valley");
       expect(result.data.discoveredLocations).toContain("location_hidden_cave");
-      expect(result.data.events).toHaveLength(1);
+      expect(result.data.worldEvents).toHaveLength(1);
     }
   });
 
   it("parses via parseWorldLedger helper", () => {
     const ledger = parseWorldLedger(validPostOgreLedger);
-    expect(ledger.events[0]?.summary).toBe("Player defeated the ogre at the bridge.");
+    expect(ledger.worldEvents[0]?.summary).toBe("Player defeated the ogre at the bridge.");
   });
 
   it("rejects malformed ledger arrays", () => {
@@ -111,7 +111,7 @@ describe("WorldLedgerSchema", () => {
       WorldLedgerSchema.safeParse({ ...validPostOgreLedger, activeFlags: [""] }).success,
     ).toBe(false);
     expect(
-      WorldLedgerSchema.safeParse({ ...validPostOgreLedger, activeGoals: "bad" }).success,
+      WorldLedgerSchema.safeParse({ ...validPostOgreLedger, unlockedGoals: "bad" }).success,
     ).toBe(false);
     expect(
       WorldLedgerSchema.safeParse({
@@ -119,7 +119,7 @@ describe("WorldLedgerSchema", () => {
         discoveredLocations: [""],
       }).success,
     ).toBe(false);
-    expect(safeParseWorldLedger({ ...validPostOgreLedger, events: "bad" }).success).toBe(
+    expect(safeParseWorldLedger({ ...validPostOgreLedger, worldEvents: "bad" }).success).toBe(
       false,
     );
   });
@@ -128,7 +128,7 @@ describe("WorldLedgerSchema", () => {
     expect(
       WorldLedgerSchema.safeParse({
         ...validPostOgreLedger,
-        events: [{ ...validEvent, summary: "" }],
+        worldEvents: [{ ...validEvent, summary: "" }],
       }).success,
     ).toBe(false);
   });

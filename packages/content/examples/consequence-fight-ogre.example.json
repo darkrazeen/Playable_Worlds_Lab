@@ -5,6 +5,7 @@
   "removeFlags": ["ogre_blocks_bridge"],
   "unlockGoals": ["goal_reach_valley"],
   "exposeLocations": ["location_hidden_cave"],
+  "temporaryInstances": ["instance_hidden_cave"],
   "visibleChanges": [
     "The ogre collapses and the bridge is passable.",
     "Rocks tumble from the cliffs, revealing a hidden cave mouth."

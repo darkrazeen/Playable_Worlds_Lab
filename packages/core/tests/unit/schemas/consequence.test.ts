@@ -28,7 +28,7 @@ const validFightOgre = {
   closeLocations: ["location_ogre_camp"],
   visibleChanges: ["The ogre collapses. Rocks tumble from the cliffs."],
   npcUpdates: [{ npcId: "npc_ogre", attitude: "hostile" }],
-  startTemporaryInstanceIds: ["instance_hidden_cave"],
+  temporaryInstances: ["instance_hidden_cave"],
 };
 
 describe("ConsequenceSchema", () => {
@@ -47,6 +47,7 @@ describe("ConsequenceSchema", () => {
     if (result.success) {
       expect(result.data.addFlags).toContain("ogre_defeated");
       expect(result.data.npcUpdates[0]?.npcId).toBe("npc_ogre");
+      expect(result.data.temporaryInstances).toContain("instance_hidden_cave");
     }
   });
 
@@ -66,7 +67,7 @@ describe("ConsequenceSchema", () => {
     expect(consequence.closeLocations).toEqual([]);
     expect(consequence.visibleChanges).toEqual([]);
     expect(consequence.npcUpdates).toEqual([]);
-    expect(consequence.startTemporaryInstanceIds).toEqual([]);
+    expect(consequence.temporaryInstances).toEqual([]);
   });
 
   it("rejects missing id or summary", () => {
@@ -110,7 +111,7 @@ describe("ConsequenceSchema", () => {
     expect(
       ConsequenceSchema.safeParse({
         ...validMinimal,
-        startTemporaryInstanceIds: [""],
+        temporaryInstances: [""],
       }).success,
     ).toBe(false);
   });
