@@ -1,0 +1,107 @@
+{
+  "W1-S1": {
+    "implementation": "Added npm workspaces monorepo: apps/web (Next.js 15 + Tailwind + App Router), packages/core (schemas home), packages/ai (stub), packages/content (fixtures). Root tooling: package.json workspaces, tsconfig, ESLint/Prettier, Vitest config, tests/smoke.test.ts, README, .nvmrc. No game logic in web yet.",
+    "relevance": "Establishes the physical repo layout and CI-friendly scripts (test/typecheck/lint/build) required before any WorldDefinition or runtime work. All later packages depend on this skeleton.",
+    "future": "Enables W1-S2–S16 schema work in packages/core; Phase 1 apps/web world-play UI; packages/ai gateway in Phase 2; content worlds in packages/content; Future_Features/ quest generator and 2D layers attach to same workspace without restructuring.",
+    "tests": "tests/smoke.test.ts (1 test). Verified 2026-05-28: npm test, npm run typecheck, npm run lint, npm run build, npm run dev (shell only).",
+    "evidence": "Repo skeleton verified; smoke test passes."
+  },
+  "W1-S2": {
+    "implementation": "Created packages/core/src/schemas/worldDna.ts and safetyMode.ts with Zod enums (genre, tone, sessionLengthMinutes, coreLoop, consequenceIntensity, aiCreativity, safetyMode teen|adult only). Exported types and parse/safeParse helpers. Examples: world-dna-teen.example.json, world-dna-adult.example.json.",
+    "relevance": "WorldDNA is the tone/safety/loop contract for every world including Stonepass. Teen/adult-only safetyMode is a hard product rule from §4.",
+    "future": "Phase 5 WorldArchitectAgent generates WorldDNA from prompts; creator cockpit DNA editor (W12-S1); remix may patch DNA fields; all generated worlds must validate against this schema before save.",
+    "tests": "packages/core/tests/unit/schemas/worldDna.test.ts (11 tests). Example JSON validation included. Suite at step end: 97 tests passing.",
+    "evidence": "WorldDNA + SafetyMode schemas export from @playable-worlds/core."
+  },
+  "W1-S3": {
+    "implementation": "Created packages/core/src/schemas/playerChoice.ts: id, label, optional description, requiredFlags, blockedByFlags, consequenceId (required). FlagIdSchema reused by beats and ledger.",
+    "relevance": "Every player action in the text runtime resolves through PlayerChoice → consequenceId. Stonepass ogre bridge needs five distinct choice objects.",
+    "future": "Phase 1 choice resolver (W2-S4); conditional routes and replay variation; AI must not invent choice shapes; playtester checks no-op choices (W11-S5).",
+    "tests": "packages/core/tests/unit/schemas/playerChoice.test.ts (9 tests). Example: player-choice-valid.example.json.",
+    "evidence": "Choices validate with deterministic consequence references."
+  },
+  "W1-S4": {
+    "implementation": "Created packages/core/src/schemas/storyBeat.ts composing PlayerChoiceSchema: trigger, availableChoices (min 1), possibleConsequences, optional requiredFlags/blockedByFlags, isEnding, isHidden.",
+    "relevance": "Story beats are the graph nodes of the world engine. Ogre bridge is the first Stonepass beat; later beats gate on flags from consequences.",
+    "future": "W2-S3 beat selector; Phase 3 instance beats; graph generator W8-S1–S5; validateWorldDefinition reachability (W1-S14); Director select_next_beat (Phase 2).",
+    "tests": "packages/core/tests/unit/schemas/storyBeat.test.ts (10 tests). Example: story-beat-ogre-bridge.example.json (5 ogre choices).",
+    "evidence": "StoryBeat validates only with playable structure (choices + possibleConsequences)."
+  },
+  "W1-S5": {
+    "implementation": "Created packages/core/src/schemas/consequence.ts per v4.2 hybrid: addFlags, removeFlags, unlockGoals, completeGoals, exposeLocations, closeLocations, visibleChanges, structured npcUpdates[], temporaryInstances[]. Example consequence-fight-ogre.example.json.",
+    "relevance": "Consequence Engine (Phase 1) applies these objects to WorldLedger. Fight-ogre path sets landslide_triggered and starts cave instance reference.",
+    "future": "W2-S5/W3-S1 consequence application; temporary instance spawn from temporaryInstances[]; NPC attitude updates; health score consequence quality (W6); generated consequences must validate here.",
+    "tests": "packages/core/tests/unit/schemas/consequence.test.ts (8 tests). v4.2 field names per FULL_CURSOR §22.",
+    "evidence": "Consequence validates; fight-ogre example documents flagship flags."
+  },
+  "W1-S6": {
+    "implementation": "Created packages/core/src/schemas/worldLedger.ts: WorldEventSchema + WorldLedgerSchema with activeFlags, resolvedFlags, unlockedGoals, completedGoals, discoveredLocations, worldEvents. Helper createEmptyWorldLedger().",
+    "relevance": "World memory for Stonepass: ogre choice must appear as flags, goals, locations, and typed worldEvents. Session.ledger embeds this schema (W1-S11).",
+    "future": "W3-S3 flag lifecycle; ledger debug UI W3-S4; save/load sessions W9-S5; playtester missing-goal detection W11-S4; share/fork snapshots include ledger state.",
+    "tests": "packages/core/tests/unit/schemas/worldLedger.test.ts (12 tests). Example: world-ledger-post-ogre.example.json.",
+    "evidence": "Empty and post-ogre ledgers validate; v4.2 names (worldEvents not events)."
+  },
+  "W1-S7": {
+    "implementation": "Created packages/core/src/schemas/directorDecision.ts with v4.1 action enum (select_next_beat, generate_consequence, generate_instance, generate_npc_reaction, summarize_world, suggest_session_wrapup), targetId, reason, confidence 0–1, optional safetyNotes.",
+    "relevance": "Structured output contract for AI Director before any provider exists. AI proposes; engine executes—Director never mutates ledger directly.",
+    "future": "W1-S16 FakeProvider returns DirectorDecision; W4-S4 DirectorAgent; AIResult wraps suggestions (W1-S13); debug panel W4-S7; author-time beat suggestions with validation.",
+    "tests": "packages/core/tests/unit/schemas/directorDecision.test.ts (10 tests). Example: director-decision-suggest-beat.example.json.",
+    "evidence": "Only canonical Director actions pass schema."
+  },
+  "W1-S8": {
+    "implementation": "Created packages/core/src/schemas/temporaryInstance.ts and TemporaryInstanceRoomSchema: requiredEntryFlags, completionConsequenceId, cleanupBehavior (+ remain_inactive), optional description, connectedRoomIds on rooms.",
+    "relevance": "Stonepass proof chain: landslide exposes instance_hidden_cave with rooms, encounter, puzzle, collapse cleanup.",
+    "future": "Phase 3 W5-S1–S7 instance runtime, room navigation, encounters, puzzles; 2D/3D can render same room graph later; generated instances must validate before play.",
+    "tests": "packages/core/tests/unit/schemas/temporaryInstance.test.ts (15 tests). Example: temporary-instance-hidden-cave.example.json.",
+    "evidence": "Cave-shaped instance validates before Phase 3 runtime."
+  },
+  "W1-S9": {
+    "implementation": "Created packages/core/src/schemas/npc.ts: id, name, role, description, optional attitude (merged enum incl. trusting/fearful), toneRules, knownFlags.",
+    "relevance": "Ogre and elder profiles for Stonepass dialogue tone and NPC memory. consequence.npcUpdates references npcId.",
+    "future": "W4-S5 NPCReactionAgent; Stonepass showcase elder/ogre arcs; public UGC needs toneRules + safetyMode; Future_Features regional quest NPCs use same contract.",
+    "tests": "packages/core/tests/unit/schemas/npc.test.ts (11 tests). Examples: npc-ogre.example.json, npc-elder.example.json.",
+    "evidence": "NPC profiles validate for Stonepass content authoring."
+  },
+  "W1-S10": {
+    "implementation": "Created packages/core/src/schemas/worldDefinition.ts + schemaVersion.ts (CURRENT_SCHEMA_VERSION 0.2.0). Composes WorldDNA, storyBeats, consequences, npcs, optional temporaryInstances. createWorldDefinitionShell() helper. Example world-definition-stonepass-minimal.example.json (composition demo only).",
+    "relevance": "Single loadable world object for Stonepass and all official/generated worlds. Shape validation only until W1-S14 cross-file checks.",
+    "future": "W1-S15 canonical world file; W2-S1 loader; W7-S5 generated worlds; fork/remix W10; health score W6; 2D/3D read same WorldDefinition.",
+    "tests": "packages/core/tests/unit/schemas/worldDefinition.test.ts (10 tests). Minimal Stonepass-like fixture passes at schemaVersion 0.2.0.",
+    "evidence": "WorldDefinition composes all Phase 0 contracts; graph validation deferred to W1-S14."
+  },
+  "W1-S11": {
+    "implementation": "Created packages/core/src/schemas/worldSession.ts (currentBeatId, ledger, turnNumber, choiceHistory, optional activeTemporaryInstanceId/currentTemporaryRoomId, debugEvents). Created debugEvent.ts (§9) for composition. createWorldSession(), parse/safeParse. Example world-session-stonepass-start.example.json.",
+    "relevance": "Canonical save-state: not React local state. Every play session ties to worldId/worldVersionId and v4.2 ledger.",
+    "future": "W2-S2 session init; W9 save/load; Phase 3 instance fields; debug trace UI; multiplayer would need session sync later (out of MVP).",
+    "tests": "packages/core/tests/unit/schemas/worldSession.test.ts (11 tests). npm test: 108 passed after step.",
+    "evidence": "New session parses; bad ledger/beat/turn rejected."
+  },
+  "W1-S12": {
+    "implementation": "Extended W1-S11 debugEvent.ts with dedicated tests. Added packages/core/src/debug/appendDebugEvent.ts (immutable session append). Examples: debug-event-choice-selected, debug-event-consequence-applied, debug-event-fallback-used.",
+    "relevance": "Explains why state changed (choice, consequence, fallback, validation_failed). Required for creator/debug panels and AI failure transparency.",
+    "future": "W3-S5 runtime logs every transition; W4-S6 fallback_used events; W4-S7 reasoning panel; playtest reports cite debug trail.",
+    "tests": "debugEvent.test.ts (8 tests); appendDebugEvent.test.ts (2 tests). npm test: 118 passed.",
+    "evidence": "DebugEvent available for runtime and UI traces; append helper exported."
+  },
+  "W1-S13": {
+    "implementation": "Created packages/core/src/schemas/aiResult.ts: AIResultSchema, createAIResultSchema(valueSchema) for typed value (e.g. DirectorDecision), parse/safeParse/parseTypedAIResult. Examples: ai-result-success-director, ai-result-validation-failure.",
+    "relevance": "Wrapper for all AI Gateway responses: ok, provider, fallbackUsed, validationErrors, raw, latencyMs, generationSeed. Enforces AI proposes / validators check / engine executes.",
+    "future": "W1-S16 FakeProvider returns AIResult; W4-S1 Gateway; all agents (Director, NPC, Architect, Playtester, Critic); never pass raw model JSON into gameplay.",
+    "tests": "packages/core/tests/unit/schemas/aiResult.test.ts (13 tests). npm test: 131 passed.",
+    "evidence": "Success and failure AIResult objects validate; typed Director wrapper works."
+  },
+  "W1-S14": {
+    "implementation": "Created packages/core/src/validators/validateWorldDefinition.ts and parseAndValidateWorldDefinition(): reference integrity, duplicate IDs, flag vocabulary, reachability fixpoint from startingBeatId, dead-end choice checks. Exported from @playable-worlds/core.",
+    "relevance": "Second validation layer (§11). Prevents broken Stonepass/graph worlds from reaching runtime or generation pipelines.",
+    "future": "W1-S15 Stonepass must pass; W2-S1 loader calls this; W7-S5 generated worlds; W6 health score reuses checks; W11 playtester; share/fork blocked on invalid worlds.",
+    "tests": "packages/core/tests/unit/validators/validateWorldDefinition.test.ts (11 tests). world-definition-stonepass-minimal.example.json passes. npm test: 142 passed.",
+    "evidence": "Whole-world validation exists; broken fixtures fail with error paths."
+  },
+  "W1-S15": {
+    "implementation": "PLANNED (Status Next): Create packages/content/worlds/stonepass/stonepass-valley.world.json — full v1 proof graph: 5 ogre consequences, post-ogre beats, landslide→cave→dragon chain. Integration test load + parse + validateWorldDefinition. Invalid fixture for negative test.",
+    "relevance": "Canonical authored Stonepass data for W2-S1 loader and Phase 1–3 proof playthrough. Separates schema demo (examples/) from production world path (worlds/stonepass/).",
+    "future": "W2-S7 path tests; W5 cave chain; W6 end-to-end Stonepass; showcase v2 content extends same file; Mosswood quest (README) authors as additional WorldDefinition later.",
+    "tests": "PLANNED: stonepassWorld.test.ts or validator integration test; must run npm test after authoring.",
+    "evidence": "Awaiting implementation. Minimal example already passes validator — full world not yet at worlds/stonepass/."
+  }
+}

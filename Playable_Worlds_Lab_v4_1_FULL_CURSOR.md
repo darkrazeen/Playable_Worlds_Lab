@@ -13,7 +13,7 @@
 
 Use this file as the project source-of-truth context. Do not skip the step cards. Do not jump phases. When implementing in Cursor, copy exactly one step card at a time and require Cursor to stop after the completion report.
 
-**After every completed step:** Update [Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv](./Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv) — see **§17 Step tracker CSV** (required; do not skip).
+**After every completed or in-progress step:** Update [Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv](./Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv) — see **§17 Step tracker CSV** (required; fill all documentation columns; do not skip).
 
 **Contract v4.2:** See **§22** at the bottom of this file for hybrid schema field names and `schemaVersion: "0.2.0"` (supersedes §9 on listed conflicts).
 
@@ -194,10 +194,12 @@ character-builder system.
  Completion report                 Review evidence before next Report files changed, tests
                                    step.                         run, result, blockers, next
                                                                  safe step.
- Step tracker CSV                  Import/sync tracker in        After each step: set Status,
-                                   Notion if used.               fill Completion Evidence,
-                                                                 update contract columns if
-                                                                 scope shifted (§17).
+ Step tracker CSV                  Import/sync tracker in        After each step: set Status;
+                                   Notion if used.               fill Completion Evidence +
+                                                                 Implementation Added Changed,
+                                                                 Project Relevance, Future
+                                                                 Features Impact, Tests And
+                                                                 Verification, Last Updated (§17).
 
 Source priority order
  Priority                                           Source
@@ -984,29 +986,51 @@ report before moving to the next step.
 
 **File:** [Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv](./Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv)
 
-AI coding tools **must** update this CSV as part of the completion report, **before stopping**. Do not defer to a later session or assume the human will update it.
+AI coding tools **must** update this CSV as part of the completion report, **before stopping**. Do not defer to a later session or assume the human will update it. The tracker is the **long-term project memory** for humans, Notion imports, and future agents — write thoroughly so detail is not lost between sessions.
 
-| When | Action |
+#### Status values
+
+| Status | When to use |
 | --- | --- |
-| Step finished and accepted | Set that row's `Status` to `Complete`. |
-| Human approved next step | Set the next row's `Status` to `Next` (optional but recommended). |
-| Still pending | Leave `Status` as `Not started`. |
+| `Complete` | Step finished, tests run, acceptance met, human approved (or session handoff records done). |
+| `Next` | Human approved this as the **next** step to implement — fill planned scope in documentation columns (prefix with `PLANNED:` where not built yet). |
+| `In progress` | Step started but not finished (paused mid-work only). |
+| `Not started` | No work yet — leave documentation columns **empty**. |
 
-**`Completion Evidence` (required notes):** Summarize what was built — schema/runtime file paths, unit test file and count, example JSON under `packages/content/examples/`, npm test result, and any on-the-fly contract changes (e.g. v4.2 field renames per §22). Keep it factual and import-safe (quote fields that contain commas).
+When completing a step, set that row to `Complete` and set the **next** approved row to `Next` (recommended).
 
-**Update other columns when the implementation diverged from the step card:**
+#### Documentation columns (fill for `Complete`, `Next`, and `In progress`)
 
-- `Contracts Touched` — e.g. v4.2 hybrid labels, `schemaVersion: "0.2.0"`.
-- `Validators Required` — actual Zod rules or cross-file checks added.
-- `Tests Required` / `Done When` — only if the done definition changed during the step.
+These columns were added so each step records **what changed**, **why it matters**, **what it unlocks**, and **how it was verified**. Be specific; future agents and showcase/v2 work depend on this file.
 
-**Do not fill** `Commit Hash` unless the human provides a hash.
+| Column | Purpose | What to write (be thorough) |
+| --- | --- | --- |
+| **Completion Evidence** | One-screen summary | 1–3 sentences: step outcome, date if known, pass/fail gate. Example: `WorldSession schema done; 108 tests passing (2026-05-28).` |
+| **Implementation Added Changed** | Files, APIs, data | Bullet-style in one cell: every **new/changed** path (`packages/core/src/...`, `apps/web/...`, `packages/content/examples/...`, `packages/content/worlds/...`). List exports (`parseX`, `createY`), schemas, validators, JSON fixtures. Note contract deltas (v4.2 renames, `schemaVersion: "0.2.0"`). Say what was **not** built if scope was split (e.g. DebugEvent schema in W1-S11, tests in W1-S12). |
+| **Project Relevance** | Why this step exists | Tie to **Stonepass proof chain**, phase gate, or core mantra (AI proposes → validators check → engine executes). Explain which pillar this enables (WorldDefinition, ledger, session, validation, AI wrapper, etc.). |
+| **Future Features Impact** | Downstream use | List **step IDs and phases** unlocked (e.g. W2-S1 loader, W4-S4 Director, W5 cave, W7 generated worlds). Mention [Future_Features/](./Future_Features/README.md), showcase v2, 2D/3D output layers, quest generator, share/fork, playtester — only what this step actually enables. |
+| **Tests And Verification** | Proof the step works | Test **file paths** and **counts** added; example JSON validated; commands run (`npm test`, `npm run typecheck`, `npm run lint`) with **exact pass counts** and date; any failing test left unfixed (should be none). |
+| **Last Updated** | ISO date | `YYYY-MM-DD` when the row was last updated. Use `YYYY-MM-DD (planned)` for `Next` rows. |
 
-**Status values:** `Complete` | `Next` | `Not started` (use `In progress` only if a step is explicitly paused mid-work).
+**CSV rules:** Fields containing commas or quotes must be wrapped in double quotes; escape internal `"` as `""`. Notion re-import may truncate very long cells — prefer clear sentences over vague bullets.
 
-**Also update** [AGENT_SESSION_HANDOFF.md](./AGENT_SESSION_HANDOFF.md) when the human uses session handoff — tracker CSV and handoff should agree on phase progress.
+#### Step-card columns (update when implementation diverged)
 
-This requirement applies to **every** step card below (W1-S1 through W12-S7), in addition to each card's "Completion report required" list.
+- `Contracts Touched` — actual contracts and version notes (e.g. v4.2 hybrid).
+- `Validators Required` — Zod rules and/or cross-file rules shipped.
+- `Tests Required` / `Done When` — only if the definition of done changed during the step.
+
+**Do not fill** `Commit Hash` unless the human provides a hash. Leave `Blocked By` empty unless blocked.
+
+#### Reference: enrichment backfill
+
+Completed Phase 0 rows **W1-S1 through W1-S14** and planned **W1-S15** were backfilled 2026-05-28. See [scripts/step-tracker-enrichment.json](./scripts/step-tracker-enrichment.json) for the text source; agents should **overwrite** those cells with richer detail when a step is touched again.
+
+#### Also update
+
+[AGENT_SESSION_HANDOFF.md](./AGENT_SESSION_HANDOFF.md) when used — tracker and handoff must agree on progress.
+
+This requirement applies to **every** step card (W1-S1 through W12-S7), in addition to each card's "Completion report required" list and the bullet **Step tracker CSV updated (§17 Step tracker CSV)**.
 
 
 ### Week 1
