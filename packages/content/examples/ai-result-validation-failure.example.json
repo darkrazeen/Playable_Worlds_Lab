@@ -1,0 +1,16 @@
+{
+  "ok": false,
+  "raw": {
+    "action": "suggest_next_beat",
+    "targetId": "beat_missing",
+    "confidence": 2
+  },
+  "provider": "fake",
+  "fallbackUsed": true,
+  "validationErrors": [
+    "action: Invalid enum value. Expected select_next_beat | generate_consequence | ...",
+    "confidence: Number must be less than or equal to 1"
+  ],
+  "latencyMs": 8,
+  "generationSeed": "seed_director_bad_001"
+}

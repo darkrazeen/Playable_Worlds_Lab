@@ -59,13 +59,13 @@ Tracked in [Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv](./Playable_Worlds_
 | W1-S10 | WorldDefinition schema | **Done** |
 | W1-S11 | WorldSession schema | **Done** |
 | W1-S12 | DebugEvent schema | **Done** |
-| W1-S13 | AIResult contract | **Not started ← NEXT** |
-| W1-S14 | validateWorldDefinition | Not started |
-| W1-S15 | Stonepass Valley world JSON | Not started |
+| W1-S13 | AIResult contract | **Done** |
+| W1-S14 | validateWorldDefinition | **Done** |
+| W1-S15 | Stonepass Valley world JSON | **Not started ← NEXT** |
 | W1-S16 | FakeProvider + AIProvider | Not started |
 | W2-S1+ | Phase 1 text runtime | Not started |
 
-**Phase 0 completion:** 12 / 16 steps (75%).
+**Phase 0 completion:** 14 / 16 steps (87.5%).
 
 ---
 
@@ -179,7 +179,7 @@ playable-worlds-lab/
 | `WorldSession` schema | W1-S11 |
 | `DebugEvent` schema | W1-S12 |
 | `AIResult` wrapper | W1-S13 |
-| `validateWorldDefinition.ts` (graph/reference checks) | W1-S14 |
+| ~~`validateWorldDefinition.ts` (graph/reference checks)~~ | W1-S14 **Done** |
 | Full Stonepass JSON at `packages/content/worlds/stonepass/` | W1-S15 |
 | FakeProvider / AIProvider | W1-S16 |
 | World loader, consequence engine, text play UI | Phase 1 (W2-*) |
@@ -299,4 +299,4 @@ DirectorDecision (W1-S7) ──► Phase 2 AI (not yet)
 
 ---
 
-*End of agent session handoff. Next approved implement: **W1-S13 AIResult contract**.*
+*End of agent session handoff. Next approved implement: **W1-S15 Stonepass Valley world JSON** at `packages/content/worlds/stonepass/`.*

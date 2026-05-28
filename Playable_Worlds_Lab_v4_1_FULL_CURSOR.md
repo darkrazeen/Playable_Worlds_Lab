@@ -8655,4 +8655,6 @@ Replaces pre-v4.2 `suggest_*` / `request_*` action names.
 | W1-S10 WorldDefinition | Done |
 | W1-S11 WorldSession | Done — `worldSession.ts`, `createWorldSession`, `schemaVersion: "0.2.0"` |
 | W1-S12 DebugEvent | Done — tests, 3 examples, `appendDebugEvent` in `packages/core/debug` |
-| W1-S13 AIResult | Next |
+| W1-S13 AIResult | Done — `aiResult.ts`, `createAIResultSchema`, typed Director wrapper |
+| W1-S14 validateWorldDefinition | Done — `validateWorldDefinition`, `parseAndValidateWorldDefinition` |
+| W1-S15 Stonepass JSON | Next |

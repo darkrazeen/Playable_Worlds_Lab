@@ -1,0 +1,14 @@
+{
+  "ok": true,
+  "value": {
+    "action": "select_next_beat",
+    "targetId": "beat_landslide_aftermath",
+    "reason": "Player defeated the ogre and triggered the landslide; the aftermath beat fits current flags.",
+    "confidence": 0.82,
+    "safetyNotes": ["teen-safe combat resolution"]
+  },
+  "provider": "fake",
+  "fallbackUsed": false,
+  "latencyMs": 12,
+  "generationSeed": "seed_director_001"
+}
