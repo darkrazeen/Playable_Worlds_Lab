@@ -21,9 +21,7 @@ describe("debug goal trace uniqueness", () => {
     expect(afterCave.ok).toBe(true);
 
     const exploreCaveEvents = afterCave.session!.debugEvents.filter(
-      (event) =>
-        event.type === "goal_unlocked" &&
-        event.metadata?.goalId === "goal_explore_cave",
+      (event) => event.type === "goal_unlocked" && event.metadata?.goalId === "goal_explore_cave",
     );
 
     expect(exploreCaveEvents).toHaveLength(1);
