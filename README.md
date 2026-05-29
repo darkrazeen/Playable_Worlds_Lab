@@ -65,9 +65,9 @@ The first proof content is **Stonepass Spire — Floor 1** (legacy file `stonepa
 
 **Status:** **Phase 0 complete (16/16). Phase 1 text runtime complete (W2-S1–S7, W3-S1–S7).** Stonepass Spire Floor 1 runs in core and at `/play` with ledger + debug panels; acceptance tests cover load → init → choice → consequence → ledger/debug and blocked invalid choices. **Next:** **W4-S3** — OpenAI provider placeholder (see [step tracker](./Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv)).
 
-**Verification (2026-05-29):** 258 tests passing (39 files); `npm run typecheck`, `npm run lint`, and `npm run build` green. CI workflow at `.github/workflows/ci.yml`. Human Phase 1 sign-off checklist: `packages/core/docs/phase1-acceptance.md`.
+**Verification (2026-05-29):** **276 tests** passing (45 files); `npm run typecheck`, `npm run lint`, `npm run format:check`, `npm test`, `npm run test:coverage`, and `npm run build` green. CI: `.github/workflows/ci.yml`. Phase 1 checklist: `packages/core/docs/phase1-acceptance.md`. Phase 2 AI layer: `packages/ai/docs/ai-gateway.md`, `packages/ai/docs/fake-provider.md`.
 
-Playable Worlds Lab should be treated as an active experimental product and engineering prototype. The deterministic engine loop works in `@playable-worlds/core` and is wired to the web app at **`/play`**. Phase 1 acceptance is automated; human sign-off unlocks Phase 2 (AI Director). Do not overbuild visuals, social systems, marketplaces, or multiplayer before phase gates.
+Playable Worlds Lab should be treated as an active experimental product and engineering prototype. The deterministic engine loop works in `@playable-worlds/core` and is wired to the web app at **`/play`**. **Phase 1 is complete; Phase 2 is in progress** (W4-S1 AI Gateway and W4-S2 FakeProvider scenarios done; **W4-S3** OpenAI provider is next). Do not overbuild visuals, social systems, marketplaces, or multiplayer before phase gates.
 
 The first milestone is not “build the full game.”
 
@@ -210,7 +210,7 @@ Game logic lives in **`@playable-worlds/core`**; the web app is a thin presentat
 
 ## Current Repository Layout
 
-What exists after W2-S6 (stubs are placeholders for later phases):
+What exists after Phase 1 + W4-S1–S2 (agents and OpenAI provider are still Phase 2 work):
 
 ```text
 playable-worlds-lab/
@@ -219,23 +219,29 @@ playable-worlds-lab/
       app/
         page.tsx                 # Home — link to /play
         play/page.tsx            # Stonepass text play (W2-S6)
-      features/world-play/       # loadStonepassWorld, WorldPlayScreen, runtime wrappers
-      tests/world-play.smoke.test.tsx
+      features/world-play/       # WorldPlayScreen, worldPlayRuntime
+      features/world-debug/      # WorldLedgerPanel, DebugTracePanel (W3-S4–S6)
+      tests/                     # play smoke, phase1 acceptance, debug panels
   packages/
     core/                        # @playable-worlds/core — schemas, validators, runtime (Phase 0–1)
       src/schemas/               # All Zod contracts (schemaVersion 0.2.0)
-      src/validators/            # validateWorldDefinition, parseAndValidateWorldDefinition
-      src/world/                 # loadWorld, loadWorldFromFile (W2-S1)
+      src/consequence/           # consequenceEngine (W3-S1)
+      src/ledger/                # flagLifecycle (W3-S3)
+      src/validators/
+      src/world/                 # loadWorld (W2-S1)
       src/session/               # initializeWorldSession (W2-S2)
-      src/story/                 # selectStoryBeat, beatAccessibility (W2-S3)
-      src/runtime/               # resolvePlayerChoice, applyConsequence (W2-S4–S5)
-      src/debug/                 # appendDebugEvent
+      src/story/                 # selectStoryBeat, advanceSessionBeat
+      src/runtime/               # resolvePlayerChoice, applyPlayerChoice
+      src/debug/
+      docs/                      # phase1-acceptance, beat-progression, flag-lifecycle
       tests/unit/ + tests/integration/
-    ai/                          # @playable-worlds/ai — FakeProvider; gateway/agents stubs (Phase 2+)
+    ai/                          # @playable-worlds/ai — AIGateway (W4-S1), FakeProvider (W4-S2)
       src/contracts/
-      src/providers/
-      src/gateway/               # stub
-      src/agents/                # stub
+      src/providers/             # FakeProvider + Stonepass seed presets
+      src/gateway/               # AIGateway (W4-S1)
+      src/agents/                # DirectorAgent stub (W4-S4+)
+      docs/                      # ai-gateway.md, fake-provider.md
+      tests/unit/gateway/ + tests/unit/providers/
     content/                     # @playable-worlds/content — examples + canonical Stonepass
       examples/                  # JSON fixtures
       worlds/stonepass/          # stonepass-valley.world.json (canonical)
@@ -250,7 +256,7 @@ playable-worlds-lab/
   Playable_Worlds_Lab_v4_1_FULL_CURSOR.md
 ```
 
-**Not created yet:** DirectorAgent / OpenAI provider (Phase 2 W4-S3+), temporary instance runtime (Phase 3). **Done:** AI Gateway (W4-S1)., Supabase persistence, `scripts/validate-content.ts` CLI. **Done in Phase 1:** ogre-path integration tests (W2-S7), consequence engine (W3-S1), ledger + debug panels on `/play` (W3-S4–S6).
+**Not created yet:** DirectorAgent (W4-S4+), OpenAI provider (W4-S3 next), temporary instance runtime (Phase 3), Supabase persistence. **Done:** AI Gateway (W4-S1), FakeProvider seed catalog (W4-S2), `scripts/validate-content.ts` CLI. **Done in Phase 1:** ogre-path tests (W2-S7), consequence engine (W3-S1), ledger + debug panels on `/play` (W3-S4–S7), beat progression on ogre bridge.
 
 ---
 
@@ -308,10 +314,11 @@ npm run build -w @playable-worlds/web
 ### Verify the project
 
 ```bash
-npm test              # Vitest — see tracker for current count (core, ai, web smoke)
-npm run test:coverage # optional coverage report (core, ai, web features)
+npm test              # Vitest — 276 tests (core, ai, web)
+npm run test:coverage # coverage report (CI runs this)
 npm run typecheck     # TypeScript — web + all workspace packages
 npm run lint          # ESLint — all workspaces
+npm run format:check  # Prettier (CI gate)
 npm run build         # Production build — apps/web
 ```
 
@@ -338,7 +345,8 @@ npm run format
 | `npm run dev`          | Next.js dev server (`@playable-worlds/web`) on port 3000                          |
 | `npm run build`        | Next.js production build                                                          |
 | `npm run start`        | Next.js production server (after build)                                           |
-| `npm test`             | Vitest — all workspace tests including `apps/web/tests/world-play.smoke.test.tsx` |
+| `npm test`             | Vitest — 276 tests across core, ai, content, web                                  |
+| `npm run test:coverage`| Coverage report (runs in CI)                                                      |
 | `npm run typecheck`    | `tsc --noEmit` in all workspaces that define it                                   |
 | `npm run lint`         | ESLint in all workspaces (core, ai, content, web)                                 |
 | `npm run format`       | Prettier write                                                                    |
@@ -675,11 +683,9 @@ Use this table when deciding whether to implement part of the reference scenario
 | Save / share / fork                             | Share mini-adventure with others | Phase 6                  |
 | 2D map / enter region visually                  | Same triggers, visual layer      | Phase 8                  |
 
-**Current build status (2026-05-29):** Phase 0 complete. **Phase 1 complete (W2-S1–S7, W3-S1–S7):** deterministic runtime, `/play` UI, ledger + debug panels, beat progression on ogre bridge, ogre-path and Phase 1 acceptance tests. **Not yet:** AI Director (W4-S1+), temporary instance runtime, persistence, share. See [step tracker](./Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv) for `Next` step.
+**Current build status (2026-05-29):** Phase 0 complete. **Phase 1 complete (W2-S1–S7, W3-S1–S7):** deterministic runtime, `/play` UI, ledger + debug panels, beat progression on ogre bridge, Phase 1 acceptance tests. **Phase 2 in progress:** **W4-S1** `AIGateway`, **W4-S2** FakeProvider Stonepass scenarios — **not wired to `/play` yet**. **Next:** W4-S3 OpenAI provider. **Not yet:** DirectorAgent, temporary instance runtime, persistence, share. See [step tracker](./Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv).
 
 ---
-
-## Core Operating Principles
 
 ## Core Operating Principles
 
@@ -1026,6 +1032,8 @@ This matters because AI game systems can become confusing fast. The creator and 
 ### AI Gateway
 
 The AI Gateway is the controlled access layer for all model/provider calls.
+
+**Implemented (W4-S1):** `packages/ai/src/gateway/aiGateway.ts` — `createAIGateway`, request validation, provider dispatch, optional `fallbackValue`. See [packages/ai/docs/ai-gateway.md](./packages/ai/docs/ai-gateway.md). **FakeProvider (W4-S2):** seed catalog and Stonepass director presets — [packages/ai/docs/fake-provider.md](./packages/ai/docs/fake-provider.md).
 
 It should handle:
 
@@ -2137,7 +2145,7 @@ The flagship direction is **[Stonepass Spire](./Future_Features/Stonepass_Spire_
 - **Phase 6 (W9-S7–S9):** `WorldSession.currentFloor` + persistent climb ledger; persistent progression; seeded replay + variation attribution.
 - **Phase 9 (W12-S8):** Variation Explorer UI.
 
-All of it obeys **AI proposes → validators check → engine executes**, stays **text-first** (no 2D until floors are fun as text), and stays inside the MVP boundary (**Tier A only**). Full step cards live in `Playable_Worlds_Lab_v4_1_FULL_CURSOR.md` §17; tracker rows are in the CSV. **Phase gates are unchanged — the next step is W2-S7.**
+All of it obeys **AI proposes → validators check → engine executes**, stays **text-first** (no 2D until floors are fun as text), and stays inside the MVP boundary (**Tier A only**). Full step cards live in `Playable_Worlds_Lab_v4_1_FULL_CURSOR.md` §17; tracker rows are in the CSV. **Current approved step:** **W4-S3** (OpenAI provider placeholder). Spire rows stay `Not started` until each is `Next`.
 
 ---
 
