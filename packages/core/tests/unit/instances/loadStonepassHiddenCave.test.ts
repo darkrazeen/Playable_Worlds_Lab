@@ -10,13 +10,14 @@ import {
   validateTemporaryInstanceEntry,
 } from "../../../src/instances/index.js";
 import { createEmptyWorldLedger } from "../../../src/schemas/worldLedger.js";
+import type { TemporaryInstance } from "../../../src/schemas/temporaryInstance.js";
 import type { WorldDefinition } from "../../../src/schemas/worldDefinition.js";
 import type { WorldSession } from "../../../src/schemas/worldSession.js";
 
-const hiddenCave = {
+const hiddenCave: TemporaryInstance = {
   id: STONEPASS_HIDDEN_CAVE_INSTANCE_ID,
   title: "The Hidden Cave",
-  type: "cave" as const,
+  type: "cave",
   entranceText: "Cold air spills from a jagged opening.",
   requiredEntryFlags: [CAVE_EXPOSED_FLAG],
   rooms: [
@@ -24,11 +25,13 @@ const hiddenCave = {
       id: "room_cave_entrance",
       title: "Cave Mouth",
       description: "Mud lines the narrow entrance.",
+      interactions: [],
+      connectedRoomIds: [],
     },
   ],
   completionCondition: "reached_dragon_chamber",
   completionConsequenceId: "consequence_cave_complete",
-  cleanupBehavior: "collapse" as const,
+  cleanupBehavior: "collapse",
 };
 
 function minimalWorld(): WorldDefinition {
@@ -41,8 +44,8 @@ function minimalWorld(): WorldDefinition {
       genre: "fantasy",
       tone: "heroic",
       sessionLengthMinutes: 30,
-      coreLoop: "explore",
-      consequenceIntensity: "moderate",
+      coreLoop: ["explore"],
+      consequenceIntensity: "medium",
       aiCreativity: "balanced",
       safetyMode: "teen",
     },
