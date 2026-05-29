@@ -11,11 +11,9 @@ import {
 import { safeParseWorldSession } from "../../src/schemas/worldSession.js";
 import { initializeWorldSession } from "../../src/session/initializeWorldSession.js";
 import { selectStoryBeat } from "../../src/story/selectStoryBeat.js";
-import {
-  parseAndValidateWorldDefinition,
-  type WorldDefinition,
-} from "../../src/validators/validateWorldDefinition.js";
+import { parseAndValidateWorldDefinition } from "../../src/validators/validateWorldDefinition.js";
 import { loadWorld } from "../../src/world/loadWorld.js";
+import type { WorldDefinition } from "../../src/schemas/worldDefinition.js";
 import type { WorldSession } from "../../src/schemas/worldSession.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
