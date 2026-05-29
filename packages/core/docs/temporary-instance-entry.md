@@ -45,8 +45,59 @@ const context = resolveSessionTemporaryInstanceRoom(world, session);
 const moved = moveToTemporaryRoom(world, session, "room_fallen_rocks");
 ```
 
+## Instance encounters (W5-S3)
+
+Rooms may declare an optional `encounter` id. Encounter JSON lives under `packages/content/encounters/` and links bounded choices to existing world consequences.
+
+```typescript
+import {
+  applyInstanceEncounterChoice,
+  loadInstanceEncounter,
+  resolveCurrentRoomEncounter,
+} from "@playable-worlds/core";
+
+const resolved = resolveCurrentRoomEncounter(world, session, {
+  kind: "contentRoot",
+  contentRoot: "/path/to/packages/content",
+});
+
+const applied = applyInstanceEncounterChoice(world, session, "scare_bats", {
+  kind: "contentRoot",
+  contentRoot: "/path/to/packages/content",
+});
+```
+
+`applyInstanceEncounterChoice` validates the active instance room hook, applies the linked consequence through the consequence engine, and records instance ledger + debug events.
+
+Stonepass: `room_fallen_rocks` hooks `encounter_cave_bats` (wave torch / push through swarm).
+
+## Instance puzzles (W5-S4)
+
+Rooms may declare an optional `puzzle` id. Puzzle JSON lives under `packages/content/puzzles/` and links bounded solutions to existing world consequences. At least one solution must set `completesPuzzle: true`.
+
+```typescript
+import {
+  loadInstancePuzzle,
+  resolveCurrentRoomPuzzle,
+  submitInstancePuzzleSolution,
+} from "@playable-worlds/core";
+
+const resolved = resolveCurrentRoomPuzzle(world, session, {
+  kind: "contentRoot",
+  contentRoot: "/path/to/packages/content",
+});
+
+const submitted = submitInstancePuzzleSolution(world, session, "align_awakening_sequence", {
+  kind: "contentRoot",
+  contentRoot: "/path/to/packages/content",
+});
+```
+
+`submitInstancePuzzleSolution` validates the room puzzle hook and solution id, applies the linked consequence, and records instance ledger + debug events (including `completesPuzzle` in metadata). Unknown solution ids fail without applying a consequence.
+
+Stonepass: `room_dragon_chamber` hooks `puzzle_dragon_runes` (trace warm rune / align awakening sequence).
+
 ## Not in scope (later steps)
 
-- Wiring `/play` UI to enter the cave or move rooms
-- Encounter interactions (`W5-S3`)
+- Wiring `/play` UI to enter the cave, move rooms, resolve encounters, or submit puzzles
 - Instance completion / cleanup (`W5-S5`)

@@ -3,7 +3,7 @@
 **Handoff date:** 2026-05-29  
 **Last reconciled:** 2026-05-29  
 **Workspace:** `Playable_Worlds_Lab`  
-**Purpose:** Onboard a Cursor/agent on the current repo state, contract rules, Phase 0–2 complete, **Phase 3 W5-S1–S2 complete**, next step **W5-S3** — Create encounter system (requires human approval).
+**Purpose:** Onboard a Cursor/agent on the current repo state, contract rules, Phase 0–2 complete, **Phase 3 W5-S1–S4 complete**, next step **W5-S5** — Apply instance completion consequence and cleanup (requires human approval).
 
 ---
 
@@ -94,7 +94,7 @@ W1-S1 through W1-S16 — all **Complete**.
 
 **OpenAI toggle (local):** Keep `OPENAI_API_KEY` in gitignored `.env.local`; set `OPENAI_ENABLED=false` (off) or `true` (live). See `packages/ai/docs/ai-provider-toggle.md`.
 
-**Gap to close:** Phase 3 encounters/puzzles/completion (W5-S3+); beat progression beyond ogre bridge branches (content/engine, not Phase 2 gate)
+**Gap to close:** Phase 3 instance completion (W5-S5+); beat progression beyond ogre bridge branches (content/engine, not Phase 2 gate)
 
 ### Current snapshot (2026-05-29)
 
@@ -111,11 +111,11 @@ W1-S1 through W1-S16 — all **Complete**.
 | AI fallback debug integration                   | **Complete (W4-S6)** — `recordAiGatewayOutcome`, `generateStructuredWithDebug`      |
 | OpenAI provider + env toggle (`OPENAI_ENABLED`) | **Complete (W4-S3)** — `openaiProvider.ts`, `createAIGatewayFromEnv()`              |
 | Director reasoning UI                           | **Complete (W4-S7)** — `DirectorReasoningPanel` on `/play`                          |
-| Temporary instance runtime                      | Phase 3 — not started                                                               |
+| Temporary instance runtime                      | **W5-S1–S4 complete** — cave entry, room nav, bat encounter, dragon runes puzzle    |
 | Spire & gameplay systems                        | **Scheduled** — tracker rows `Not started`; first Spire content step **W5-S13**     |
 | Generation seed plumbing                        | **Complete (W4-S8)** — `WorldSession.generationSeed`, gateway `session` option      |
 | Advisory difficulty heuristics                  | **Complete (W4-S9)** — `computeAdvisoryDifficultySignal` (ledger-only, no mutation) |
-| Tests                                           | **340 passing** (57 files) — `npm run test:coverage` for report                     |
+| Tests                                           | **382 passing** (68 files) — `npm run test:coverage` for report                     |
 | CI                                              | typecheck, lint, **format:check**, test, **test:coverage**                          |
 | Step tracker                                    | **122 rows** (99 original + 23 Spire/gameplay rows added 2026-05-29)                |
 
@@ -303,7 +303,7 @@ Integration tests use `contentRoot = join(__dirname, "../../../content")`.
 ### 4.10 Verification state (2026-05-29)
 
 ```bash
-npm test              # 295 tests passing (47 files)
+npm test              # 382 tests passing (68 files)
 npm run test:coverage # coverage report (CI gate)
 npm run typecheck
 npm run lint
@@ -312,6 +312,17 @@ npm run build
 ```
 
 Key test areas: `packages/core/tests/integration/`, `apps/web/tests/`, `packages/ai/tests/unit/` (gateway, providers, config).
+
+### 4.11 Phase 3 temporary instances (W5-S1–S4) — summary
+
+| Step  | Deliverable                                                                                       |
+| ----- | ------------------------------------------------------------------------------------------------- |
+| W5-S1 | `loadTemporaryInstance` / `activateStonepassHiddenCave`; `cave_exposed` gate                      |
+| W5-S2 | `moveToTemporaryRoom`; `connectedRoomIds` room graph; `resolveSessionTemporaryInstanceRoom`       |
+| W5-S3 | `InstanceEncounter` schema; `applyInstanceEncounterChoice`; `encounter_cave_bats` on fallen rocks |
+| W5-S4 | `InstancePuzzle` schema; `submitInstancePuzzleSolution`; `puzzle_dragon_runes` on dragon chamber  |
+
+Docs: `packages/core/docs/temporary-instance-entry.md`. Tests: `packages/core/tests/unit/instances/`, `stonepassCaveEncounter.test.ts`, `stonepassCavePuzzle.test.ts`.
 
 ---
 
@@ -428,13 +439,13 @@ playable-worlds-lab/
 
 **Next approved:** W4-S4 DirectorAgent.
 
-## 9. Next step: W4-S4 — Build DirectorAgent
+## 9. Next step: W5-S5 — Apply instance completion consequence and cleanup
 
-**Goal:** Use AI Gateway to suggest next beat, recap, or session wrap-up via `DirectorDecision` — **no permanent state mutation**.
+**Goal:** Resolve the cave, apply `completionConsequenceId`, and run collapse/cleanup behavior.
 
-**Allowed scope:** `packages/ai/agents/directorAgent`, tests.
+**Allowed scope:** `packages/core/instances`, consequence engine, tests.
 
-**Wire provider via:** `createAIGatewayFromEnv()` (respects `.env.local` toggle). **FakeProvider (W4-S2):** `packages/ai/docs/fake-provider.md`. **OpenAI (W4-S3):** `packages/ai/docs/ai-provider-toggle.md`.
+**Do not start** without explicit human approval.
 
 ---
 
@@ -518,4 +529,4 @@ WorldDefinition ──► loadWorld (W2-S1) ──► initializeWorldSession (W2
 
 ---
 
-_End of agent session handoff. Next approved implement: **W4-S4 Build DirectorAgent**._
+_End of agent session handoff. Next approved implement: **W5-S5 Apply instance completion consequence and cleanup**._

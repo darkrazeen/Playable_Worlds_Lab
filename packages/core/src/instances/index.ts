@@ -28,3 +28,71 @@ export {
   validateTemporaryRoomMove,
   type ValidateTemporaryRoomMoveResult,
 } from "./temporaryInstanceRoom.js";
+export {
+  applyInstanceEncounterChoice,
+  type ApplyInstanceEncounterChoiceResult,
+} from "./applyInstanceEncounterChoice.js";
+export {
+  findInstanceEncounterChoice,
+  MAX_INSTANCE_ENCOUNTER_CHOICES,
+  parseInstanceEncounter,
+  safeParseInstanceEncounter,
+  validateInstanceEncounterAgainstWorld,
+  InstanceEncounterChoiceSchema,
+  InstanceEncounterSchema,
+  type InstanceEncounter,
+  type InstanceEncounterChoice,
+} from "./instanceEncounter.js";
+export {
+  isKnownInstanceEncounterId,
+  loadInstanceEncounter,
+  loadInstanceEncounterFromFile,
+  parseLoadedInstanceEncounter,
+  type LoadInstanceEncounterResult,
+} from "./loadInstanceEncounter.js";
+export {
+  resolveCurrentRoomEncounter,
+  resolveRoomEncounter,
+  type InstanceEncounterSource,
+  type ResolveInstanceEncounterResult,
+} from "./resolveInstanceEncounter.js";
+export {
+  appendEncounterDebugEvent,
+  appendEncounterLedgerEvent,
+  buildEncounterInteractionDebugEvent,
+  type EncounterEventInput,
+} from "./recordEncounterEvent.js";
+export {
+  submitInstancePuzzleSolution,
+  type SubmitInstancePuzzleSolutionResult,
+} from "./submitInstancePuzzleSolution.js";
+export {
+  findInstancePuzzleSolution,
+  isInstancePuzzleCompletionSolution,
+  MAX_INSTANCE_PUZZLE_SOLUTIONS,
+  parseInstancePuzzle,
+  safeParseInstancePuzzle,
+  validateInstancePuzzleAgainstWorld,
+  InstancePuzzleSchema,
+  InstancePuzzleSolutionSchema,
+  type InstancePuzzle,
+  type InstancePuzzleSolution,
+} from "./instancePuzzle.js";
+export {
+  isKnownInstancePuzzleId,
+  loadInstancePuzzle,
+  loadInstancePuzzleFromFile,
+  parseLoadedInstancePuzzle,
+  type LoadInstancePuzzleResult,
+} from "./loadInstancePuzzle.js";
+export {
+  resolveCurrentRoomPuzzle,
+  type InstancePuzzleSource,
+  type ResolveInstancePuzzleResult,
+} from "./resolveInstancePuzzle.js";
+export {
+  appendPuzzleDebugEvent,
+  appendPuzzleLedgerEvent,
+  buildPuzzleInteractionDebugEvent,
+  type PuzzleEventInput,
+} from "./recordPuzzleEvent.js";

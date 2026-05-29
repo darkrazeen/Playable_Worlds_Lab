@@ -288,6 +288,30 @@
       "npcUpdates": [{ "npcId": "npc_elder", "attitude": "fearful" }]
     },
     {
+      "id": "consequence_scare_cave_bats",
+      "summary": "You raise a torch and the bats scatter into the dark.",
+      "addFlags": ["bats_scattered"],
+      "visibleChanges": ["The bat cloud splits and flees deeper into the cave."]
+    },
+    {
+      "id": "consequence_fight_cave_bats",
+      "summary": "You bat aside the swarm and push through the fallen rocks.",
+      "addFlags": ["bats_fought", "cave_bats_cleared"],
+      "visibleChanges": ["Wings slap your arms, but the path ahead clears."]
+    },
+    {
+      "id": "consequence_wrong_dragon_rune",
+      "summary": "The runes flare red and fade. The chamber rumbles but nothing wakes.",
+      "addFlags": ["dragon_runes_failed_attempt"],
+      "visibleChanges": ["Stone dust rains from the ceiling. Try another pattern."]
+    },
+    {
+      "id": "consequence_solve_dragon_runes",
+      "summary": "The runes lock into place and a low hum fills the chamber.",
+      "addFlags": ["dragon_runes_solved"],
+      "visibleChanges": ["Blue fire runs along the rune lines toward the heart of the cave."]
+    },
+    {
       "id": "consequence_warn_valley",
       "summary": "You race toward Stonepass Square to warn the valley that the dragon has awakened.",
       "addFlags": ["valley_warned"],

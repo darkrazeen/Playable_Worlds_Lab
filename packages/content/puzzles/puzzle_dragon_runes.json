@@ -1,0 +1,21 @@
+{
+  "id": "puzzle_dragon_runes",
+  "title": "Dragon Runes",
+  "description": "Ancient runes circle a sealed pedestal. Only one pattern will wake what sleeps here.",
+  "solutions": [
+    {
+      "id": "trace_warmth_rune",
+      "label": "Trace the warm rune",
+      "description": "Follow the glyphs that pulse with heat.",
+      "consequenceId": "consequence_wrong_dragon_rune",
+      "completesPuzzle": false
+    },
+    {
+      "id": "align_awakening_sequence",
+      "label": "Align the awakening sequence",
+      "description": "Match the runes to the pattern on Elder Mara's sigil.",
+      "consequenceId": "consequence_solve_dragon_runes",
+      "completesPuzzle": true
+    }
+  ]
+}

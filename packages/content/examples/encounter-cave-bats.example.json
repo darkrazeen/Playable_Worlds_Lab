@@ -1,0 +1,19 @@
+{
+  "id": "encounter_cave_bats",
+  "title": "Cave Bats",
+  "description": "A cloud of bats erupts from a gap in the rubble, wheeling around your torch.",
+  "choices": [
+    {
+      "id": "scare_bats",
+      "label": "Wave the torch",
+      "description": "Try to scatter them with firelight.",
+      "consequenceId": "consequence_scare_cave_bats"
+    },
+    {
+      "id": "fight_bats",
+      "label": "Push through the swarm",
+      "description": "Shoulder forward and deal with the bites.",
+      "consequenceId": "consequence_fight_cave_bats"
+    }
+  ]
+}
