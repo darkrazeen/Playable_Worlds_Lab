@@ -63,7 +63,7 @@ The first proof content is **Stonepass Spire — Floor 1** (legacy file `stonepa
 
 [![CI](https://github.com/darkrazeen/Playable_Worlds_Lab/actions/workflows/ci.yml/badge.svg)](https://github.com/darkrazeen/Playable_Worlds_Lab/actions/workflows/ci.yml)
 
-**Status:** **Phase 0 complete (16/16). Phase 1 text runtime complete (W2-S1–S7, W3-S1–S7).** Stonepass Spire Floor 1 runs in core and at `/play` with ledger + debug panels; acceptance tests cover load → init → choice → consequence → ledger/debug and blocked invalid choices. **Next:** **W4-S1** — AI Gateway (human approval before implement).
+**Status:** **Phase 0 complete (16/16). Phase 1 text runtime complete (W2-S1–S7, W3-S1–S7).** Stonepass Spire Floor 1 runs in core and at `/play` with ledger + debug panels; acceptance tests cover load → init → choice → consequence → ledger/debug and blocked invalid choices. **Next:** **W4-S3** — OpenAI provider placeholder (see [step tracker](./Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv)).
 
 **Verification (2026-05-29):** 258 tests passing (39 files); `npm run typecheck`, `npm run lint`, and `npm run build` green. CI workflow at `.github/workflows/ci.yml`. Human Phase 1 sign-off checklist: `packages/core/docs/phase1-acceptance.md`.
 
@@ -117,7 +117,9 @@ Progress is tracked in `Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv`. Updat
 | W3-S5                | Phase 1+               | Debug log model usage                                                                      | **Complete**              |
 | W3-S6                | Phase 1+               | Debug log UI panel                                                                         | **Complete**              |
 | W3-S7                | Phase 1+               | Phase 1 acceptance hardening                                                               | **Complete**              |
-| W4-S1 …              | Phase 2                | AI Gateway                                                                                 | **Next**                  |
+| W4-S1                | Phase 2                | AI Gateway                                                                                 | **Complete**              |
+| W4-S2                | Phase 2                | Expand FakeProvider scenarios                                                              | **Complete**              |
+| W4-S3 …              | Phase 2                | OpenAI provider placeholder                                                                | **Next**                  |
 | W7-S7–S11, W8-S6–S12 | Phase 5 extension      | Content libraries, WorldBlueprint, quest generation                                        | Scheduled (`Not started`) |
 | W4-S8–S10            | Phase 2 ext (Spire)    | Seed plumbing, ledger difficulty signal, Director `adjust_difficulty`                      | Scheduled (`Not started`) |
 | W5-S8–S13            | Phase 3 ext (Spire)    | ProgressionLedger, Tier A skills, gear gating, Level 0 combat, **Floor 1**                 | Scheduled (`Not started`) |
@@ -151,7 +153,7 @@ Progress is tracked in `Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv`. Updat
 
 **W2-S1–S6 done when (met):** `loadWorld` / `loadWorldFromFile`; `initializeWorldSession`; `selectStoryBeat`; `resolvePlayerChoice` / `listAvailableChoices`; `applyConsequence` / `applyPlayerChoice`; browser text play at `/play` wired through `@playable-worlds/core` runtime (no direct ledger mutation in UI); Stonepass integration + web smoke tests; **203 tests** green (2026-05-29).
 
-**Next step:** **W4-S1** — Build AI Gateway around provider contracts (human approval required before implement).
+**Next step:** **W4-S3** — Create OpenAIProvider placeholder or implementation.
 
 ### Data contract (v4.2 hybrid)
 
@@ -248,7 +250,7 @@ playable-worlds-lab/
   Playable_Worlds_Lab_v4_1_FULL_CURSOR.md
 ```
 
-**Not created yet:** AI Gateway / DirectorAgent (Phase 2), temporary instance runtime (Phase 3), Supabase persistence, `scripts/validate-content.ts` CLI. **Done in Phase 1:** ogre-path integration tests (W2-S7), consequence engine (W3-S1), ledger + debug panels on `/play` (W3-S4–S6).
+**Not created yet:** DirectorAgent / OpenAI provider (Phase 2 W4-S3+), temporary instance runtime (Phase 3). **Done:** AI Gateway (W4-S1)., Supabase persistence, `scripts/validate-content.ts` CLI. **Done in Phase 1:** ogre-path integration tests (W2-S7), consequence engine (W3-S1), ledger + debug panels on `/play` (W3-S4–S6).
 
 ---
 

@@ -6,7 +6,7 @@ AI provider contracts and test doubles. **AI proposes; validators check; the eng
 
 - `src/contracts/` — `AIProvider`, `AIRequest`, `AIResult` usage
 - `src/providers/` — `FakeProvider` for deterministic tests
-- `src/gateway/` — Phase 2 AI Gateway (stub directory)
+- `src/gateway/` — `AIGateway` (W4-S1); sole entry for structured provider calls
 - `src/agents/` — Phase 2 agents (stub directory)
 
 ## Depends on
@@ -20,7 +20,10 @@ npm test -w @playable-worlds/ai
 ```
 
 - `tests/unit/providers/fakeProvider.test.ts`
+- `tests/unit/gateway/aiGateway.test.ts`
+
+See `docs/ai-gateway.md` and `docs/fake-provider.md`.
 
 ## Phase 2
 
-`DirectorAgent`, `NPCReactionAgent`, and `OpenAIProvider` land in `gateway/` and `agents/` per FULL_CURSOR §8.
+`DirectorAgent` and agents call `AIGateway` only (W4-S4+). `OpenAIProvider` lands in W4-S3.

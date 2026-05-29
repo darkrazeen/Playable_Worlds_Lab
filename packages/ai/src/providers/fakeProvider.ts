@@ -22,12 +22,37 @@ export type FakeProviderScenario =
       message: string;
     };
 
+/** Per-seed overrides: one scenario for all tasks, or task-specific map. */
+export type FakeProviderSeedBundle = {
+  default?: FakeProviderScenario;
+  byTask?: Record<string, FakeProviderScenario>;
+};
+
+export type FakeProviderSeedEntry = FakeProviderScenario | FakeProviderSeedBundle;
+
 export type FakeProviderOptions = {
   scenario?: FakeProviderScenario;
   responsesByTask?: Record<string, FakeProviderScenario>;
+  /** Same generationSeed always resolves to the same canned scenario (or catalog slot). */
+  responsesBySeed?: Record<string, FakeProviderSeedEntry>;
+  /** When request has generationSeed and no seed entry matches, pick catalog[index % length]. */
+  scenarioCatalog?: FakeProviderScenario[];
 };
 
 export const FAKE_PROVIDER_NAME = "fake";
+
+function isScenario(entry: FakeProviderSeedEntry): entry is FakeProviderScenario {
+  return "kind" in entry;
+}
+
+/** Stable unsigned hash for deterministic catalog indexing. */
+export function hashGenerationSeed(seed: string): number {
+  let hash = 0;
+  for (let i = 0; i < seed.length; i++) {
+    hash = (hash * 31 + seed.charCodeAt(i)) >>> 0;
+  }
+  return hash;
+}
 
 function formatZodErrors(error: z.ZodError): string[] {
   return error.issues.map((issue) => {
@@ -36,11 +61,42 @@ function formatZodErrors(error: z.ZodError): string[] {
   });
 }
 
-function resolveScenario(input: AIRequest, options: FakeProviderOptions): FakeProviderScenario {
-  return (
-    options.responsesByTask?.[input.task] ??
-    options.scenario ?? { kind: "error", message: "No FakeProvider scenario configured" }
-  );
+function resolveSeedEntry(
+  entry: FakeProviderSeedEntry,
+  task: string,
+): FakeProviderScenario | undefined {
+  if (isScenario(entry)) {
+    return entry;
+  }
+  return entry.byTask?.[task] ?? entry.default;
+}
+
+/** Resolve which canned scenario applies for a request (exported for tests). */
+export function resolveFakeProviderScenario(
+  input: AIRequest,
+  options: FakeProviderOptions,
+): FakeProviderScenario {
+  const taskScenario = options.responsesByTask?.[input.task];
+  if (taskScenario) {
+    return taskScenario;
+  }
+
+  if (input.generationSeed && options.responsesBySeed) {
+    const entry = options.responsesBySeed[input.generationSeed];
+    if (entry) {
+      const resolved = resolveSeedEntry(entry, input.task);
+      if (resolved) {
+        return resolved;
+      }
+    }
+  }
+
+  if (input.generationSeed && options.scenarioCatalog?.length) {
+    const index = hashGenerationSeed(input.generationSeed) % options.scenarioCatalog.length;
+    return options.scenarioCatalog[index]!;
+  }
+
+  return options.scenario ?? { kind: "error", message: "No FakeProvider scenario configured" };
 }
 
 /** Deterministic test provider — validates canned output against the requested schema. */
@@ -53,7 +109,7 @@ export class FakeProvider implements AIProvider {
     input: AIRequest,
     schema: T,
   ): Promise<AIResultOf<T>> {
-    const scenario = resolveScenario(input, this.options);
+    const scenario = resolveFakeProviderScenario(input, this.options);
 
     if (scenario.kind === "error") {
       throw new Error(scenario.message);
