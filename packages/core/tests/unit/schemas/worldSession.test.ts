@@ -4,6 +4,7 @@ import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
 
 import {
+  createEmptyProgressionLedger,
   createWorldSession,
   CURRENT_SCHEMA_VERSION,
   parseWorldDefinition,
@@ -86,6 +87,7 @@ describe("WorldSessionSchema", () => {
     expect(session.ledger.worldEvents).toEqual([]);
     expect(session.choiceHistory).toEqual([]);
     expect(session.debugEvents).toEqual([]);
+    expect(session.progression).toEqual(createEmptyProgressionLedger());
   });
 
   it("throws when startingBeatId is not in the provided world", () => {
@@ -125,6 +127,39 @@ describe("WorldSessionSchema", () => {
     const session = parseWorldSession(minimal);
     expect(session.choiceHistory).toEqual([]);
     expect(session.debugEvents).toEqual([]);
+  });
+
+  it("accepts optional session-local progression on WorldSession", () => {
+    const withProgression = {
+      ...validNewSession,
+      progression: {
+        skillTiers: { skill_sword: 1 },
+        unlocks: ["unlock_power_strike"],
+        milestones: ["milestone_first_step"],
+        usageCounters: { ogre_fought: 1 },
+      },
+    };
+    expect(WorldSessionSchema.safeParse(withProgression).success).toBe(true);
+  });
+
+  it("rejects RPG-style progression payloads on WorldSession", () => {
+    expect(
+      WorldSessionSchema.safeParse({
+        ...validNewSession,
+        progression: {
+          skillTiers: { skill_sword: 1 },
+          xp: 9000,
+        },
+      }).success,
+    ).toBe(false);
+    expect(
+      WorldSessionSchema.safeParse({
+        ...validNewSession,
+        progression: {
+          skillTiers: { skill_sword: 2.5 },
+        },
+      }).success,
+    ).toBe(false);
   });
 
   it("parses the world-session-stonepass-start example JSON", () => {

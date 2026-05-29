@@ -1,0 +1,26 @@
+{
+  "id": "session_stonepass_cave_active_example",
+  "schemaVersion": "0.2.0",
+  "worldId": "world_stonepass_valley",
+  "worldVersionId": "world_stonepass_valley_v1",
+  "currentBeatId": "beat_landslide_aftermath",
+  "activeTemporaryInstanceId": "instance_hidden_cave",
+  "currentTemporaryRoomId": "room_cave_entrance",
+  "ledger": {
+    "activeFlags": [
+      "ogre_defeated",
+      "bridge_open",
+      "landslide_triggered",
+      "cave_exposed",
+      "cave_entered"
+    ],
+    "resolvedFlags": [],
+    "unlockedGoals": ["goal_reach_valley", "goal_explore_cave"],
+    "completedGoals": [],
+    "discoveredLocations": ["location_hidden_cave"],
+    "worldEvents": []
+  },
+  "turnNumber": 2,
+  "choiceHistory": ["fight_ogre", "enter_hidden_cave"],
+  "debugEvents": []
+}

@@ -11,6 +11,7 @@ import type { WorldDefinition } from "./worldDefinition.js";
 import { CURRENT_SCHEMA_VERSION, SchemaVersionSchema } from "./schemaVersion.js";
 import { WorldIdSchema } from "./worldDefinition.js";
 import { createEmptyWorldLedger, WorldLedgerSchema } from "./worldLedger.js";
+import { createEmptyProgressionLedger, ProgressionLedgerSchema } from "./progressionLedger.js";
 
 export const WorldSessionIdSchema = NamedIdSchema;
 export const WorldVersionIdSchema = NamedIdSchema;
@@ -27,6 +28,8 @@ export const WorldSessionSchema = z.object({
   worldVersionId: WorldVersionIdSchema,
   currentBeatId: StoryBeatIdSchema,
   ledger: WorldLedgerSchema,
+  /** Session-local mastery tiers, unlocks, milestones, and usage counters. */
+  progression: ProgressionLedgerSchema.optional(),
   activeTemporaryInstanceId: TemporaryInstanceIdSchema.optional(),
   currentTemporaryRoomId: TemporaryInstanceRoomIdSchema.optional(),
   turnNumber: z.number().int().min(0),
@@ -74,6 +77,7 @@ export function createWorldSession(
     worldVersionId: input.worldVersionId,
     currentBeatId: input.startingBeatId,
     ledger: createEmptyWorldLedger(),
+    progression: createEmptyProgressionLedger(),
     turnNumber: 0,
     choiceHistory: [],
     ...(input.generationSeed ? { generationSeed: input.generationSeed } : {}),

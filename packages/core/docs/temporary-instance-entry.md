@@ -117,4 +117,8 @@ Stonepass: `reached_dragon_chamber` completes from `room_dragon_chamber` with `c
 ## Not in scope (later steps)
 
 - Wiring `/play` UI to enter the cave, move rooms, resolve encounters, submit puzzles, or complete instances
-- W5-S7 temporary instance acceptance test gate
+- ProgressionLedger and combat Tier A runtime grants (W5-S9+)
+
+## Phase 3 acceptance gate (W5-S7)
+
+See [phase3-acceptance.md](./phase3-acceptance.md). Integration proof: `phase3TemporaryInstanceAcceptance.test.ts`.

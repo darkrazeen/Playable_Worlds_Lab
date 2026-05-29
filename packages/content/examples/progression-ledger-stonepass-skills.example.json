@@ -1,0 +1,12 @@
+{
+  "skillTiers": {
+    "skill_sword": 2,
+    "skill_guard": 1
+  },
+  "unlocks": ["unlock_power_strike"],
+  "milestones": ["milestone_cave_spelunker"],
+  "usageCounters": {
+    "bats_cleared": 1,
+    "runes_solved": 1
+  }
+}
