@@ -7,7 +7,7 @@ Deterministic world engine: Zod schemas, cross-file validation, and debug helper
 - `src/schemas/` — all data contracts (`WorldDefinition`, `WorldSession`, `Consequence`, etc.)
 - `src/validators/` — `validateWorldDefinition`, `parseAndValidateWorldDefinition`
 - `src/ledger/` — flag lifecycle (`applyFlagChanges`, gate helpers) — see `docs/flag-lifecycle.md`
-- `src/debug/` — immutable session debug trace (`appendDebugEvent`)
+- `src/debug/` — typed debug builders (`buildDebugEvents`), batch append (`appendDebugEvents`), validation failure logging (`appendValidationFailure`)
 
 ## Depends on
 

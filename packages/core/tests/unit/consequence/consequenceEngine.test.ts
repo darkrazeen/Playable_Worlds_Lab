@@ -79,6 +79,7 @@ describe("applyConsequenceEngine", () => {
     expect(result.session?.debugEvents.map((event) => event.type)).toEqual([
       "choice_selected",
       "consequence_applied",
+      "flags_changed",
       "goal_unlocked",
       "goal_unlocked",
     ]);
@@ -100,6 +101,8 @@ describe("applyConsequenceEngine", () => {
 
     expect(result.ok).toBe(false);
     expect(result.errors.some((error) => error.includes("not found"))).toBe(true);
+    expect(result.session?.debugEvents.at(-1)?.type).toBe("validation_failed");
+    expect(session.turnNumber).toBe(0);
   });
 
   it("rejects consequences with unknown npc references before mutating session", () => {
@@ -129,7 +132,8 @@ describe("applyConsequenceEngine", () => {
 
     expect(result.ok).toBe(false);
     expect(result.errors.some((error) => error.includes("npc_does_not_exist"))).toBe(true);
-    expect(result.session).toBeUndefined();
+    expect(result.session?.debugEvents.at(-1)?.type).toBe("validation_failed");
+    expect(session.turnNumber).toBe(0);
   });
 
   it("rejects malformed consequence data before mutating session", () => {
@@ -159,6 +163,7 @@ describe("applyConsequenceEngine", () => {
 
     expect(result.ok).toBe(false);
     expect(result.errors.some((error) => error.startsWith("consequence:"))).toBe(true);
-    expect(result.session).toBeUndefined();
+    expect(result.session?.debugEvents.at(-1)?.type).toBe("validation_failed");
+    expect(session.turnNumber).toBe(0);
   });
 });

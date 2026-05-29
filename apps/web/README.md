@@ -13,7 +13,7 @@ On Windows PowerShell, if `npm` is blocked by execution policy, use `npm.cmd run
 
 ## Play route
 
-- **`/play`** — **Stonepass Spire — Floor 1** (`features/world-play/`)
+- **`/play`** — **Stonepass Spire — Floor 1** (`features/world-play/`) with read-only **World ledger** panel (`features/world-debug/`)
 
 ## Source of truth
 

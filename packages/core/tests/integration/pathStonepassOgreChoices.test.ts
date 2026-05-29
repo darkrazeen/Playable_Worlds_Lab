@@ -153,8 +153,10 @@ describe("Stonepass Spire Floor 1 — ogre bridge path integration", () => {
       expect(nextSession.ledger.worldEvents[0]?.metadata?.choiceId).toBe(choiceId);
 
       const debugTypes = nextSession.debugEvents.map((event) => event.type);
+      expect(debugTypes).toContain("session_loaded");
       expect(debugTypes).toContain("choice_selected");
       expect(debugTypes).toContain("consequence_applied");
+      expect(debugTypes).toContain("flags_changed");
       expect(debugTypes.filter((type) => type === "goal_unlocked")).toHaveLength(
         expectedGoals.length,
       );
@@ -167,7 +169,8 @@ describe("Stonepass Spire Floor 1 — ogre bridge path integration", () => {
     expect(session.ledger.activeFlags).toEqual([]);
     expect(session.ledger.resolvedFlags).toEqual([]);
     expect(session.ledger.worldEvents).toHaveLength(0);
-    expect(session.debugEvents).toHaveLength(0);
+    expect(session.debugEvents).toHaveLength(1);
+    expect(session.debugEvents[0]?.type).toBe("session_loaded");
     expect(session.choiceHistory).toEqual([]);
   });
 });

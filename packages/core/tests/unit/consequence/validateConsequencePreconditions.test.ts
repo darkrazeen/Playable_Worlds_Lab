@@ -280,7 +280,7 @@ describe("applyConsequenceEngine precondition gate", () => {
     const result = applyConsequenceEngine(world, session, "consequence_fake");
 
     expect(result.ok).toBe(false);
-    expect(result.session).toBeUndefined();
+    expect(result.session?.debugEvents.at(-1)?.type).toBe("validation_failed");
     expect(session.turnNumber).toBe(0);
   });
 

@@ -40,6 +40,7 @@ describe("runtime applyConsequence delegates to Consequence Engine", () => {
     expect(result.session?.debugEvents.map((event) => event.type)).toEqual([
       "choice_selected",
       "consequence_applied",
+      "flags_changed",
       "goal_unlocked",
       "goal_unlocked",
     ]);
@@ -80,6 +81,6 @@ describe("runtime applyConsequence delegates to Consequence Engine", () => {
     const result = applyPlayerChoice(world, session, "choice_does_not_exist");
 
     expect(result.ok).toBe(false);
-    expect(result.session).toBeUndefined();
+    expect(result.session?.debugEvents.at(-1)?.type).toBe("validation_failed");
   });
 });

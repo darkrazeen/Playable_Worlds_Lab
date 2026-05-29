@@ -4,6 +4,8 @@ import { useMemo, useState } from "react";
 
 import type { WorldDefinition, WorldSession } from "@playable-worlds/core/schemas";
 
+import { WorldLedgerPanel } from "@/features/world-debug";
+
 import {
   applyPlayChoice,
   createInitialPlayState,
@@ -67,7 +69,8 @@ export function WorldPlayScreen({ world }: WorldPlayScreenProps) {
   }
 
   return (
-    <div className="flex w-full max-w-2xl flex-col gap-6">
+    <div className="flex w-full max-w-5xl flex-col gap-8 lg:flex-row lg:items-start">
+      <div className="flex min-w-0 flex-1 flex-col gap-6">
       <header className="space-y-1 border-b border-neutral-200 pb-4 dark:border-neutral-800">
         <p className="text-sm font-medium uppercase tracking-wide text-neutral-500">
           {world.title}
@@ -127,6 +130,9 @@ export function WorldPlayScreen({ world }: WorldPlayScreenProps) {
           ))
         )}
       </section>
+      </div>
+
+      <WorldLedgerPanel ledger={session.ledger} turnNumber={displayView.turnNumber} />
     </div>
   );
 }

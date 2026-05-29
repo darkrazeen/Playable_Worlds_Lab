@@ -1,3 +1,4 @@
+import { appendValidationFailure } from "../debug/debugTrace.js";
 import type { WorldDefinition } from "../schemas/worldDefinition.js";
 import type { WorldSession } from "../schemas/worldSession.js";
 import {
@@ -29,12 +30,26 @@ export function applyPlayerChoice(
 ): ApplyConsequenceResult {
   const resolved = resolvePlayerChoice(world, session, choiceId);
   if (!resolved.ok || !resolved.choice || !resolved.consequenceId) {
-    return { ok: false, errors: resolved.errors };
+    return {
+      ok: false,
+      errors: resolved.errors,
+      session: appendValidationFailure(session, resolved.errors, { choiceId }),
+    };
   }
 
-  return applyConsequenceEngine(world, session, resolved.consequenceId, {
+  const result = applyConsequenceEngine(world, session, resolved.consequenceId, {
     choiceId: resolved.choice.id,
     beatId: resolved.beat?.id,
     choiceLabel: resolved.choice.label,
   });
+
+  if (!result.ok && !result.session) {
+    return {
+      ok: false,
+      errors: result.errors,
+      session: appendValidationFailure(session, result.errors, { choiceId }),
+    };
+  }
+
+  return result;
 }

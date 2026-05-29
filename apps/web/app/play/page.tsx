@@ -23,7 +23,7 @@ export default function PlayPage() {
 
   return (
     <main className="flex min-h-screen flex-col items-center p-8">
-      <div className="mb-8 w-full max-w-2xl">
+      <div className="mb-8 w-full max-w-5xl">
         <Link
           href="/"
           className="text-sm text-neutral-500 transition hover:text-neutral-800 dark:hover:text-neutral-200"

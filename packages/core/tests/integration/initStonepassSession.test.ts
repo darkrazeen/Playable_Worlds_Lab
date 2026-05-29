@@ -21,6 +21,7 @@ describe("Stonepass session initialization integration", () => {
     expect(sessionResult.session?.currentBeatId).toBe(worldResult.world?.startingBeatId);
     expect(sessionResult.session?.turnNumber).toBe(0);
     expect(sessionResult.session?.choiceHistory).toEqual([]);
-    expect(sessionResult.session?.debugEvents).toEqual([]);
+    expect(sessionResult.session?.debugEvents).toHaveLength(1);
+    expect(sessionResult.session?.debugEvents[0]?.type).toBe("session_loaded");
   });
 });

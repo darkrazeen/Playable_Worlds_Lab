@@ -1,3 +1,5 @@
+import { appendDebugEvent } from "../debug/appendDebugEvent.js";
+import { buildSessionLoadedEvent } from "../debug/buildDebugEvents.js";
 import type { WorldDefinition } from "../schemas/worldDefinition.js";
 import {
   createWorldSession,
@@ -64,5 +66,16 @@ export function initializeWorldSession(
     };
   }
 
-  return { ok: true, errors: [], session: validation.data };
+  const worldVersionId = input.worldVersionId ?? `${world.id}_v1`;
+  const sessionWithTrace = appendDebugEvent(
+    validation.data,
+    buildSessionLoadedEvent({
+      sessionId: input.sessionId,
+      turnNumber: 0,
+      startingBeatId: world.startingBeatId,
+      worldVersionId,
+    }),
+  );
+
+  return { ok: true, errors: [], session: sessionWithTrace };
 }

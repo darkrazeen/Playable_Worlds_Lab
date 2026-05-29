@@ -1,4 +1,12 @@
-import { appendDebugEvent } from "../debug/appendDebugEvent.js";
+import {
+  appendDebugEvents,
+  appendValidationFailure,
+  buildChoiceSelectedEvent,
+  buildConsequenceAppliedEvent,
+  buildFlagsChangedEvent,
+  buildGoalUnlockedEvent,
+} from "../debug/index.js";
+import type { DebugEvent } from "../schemas/debugEvent.js";
 import type { Consequence } from "../schemas/consequence.js";
 import { safeParseConsequence } from "../schemas/consequence.js";
 import type { WorldDefinition } from "../schemas/worldDefinition.js";
@@ -20,29 +28,22 @@ export type ApplyConsequenceEngineResult = {
   consequence?: Consequence;
 };
 
-function appendValidatedDebugEvents(
-  session: WorldSession,
-  events: unknown[],
-): WorldSession | { ok: false; errors: string[] } {
-  let nextSession = session;
-  for (const event of events) {
-    try {
-      nextSession = appendDebugEvent(nextSession, event);
-    } catch (error) {
-      const message = error instanceof Error ? error.message : String(error);
-      return {
-        ok: false,
-        errors: [`consequence-engine: failed to append debug event: ${message}`],
-      };
-    }
-  }
-  return nextSession;
-}
-
 function formatSchemaErrors(prefix: string, issues: { path: (string | number)[]; message: string }[]) {
   return issues.map(
     (issue) => `${prefix}: ${issue.path.join(".") || "<root>"}: ${issue.message}`,
   );
+}
+
+function failureResult(
+  session: WorldSession,
+  errors: string[],
+  metadata?: Record<string, unknown>,
+): ApplyConsequenceEngineResult {
+  return {
+    ok: false,
+    errors,
+    session: appendValidationFailure(session, errors, metadata),
+  };
 }
 
 /**
@@ -57,108 +58,119 @@ export function applyConsequenceEngine(
 ): ApplyConsequenceEngineResult {
   const sessionValidation = safeParseWorldSession(session);
   if (!sessionValidation.success) {
+    const errors = formatSchemaErrors("session", sessionValidation.error.issues);
     return {
       ok: false,
-      errors: formatSchemaErrors("session", sessionValidation.error.issues),
+      errors,
+      session: appendValidationFailure(session, errors, { consequenceId }),
     };
   }
 
+  const validatedSession = sessionValidation.data;
+
   const rawConsequence = world.consequences.find((entry) => entry.id === consequenceId);
   if (!rawConsequence) {
-    return {
-      ok: false,
-      errors: [
-        `consequence-engine: consequence "${consequenceId}" not found in world "${world.id}"`,
-      ],
-    };
+    return failureResult(validatedSession, [
+      `consequence-engine: consequence "${consequenceId}" not found in world "${world.id}"`,
+    ], { consequenceId, choiceId: context?.choiceId });
   }
 
   const consequenceValidation = safeParseConsequence(rawConsequence);
   if (!consequenceValidation.success) {
-    return {
-      ok: false,
-      errors: formatSchemaErrors("consequence", consequenceValidation.error.issues),
-    };
+    return failureResult(
+      validatedSession,
+      formatSchemaErrors("consequence", consequenceValidation.error.issues),
+      { consequenceId, choiceId: context?.choiceId },
+    );
   }
   const consequence = consequenceValidation.data;
 
   const preconditionResult = validateConsequencePreconditions(
     world,
-    sessionValidation.data,
+    validatedSession,
     consequence,
     context?.choiceId ? { choiceId: context.choiceId } : undefined,
   );
   if (!preconditionResult.ok) {
-    return { ok: false, errors: preconditionResult.errors };
+    return failureResult(validatedSession, preconditionResult.errors, {
+      consequenceId,
+      choiceId: context?.choiceId,
+    });
   }
 
-  const nextTurn = sessionValidation.data.turnNumber + 1;
-  const ledger = applyConsequenceToLedger(sessionValidation.data.ledger, consequence, nextTurn, {
+  const ledgerBefore = validatedSession.ledger;
+  const nextTurn = validatedSession.turnNumber + 1;
+  const ledger = applyConsequenceToLedger(ledgerBefore, consequence, nextTurn, {
     choiceId: context?.choiceId,
   });
 
   let nextSession: WorldSession = {
-    ...sessionValidation.data,
+    ...validatedSession,
     turnNumber: nextTurn,
     ledger,
     choiceHistory: context?.choiceId
-      ? [...sessionValidation.data.choiceHistory, context.choiceId]
-      : sessionValidation.data.choiceHistory,
+      ? [...validatedSession.choiceHistory, context.choiceId]
+      : validatedSession.choiceHistory,
   };
 
-  const debugEvents: unknown[] = [];
+  const traceEvents: DebugEvent[] = [];
 
   if (context?.choiceId) {
-    debugEvents.push({
-      id: `debug_choice_${context.choiceId}`,
-      turnNumber: nextTurn,
-      type: "choice_selected",
-      summary: context.choiceLabel
-        ? `Player chose ${context.choiceLabel}.`
-        : `Player chose ${context.choiceId}.`,
-      metadata: {
+    traceEvents.push(
+      buildChoiceSelectedEvent({
+        turnNumber: nextTurn,
         choiceId: context.choiceId,
-        ...(context.beatId ? { beatId: context.beatId } : {}),
-      },
-    });
+        choiceLabel: context.choiceLabel,
+        beatId: context.beatId,
+      }),
+    );
   }
 
-  debugEvents.push({
-    id: `debug_consequence_${consequence.id.replace(/^consequence_/, "")}`,
-    turnNumber: nextTurn,
-    type: "consequence_applied",
-    summary: `Applied ${consequence.id}.`,
-    metadata: {
+  traceEvents.push(
+    buildConsequenceAppliedEvent({
+      turnNumber: nextTurn,
       consequenceId: consequence.id,
-      ...(context?.choiceId ? { choiceId: context.choiceId } : {}),
-      ...(consequence.visibleChanges.length > 0
-        ? { visibleChanges: consequence.visibleChanges }
-        : {}),
-    },
+      choiceId: context?.choiceId,
+      visibleChanges: consequence.visibleChanges,
+    }),
+  );
+
+  const flagsChanged = buildFlagsChangedEvent({
+    turnNumber: nextTurn,
+    consequenceId: consequence.id,
+    before: ledgerBefore,
+    after: ledger,
   });
+  if (flagsChanged) {
+    traceEvents.push(flagsChanged);
+  }
 
   for (const goalId of consequence.unlockGoals) {
-    debugEvents.push({
-      id: `debug_goal_${goalId}`,
-      turnNumber: nextTurn,
-      type: "goal_unlocked",
-      summary: `Unlocked goal ${goalId}.`,
-      metadata: { goalId, consequenceId: consequence.id },
-    });
+    traceEvents.push(
+      buildGoalUnlockedEvent({
+        turnNumber: nextTurn,
+        goalId,
+        consequenceId: consequence.id,
+      }),
+    );
   }
 
-  const debugResult = appendValidatedDebugEvents(nextSession, debugEvents);
-  if ("errors" in debugResult) {
-    return debugResult;
+  const debugResult = appendDebugEvents(nextSession, traceEvents);
+  if (typeof debugResult === "object" && "errors" in debugResult) {
+    return failureResult(validatedSession, debugResult.errors, {
+      consequenceId,
+      choiceId: context?.choiceId,
+    });
   }
   nextSession = debugResult;
 
   const outputValidation = safeParseWorldSession(nextSession);
   if (!outputValidation.success) {
-    return {
-      ok: false,
-      errors: formatSchemaErrors("session", outputValidation.error.issues),
-    };
+    return failureResult(
+      validatedSession,
+      formatSchemaErrors("session", outputValidation.error.issues),
+      { consequenceId, choiceId: context?.choiceId },
+    );
   }
 
   return {

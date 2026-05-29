@@ -3,7 +3,7 @@
 **Handoff date:** 2026-05-29  
 **Last reconciled:** 2026-05-29  
 **Workspace:** `Playable_Worlds_Lab`  
-**Purpose:** Onboard a Cursor/agent on the current repo state, contract rules, Phase 0 complete, Phase 1 W2 complete + W3-S1–S3 complete, and the next approved step (**W3-S4**).
+**Purpose:** Onboard a Cursor/agent on the current repo state, contract rules, Phase 0 complete, Phase 1 W2 complete + W3-S1–S5 complete, and the next approved step (**W3-S6** — debug log UI panel).
 
 ---
 
@@ -67,11 +67,13 @@ W1-S1 through W1-S16 — all **Complete**.
 | W3-S1 | Consequence Engine core | **Complete** |
 | W3-S2 | Validate consequence preconditions | **Complete** |
 | W3-S3 | Finalize flag lifecycle rules | **Complete** |
-| W3-S4+ | Ledger UI, debug UI | **Next ← approved** |
+| W3-S4 | World Ledger UI panel | **Complete** |
+| W3-S5 | Debug log model usage | **Complete** |
+| W3-S6+ | Debug UI, acceptance | **Next ← approved** |
 
 **Engine loop (working in tests and browser):** `loadWorld` → `initializeWorldSession` → `selectStoryBeat` → `resolvePlayerChoice` → `applyPlayerChoice`
 
-**Gap to close:** W3-S4 World Ledger UI panel; beat progression in UI still deferred.
+**Gap to close:** W3-S6 debug log UI panel; beat progression in UI still deferred.
 
 ### Current snapshot (2026-05-29)
 
@@ -85,7 +87,7 @@ W1-S1 through W1-S16 — all **Complete**.
 | AI Gateway / Director | Phase 2 — not started |
 | Temporary instance runtime | Phase 3 — not started |
 | Spire & gameplay systems (combat Tier A, progression, gear, region, manifest) | **Scheduled** — tracker rows `Not started`; first Spire content step **W5-S13** (after Phase 3 instances) |
-| Tests | **235 passing** (33 files) |
+| Tests | **244 passing** (36 files) |
 | CI | `.github/workflows/ci.yml` — typecheck, lint, test |
 | Step tracker | **122 rows** (99 original + 23 Spire/gameplay rows added 2026-05-29) |
 
@@ -297,6 +299,7 @@ playable-worlds-lab/
   apps/web/                              # Next.js — home + /play text UI (W2-S6)
     app/play/                            # Stonepass play page
     features/world-play/                 # W2-S6 world-play feature
+    features/world-debug/                # W3-S4 read-only WorldLedgerPanel
   packages/
     core/
       src/schemas/                       # All Zod contracts
@@ -345,7 +348,9 @@ playable-worlds-lab/
 | Browser text play UI | **Done (W2-S6)** — `/play` |
 | Consequence precondition validation | **Done (W3-S2)** |
 | Flag lifecycle rules | **Done (W3-S3)** — `packages/core/src/ledger/`, `docs/flag-lifecycle.md` |
-| Ledger/debug UI | W3-S4+ |
+| World Ledger UI panel | **Done (W3-S4)** — `/play` sidebar `WorldLedgerPanel` |
+| Debug log model usage | **Done (W3-S5)** — typed builders + validation_failed on failures |
+| Debug log UI panel | W3-S6 |
 | AI Gateway, DirectorAgent | Phase 2 (W4-*) |
 | Temporary instance runtime | Phase 3 (W5-*) |
 | Content libraries, WorldBlueprint, quest generation | Phase 5 extension (W7-S7+, W8-S6+) — scheduled only |
@@ -358,17 +363,17 @@ playable-worlds-lab/
 
 ---
 
-## 8. Next step: W3-S4 — Build World Ledger UI panel
+## 8. Next step: W3-S6 — Build debug log UI panel
 
-**Goal:** Show `activeFlags`, `resolvedFlags`, events, discovered locations, and unlocked goals in browser/debug UI (read-only).
+**Goal:** Render `debugEvents` trace entries for the human/operator (read-only).
 
 **Allowed scope:** `apps/web/features/world-debug`, components, smoke tests.
 
 **Blocked:** AI Gateway, cross-phase work beyond Phase 1 text runtime.
 
-**Done when:** Panel renders ledger entries after a choice.
+**Done when:** Debug panel displays choice/consequence/flag/goal entries after a choice.
 
-**After W3-S4:** W3-S5 Debug trace UI panel (unless human reorders).
+**After W3-S6:** W3-S7 Phase 1 acceptance hardening (unless human reorders).
 
 ---
 
@@ -453,4 +458,4 @@ WorldDefinition ──► loadWorld (W2-S1) ──► initializeWorldSession (W2
 
 ---
 
-*End of agent session handoff. Next approved implement: **W3-S4 World Ledger UI panel**.*
+*End of agent session handoff. Next approved implement: **W3-S6 build debug log UI panel**.*

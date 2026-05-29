@@ -30,7 +30,8 @@ describe("initializeWorldSession", () => {
     expect(result.session?.currentBeatId).toBe("beat_ogre_bridge");
     expect(result.session?.turnNumber).toBe(0);
     expect(result.session?.choiceHistory).toEqual([]);
-    expect(result.session?.debugEvents).toEqual([]);
+    expect(result.session?.debugEvents).toHaveLength(1);
+    expect(result.session?.debugEvents[0]?.type).toBe("session_loaded");
     expect(result.session?.ledger.activeFlags).toEqual([]);
     expect(result.session?.ledger.worldEvents).toEqual([]);
   });
