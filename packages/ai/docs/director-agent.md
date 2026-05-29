@@ -40,4 +40,4 @@ Every call passes a schema-valid `fallbackValue` to the gateway:
 
 - Use `createDirectorAgent(gateway)` in tests with `FakeProvider`
 - Use `createDirectorAgentFromEnv()` in local dev (toggle: [ai-provider-toggle.md](./ai-provider-toggle.md))
-- **Not wired to `/play` yet** — W4-S7+ reasoning UI and runtime integration come later
+- **Not wired to `/play` yet** — W4-S8+ seed threading and deeper runtime integration come later

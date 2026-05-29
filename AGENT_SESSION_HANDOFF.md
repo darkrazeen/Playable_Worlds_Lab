@@ -3,7 +3,7 @@
 **Handoff date:** 2026-05-29  
 **Last reconciled:** 2026-05-29  
 **Workspace:** `Playable_Worlds_Lab`  
-**Purpose:** Onboard a Cursor/agent on the current repo state, contract rules, Phase 0 complete, Phase 1 complete, **Phase 2 W4-S1–S6 complete**, next step **W4-S7** — Show Director reasoning panel.
+**Purpose:** Onboard a Cursor/agent on the current repo state, contract rules, Phase 0 complete, Phase 1 complete, **Phase 2 W4-S1–S8 complete**, next step **W4-S9** — Compute ledger-signal difficulty heuristics.
 
 ---
 
@@ -74,24 +74,26 @@ W1-S1 through W1-S16 — all **Complete**.
 
 ### Phase 2 — in progress (AI Director v1)
 
-| Step   | Name                          | Status              |
-| ------ | ----------------------------- | ------------------- |
-| W4-S1  | AI Gateway                    | **Complete**        |
-| W4-S2  | Expand FakeProvider scenarios | **Complete**        |
-| W4-S3  | OpenAI provider + env toggle  | **Complete**        |
-| W4-S4  | Build DirectorAgent           | **Complete**        |
-| W4-S5  | Build NPCReactionAgent        | **Complete**        |
-| W4-S6  | Integrate fallback / failure  | **Complete**        |
-| W4-S7  | Director reasoning panel      | **Next ← approved** |
-| W4-S8+ | Further Phase 2 steps         | Not started         |
+| Step    | Name                          | Status              |
+| ------- | ----------------------------- | ------------------- |
+| W4-S1   | AI Gateway                    | **Complete**        |
+| W4-S2   | Expand FakeProvider scenarios | **Complete**        |
+| W4-S3   | OpenAI provider + env toggle  | **Complete**        |
+| W4-S4   | Build DirectorAgent           | **Complete**        |
+| W4-S5   | Build NPCReactionAgent        | **Complete**        |
+| W4-S6   | Integrate fallback / failure  | **Complete**        |
+| W4-S7   | Director reasoning panel      | **Complete**        |
+| W4-S8   | Thread generation seed        | **Complete**        |
+| W4-S9   | Difficulty heuristics         | **Next ← approved** |
+| W4-S10+ | Further Phase 2 steps         | Not started         |
 
 **Engine loop (working in tests and browser):** `loadWorld` → `initializeWorldSession` → `selectStoryBeat` → `resolvePlayerChoice` → `applyPlayerChoice` → ledger + debug trace update
 
-**AI loop (W4-S1–S6, not wired to `/play` yet):** `createAIGatewayFromEnv()` → gateway → `DirectorAgent` / `NPCReactionAgent` → `recordAiGatewayOutcome` / debug events (`ai_suggestion`, `fallback_used`, `validation_failed`); play stays deterministic via `applyPlayerChoice`
+**AI loop (W4-S1–S7):** `createAIGatewayFromEnv()` → gateway → agents → debug events; `/play` shows **Director reasoning panel** (read-only, no auto-apply)
 
 **OpenAI toggle (local):** Keep `OPENAI_API_KEY` in gitignored `.env.local`; set `OPENAI_ENABLED=false` (off) or `true` (live). See `packages/ai/docs/ai-provider-toggle.md`.
 
-**Gap to close:** W4-S7 reasoning UI on `/play`; beat progression beyond ogre bridge branches (content/engine, not Phase 2 gate)
+**Gap to close:** W4-S9 difficulty heuristics; beat progression beyond ogre bridge branches (content/engine, not Phase 2 gate)
 
 ### Current snapshot (2026-05-29)
 
@@ -101,16 +103,17 @@ W1-S1 through W1-S16 — all **Complete**.
 | Stonepass canonical JSON                        | **Complete** — passes `parseAndValidateWorldDefinition`                            |
 | FakeProvider                                    | **Complete** (W1-S16 + W4-S2 seed catalog & Stonepass presets)                     |
 | Runtime core (load → consequence)               | **Complete** (W2-S1–S7, W3-S1–S7)                                                  |
-| Browser text play UI                            | **Complete** — `/play` with ledger + debug panels (W3-S4–S6)                       |
+| Browser text play UI                            | **Complete** — `/play` with ledger, debug, and Director reasoning panels           |
 | Beat progression                                | **Partial** — ogre bridge advances (landslide / valley); full Floor 1 arc not done |
 | AI Gateway                                      | **Complete (W4-S1)** — `packages/ai/src/gateway/`, `docs/ai-gateway.md`            |
 | DirectorAgent / NPCReactionAgent                | **Complete (W4-S4–S5)** — gateway-only, no ledger mutation                         |
 | AI fallback debug integration                   | **Complete (W4-S6)** — `recordAiGatewayOutcome`, `generateStructuredWithDebug`     |
 | OpenAI provider + env toggle (`OPENAI_ENABLED`) | **Complete (W4-S3)** — `openaiProvider.ts`, `createAIGatewayFromEnv()`             |
-| Director reasoning UI                           | **Not started** (W4-S7 next)                                                       |
+| Director reasoning UI                           | **Complete (W4-S7)** — `DirectorReasoningPanel` on `/play`                         |
 | Temporary instance runtime                      | Phase 3 — not started                                                              |
 | Spire & gameplay systems                        | **Scheduled** — tracker rows `Not started`; first Spire content step **W5-S13**    |
-| Tests                                           | **315 passing** (52 files) — `npm run test:coverage` for report                    |
+| Generation seed plumbing                        | **Complete (W4-S8)** — `WorldSession.generationSeed`, gateway `session` option     |
+| Tests                                           | **330 passing** (55 files) — `npm run test:coverage` for report                    |
 | CI                                              | typecheck, lint, **format:check**, test, **test:coverage**                         |
 | Step tracker                                    | **122 rows** (99 original + 23 Spire/gameplay rows added 2026-05-29)               |
 

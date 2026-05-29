@@ -1,5 +1,6 @@
 import { appendDebugEvent } from "../debug/appendDebugEvent.js";
 import { buildSessionLoadedEvent } from "../debug/buildDebugEvents.js";
+import { resolveSessionGenerationSeed } from "../runtime/generationSeed.js";
 import type { WorldDefinition } from "../schemas/worldDefinition.js";
 import {
   createWorldSession,
@@ -11,6 +12,8 @@ import { ZodError } from "zod";
 export type InitializeWorldSessionInput = {
   sessionId: string;
   worldVersionId?: string;
+  /** Override world.generationSeed for this run. */
+  generationSeed?: string;
 };
 
 export type InitializeWorldSessionResult = {
@@ -33,14 +36,23 @@ export function initializeWorldSession(
     };
   }
 
+  const worldVersionId = input.worldVersionId ?? `${world.id}_v1`;
+  const generationSeed = resolveSessionGenerationSeed({
+    sessionId: input.sessionId,
+    worldId: world.id,
+    worldGenerationSeed: world.generationSeed,
+    explicitSeed: input.generationSeed,
+  });
+
   let session: WorldSession;
   try {
     session = createWorldSession(
       {
         id: input.sessionId,
         worldId: world.id,
-        worldVersionId: input.worldVersionId ?? `${world.id}_v1`,
+        worldVersionId,
         startingBeatId: world.startingBeatId,
+        generationSeed,
       },
       world,
     );
@@ -66,7 +78,6 @@ export function initializeWorldSession(
     };
   }
 
-  const worldVersionId = input.worldVersionId ?? `${world.id}_v1`;
   const sessionWithTrace = appendDebugEvent(
     validation.data,
     buildSessionLoadedEvent({
@@ -74,6 +85,7 @@ export function initializeWorldSession(
       turnNumber: 0,
       startingBeatId: world.startingBeatId,
       worldVersionId,
+      generationSeed,
     }),
   );
 

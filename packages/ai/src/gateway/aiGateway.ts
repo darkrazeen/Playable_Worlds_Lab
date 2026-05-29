@@ -1,6 +1,11 @@
 import type { z } from "zod";
 
-import { createAIResultSchema, type AIResultOf } from "@playable-worlds/core";
+import {
+  createAIResultSchema,
+  deriveAiGenerationSeed,
+  type AIResultOf,
+  type GenerationSeedSessionContext,
+} from "@playable-worlds/core";
 
 import type { AIProvider } from "../contracts/aiProvider.js";
 import { safeParseAIRequest, type AIRequest } from "../contracts/aiRequest.js";
@@ -17,6 +22,10 @@ export type AIGatewayGenerateOptions<T extends z.ZodTypeAny> = {
    * Must satisfy `schema`; engine code may apply this instead of model output.
    */
   fallbackValue?: z.infer<T>;
+  /**
+   * When the request omits generationSeed, derive one from session root + turn + task.
+   */
+  session?: GenerationSeedSessionContext;
 };
 
 function formatZodErrors(error: z.ZodError): string[] {
@@ -57,9 +66,16 @@ export class AIGateway {
     }
 
     const validatedRequest = requestParse.data;
+    const generationSeed =
+      validatedRequest.generationSeed ??
+      (options.session
+        ? deriveAiGenerationSeed(options.session, validatedRequest.task)
+        : undefined);
+    const requestWithSeed =
+      generationSeed !== undefined ? { ...validatedRequest, generationSeed } : validatedRequest;
 
     try {
-      const providerResult = await this.provider.generateStructured(validatedRequest, schema);
+      const providerResult = await this.provider.generateStructured(requestWithSeed, schema);
       if (providerResult.ok) {
         return providerResult;
       }
@@ -71,7 +87,7 @@ export class AIGateway {
         provider: this.provider.name,
         fallbackUsed: false,
         validationErrors: [`provider: ${message}`],
-        generationSeed: validatedRequest.generationSeed,
+        generationSeed: requestWithSeed.generationSeed,
       }) as AIResultOf<T>;
       return this.applyFallback(failure, schema, fallbackValue);
     }

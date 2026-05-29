@@ -4,7 +4,12 @@ import { useMemo, useState } from "react";
 
 import type { WorldDefinition, WorldSession } from "@playable-worlds/core/schemas";
 
-import { DebugTracePanel, WorldLedgerPanel } from "@/features/world-debug";
+import {
+  DebugTracePanel,
+  DirectorReasoningPanel,
+  useDirectorReasoning,
+  WorldLedgerPanel,
+} from "@/features/world-debug";
 
 import {
   applyPlayChoice,
@@ -23,6 +28,8 @@ export function WorldPlayScreen({ world }: WorldPlayScreenProps) {
   const [feedback, setFeedback] = useState<string | null>(null);
   const [choiceError, setChoiceError] = useState<string | null>(null);
   const [isApplying, setIsApplying] = useState(false);
+
+  const directorReasoning = useDirectorReasoning(session, world);
 
   const displayView = useMemo(
     () =>
@@ -134,6 +141,11 @@ export function WorldPlayScreen({ world }: WorldPlayScreenProps) {
       </div>
 
       <div className="flex w-full shrink-0 flex-col gap-4 lg:w-72">
+        <DirectorReasoningPanel
+          entry={directorReasoning.entry}
+          loading={directorReasoning.loading}
+          error={directorReasoning.error}
+        />
         <WorldLedgerPanel ledger={session.ledger} turnNumber={displayView.turnNumber} />
         <DebugTracePanel debugEvents={session.debugEvents} turnNumber={displayView.turnNumber} />
       </div>

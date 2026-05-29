@@ -1,11 +1,12 @@
 import { describe, expect, it } from "vitest";
 
-import { DirectorDecisionSchema } from "@playable-worlds/core";
+import { deriveAiGenerationSeed, DirectorDecisionSchema } from "@playable-worlds/core";
 
 import type { AIProvider } from "../../../src/contracts/aiProvider.js";
 import type { AIRequest } from "../../../src/contracts/aiRequest.js";
 import { AIGateway, createAIGateway } from "../../../src/gateway/aiGateway.js";
 import { FakeProvider } from "../../../src/providers/fakeProvider.js";
+import { STONEPASS_DIRECTOR_SEED_CATALOG } from "../../../src/providers/fakeProviderScenarios.js";
 
 const directorRequest: AIRequest = {
   task: "director_select_next_beat",
@@ -124,5 +125,37 @@ describe("AIGateway", () => {
 
     expect(result.ok).toBe(false);
     expect(result.validationErrors?.some((e) => e.startsWith("request:"))).toBe(true);
+  });
+
+  it("derives generationSeed from session when the request omits it", async () => {
+    const session = {
+      id: "session_seed_gateway",
+      worldId: "world_stonepass_valley",
+      turnNumber: 0,
+      generationSeed: "root_replay_seed",
+    };
+    const gateway = createAIGateway(
+      new FakeProvider({ scenarioCatalog: STONEPASS_DIRECTOR_SEED_CATALOG }),
+    );
+    const requestWithoutSeed = {
+      task: "director_select_next_beat",
+      prompt: "Suggest the next story beat.",
+    };
+    const expectedSeed = deriveAiGenerationSeed(session, "director_select_next_beat");
+
+    const first = await gateway.generateStructured({
+      request: requestWithoutSeed,
+      schema: DirectorDecisionSchema,
+      session,
+    });
+    const second = await gateway.generateStructured({
+      request: requestWithoutSeed,
+      schema: DirectorDecisionSchema,
+      session,
+    });
+
+    expect(first.generationSeed).toBe(expectedSeed);
+    expect(second.generationSeed).toBe(expectedSeed);
+    expect(first.value?.targetId).toBe(second.value?.targetId);
   });
 });

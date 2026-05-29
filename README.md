@@ -63,11 +63,9 @@ The first proof content is **Stonepass Spire — Floor 1** (legacy file `stonepa
 
 [![CI](https://github.com/darkrazeen/Playable_Worlds_Lab/actions/workflows/ci.yml/badge.svg)](https://github.com/darkrazeen/Playable_Worlds_Lab/actions/workflows/ci.yml)
 
-**Status:** **Phase 0 complete (16/16). Phase 1 text runtime complete (W2-S1–S7, W3-S1–S7).** Stonepass Spire Floor 1 runs in core and at `/play` with ledger + debug panels. **Phase 2 in progress:** W4-S1–S6 done (AI Gateway, FakeProvider, OpenAI toggle, DirectorAgent, NPCReactionAgent, fallback debug integration). **Next:** **W4-S7** — Director reasoning panel (see [step tracker](./Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv)).
+**Status:** **Phase 0 complete (16/16). Phase 1 text runtime complete (W2-S1–S7, W3-S1–S7).** Stonepass runs in core and at `/play`. **Phase 2 in progress:** W4-S1–S8 done. **Next:** **W4-S9** — Difficulty heuristics (see [step tracker](./Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv)).
 
-**Verification (2026-05-29):** **315 tests** passing (52 files); `npm run typecheck`, `npm run lint`, `npm run format:check`, `npm test`, `npm run test:coverage`, and `npm run build` green. CI: `.github/workflows/ci.yml`. Phase 1: `packages/core/docs/phase1-acceptance.md`. Phase 2 AI: `packages/ai/docs/ai-gateway.md`, `fake-provider.md`, `openai-provider.md`, [`ai-provider-toggle.md`](./packages/ai/docs/ai-provider-toggle.md), [`ai-fallback-integration.md`](./packages/ai/docs/ai-fallback-integration.md).
-
-Playable Worlds Lab should be treated as an active experimental product and engineering prototype. The deterministic engine loop works in `@playable-worlds/core` and is wired to the web app at **`/play`**. **Phase 2 agents exist** (DirectorAgent, NPCReactionAgent) with fallback debug events; **W4-S7 reasoning UI** is next and agents are not yet wired to `/play`. Do not overbuild visuals, social systems, marketplaces, or multiplayer before phase gates.
+**Verification (2026-05-29):** **330 tests** passing (55 files). Seed plumbing: [`generation-seed.md`](./packages/core/docs/generation-seed.md).
 
 The first milestone is not “build the full game.”
 
@@ -120,8 +118,8 @@ Progress is tracked in `Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv`. Updat
 | W4-S1                | Phase 2                | AI Gateway                                                                                 | **Complete**              |
 | W4-S2                | Phase 2                | Expand FakeProvider scenarios                                                              | **Complete**              |
 | W4-S3                | Phase 2                | OpenAI provider placeholder                                                                | **Complete**              |
-| W4-S4–S6             | Phase 2                | DirectorAgent, NPCReactionAgent, AI fallback debug integration                             | **Complete**              |
-| W4-S7                | Phase 2                | Show Director reasoning panel                                                              | **Next**                  |
+| W4-S4–S8             | Phase 2                | DirectorAgent, NPC, fallback debug, reasoning panel, generation seed                       | **Complete**              |
+| W4-S9                | Phase 2                | Compute ledger-signal difficulty heuristics                                                | **Next**                  |
 | W7-S7–S11, W8-S6–S12 | Phase 5 extension      | Content libraries, WorldBlueprint, quest generation                                        | Scheduled (`Not started`) |
 | W4-S8–S10            | Phase 2 ext (Spire)    | Seed plumbing, ledger difficulty signal, Director `adjust_difficulty`                      | Scheduled (`Not started`) |
 | W5-S8–S13            | Phase 3 ext (Spire)    | ProgressionLedger, Tier A skills, gear gating, Level 0 combat, **Floor 1**                 | Scheduled (`Not started`) |
@@ -155,7 +153,7 @@ Progress is tracked in `Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv`. Updat
 
 **W2-S1–S6 done when (met):** `loadWorld` / `loadWorldFromFile`; `initializeWorldSession`; `selectStoryBeat`; `resolvePlayerChoice` / `listAvailableChoices`; `applyConsequence` / `applyPlayerChoice`; browser text play at `/play` wired through `@playable-worlds/core` runtime (no direct ledger mutation in UI); Stonepass integration + web smoke tests; **203 tests** green (2026-05-29).
 
-**Next step:** **W4-S7** — Show Director reasoning panel (surface `ai_suggestion` / `fallback_used` from debug trace on `/play`).
+**Next step:** **W4-S9** — Compute ledger-signal difficulty heuristics (advisory).
 
 ### Data contract (v4.2 hybrid)
 
@@ -215,7 +213,7 @@ Game logic lives in **`@playable-worlds/core`**; the web app is a thin presentat
 
 ## Current Repository Layout
 
-What exists after Phase 1 + W4-S1–S3 (DirectorAgent W4-S4 not wired to `/play` yet):
+What exists after Phase 1 + W4-S1–S7 (Director reasoning panel on `/play`; suggestions not auto-applied):
 
 ```text
 playable-worlds-lab/
@@ -320,7 +318,7 @@ npm run build -w @playable-worlds/web
 ### Verify the project
 
 ```bash
-npm test              # Vitest — 315 tests (core, ai, web)
+npm test              # Vitest — 330 tests (core, ai, web)
 npm run test:coverage # coverage report (CI runs this)
 npm run typecheck     # TypeScript — web + all workspace packages
 npm run lint          # ESLint — all workspaces
@@ -351,7 +349,7 @@ npm run format
 | `npm run dev`           | Next.js dev server (`@playable-worlds/web`) on port 3000 |
 | `npm run build`         | Next.js production build                                 |
 | `npm run start`         | Next.js production server (after build)                  |
-| `npm test`              | Vitest — 315 tests across core, ai, content, web         |
+| `npm test`              | Vitest — 330 tests across core, ai, content, web         |
 | `npm run test:coverage` | Coverage report (runs in CI)                             |
 | `npm run typecheck`     | `tsc --noEmit` in all workspaces that define it          |
 | `npm run lint`          | ESLint in all workspaces (core, ai, content, web)        |
@@ -689,7 +687,7 @@ Use this table when deciding whether to implement part of the reference scenario
 | Save / share / fork                             | Share mini-adventure with others | Phase 6                  |
 | 2D map / enter region visually                  | Same triggers, visual layer      | Phase 8                  |
 
-**Current build status (2026-05-29):** Phase 0 complete. **Phase 1 complete (W2-S1–S7, W3-S1–S7):** deterministic runtime, `/play` UI, ledger + debug panels, beat progression on ogre bridge, Phase 1 acceptance tests. **Phase 2 in progress:** **W4-S1–S6** gateway, providers, DirectorAgent, NPCReactionAgent, fallback debug integration — **agents not wired to `/play` yet**. **Next:** W4-S7 reasoning panel. **Not yet:** temporary instance runtime, persistence, share. See [step tracker](./Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv).
+**Current build status (2026-05-29):** Phase 0 complete. **Phase 1 complete.** **Phase 2 in progress:** **W4-S1–S8** including generation seed on `WorldSession` and AI Gateway. **Next:** W4-S9 difficulty heuristics.
 
 ---
 

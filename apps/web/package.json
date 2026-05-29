@@ -10,6 +10,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@playable-worlds/ai": "0.1.0",
     "@playable-worlds/content": "0.1.0",
     "@playable-worlds/core": "0.1.0",
     "next": "^15.2.4",

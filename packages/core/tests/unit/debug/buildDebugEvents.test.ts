@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import {
   buildFlagsChangedEvent,
+  buildSessionLoadedEvent,
   buildValidationFailedEvent,
 } from "../../../src/debug/buildDebugEvents.js";
 import { createEmptyWorldLedger } from "../../../src/schemas/worldLedger.js";
@@ -49,5 +50,18 @@ describe("buildDebugEvents", () => {
     expect(event.type).toBe("validation_failed");
     expect(event.metadata?.errors).toEqual(["runtime: choice blocked"]);
     expect(event.metadata?.choiceId).toBe("fight_ogre");
+  });
+
+  it("builds session_loaded with generationSeed metadata", () => {
+    const event = buildSessionLoadedEvent({
+      sessionId: "session_seed_loaded",
+      turnNumber: 0,
+      startingBeatId: "beat_ogre_bridge",
+      worldVersionId: "world_stonepass_valley_v1",
+      generationSeed: "root_seed_001",
+    });
+
+    expect(event.type).toBe("session_loaded");
+    expect(event.metadata?.generationSeed).toBe("root_seed_001");
   });
 });

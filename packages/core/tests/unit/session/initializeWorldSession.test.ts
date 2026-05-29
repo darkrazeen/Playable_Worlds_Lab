@@ -29,6 +29,12 @@ describe("initializeWorldSession", () => {
     expect(result.session?.choiceHistory).toEqual([]);
     expect(result.session?.debugEvents).toHaveLength(1);
     expect(result.session?.debugEvents[0]?.type).toBe("session_loaded");
+    expect(result.session?.generationSeed).toBe(
+      "world_stonepass_valley_session_stonepass_test_001",
+    );
+    expect(result.session?.debugEvents[0]?.metadata?.generationSeed).toBe(
+      "world_stonepass_valley_session_stonepass_test_001",
+    );
     expect(result.session?.ledger.activeFlags).toEqual([]);
     expect(result.session?.ledger.worldEvents).toEqual([]);
   });
@@ -42,6 +48,18 @@ describe("initializeWorldSession", () => {
 
     expect(result.ok).toBe(true);
     expect(result.session?.worldVersionId).toBe("world_stonepass_valley_custom_v2");
+  });
+
+  it("accepts an explicit generationSeed override", () => {
+    const loadResult = loadWorldFromFile(stonepassWorldPath);
+    const result = initializeWorldSession(loadResult.world!, {
+      sessionId: "session_stonepass_test_seed",
+      generationSeed: "custom_run_seed_42",
+    });
+
+    expect(result.ok).toBe(true);
+    expect(result.session?.generationSeed).toBe("custom_run_seed_42");
+    expect(result.session?.debugEvents[0]?.metadata?.generationSeed).toBe("custom_run_seed_42");
   });
 
   it("returns structured errors when startingBeatId is missing from the world", () => {

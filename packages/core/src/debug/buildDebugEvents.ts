@@ -41,6 +41,7 @@ export type SessionLoadedDebugInput = {
   turnNumber: number;
   startingBeatId: string;
   worldVersionId: string;
+  generationSeed?: string;
 };
 
 export type AiSuggestionDebugInput = {
@@ -165,6 +166,7 @@ export function buildSessionLoadedEvent(input: SessionLoadedDebugInput): DebugEv
     metadata: {
       worldVersionId: input.worldVersionId,
       startingBeatId: input.startingBeatId,
+      ...(input.generationSeed ? { generationSeed: input.generationSeed } : {}),
     },
   };
 }

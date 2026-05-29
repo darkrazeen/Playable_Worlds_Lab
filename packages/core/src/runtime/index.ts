@@ -12,3 +12,9 @@ export {
   type ResolvePlayerChoiceResult,
 } from "./resolvePlayerChoice.js";
 export { recordAiGatewayOutcome, type RecordAiOutcomeContext } from "./recordAiOutcome.js";
+export {
+  deriveAiGenerationSeed,
+  resolveSessionGenerationSeed,
+  type GenerationSeedSessionContext,
+  type ResolveSessionGenerationSeedInput,
+} from "./generationSeed.js";

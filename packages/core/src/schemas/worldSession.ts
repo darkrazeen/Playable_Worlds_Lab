@@ -18,6 +18,8 @@ export const ChoiceIdSchema = NamedIdSchema;
 
 export const ChoiceHistorySchema = z.array(ChoiceIdSchema).default([]);
 
+export const GenerationSeedSchema = z.string().min(1);
+
 export const WorldSessionSchema = z.object({
   id: WorldSessionIdSchema,
   schemaVersion: SchemaVersionSchema,
@@ -29,6 +31,8 @@ export const WorldSessionSchema = z.object({
   currentTemporaryRoomId: TemporaryInstanceRoomIdSchema.optional(),
   turnNumber: z.number().int().min(0),
   choiceHistory: ChoiceHistorySchema,
+  /** Root seed for reproducible AI sub-seeds across the run. */
+  generationSeed: GenerationSeedSchema.optional(),
   debugEvents: z.array(DebugEventSchema).default([]),
 });
 
@@ -48,6 +52,7 @@ export type CreateWorldSessionInput = {
   worldVersionId: string;
   startingBeatId: string;
   schemaVersion?: string;
+  generationSeed?: string;
 };
 
 /**
@@ -71,6 +76,7 @@ export function createWorldSession(
     ledger: createEmptyWorldLedger(),
     turnNumber: 0,
     choiceHistory: [],
+    ...(input.generationSeed ? { generationSeed: input.generationSeed } : {}),
     debugEvents: [],
   });
 }
