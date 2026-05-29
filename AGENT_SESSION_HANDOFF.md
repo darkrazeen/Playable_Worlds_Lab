@@ -3,7 +3,7 @@
 **Handoff date:** 2026-05-29  
 **Last reconciled:** 2026-05-29  
 **Workspace:** `Playable_Worlds_Lab`  
-**Purpose:** Onboard a Cursor/agent on the current repo state, contract rules, Phase 0 complete, Phase 1 W2-S1–S5 complete, and the next approved step (**W2-S6**).
+**Purpose:** Onboard a Cursor/agent on the current repo state, contract rules, Phase 0 complete, Phase 1 W2-S1–S6 complete, and the next approved step (**W2-S7**).
 
 ---
 
@@ -32,10 +32,10 @@
 
 **Playable Worlds Lab** is a schema-first, text-first **AI-directed world engine** where player choices change remembered world state.
 
-- **First proof world:** Stonepass Valley (ogre bridge → choice branches → landslide → cave → dragon).
+- **First proof content:** **Stonepass Spire — Floor 1** (ogre bridge → branches; Floors 2–3 carry landslide/cave/boss as systems land). Legacy file: `stonepass-valley.world.json`.
 - **Not day one:** 3D metaverse, full economy, multiplayer, public UGC marketplace.
 - **Long-term vision:** Rich Stonepass showcase (v2), AI Director variation, **player-themed worlds** (WorldBlueprint + content libraries — [Future_Features/Player_World_Generation_and_Content_Libraries.md](./Future_Features/Player_World_Generation_and_Content_Libraries.md)), **quest generation** ([Future_Features/Quest_Generation.md](./Future_Features/Quest_Generation.md), tracker W8-S9–S12), 2D/3D as output layers on same JSON.
-- **Flagship product direction (scheduled 2026-05-29):** **Stonepass Spire** — retune Stonepass into an Aincrad-style **100-floor castle** (single-player). Floor = `WorldDefinition`; castle = vertical `RegionMap` gated by `floor_N_cleared`; boss raids = multi-phase instances; **Tier A** RuneScape-inspired combat/skills (bounded, usage-advanced). **23 tracker rows** interleaved into Weeks 4–12 (see §3 *Spire & gameplay systems*). Specs: [Stonepass_Spire_Aincrad_Castle.md](./Future_Features/Stonepass_Spire_Aincrad_Castle.md), [Combat_and_Encounter_Resolution.md](./Future_Features/Combat_and_Encounter_Resolution.md), and linked docs in [Future_Features/README.md](./Future_Features/README.md). **Phase gates unchanged — next step is still W2-S6.** Do not implement Spire rows until each reaches `Next` with human approval. Out of scope: guilds, multiplayer, AI-authored NPCs, Tier B continuous XP (README boundary amendment required).
+- **Flagship product direction (scheduled 2026-05-29):** **Stonepass Spire** — retune Stonepass into an Aincrad-style **100-floor castle** (single-player). Floor = `WorldDefinition`; castle = vertical `RegionMap` gated by `floor_N_cleared`; boss raids = multi-phase instances; **Tier A** RuneScape-inspired combat/skills (bounded, usage-advanced). **23 tracker rows** interleaved into Weeks 4–12 (see §3 *Spire & gameplay systems*). Specs: [Stonepass_Spire_Aincrad_Castle.md](./Future_Features/Stonepass_Spire_Aincrad_Castle.md), [Combat_and_Encounter_Resolution.md](./Future_Features/Combat_and_Encounter_Resolution.md), and linked docs in [Future_Features/README.md](./Future_Features/README.md). **Phase gates unchanged — next step is W2-S7.** Do not implement Spire rows until each reaches `Next` with human approval. Out of scope: guilds, multiplayer, AI-authored NPCs, Tier B continuous XP (README boundary amendment required).
 
 ```text
 WorldDefinition → StoryBeats → PlayerChoices → Consequences → WorldLedger
@@ -53,7 +53,7 @@ Tracked in [Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv](./Playable_Worlds_
 
 W1-S1 through W1-S16 — all **Complete**.
 
-### Phase 1 — in progress (5/7+ through W2-S7)
+### Phase 1 — in progress (6/7+ through W2-S7)
 
 | Step | Name | Status |
 | --- | --- | --- |
@@ -62,12 +62,12 @@ W1-S1 through W1-S16 — all **Complete**.
 | W2-S3 | Story beat selector | **Complete** |
 | W2-S4 | Choice resolver | **Complete** |
 | W2-S5 | Apply consequence through runtime | **Complete** |
-| W2-S6 | Text play screen | **Next ← approved** |
-| W2-S7+ | Path tests, W3 consequence engine | Not started |
+| W2-S6 | Text play screen | **Complete** |
+| W2-S7+ | Path tests, W3 consequence engine | **Next ← approved** |
 
-**Engine loop (working in tests, not yet in browser):** `loadWorld` → `initializeWorldSession` → `selectStoryBeat` → `resolvePlayerChoice` → `applyPlayerChoice`
+**Engine loop (working in tests and browser):** `loadWorld` → `initializeWorldSession` → `selectStoryBeat` → `resolvePlayerChoice` → `applyPlayerChoice`
 
-**Gap to close:** W2-S6 wires this loop into `apps/web`. The home page at `http://localhost:3000` is still a placeholder.
+**Gap to close:** W2-S7 adds manual Stonepass path tests; browser play at `/play` is live.
 
 ### Current snapshot (2026-05-29)
 
@@ -77,11 +77,11 @@ W1-S1 through W1-S16 — all **Complete**.
 | Stonepass canonical JSON | **Complete** — passes `parseAndValidateWorldDefinition` |
 | FakeProvider | **Complete** — no real AI calls |
 | Runtime core (load → consequence) | **Complete** (W2-S1–S5) |
-| Browser text play UI | **Not started** — W2-S6 next |
+| Browser text play UI | **Complete** — W2-S6 at `/play` |
 | AI Gateway / Director | Phase 2 — not started |
 | Temporary instance runtime | Phase 3 — not started |
 | Spire & gameplay systems (combat Tier A, progression, gear, region, manifest) | **Scheduled** — tracker rows `Not started`; first Spire content step **W5-S13** (after Phase 3 instances) |
-| Tests | **200 passing** (28 files) |
+| Tests | **203 passing** (29 files) |
 | CI | `.github/workflows/ci.yml` — typecheck, lint, test |
 | Step tracker | **122 rows** (99 original + 23 Spire/gameplay rows added 2026-05-29) |
 
@@ -110,7 +110,7 @@ Tracker rows added **2026-05-29** (all `Not started`; interleaved into existing 
 
 **Milestones (future):** single floor fun in text (**W5-S13**) → *Castle proven* = 2 floors + ascension (**W8-S17**) → continue-your-climb persistence (**W9-S7**).
 
-**None of these are startable now** — all gated behind Phase 2/3+ work. After W2-S6: W2-S7 → W3-* → …
+**None of these are startable now** — all gated behind Phase 2/3+ work. After W2-S7: W3-* → …
 
 Detailed per-step notes are in the CSV documentation columns — see §5.
 
@@ -290,9 +290,9 @@ Full rules: FULL_CURSOR §17. Do not fill `Commit Hash` unless the human provide
 
 ```text
 playable-worlds-lab/
-  apps/web/                              # Next.js shell — placeholder home; W2-S6 world-play UI next
-    app/
-    features/                            # W2-S6 target: world-play
+  apps/web/                              # Next.js — home + /play text UI (W2-S6)
+    app/play/                            # Stonepass play page
+    features/world-play/                 # W2-S6 world-play feature
   packages/
     core/
       src/schemas/                       # All Zod contracts
@@ -338,7 +338,7 @@ playable-worlds-lab/
 | World loader | **Done (W2-S1)** |
 | Session init at runtime | **Done (W2-S2)** |
 | Beat selector, choice resolver, first consequence apply | **Done (W2-S3–S5)** |
-| Browser text play UI | **W2-S6 ← NEXT** |
+| Browser text play UI | **Done (W2-S6)** — `/play` |
 | Consequence Engine core, ledger/debug UI | W3-* |
 | AI Gateway, DirectorAgent | Phase 2 (W4-*) |
 | Temporary instance runtime | Phase 3 (W5-*) |
@@ -352,30 +352,23 @@ playable-worlds-lab/
 
 ---
 
-## 8. Next step: W2-S6 — Text play screen
+## 8. Next step: W2-S7 — Manual Stonepass path tests
 
-**Goal:** Minimal browser text play screen for Stonepass choices wired to `@playable-worlds/core` runtime.
+**Goal:** Add deterministic integration tests for all five ogre bridge choices without AI.
 
-**Allowed scope:** `apps/web/features/world-play`, minimal components, smoke tests.
+**Allowed scope:** `packages/core/tests/integration`, optional extension of `apps/web` smoke tests.
 
 **Blocked:** Consequence Engine refactor (W3-S1), ledger/debug panels, AI Gateway, cross-phase work.
 
 ### Deliverables
 
-1. **Play page** — load Stonepass, init session, show beat text + valid choice buttons.
-2. **Wire runtime** — use `loadWorld`, `initializeWorldSession`, `selectStoryBeat`, `listAvailableChoices`, `applyPlayerChoice` (no direct ledger mutation in UI).
-3. **Smoke test** — page renders and offers valid choices.
-4. **Update step tracker CSV** — all documentation columns per §17.
+1. **Integration tests** — each ogre choice from a fresh session updates ledger/debug as expected.
+2. **Validate world and session** before/after each action.
+3. **Update step tracker CSV** — all documentation columns per §17.
 
-**W2-S6 implementation notes:**
+**Done when:** All five ogre choices are covered by deterministic path tests.
 
-- Add `transpilePackages: ["@playable-worlds/core", "@playable-worlds/content"]` to `apps/web/next.config.ts` before importing workspace packages (see `apps/web/README.md`).
-- Keep session state in React; call core runtime functions — never mutate ledger directly in UI.
-- Server-side world load may need a thin API route or pre-bundled Stonepass JSON depending on Next.js server/client boundaries.
-
-**Done when:** User can start Stonepass in browser and choose a valid action; smoke test passes.
-
-**After W2-S6:** W2-S7 manual Stonepass path tests.
+**After W2-S7:** W3-S1 Consequence Engine core (unless human reorders).
 
 ---
 
@@ -391,6 +384,7 @@ playable-worlds-lab/
 | **Git** | Agent should not commit unless asked |
 | **Step tracker detail** | Five documentation columns required post-step (2026-05-28) |
 | **Phase 5 extension tracker** | W7-S7–S11 libraries + W8-S6–S12 WorldBlueprint/quest rows in CSV (2026-05-28); implement when `Next` |
+| **Spire product naming** | "Stonepass Valley" deprecated as product name; play **Stonepass Spire — Floor 1** at `/play`; Floors 1–3 map legacy Valley arc; ids/paths rename at W5-S13 (2026-05-29) |
 | **Spire & gameplay systems tracker** | 23 rows interleaved W4–W12 (2026-05-29); Tier A combat only; Tier B needs README amendment; implement when `Next` |
 
 ---
@@ -419,7 +413,7 @@ npm test
 npm run typecheck
 npm run lint
 npm run build
-npm run dev    # http://localhost:3000 — placeholder home page until W2-S6
+npm run dev    # http://localhost:3000 — home; /play for Stonepass (W2-S6)
 ```
 
 ---
@@ -428,8 +422,8 @@ npm run dev    # http://localhost:3000 — placeholder home page until W2-S6
 
 1. This file — `AGENT_SESSION_HANDOFF.md`
 2. [Playable_Worlds_Lab_v4_1_FULL_CURSOR.md §22](./Playable_Worlds_Lab_v4_1_FULL_CURSOR.md#22-contract-v42-hybrid-addendum-implementation-tracking)
-3. W2-S6 step card in FULL_CURSOR §17
-4. [Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv](./Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv) — row W2-S6 (`Next`); **122 rows total**
+3. W2-S7 step card in FULL_CURSOR §17
+4. [Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv](./Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv) — row W2-S7 (`Next`); **122 rows total**
 5. `packages/core/src/runtime/` and `packages/core/src/world/` for conventions
 6. `stonepass-valley.world.json` as reference content
 7. [Future_Features/](./Future_Features/README.md) — long-term vision including Spire track (**not current implementation**)
@@ -454,9 +448,9 @@ DebugEvent (W1-S12) ──┘
 DirectorDecision (W1-S7) ──► AIResult<T> (W1-S13) ──► FakeProvider (W1-S16, Done)
 WorldDefinition ──► loadWorld (W2-S1) ──► initializeWorldSession (W2-S2)
   ──► selectStoryBeat (W2-S3) ──► resolvePlayerChoice (W2-S4) ──► applyPlayerChoice (W2-S5)
-  ──► text play UI (W2-S6, Next)
+  ──► text play UI (W2-S6, Complete)
 ```
 
 ---
 
-*End of agent session handoff. Next approved implement: **W2-S6 text play screen** in `apps/web/features/world-play`.*
+*End of agent session handoff. Next approved implement: **W2-S7 manual Stonepass path tests**.*

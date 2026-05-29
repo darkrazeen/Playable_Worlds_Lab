@@ -24,7 +24,7 @@ function loadStonepassWorld() {
   return JSON.parse(readFileSync(stonepassWorldPath, "utf8"));
 }
 
-describe("Stonepass Valley world content", () => {
+describe("Stonepass Spire Floor 1 world content", () => {
   it("loads canonical stonepass-valley.world.json and passes parse + cross-file validation", () => {
     const raw = loadStonepassWorld();
     const result = parseAndValidateWorldDefinition(raw);
@@ -32,6 +32,7 @@ describe("Stonepass Valley world content", () => {
     expect(result.ok).toBe(true);
     expect(result.errors).toEqual([]);
     expect(result.world?.id).toBe("world_stonepass_valley");
+    expect(result.world?.title).toBe("Stonepass Spire — Floor 1");
     expect(result.world?.schemaVersion).toBe("0.2.0");
     expect(result.world?.startingBeatId).toBe("beat_ogre_bridge");
   });

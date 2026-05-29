@@ -4,9 +4,9 @@ Brainstorm and specification docs for features **scheduled or planned** in the s
 
 **Tracker status (2026-05-28):** W7-S7–S11 (content libraries), W8-S6–S12 (WorldBlueprint + quest generation) are in the CSV as `Not started` — implement only when each step is human-approved as `Next`.
 
-**Tracker status (2026-05-29):** the flagship **Stonepass Spire** track and the gameplay systems it needs were added to the CSV as `Not started`, interleaved across Weeks 4–12 (W4-S8–S10, W5-S8–S13, W7-S12–S13, W8-S13–S20, W9-S7–S9, W12-S8). Phase gates are unchanged; the next step is still **W2-S6**. See *Scheduled: Stonepass Spire & gameplay systems* below.
+**Tracker status (2026-05-29):** the flagship **Stonepass Spire** track and the gameplay systems it needs were added to the CSV as `Not started`, interleaved across Weeks 4–12 (W4-S8–S10, W5-S8–S13, W7-S12–S13, W8-S13–S20, W9-S7–S9, W12-S8). Phase gates are unchanged; the next step is **W2-S7**. **Product naming:** play **Stonepass Spire — Floor 1** at `/play`; "Stonepass Valley" is deprecated as a product name (see [Stonepass_Spire_Aincrad_Castle.md](./Stonepass_Spire_Aincrad_Castle.md#product-naming-human-approved-2026-05-29)).
 
-**"Earliest implementable" = the prerequisite step/gate that must be `Complete` before this feature can start.** It does not mean the feature is scheduled — proposed features still need human-approved tracker rows. Current build state (2026-05-29): Phase 0 complete; Phase 1 W2-S1–S5 done; **W2-S6 is next**. Tracker has **122 rows** (includes Spire & gameplay systems scheduled 2026-05-29).
+**"Earliest implementable" = the prerequisite step/gate that must be `Complete` before this feature can start.** It does not mean the feature is scheduled — proposed features still need human-approved tracker rows. Current build state (2026-05-29): Phase 0 complete; Phase 1 W2-S1–S6 done; **W2-S7 is next**. `/play` loads **Stonepass Spire — Floor 1**. Tracker has **122 rows** (includes Spire & gameplay systems scheduled 2026-05-29).
 
 ### Scheduled in step tracker (CSV rows added 2026-05-28)
 

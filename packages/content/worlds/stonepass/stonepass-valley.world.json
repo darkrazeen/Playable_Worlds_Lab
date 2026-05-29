@@ -1,8 +1,8 @@
 {
   "schemaVersion": "0.2.0",
   "id": "world_stonepass_valley",
-  "title": "Stonepass Valley",
-  "summary": "The canonical Stonepass v1 proof world: an ogre blocks the bridge, five choices branch the story, and the fight path triggers a landslide that exposes a hidden cave and awakens a dragon.",
+  "title": "Stonepass Spire — Floor 1",
+  "summary": "Floor 1 of Stonepass Spire: the blocked bridge at the tower's base. Five choices branch the climb; the fight path triggers a landslide, a hidden cave labyrinth, and the first floor boss.",
   "worldDNA": {
     "genre": "fantasy",
     "tone": "heroic",
@@ -17,7 +17,7 @@
     {
       "id": "beat_ogre_bridge",
       "title": "The Blocked Bridge",
-      "description": "An ogre blocks the only bridge into Stonepass Valley. Mist hangs over the river and the old stones groan under its weight.",
+      "description": "An ogre blocks the only bridge at the foot of Stonepass Spire. Mist hangs over the river and the old stones groan under its weight.",
       "trigger": "player_reaches_bridge",
       "availableChoices": [
         {
@@ -83,8 +83,8 @@
     },
     {
       "id": "beat_valley_square",
-      "title": "Stonepass Square",
-      "description": "You cross the bridge into Stonepass Valley. Lanterns flicker in the square and Elder Mara watches travelers from the old well.",
+      "title": "Spire Antechamber",
+      "description": "You cross the bridge into the Spire's lower antechamber. Lanterns flicker in the square and Elder Mara watches climbers from the old well.",
       "trigger": "player_enters_valley",
       "requiredFlags": ["ogre_peaceful_crossing"],
       "availableChoices": [
@@ -303,7 +303,7 @@
       "id": "npc_ogre",
       "name": "Bridge Ogre",
       "role": "blocker",
-      "description": "A hulking ogre guarding the only bridge into Stonepass Valley.",
+      "description": "A hulking ogre guarding the only bridge at the foot of Stonepass Spire.",
       "attitude": "hostile",
       "toneRules": ["gruff", "simple speech", "teen-safe threats"],
       "knownFlags": ["ogre_blocks_bridge", "bridge_open", "ogre_allied", "ogre_tricked"]

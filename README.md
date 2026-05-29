@@ -10,7 +10,7 @@ The short version:
 
 This project is not trying to become a giant 3D metaverse on day one. The first goal is smaller, stricter, and more useful: prove that an AI-assisted game world can be represented as structured game logic, validated safely, played through meaningful choices, remembered through state, tested for broken paths, and eventually rendered through richer visual layers.
 
-The first proof world is **Stonepass Valley** — a compact fantasy scenario used to prove the engine, with a planned evolution into a **strong text showcase** (multiple loops, encounters, AI-directed variation) and later **2D/3D output layers** using the same world data. See [First Proof World: Stonepass Valley](#first-proof-world-stonepass-valley) for the minimum proof chain, showcase intent, and the [regional quest reference scenario](#reference-scenario-regional-quest-offer) to implement when the runtime is ready.
+The first proof content is **Stonepass Spire — Floor 1** (legacy file `stonepass-valley.world.json`): a compact fantasy climb at the tower's base, with **Floors 2–3** planned for the landslide/cave/boss arc as systems land. See [First Proof World: Stonepass Spire](#first-proof-world-stonepass-spire) for the minimum proof chain and the [regional quest reference scenario](#reference-scenario-regional-quest-offer) to implement when the runtime is ready.
 
 ---
 
@@ -26,7 +26,7 @@ The first proof world is **Stonepass Valley** — a compact fantasy scenario use
 - [What This Project Is Not](#what-this-project-is-not)
 - [Core Product Thesis](#core-product-thesis)
 - [Why Text First](#why-text-first)
-- [First Proof World: Stonepass Valley](#first-proof-world-stonepass-valley)
+- [First Proof World: Stonepass Spire](#first-proof-world-stonepass-spire)
   - [Stonepass: Minimum vs Showcase](#stonepass-minimum-vs-showcase)
   - [Long-term demo and 2D/3D path](#long-term-demo-and-2d3d-path)
   - [Reference scenario: Regional quest offer](#reference-scenario-regional-quest-offer)
@@ -63,17 +63,17 @@ The first proof world is **Stonepass Valley** — a compact fantasy scenario use
 
 [![CI](https://github.com/darkrazeen/Playable_Worlds_Lab/actions/workflows/ci.yml/badge.svg)](https://github.com/darkrazeen/Playable_Worlds_Lab/actions/workflows/ci.yml)
 
-**Status:** **Phase 0 complete (16/16 steps). Phase 1 in progress (5/7 through W2-S7).** All Phase 0 schemas, cross-file validator, canonical Stonepass world JSON, `FakeProvider`, and the **deterministic text runtime core** (load → session → beat → choice → consequence) are implemented and tested. **Next:** W2-S6 — browser text play screen.
+**Status:** **Phase 0 complete (16/16 steps). Phase 1 in progress (6/7 through W2-S7).** All Phase 0 schemas, cross-file validator, canonical Stonepass world JSON, `FakeProvider`, the **deterministic text runtime core** (load → session → beat → choice → consequence), and the **browser text play UI** are implemented and tested. **Next:** W2-S7 — manual Stonepass path tests.
 
-**Verification (2026-05-28):** 200 tests passing (28 files); `npm run typecheck`, `npm run lint`, and `npm run build` green. CI workflow at `.github/workflows/ci.yml`.
+**Verification (2026-05-29):** 203 tests passing (29 files); `npm run typecheck`, `npm run lint`, and `npm run build` green. CI workflow at `.github/workflows/ci.yml`.
 
-Playable Worlds Lab should be treated as an active experimental product and engineering prototype. The deterministic engine loop works in `@playable-worlds/core` tests; the web app is still a placeholder until W2-S6 wires it up. The current priority is to finish Phase 1 text play correctly, not to overbuild visuals, social systems, marketplaces, or multiplayer too early.
+Playable Worlds Lab should be treated as an active experimental product and engineering prototype. The deterministic engine loop works in `@playable-worlds/core` and is wired to the web app at **`/play`**. The current priority is to finish Phase 1 path tests and consequence engine work correctly, not to overbuild visuals, social systems, marketplaces, or multiplayer too early.
 
 The first milestone is not “build the full game.”
 
 The first milestone is:
 
-> Make Stonepass Valley playable in the browser as a text-first world where choices update world state, consequences are recorded in a ledger, AI can suggest next steps safely, and invalid generated output is rejected.
+> Make **Stonepass Spire — Floor 1** playable in the browser as text-first climb content where choices update world state, consequences are recorded in a ledger, AI can suggest next steps safely, and invalid generated output is rejected.
 
 ---
 
@@ -81,7 +81,7 @@ The first milestone is:
 
 Progress is tracked in `Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv`. Update this table when a step is finished.
 
-**Agent handoff (latest session):** [AGENT_SESSION_HANDOFF.md](./AGENT_SESSION_HANDOFF.md) — current state, v4.2 contract, engine loop, next step **W2-S6**.
+**Agent handoff (latest session):** [AGENT_SESSION_HANDOFF.md](./AGENT_SESSION_HANDOFF.md) — current state, v4.2 contract, engine loop, next step **W2-S7**.
 
 **Future ideas (scheduled in step tracker as Not started):** see [Future_Features/](./Future_Features/README.md) — [player-themed worlds + content libraries](./Future_Features/Player_World_Generation_and_Content_Libraries.md), [quest generation (W8-S9–S12)](./Future_Features/Quest_Generation.md#quest-foundation-vs-ai-flavor-creator-contract), and the **flagship [Stonepass Spire](./Future_Features/Stonepass_Spire_Aincrad_Castle.md)** (Aincrad-style 100-floor castle) plus the gameplay systems it needs — combat **Tier A**, progression, gear, region composer, dynamic difficulty, and seed/variation — now interleaved into the tracker as **W4-S8 … W12-S8** (see the *Spire & Gameplay Systems track* in `Playable_Worlds_Lab_v4_1_FULL_CURSOR.md` §13).
 
@@ -101,15 +101,16 @@ Progress is tracked in `Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv`. Updat
 | **W1-S12** | Phase 0 — Foundation | Create DebugEvent schema | **Done** |
 | **W1-S13** | Phase 0 — Foundation | Create AIResult contract | **Done** |
 | **W1-S14** | Phase 0 — Foundation | validateWorldDefinition | **Done** |
-| **W1-S15** | Phase 0 — Foundation | Stonepass Valley world JSON | **Done** |
+| **W1-S15** | Phase 0 — Foundation | Stonepass Spire Floor 1 world JSON (legacy `stonepass-valley`) | **Done** |
 | **W1-S16** | Phase 0 — Foundation | FakeProvider + AIProvider | **Done** |
 | **W2-S1** | Phase 1 — Text runtime | Build world JSON loader | **Done** |
 | **W2-S2** | Phase 1 — Text runtime | Initialize WorldSession | **Done** |
 | **W2-S3** | Phase 1 — Text runtime | Story beat selector | **Done** |
 | **W2-S4** | Phase 1 — Text runtime | Choice resolver | **Done** |
 | **W2-S5** | Phase 1 — Text runtime | Apply consequence through runtime | **Done** |
-| **W2-S6** | Phase 1 — Text runtime | Build text play screen | **Next** |
-| W2-S7 … W3-* | Phase 1+ | Path tests, consequence engine, debug UI | Not started |
+| **W2-S6** | Phase 1 — Text runtime | Build text play screen | **Done** |
+| **W2-S7** | Phase 1 — Text runtime | Manual Stonepass path tests | **Next** |
+| W3-* | Phase 1+ | Consequence engine, debug UI | Not started |
 | W7-S7–S11, W8-S6–S12 | Phase 5 extension | Content libraries, WorldBlueprint, quest generation | Scheduled (`Not started`) |
 | W4-S8–S10 | Phase 2 ext (Spire) | Seed plumbing, ledger difficulty signal, Director `adjust_difficulty` | Scheduled (`Not started`) |
 | W5-S8–S13 | Phase 3 ext (Spire) | ProgressionLedger, Tier A skills, gear gating, Level 0 combat, **Floor 1** | Scheduled (`Not started`) |
@@ -141,9 +142,9 @@ Progress is tracked in `Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv`. Updat
 
 **W1-S11–S16 done when (met):** WorldSession, DebugEvent, AIResult schemas; `validateWorldDefinition` + Stonepass canonical JSON at `packages/content/worlds/stonepass/`; `FakeProvider` in `packages/ai`.
 
-**W2-S1–S5 done when (met):** `loadWorld` / `loadWorldFromFile` in `packages/core/src/world/`; `initializeWorldSession`; `selectStoryBeat`; `resolvePlayerChoice` / `listAvailableChoices`; `applyConsequence` / `applyPlayerChoice` with ledger + debug trace updates; Stonepass integration tests for load, session, beat, choice, and fight_ogre consequence; **200 tests** green (2026-05-28).
+**W2-S1–S6 done when (met):** `loadWorld` / `loadWorldFromFile`; `initializeWorldSession`; `selectStoryBeat`; `resolvePlayerChoice` / `listAvailableChoices`; `applyConsequence` / `applyPlayerChoice`; browser text play at `/play` wired through `@playable-worlds/core` runtime (no direct ledger mutation in UI); Stonepass integration + web smoke tests; **203 tests** green (2026-05-29).
 
-**Next step:** **W2-S6** — Build text play screen in `apps/web/features/world-play` (wire `@playable-worlds/core` runtime to browser UI).
+**Next step:** **W2-S7** — Manual Stonepass path tests for all five ogre bridge choices.
 
 ### Data contract (v4.2 hybrid)
 
@@ -187,22 +188,30 @@ cp .env.example .env.local
 
 Do not commit `.env` or `.env.local`. See [Environment Variables](#environment-variables) for full rules.
 
-### Local dev URL
+### Local dev URLs
 
-`npm run dev` starts the Next.js app at **`http://localhost:3000`** on your machine only. That verifies the web shell works; it is not production hosting. **Game logic lives in `@playable-worlds/core`** (tested via Vitest); browser play UI arrives in W2-S6.
+| URL | What you get |
+| --- | --- |
+| **http://localhost:3000** | Home page with link to play |
+| **http://localhost:3000/play** | **Stonepass Spire — Floor 1** text play — ogre bridge beat, five choices, consequences via core runtime |
+
+Game logic lives in **`@playable-worlds/core`**; the web app is a thin presentation layer. No API keys required for local play.
 
 ---
 
 ## Current Repository Layout
 
-What exists after W2-S5 (stubs are placeholders for later phases):
+What exists after W2-S6 (stubs are placeholders for later phases):
 
 ```text
 playable-worlds-lab/
   apps/
-    web/                         # @playable-worlds/web — Next.js 15, React, Tailwind (placeholder home)
-      app/                       # App Router
-      features/                  # W2-S6 world-play UI goes here
+    web/                         # @playable-worlds/web — Next.js 15, React, Tailwind
+      app/
+        page.tsx                 # Home — link to /play
+        play/page.tsx            # Stonepass text play (W2-S6)
+      features/world-play/       # loadStonepassWorld, WorldPlayScreen, runtime wrappers
+      tests/world-play.smoke.test.tsx
   packages/
     core/                        # @playable-worlds/core — schemas, validators, runtime (Phase 0–1)
       src/schemas/               # All Zod contracts (schemaVersion 0.2.0)
@@ -232,7 +241,7 @@ playable-worlds-lab/
   Playable_Worlds_Lab_v4_1_FULL_CURSOR.md
 ```
 
-**Not created yet:** browser text play UI (W2-S6), full path integration tests (W2-S7), AI Gateway / DirectorAgent (Phase 2), temporary instance runtime (Phase 3), ledger/debug panels (Phase 4), Supabase persistence, `scripts/validate-content.ts` CLI.
+**Not created yet:** full ogre-path integration tests (W2-S7), consequence engine refactor (W3-S1), ledger/debug panels, AI Gateway / DirectorAgent (Phase 2), temporary instance runtime (Phase 3), Supabase persistence, `scripts/validate-content.ts` CLI.
 
 ---
 
@@ -240,27 +249,59 @@ playable-worlds-lab/
 
 All commands run from the **repository root** unless noted.
 
+### Prerequisites
+
+- **Node.js 20+** (see `.nvmrc`)
+- **npm** (workspaces monorepo)
+
+```bash
+node -v
+npm -v
+```
+
 ### First-time setup
 
 ```bash
 npm install
-cp .env.example .env.local   # optional for now
+cp .env.example .env.local   # optional — no keys needed for local text play
 ```
 
-### Development (local UI)
+### Development (play Stonepass Spire in the browser)
 
 ```bash
 npm run dev
 ```
 
-Open **http://localhost:3000** in your browser. You should see the Playable Worlds Lab placeholder home page. Stop the server with `Ctrl+C`.
+Then open:
+
+| Page | URL |
+| --- | --- |
+| Home | **http://localhost:3000** |
+| Play Stonepass Spire — Floor 1 | **http://localhost:3000/play** |
+
+On **`/play`** you should see **The Blocked Bridge** (Floor 1) with five choices (Fight, Trick, Offer food, Talk, Sneak). Clicking a choice runs `applyPlayerChoice` from `@playable-worlds/core` and updates session state (turn number, flags, consequence feedback). Stop the server with `Ctrl+C`.
+
+**Windows (PowerShell):** if `npm run dev` fails with *running scripts is disabled*, use:
+
+```powershell
+npm.cmd run dev
+```
+
+**Note:** dev uses webpack (not Turbopack) so workspace packages with TypeScript `.js` import specifiers resolve correctly. Production `npm run build` uses the same setup.
+
+### Workspace-only commands (optional)
+
+```bash
+npm run dev -w @playable-worlds/web
+npm run build -w @playable-worlds/web
+```
 
 ### Verify the project
 
 ```bash
-npm test              # Vitest — 200 tests across core, ai, and smoke (28 files)
+npm test              # Vitest — 203 tests (core, ai, web smoke)
 npm run typecheck     # TypeScript — web + all workspace packages
-npm run lint          # ESLint — all workspaces (core, ai, content, web)
+npm run lint          # ESLint — all workspaces
 npm run build         # Production build — apps/web
 ```
 
@@ -270,6 +311,8 @@ npm run build         # Production build — apps/web
 npm run build
 npm run start
 ```
+
+Then open **http://localhost:3000/play** (same routes as dev).
 
 ### Formatting (optional)
 
@@ -282,10 +325,10 @@ npm run format
 
 | Script | What it does |
 | --- | --- |
-| `npm run dev` | Next.js dev server (`@playable-worlds/web`) |
+| `npm run dev` | Next.js dev server (`@playable-worlds/web`) on port 3000 |
 | `npm run build` | Next.js production build |
 | `npm run start` | Next.js production server (after build) |
-| `npm test` | Vitest — 200 tests across all workspace packages |
+| `npm test` | Vitest — all workspace tests including `apps/web/tests/world-play.smoke.test.tsx` |
 | `npm run typecheck` | `tsc --noEmit` in all workspaces that define it |
 | `npm run lint` | ESLint in all workspaces (core, ai, content, web) |
 | `npm run format` | Prettier write |
@@ -385,16 +428,28 @@ The world engine comes first.
 
 ---
 
-## First Proof World: Stonepass Valley
+## First Proof World: Stonepass Spire
 
-**Stonepass Valley** is the first official world in Playable Worlds Lab. It serves two related purposes:
+**Stonepass Spire** is the flagship playable product. The early climb is authored across **Floors 1–3**, which deliver the legacy "Valley" proof arc as engine systems mature. **"Stonepass Valley" is deprecated** as a product/world name; *Stonepass* may still appear in lore as the region at the tower's foot.
+
+**Floor 1** (live at `/play` today) serves two related purposes:
 
 1. **Engine proof (required)** — a small, validatable text world that proves choices, consequences, ledger memory, instances, and AI assistance work end-to-end.
-2. **Capability showcase (intended)** — a richer demo that heavily uses the framework: multiple loops, branching designs, encounters, and an AI Director so runs feel different while state changes remain explainable and fair.
+2. **Climb entry (flagship)** — the gate at the tower's base; Floors 2–3 add labyrinth and boss content as Phase 3+ systems land.
 
-Stonepass is **not** the final product and **not** a substitute for later 2D or 3D games. It is the reference world that must work in text before visuals, sharing, or generated worlds scale up. If Stonepass cannot survive as validated logic, graphics will not fix it.
+Stonepass Spire is **not** a substitute for later 2D or 3D presentation. It is the reference climb that must work in text before visuals, sharing, or generated worlds scale up.
 
-### Minimal proof chain (Stonepass v1 — gate)
+### Floors 1–3 content map
+
+| Floor | Content | Systems |
+| --- | --- | --- |
+| **Floor 1** | Ogre bridge, five choices (now) | Text runtime (Phase 1) |
+| **Floor 2** | Landslide, hidden cave / labyrinth | Temporary instances (Phase 3) |
+| **Floor 3** | Floor boss (dragon), clear flag → stairs up | Combat Tier A, boss instances (W5+) |
+
+Until `RegionMap` exists (W8), Floor 1–3 beats may live in one `WorldDefinition`; `/play` loads **Floor 1**. See [Stonepass_Spire_Aincrad_Castle.md](./Future_Features/Stonepass_Spire_Aincrad_Castle.md).
+
+### Minimal proof chain (Floors 1–3 — gate)
 
 The player reaches a bridge blocked by an ogre and can:
 
@@ -420,7 +475,7 @@ Player reaches ogre-blocked bridge
 -> New goal appears
 ```
 
-**Stonepass v1 is done** when this chain (and core ogre choices) is playable in the browser as text, with ledger/debug visibility, validators passing, and AI suggesting — not mutating — truth (see [Definitions of Done](#definitions-of-done)).
+**Spire Floor 1–3 arc is done** when this chain (and core ogre choices on Floor 1) is playable in the browser as text, with ledger/debug visibility, validators passing, and AI suggesting — not mutating — truth (see [Definitions of Done](#definitions-of-done)).
 
 This loop proves:
 
@@ -610,7 +665,7 @@ Use this table when deciding whether to implement part of the reference scenario
 | Save / share / fork | Share mini-adventure with others | Phase 6 |
 | 2D map / enter region visually | Same triggers, visual layer | Phase 8 |
 
-**Current build status (2026-05-28):** Phase 0 complete — all schemas, validator, Stonepass JSON, FakeProvider. Phase 1 runtime core done (W2-S1–S5): load world, init session, select beat, resolve choice, apply consequence with ledger/debug updates. **Not yet:** browser play UI (W2-S6), AI Director, temporary instance runtime, persistence, share. Treat the regional quest scenario as the **target authoring pattern**, not as permission to skip phase gates.
+**Current build status (2026-05-29):** Phase 0 complete — all schemas, validator, Stonepass JSON, FakeProvider. Phase 1 runtime core done (W2-S1–S5): load world, init session, select beat, resolve choice, apply consequence. **Browser text play done (W2-S6):** `/play` loads Stonepass and applies choices via core runtime. **Not yet:** full ogre-path integration tests (W2-S7), AI Director, temporary instance runtime, persistence, share. Treat the regional quest scenario as the **target authoring pattern**, not as permission to skip phase gates.
 
 ---
 
@@ -666,7 +721,7 @@ The AI can suggest. The engine decides what becomes real.
 
 ### 4. Stonepass first
 
-Every core system should prove itself through Stonepass Valley before generalizing into larger generated worlds.
+Every core system should prove itself through **Stonepass Spire (Floors 1–3)** before generalizing into larger generated worlds.
 
 ### 5. Text before visuals
 
@@ -693,7 +748,7 @@ The MVP should prove the text-first playable world engine.
 ### MVP should include
 
 - Text-based playable world runtime.
-- Manual Stonepass Valley world data.
+- Manual Stonepass Spire Floor 1 world data (legacy `stonepass-valley.world.json`).
 - `WorldDNA` schema.
 - `WorldDefinition` schema.
 - `StoryBeat` schema.
@@ -1407,7 +1462,7 @@ This structure can be adjusted as the implementation becomes real, but the separ
 
 ## Getting Started
 
-> **Implemented:** Phase 0 foundation + Phase 1 runtime core (W2-S1–S5). For prerequisites, env vars, layout, and commands, see [Implementation Progress](#implementation-progress), [Environment](#environment), [Current Repository Layout](#current-repository-layout), and [How to Run](#how-to-run).
+> **Implemented:** Phase 0 foundation + Phase 1 runtime + browser play (W2-S1–S6). For prerequisites, env vars, layout, and commands, see [Implementation Progress](#implementation-progress), [Environment](#environment), [Current Repository Layout](#current-repository-layout), and [How to Run](#how-to-run).
 
 ### Clone or open the repo
 
@@ -1425,7 +1480,11 @@ npm install
 npm run dev
 ```
 
-Open http://localhost:3000, then in another terminal:
+Open **http://localhost:3000** → **Play Stonepass Spire — Floor 1**, or go directly to **http://localhost:3000/play**.
+
+On Windows PowerShell, if `npm` is blocked by execution policy, use `npm.cmd run dev` instead.
+
+In another terminal:
 
 ```bash
 npm test
@@ -1470,13 +1529,13 @@ Rules:
 
 Run from the **repository root** (npm workspaces).
 
-**Available now (Phase 0–1 through W2-S5):**
+**Available now (Phase 0–1 through W2-S6):**
 
 ```bash
-npm run dev
+npm run dev          # http://localhost:3000 — home; /play for Stonepass Spire Floor 1
 npm run build
 npm run start
-npm test
+npm test             # 203 tests
 npm run typecheck
 npm run lint
 npm run format
@@ -1654,7 +1713,7 @@ Testing is not a later concern. It is part of the product.
 
 ### Phase 1 tests
 
-- Player can start Stonepass Valley.
+- Player can start Stonepass Spire — Floor 1.
 - Player can select valid choices.
 - Invalid choices are blocked.
 - Consequences update flags correctly.
@@ -1797,7 +1856,7 @@ Build:
 - Temporary Instance schema.
 - AI provider interface.
 - FakeProvider.
-- Manual Stonepass Valley JSON.
+- Manual Stonepass Spire Floor 1 JSON (legacy path).
 - Schema tests.
 
 Done when:
@@ -2019,7 +2078,7 @@ Goal: launch polished official examples.
 
 Possible packs:
 
-- Stonepass Valley.
+- Stonepass Spire — Floor 1.
 - Dragon Grove Learning Pack.
 - Aetherfall RPG Pack.
 - Puzzle Temple Pack.
@@ -2068,7 +2127,7 @@ The flagship direction is **[Stonepass Spire](./Future_Features/Stonepass_Spire_
 - **Phase 6 (W9-S7–S9):** `WorldSession.currentFloor` + persistent climb ledger; persistent progression; seeded replay + variation attribution.
 - **Phase 9 (W12-S8):** Variation Explorer UI.
 
-All of it obeys **AI proposes → validators check → engine executes**, stays **text-first** (no 2D until floors are fun as text), and stays inside the MVP boundary (**Tier A only**). Full step cards live in `Playable_Worlds_Lab_v4_1_FULL_CURSOR.md` §17; tracker rows are in the CSV. **Phase gates are unchanged — the next step is still W2-S6.**
+All of it obeys **AI proposes → validators check → engine executes**, stays **text-first** (no 2D until floors are fun as text), and stays inside the MVP boundary (**Tier A only**). Full step cards live in `Playable_Worlds_Lab_v4_1_FULL_CURSOR.md` §17; tracker rows are in the CSV. **Phase gates are unchanged — the next step is W2-S7.**
 
 ---
 
@@ -2076,7 +2135,7 @@ All of it obeys **AI proposes → validators check → engine executes**, stays 
 
 ### 30-day definition of done
 
-Stonepass Valley is playable in the browser as text.
+Stonepass Spire Floor 1–3 arc is playable in the browser as text.
 
 Required:
 
@@ -2186,7 +2245,7 @@ The OASIS-like inspiration is useful only as a north star:
 
 But the build path must stay practical.
 
-Start with Stonepass.
+Start with Stonepass Spire.
 
 Prove the engine.
 
@@ -2212,9 +2271,9 @@ The AI does not own the world. The AI suggests. Validators check. The determinis
 
 Because graphics can hide broken game logic. The project first needs to prove that choices, consequences, world memory, validation, and replay variation actually work.
 
-### Why Stonepass Valley?
+### Why Stonepass Spire?
 
-Stonepass is small enough to build but rich enough to prove the core systems. The ogre bridge, landslide, cave, and dragon chain tests choices, consequences, memory, temporary instances, and next-goal selection.
+Stonepass Spire is small enough to build floor-by-floor but rich enough to prove the core systems. Floor 1's ogre bridge, Floor 2's landslide and cave, and Floor 3's dragon boss test choices, consequences, memory, temporary instances, and next-goal selection across the early climb.
 
 ### Can AI generate entire worlds?
 
@@ -2259,6 +2318,6 @@ Do not assume open-source rights until a license is explicitly added.
 
 ## Current North Star
 
-Build Stonepass Valley as a browser-playable, text-first AI-directed world where player choices change remembered world state, AI suggests validated next steps, a temporary cave can awaken a dragon, and the whole world can later be saved, tested, shared, forked, and remixed safely.
+Build **Stonepass Spire** as a browser-playable, text-first AI-directed climb where player choices change remembered world state, AI suggests validated next steps, temporary cave instances can awaken a dragon on Floor 3, and the whole climb can later be saved, tested, shared, forked, and remixed safely.
 
 **AI proposes. Validators check. The game engine executes.**

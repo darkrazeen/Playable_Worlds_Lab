@@ -1,24 +1,18 @@
 # @playable-worlds/content
 
-World data and JSON fixtures — **no runtime logic**.
+World data and templates for Playable Worlds Lab.
 
-## Owns
+## Canonical playable content
 
-- `worlds/stonepass/` — canonical Stonepass Valley (`stonepass-valley.world.json`)
-- `examples/` — schema example fixtures and invalid validator demos
-- `src/paths.ts` — `contentRoot`, `worldsDir`, `examplesDir`, canonical Stonepass paths
-- `src/index.ts` — re-exports path constants
+- `worlds/stonepass/` — **Stonepass Spire Floor 1** (`stonepass-valley.world.json`; legacy file name until W5-S13)
+  - World id: `world_stonepass_valley` (legacy until W5-S13)
+  - Display title: **Stonepass Spire — Floor 1**
+  - Design notes: `stonepass-valley.notes.md` (Floors 1–3 climb plan)
 
-## Depends on
+## Examples
 
-- Nothing (JSON only). Validation uses `@playable-worlds/core` from tests and loaders.
+- `examples/` — JSON fixtures for schema and validator tests
 
-## Conventions
+## Naming
 
-- Authored worlds omit `generationSeed`; generated worlds include it.
-- World files use `schemaVersion: "0.2.0"` and v4.2 field names.
-- See [examples/README.md](./examples/README.md) for fixture index.
-
-## Tests
-
-Stonepass integration: `packages/core/tests/unit/content/stonepassWorld.test.ts`
+**Product:** Stonepass Spire (Floors 1–3 deliver the early climb). **Deprecated:** "Stonepass Valley" as a product name. See [Stonepass_Spire_Aincrad_Castle.md](../../Future_Features/Stonepass_Spire_Aincrad_Castle.md#product-naming-human-approved-2026-05-29).

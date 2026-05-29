@@ -47,7 +47,7 @@ const fightConsequence = {
 const validMinimalWorld = {
   schemaVersion: CURRENT_SCHEMA_VERSION,
   id: "world_stonepass_valley",
-  title: "Stonepass Valley",
+  title: "Stonepass Spire — Floor 1",
   summary: "A compact fantasy proof world blocked by an ogre at the bridge.",
   worldDNA: worldDna,
   startingBeatId: "beat_ogre_bridge",

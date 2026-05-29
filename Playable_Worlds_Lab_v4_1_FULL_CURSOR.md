@@ -44,10 +44,9 @@ W1-S1.
 Playable Worlds Lab is a platform for creating, playing, evolving, testing, sharing, and remixing
 AI-directed game worlds. The first version is intentionally text-first. We are not trying to build
 a large 3D metaverse on day one. We are first proving the world engine underneath it.
-The project starts with one proof world: Stonepass Valley. A player reaches a bridge blocked
-by an ogre. The player can fight, trick, feed, talk to, or sneak around the ogre. Each choice
-changes remembered world state. One path causes a landslide, exposes a temporary cave, sends
-the player through a short instance, and awakens a dragon. That small chain proves the core
+The project starts with **Stonepass Spire — Floor 1** (legacy file `stonepass-valley.world.json`). A player reaches a bridge blocked
+by an ogre at the tower's foot. The player can fight, trick, feed, talk to, or sneak around the ogre. Each choice
+changes remembered world state. Floors 2–3 (landslide, cave, dragon boss) land as instances and combat systems mature. That climb proves the core
 systems before bigger generation, sharing, or visual layers are added.
 
  Question                                         Answer
@@ -80,9 +79,9 @@ systems before bigger generation, sharing, or visual layers are added.
                                                   2D/3D layers can scale.
 
 The product in one sentence
-Build Stonepass Valley as a browser-playable, text-first AI-directed world where player choices
-change remembered world state, AI suggests validated next steps, a temporary cave can awaken
-a dragon, and the whole world can later be saved, tested, shared, forked, and remixed safely.
+Build **Stonepass Spire — Floor 1** as a browser-playable, text-first AI-directed climb where player choices
+change remembered world state, AI suggests validated next steps, temporary cave instances can awaken
+a floor boss, and the climb can later be saved, tested, shared, forked, and remixed safely.
 
 The deeper product bet
 The future of AI games is not just generating pretty scenes from prompts. The stronger bet is
@@ -323,10 +322,11 @@ alternate timelines, and eventually connect worlds through portals and player id
                                                  deterministic engine execution.
 
 
-## 6. Stonepass Valley MVP Scope
+## 6. Stonepass Spire MVP Scope (Floors 1–3)
 
-Stonepass Valley is the first implementation target: the smallest world that proves the magic.
-Player reaches an ogre-blocked bridge
+**Stonepass Spire** is the first implementation target: the smallest climb that proves the magic. **"Stonepass Valley" is deprecated** as a product name. Floor 1 (ogre gate) is live; Floors 2–3 deliver landslide/cave/boss as systems land.
+
+Player reaches an ogre-blocked bridge (Floor 1)
 -> Player chooses fight, trick, feed, talk, or sneak
 -> Each choice creates a different consequence
 -> Main proof path causes landslide

@@ -3,7 +3,7 @@
 > **Living document** for retuning the Stonepass proof world into a **vertical castle of 100 floors** (inspired by *Sword Art Online*'s Aincrad) where each floor is its own validated `WorldDefinition` (zone), floors stack into a `RegionMap`-derived tower, and ascension is gated by clearing the floor below. Single-player, text-first, fleshed out one floor at a time on top of a complete 100-floor **skeleton**.
 >
 > **Status:** Scheduled in step tracker — flagship rows added 2026-05-29 as `Not started`: **W5-S13** (Stonepass → Floor 1), **W8-S15** (SpireManifest), **W8-S16** (ascension edges), **W8-S17** (Floor 2 / Castle proven), **W9-S7** (climb persistence). Implement only when each step reaches `Next` with human approval; move to **Implemented** as steps land.
-> **Last updated:** 2026-05-28
+> **Last updated:** 2026-05-29
 > **Related:** [Combat_and_Encounter_Resolution.md](./Combat_and_Encounter_Resolution.md), [Procedural_Region_and_Biome_Composer.md](./Procedural_Region_and_Biome_Composer.md), [Player_World_Generation_and_Content_Libraries.md](./Player_World_Generation_and_Content_Libraries.md), [Player_Progression_and_Mastery.md](./Player_Progression_and_Mastery.md), [Item_and_Gear_Template_Library.md](./Item_and_Gear_Template_Library.md), [Dynamic_Difficulty_Director.md](./Dynamic_Difficulty_Director.md), [2D_Map_and_Node_Graph_Play_View.md](./2D_Map_and_Node_Graph_Play_View.md), [README.md](./README.md)
 
 **Rules:**
@@ -70,23 +70,50 @@ The implementation path does not change: **text-first → 2D → beyond.** The c
 - **The engine's natural units already match Aincrad's natural units.** A floor *is* a `WorldDefinition`; a labyrinth *is* a `TemporaryInstance`; "floor cleared → stairs open" *is* a flag gating a region edge. Almost nothing is forced.
 - **The castle is just a vertical `RegionMap`.** The project already designed a region composer (lava → ocean → machine). A tower is the same graph with a **linear, upward, clear-gated topology**. We reuse, not reinvent.
 - **It is the cleanest possible single-player showcase.** Removing guilds/NPC-AI/multiplayer leaves exactly the deterministic, text-first, remembered-state core the engine is strongest at.
-- **Stonepass content is preserved, not discarded.** The existing ogre → landslide → cave → dragon chain becomes **Floor 1** (the dragon is already a floor boss).
+- **Stonepass content is preserved, not discarded.** The legacy ogre → landslide → cave → dragon arc becomes **Floors 1–3** of the Spire (see [Floors 1–3 plan](#floors-13-early-climb-content-plan)).
 - **Incremental by construction.** The manifest lets the tower be complete in *structure* while floors are filled in over many phases as variability (libraries, generation) improves.
 - **Determinism survives.** Clears, drops, and progression are engine-owned ledger truth; the Director only proposes flavor/pacing.
 
 ---
 
-## The reframe: Stonepass Valley → Stonepass Spire
+## Product naming (human-approved 2026-05-29)
 
-| Before | After |
+| Use | Name |
 | --- | --- |
-| Stonepass Valley: a single small world (ogre bridge) | Stonepass Valley: the **base** of the Spire |
-| Ogre bridge scenario | **Floor 1** content (the gate that proves you may climb) |
-| Landslide → hidden cave instance | **Floor 1 labyrinth** (`TemporaryInstance`, type `dungeon`) |
-| Dragon stirs (ending) | **Floor 1 boss** clear → `floor_01_cleared` → stairs to Floor 2 |
-| "The end" | "Ascend the Spire" (`goal_ascend_spire`, the macro arc) |
+| **Player-facing product / world title** | **Stonepass Spire** — Floor *N* (e.g. **Floor 1** at `/play` today) |
+| **Deprecated (do not use for new copy)** | "Stonepass Valley" as a separate game or world product |
+| **In-world geography (optional lore)** | *Stonepass* — the region at the foot of the tower (valley/hollow), not the name of the climb |
+| **Legacy engineering ids (until W5-S13)** | `world_stonepass_valley`, `stonepass-valley.world.json`, `packages/content/worlds/stonepass/` |
 
-The current canonical `stonepass-valley.world.json` is reusable as **Floor 1** (or its tutorial), so the Phase 1 proof work is not wasted — it gains a future.
+Phase 1 browser play loads **Floor 1** content from the legacy file; formal multi-floor split and id rename land at **W5-S13** (Floor 1 reframe) and **W8** (`RegionMap`, `SpireManifest`).
+
+---
+
+## Floors 1–3: early climb content plan
+
+The original single-world "Valley" arc is delivered across **the first three floors** as engine systems mature. This is the authoring target for the proof climb before the 100-floor manifest fills in.
+
+| Floor | Player fantasy | Legacy Valley arc | Primary systems |
+| --- | --- | --- | --- |
+| **Floor 1** | Gate at the tower's foot — prove you may climb | Ogre bridge, five choices, first consequences | Text runtime, beat flow (Phase 1 — **live now**) |
+| **Floor 2** | Deeper into the tower — the labyrinth opens | Landslide aftermath, hidden cave / dungeon instance | Temporary instances (Phase 3) |
+| **Floor 3** | First true floor boss — stairs unlock upward | Dragon (or multi-phase boss), `floor_03_cleared` | Tier A combat, boss instances (W5-S8–S13), ascension edges (W8) |
+
+**Until W8:** Floors 1–3 may share one `WorldDefinition` with narrative floor labels; `/play` is **Floor 1** today. **After W8:** separate floor worlds linked by vertical `RegionMap` and `SpireManifest`.
+
+---
+
+## The reframe: legacy Valley arc → Stonepass Spire
+
+| Before (deprecated product framing) | After (flagship) |
+| --- | --- |
+| "Stonepass Valley" as the game | **Stonepass Spire** — a 100-floor climb |
+| One small world (ogre bridge) | **Floor 1** at the tower's base (ogre gate) |
+| Landslide → hidden cave | **Floor 2** labyrinth (`TemporaryInstance`, type `dungeon`) |
+| Dragon stirs (ending) | **Floor 3** boss clear → `floor_03_cleared` → stairs to Floor 4+ |
+| "The end" | "Ascend the Spire" (`goal_ascend_spire`, macro arc) |
+
+The current canonical `stonepass-valley.world.json` is **Floor 1** content (title: **Stonepass Spire — Floor 1**). Phase 1 proof work is not wasted — it is the first floor of the flagship.
 
 ---
 

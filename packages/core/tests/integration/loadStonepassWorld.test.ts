@@ -29,7 +29,7 @@ describe("world loader integration", () => {
     const result = loadWorld("world_stonepass_valley", contentRoot);
 
     expect(result.ok).toBe(true);
-    expect(result.world?.title).toBe("Stonepass Valley");
+    expect(result.world?.title).toBe("Stonepass Spire — Floor 1");
   });
 
   it("rejects the broken Stonepass invalid fixture", () => {
