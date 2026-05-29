@@ -3,7 +3,7 @@
 **Handoff date:** 2026-05-29  
 **Last reconciled:** 2026-05-29  
 **Workspace:** `Playable_Worlds_Lab`  
-**Purpose:** Onboard a Cursor/agent on the current repo state, contract rules, Phase 0 complete, Phase 1 W2 complete + W3-S1–S5 complete, and the next approved step (**W3-S6** — debug log UI panel).
+**Purpose:** Onboard a Cursor/agent on the current repo state, contract rules, Phase 0 complete, **Phase 1 complete (W2-S1–S7, W3-S1–S7)**, and the next approved step (**W4-S1** — AI Gateway; implement only after human approval).
 
 ---
 
@@ -69,11 +69,13 @@ W1-S1 through W1-S16 — all **Complete**.
 | W3-S3 | Finalize flag lifecycle rules | **Complete** |
 | W3-S4 | World Ledger UI panel | **Complete** |
 | W3-S5 | Debug log model usage | **Complete** |
-| W3-S6+ | Debug UI, acceptance | **Next ← approved** |
+| W3-S6 | Debug log UI panel | **Complete** |
+| W3-S7 | Phase 1 acceptance hardening | **Complete** |
+| W4-S1+ | AI Gateway, Director | **Next ← approved** |
 
 **Engine loop (working in tests and browser):** `loadWorld` → `initializeWorldSession` → `selectStoryBeat` → `resolvePlayerChoice` → `applyPlayerChoice`
 
-**Gap to close:** W3-S6 debug log UI panel; beat progression in UI still deferred.
+**Gap to close:** Beat progression after consequence still deferred. Phase 2 AI Gateway (W4-S1) awaits human sign-off on Phase 1 gate (`packages/core/docs/phase1-acceptance.md`).
 
 ### Current snapshot (2026-05-29)
 
@@ -87,7 +89,7 @@ W1-S1 through W1-S16 — all **Complete**.
 | AI Gateway / Director | Phase 2 — not started |
 | Temporary instance runtime | Phase 3 — not started |
 | Spire & gameplay systems (combat Tier A, progression, gear, region, manifest) | **Scheduled** — tracker rows `Not started`; first Spire content step **W5-S13** (after Phase 3 instances) |
-| Tests | **244 passing** (36 files) |
+| Tests | **258 passing** (39 files) |
 | CI | `.github/workflows/ci.yml` — typecheck, lint, test |
 | Step tracker | **122 rows** (99 original + 23 Spire/gameplay rows added 2026-05-29) |
 
@@ -350,7 +352,7 @@ playable-worlds-lab/
 | Flag lifecycle rules | **Done (W3-S3)** — `packages/core/src/ledger/`, `docs/flag-lifecycle.md` |
 | World Ledger UI panel | **Done (W3-S4)** — `/play` sidebar `WorldLedgerPanel` |
 | Debug log model usage | **Done (W3-S5)** — typed builders + validation_failed on failures |
-| Debug log UI panel | W3-S6 |
+| Debug log UI panel | **Done (W3-S6)** — `/play` sidebar `DebugTracePanel` |
 | AI Gateway, DirectorAgent | Phase 2 (W4-*) |
 | Temporary instance runtime | Phase 3 (W5-*) |
 | Content libraries, WorldBlueprint, quest generation | Phase 5 extension (W7-S7+, W8-S6+) — scheduled only |
@@ -363,21 +365,27 @@ playable-worlds-lab/
 
 ---
 
-## 8. Next step: W3-S6 — Build debug log UI panel
+## 8. Phase 1 gate (W3-S7 complete) — human sign-off
 
-**Goal:** Render `debugEvents` trace entries for the human/operator (read-only).
+**Checklist:** [packages/core/docs/phase1-acceptance.md](./packages/core/docs/phase1-acceptance.md)
 
-**Allowed scope:** `apps/web/features/world-debug`, components, smoke tests.
+**Automated proof:** `phase1Acceptance.test.ts`, `phase1-acceptance.smoke.test.tsx`, existing ogre-path + debug integration tests — **258 tests** green.
 
-**Blocked:** AI Gateway, cross-phase work beyond Phase 1 text runtime.
+**Human action:** Run `/play`, confirm ledger + debug panels, approve Phase 1 to unlock W4-S1.
 
-**Done when:** Debug panel displays choice/consequence/flag/goal entries after a choice.
+## 9. Next step: W4-S1 — Build AI Gateway around provider contracts
 
-**After W3-S6:** W3-S7 Phase 1 acceptance hardening (unless human reorders).
+**Goal:** Create AI Gateway that routes structured calls through providers and schemas.
+
+**Allowed scope:** `packages/ai/gateway`, tests.
+
+**Blocked:** Cross-phase work; no direct ledger mutation from AI.
+
+**Implement only after human approves Phase 1 and says to start W4-S1.**
 
 ---
 
-## 9. Human decisions (cumulative)
+## 10. Human decisions (cumulative)
 
 | Decision | Detail |
 | --- | --- |
@@ -394,7 +402,7 @@ playable-worlds-lab/
 
 ---
 
-## 10. Agent completion report template
+## 11. Agent completion report template
 
 After each step, report:
 
@@ -410,7 +418,7 @@ After each step, report:
 
 ---
 
-## 11. Key commands
+## 12. Key commands
 
 ```bash
 npm install
@@ -423,7 +431,7 @@ npm run dev    # http://localhost:3000 — home; /play for Stonepass (W2-S6)
 
 ---
 
-## 12. Reference files (read order for new agent)
+## 13. Reference files (read order for new agent)
 
 1. This file — `AGENT_SESSION_HANDOFF.md`
 2. [Playable_Worlds_Lab_v4_1_FULL_CURSOR.md §22](./Playable_Worlds_Lab_v4_1_FULL_CURSOR.md#22-contract-v42-hybrid-addendum-implementation-tracking)
@@ -436,7 +444,7 @@ npm run dev    # http://localhost:3000 — home; /play for Stonepass (W2-S6)
 
 ---
 
-## 13. Schema dependency graph (current)
+## 14. Schema dependency graph (current)
 
 ```text
 SafetyMode ──┐
@@ -458,4 +466,4 @@ WorldDefinition ──► loadWorld (W2-S1) ──► initializeWorldSession (W2
 
 ---
 
-*End of agent session handoff. Next approved implement: **W3-S6 build debug log UI panel**.*
+*End of agent session handoff. Phase 1 complete — await human Phase 1 sign-off, then **W4-S1 AI Gateway** when approved.*

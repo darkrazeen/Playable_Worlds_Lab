@@ -4,7 +4,7 @@ import { useMemo, useState } from "react";
 
 import type { WorldDefinition, WorldSession } from "@playable-worlds/core/schemas";
 
-import { WorldLedgerPanel } from "@/features/world-debug";
+import { DebugTracePanel, WorldLedgerPanel } from "@/features/world-debug";
 
 import {
   applyPlayChoice,
@@ -59,17 +59,20 @@ export function WorldPlayScreen({ world }: WorldPlayScreenProps) {
     const result = applyPlayChoice(world, session!, choiceId);
     setIsApplying(false);
 
-    if (!result.ok || !result.session) {
+    if (result.session) {
+      setSession(result.session);
+    }
+
+    if (!result.ok) {
       setChoiceError(result.errors.join(" "));
       return;
     }
 
-    setSession(result.session);
     setFeedback(result.consequenceSummary ?? null);
   }
 
   return (
-    <div className="flex w-full max-w-5xl flex-col gap-8 lg:flex-row lg:items-start">
+    <div className="flex w-full max-w-6xl flex-col gap-8 lg:flex-row lg:items-start">
       <div className="flex min-w-0 flex-1 flex-col gap-6">
       <header className="space-y-1 border-b border-neutral-200 pb-4 dark:border-neutral-800">
         <p className="text-sm font-medium uppercase tracking-wide text-neutral-500">
@@ -132,7 +135,13 @@ export function WorldPlayScreen({ world }: WorldPlayScreenProps) {
       </section>
       </div>
 
-      <WorldLedgerPanel ledger={session.ledger} turnNumber={displayView.turnNumber} />
+      <div className="flex w-full shrink-0 flex-col gap-4 lg:w-72">
+        <WorldLedgerPanel ledger={session.ledger} turnNumber={displayView.turnNumber} />
+        <DebugTracePanel
+          debugEvents={session.debugEvents}
+          turnNumber={displayView.turnNumber}
+        />
+      </div>
     </div>
   );
 }

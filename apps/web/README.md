@@ -13,7 +13,8 @@ On Windows PowerShell, if `npm` is blocked by execution policy, use `npm.cmd run
 
 ## Play route
 
-- **`/play`** — **Stonepass Spire — Floor 1** (`features/world-play/`) with read-only **World ledger** panel (`features/world-debug/`)
+- **`/play`** — **Stonepass Spire — Floor 1** (`features/world-play/`) with read-only **World ledger** and **Debug trace** panels (`features/world-debug/`)
+- Phase 1 acceptance smoke: `apps/web/tests/phase1-acceptance.smoke.test.tsx`
 
 ## Source of truth
 

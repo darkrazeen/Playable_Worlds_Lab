@@ -66,6 +66,7 @@ describe("WorldPlayScreen ledger integration", () => {
 
     expect(screen.getByText("ogre_defeated")).toBeTruthy();
     expect(screen.getByText("goal_explore_cave")).toBeTruthy();
-    expect(screen.getByText("Session turn 1")).toBeTruthy();
+    const ledgerPanel = screen.getByRole("complementary", { name: "World ledger" });
+    expect(ledgerPanel.textContent).toMatch(/Session turn 1/);
   });
 });

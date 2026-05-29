@@ -91,13 +91,25 @@ export function applyPlayChoice(
   choiceId: string,
 ): ApplyPlayChoiceResult {
   const applyResult = applyPlayerChoice(world, session, choiceId);
-  if (!applyResult.ok || !applyResult.session) {
+  if (!applyResult.ok) {
+    return {
+      ok: false,
+      errors: applyResult.errors,
+      session: applyResult.session,
+    };
+  }
+
+  if (!applyResult.session) {
     return { ok: false, errors: applyResult.errors };
   }
 
   const view = getPlayViewState(world, applyResult.session);
   if (!view.ok) {
-    return { ok: false, errors: view.errors };
+    return {
+      ok: false,
+      errors: view.errors,
+      session: applyResult.session,
+    };
   }
 
   return {
