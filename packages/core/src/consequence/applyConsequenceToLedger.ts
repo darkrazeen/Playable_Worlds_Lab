@@ -1,3 +1,4 @@
+import { applyFlagChanges } from "../ledger/flagLifecycle.js";
 import type { Consequence } from "../schemas/consequence.js";
 import type { WorldLedger } from "../schemas/worldLedger.js";
 import { WorldLedgerSchema } from "../schemas/worldLedger.js";
@@ -17,13 +18,14 @@ export function applyConsequenceToLedger(
   turnNumber: number,
   metadata?: { choiceId?: string },
 ): WorldLedger {
-  let activeFlags = [...ledger.activeFlags];
-  for (const flag of consequence.removeFlags) {
-    activeFlags = activeFlags.filter((entry) => entry !== flag);
-  }
-  activeFlags = mergeUnique(activeFlags, consequence.addFlags);
-
-  const resolvedFlags = mergeUnique(ledger.resolvedFlags, consequence.removeFlags);
+  const { activeFlags, resolvedFlags } = applyFlagChanges(
+    ledger.activeFlags,
+    ledger.resolvedFlags,
+    {
+      addFlags: consequence.addFlags,
+      removeFlags: consequence.removeFlags,
+    },
+  );
   const unlockedGoals = mergeUnique(ledger.unlockedGoals, consequence.unlockGoals ?? []);
   const completedGoals = mergeUnique(ledger.completedGoals, consequence.completeGoals ?? []);
 

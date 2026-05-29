@@ -9,6 +9,7 @@
     "./session": "./src/session/index.ts",
     "./story": "./src/story/index.ts",
     "./consequence": "./src/consequence/index.ts",
+    "./ledger": "./src/ledger/index.ts",
     "./world": "./src/world/index.ts",
     "./schemas": "./src/schemas/index.ts"
   },

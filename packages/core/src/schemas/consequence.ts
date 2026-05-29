@@ -39,6 +39,8 @@ export const VisibleChangeListSchema = z.array(VisibleChangeSchema);
 export const ConsequenceSchema = z.object({
   id: ConsequenceIdSchema,
   summary: z.string().min(1),
+  requiredFlags: FlagIdListSchema.optional(),
+  blockedByFlags: FlagIdListSchema.optional(),
   addFlags: FlagIdListSchema.default([]),
   removeFlags: FlagIdListSchema.default([]),
   unlockGoals: GoalIdListSchema.default([]),

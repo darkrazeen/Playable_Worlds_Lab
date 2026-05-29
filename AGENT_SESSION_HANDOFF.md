@@ -3,7 +3,7 @@
 **Handoff date:** 2026-05-29  
 **Last reconciled:** 2026-05-29  
 **Workspace:** `Playable_Worlds_Lab`  
-**Purpose:** Onboard a Cursor/agent on the current repo state, contract rules, Phase 0 complete, Phase 1 W2 complete + W3-S1 complete, and the next approved step (**W3-S2**).
+**Purpose:** Onboard a Cursor/agent on the current repo state, contract rules, Phase 0 complete, Phase 1 W2 complete + W3-S1–S3 complete, and the next approved step (**W3-S4**).
 
 ---
 
@@ -65,11 +65,13 @@ W1-S1 through W1-S16 — all **Complete**.
 | W2-S6 | Text play screen | **Complete** |
 | W2-S7 | Manual ogre path tests | **Complete** |
 | W3-S1 | Consequence Engine core | **Complete** |
-| W3-S2+ | Preconditions, ledger writer, debug UI | **Next ← approved** |
+| W3-S2 | Validate consequence preconditions | **Complete** |
+| W3-S3 | Finalize flag lifecycle rules | **Complete** |
+| W3-S4+ | Ledger UI, debug UI | **Next ← approved** |
 
 **Engine loop (working in tests and browser):** `loadWorld` → `initializeWorldSession` → `selectStoryBeat` → `resolvePlayerChoice` → `applyPlayerChoice`
 
-**Gap to close:** W3-S2 adds consequence precondition validation; beat progression in UI still deferred.
+**Gap to close:** W3-S4 World Ledger UI panel; beat progression in UI still deferred.
 
 ### Current snapshot (2026-05-29)
 
@@ -83,7 +85,7 @@ W1-S1 through W1-S16 — all **Complete**.
 | AI Gateway / Director | Phase 2 — not started |
 | Temporary instance runtime | Phase 3 — not started |
 | Spire & gameplay systems (combat Tier A, progression, gear, region, manifest) | **Scheduled** — tracker rows `Not started`; first Spire content step **W5-S13** (after Phase 3 instances) |
-| Tests | **213 passing** (31 files) |
+| Tests | **235 passing** (33 files) |
 | CI | `.github/workflows/ci.yml` — typecheck, lint, test |
 | Step tracker | **122 rows** (99 original + 23 Spire/gameplay rows added 2026-05-29) |
 
@@ -206,7 +208,7 @@ Documented in [Playable_Worlds_Lab_v4_1_FULL_CURSOR.md §22](./Playable_Worlds_L
 | Session init | `session/initializeWorldSession.ts` | Play-ready session at `startingBeatId` |
 | Beat selector | `story/selectStoryBeat.ts`, `beatAccessibility.ts` | Flag-gated beat selection |
 | Choice resolver | `runtime/resolvePlayerChoice.ts` | `resolvePlayerChoice`, `listAvailableChoices` |
-| Consequence apply | `consequence/consequenceEngine.ts`, `consequence/applyConsequenceToLedger.ts`; `runtime/applyConsequence.ts` delegates | `applyConsequenceEngine`, `applyConsequence`, `applyPlayerChoice` |
+| Consequence apply | `consequence/consequenceEngine.ts`, `consequence/applyConsequenceToLedger.ts`, `consequence/validateConsequencePreconditions.ts`; `ledger/flagLifecycle.ts`; `runtime/applyConsequence.ts` delegates | `applyConsequenceEngine`, `applyFlagChanges`, `validateConsequencePreconditions`, `applyConsequence`, `applyPlayerChoice` |
 | Content paths | `packages/content/src/paths.ts` | `contentRoot`, Stonepass paths |
 
 Integration tests use `contentRoot = join(__dirname, "../../../content")`.
@@ -341,7 +343,9 @@ playable-worlds-lab/
 | Session init at runtime | **Done (W2-S2)** |
 | Beat selector, choice resolver, first consequence apply | **Done (W2-S3–S5)** |
 | Browser text play UI | **Done (W2-S6)** — `/play` |
-| Consequence Engine core, ledger/debug UI | W3-* |
+| Consequence precondition validation | **Done (W3-S2)** |
+| Flag lifecycle rules | **Done (W3-S3)** — `packages/core/src/ledger/`, `docs/flag-lifecycle.md` |
+| Ledger/debug UI | W3-S4+ |
 | AI Gateway, DirectorAgent | Phase 2 (W4-*) |
 | Temporary instance runtime | Phase 3 (W5-*) |
 | Content libraries, WorldBlueprint, quest generation | Phase 5 extension (W7-S7+, W8-S6+) — scheduled only |
@@ -354,17 +358,17 @@ playable-worlds-lab/
 
 ---
 
-## 8. Next step: W3-S2 — Validate consequence preconditions
+## 8. Next step: W3-S4 — Build World Ledger UI panel
 
-**Goal:** Block consequences when prerequisites or session/world references are invalid.
+**Goal:** Show `activeFlags`, `resolvedFlags`, events, discovered locations, and unlocked goals in browser/debug UI (read-only).
 
-**Allowed scope:** `packages/core/consequence`, validators, tests.
+**Allowed scope:** `apps/web/features/world-debug`, components, smoke tests.
 
-**Blocked:** Ledger/debug panels, AI Gateway, cross-phase work.
+**Blocked:** AI Gateway, cross-phase work beyond Phase 1 text runtime.
 
-**Done when:** Unmet prerequisite and fake consequence applications fail deterministically.
+**Done when:** Panel renders ledger entries after a choice.
 
-**After W3-S2:** W3-S3 World Ledger writer (unless human reorders).
+**After W3-S4:** W3-S5 Debug trace UI panel (unless human reorders).
 
 ---
 
@@ -449,4 +453,4 @@ WorldDefinition ──► loadWorld (W2-S1) ──► initializeWorldSession (W2
 
 ---
 
-*End of agent session handoff. Next approved implement: **W3-S2 validate consequence preconditions**.*
+*End of agent session handoff. Next approved implement: **W3-S4 World Ledger UI panel**.*

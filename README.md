@@ -111,7 +111,9 @@ Progress is tracked in `Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv`. Updat
 | **W2-S6** | Phase 1 — Text runtime | Build text play screen | **Done** |
 | **W2-S7** | Phase 1 — Text runtime | Manual ogre path tests | **Done** |
 | W3-S1 | Phase 1 — Text runtime | Consequence Engine core | **Done** |
-| W3-S2 … | Phase 1+ | Preconditions, ledger writer, debug UI | **Next** |
+| W3-S2 | Phase 1+ | Validate consequence preconditions | **Complete** |
+| W3-S3 | Phase 1+ | Finalize flag lifecycle rules | **Complete** |
+| W3-S4 … | Phase 1+ | Ledger UI, debug UI | **Next** |
 | W7-S7–S11, W8-S6–S12 | Phase 5 extension | Content libraries, WorldBlueprint, quest generation | Scheduled (`Not started`) |
 | W4-S8–S10 | Phase 2 ext (Spire) | Seed plumbing, ledger difficulty signal, Director `adjust_difficulty` | Scheduled (`Not started`) |
 | W5-S8–S13 | Phase 3 ext (Spire) | ProgressionLedger, Tier A skills, gear gating, Level 0 combat, **Floor 1** | Scheduled (`Not started`) |
@@ -145,7 +147,7 @@ Progress is tracked in `Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv`. Updat
 
 **W2-S1–S6 done when (met):** `loadWorld` / `loadWorldFromFile`; `initializeWorldSession`; `selectStoryBeat`; `resolvePlayerChoice` / `listAvailableChoices`; `applyConsequence` / `applyPlayerChoice`; browser text play at `/play` wired through `@playable-worlds/core` runtime (no direct ledger mutation in UI); Stonepass integration + web smoke tests; **203 tests** green (2026-05-29).
 
-**Next step:** **W3-S2** — Validate consequence preconditions.
+**Next step:** **W3-S4** — Build World Ledger UI panel.
 
 ### Data contract (v4.2 hybrid)
 

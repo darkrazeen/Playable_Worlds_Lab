@@ -1,32 +1,29 @@
+import { activeFlagSet, satisfiesFlagRequirements } from "../ledger/flagLifecycle.js";
 import type { PlayerChoice } from "../schemas/playerChoice.js";
 import type { StoryBeat } from "../schemas/storyBeat.js";
 import type { WorldSession } from "../schemas/worldSession.js";
 
-function isExemptFlag(flag: string): boolean {
-  return flag.startsWith("system_") || flag.startsWith("external_");
-}
+export { isExemptFlag } from "../ledger/flagLifecycle.js";
 
 export function ledgerActiveFlags(session: WorldSession): Set<string> {
-  return new Set(session.ledger.activeFlags);
+  return activeFlagSet(session.ledger.activeFlags);
 }
 
 /** Whether a choice's required/blocked flags match the active ledger flags. */
 export function isPlayerChoiceAccessible(choice: PlayerChoice, flags: Set<string>): boolean {
-  const required = choice.requiredFlags ?? [];
-  const blocked = choice.blockedByFlags ?? [];
-  return (
-    required.every((flag) => flags.has(flag) || isExemptFlag(flag)) &&
-    blocked.every((flag) => !flags.has(flag))
+  return satisfiesFlagRequirements(
+    flags,
+    choice.requiredFlags ?? [],
+    choice.blockedByFlags ?? [],
   );
 }
 
 /** Whether a beat's required/blocked flags match the active ledger flags. */
 export function isStoryBeatAccessible(beat: StoryBeat, flags: Set<string>): boolean {
-  const required = beat.requiredFlags ?? [];
-  const blocked = beat.blockedByFlags ?? [];
-  return (
-    required.every((flag) => flags.has(flag) || isExemptFlag(flag)) &&
-    blocked.every((flag) => !flags.has(flag))
+  return satisfiesFlagRequirements(
+    flags,
+    beat.requiredFlags ?? [],
+    beat.blockedByFlags ?? [],
   );
 }
 

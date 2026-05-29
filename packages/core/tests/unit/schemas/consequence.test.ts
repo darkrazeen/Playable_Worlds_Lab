@@ -41,6 +41,19 @@ describe("ConsequenceSchema", () => {
     }
   });
 
+  it("accepts optional requiredFlags and blockedByFlags", () => {
+    const result = ConsequenceSchema.safeParse({
+      ...validMinimal,
+      requiredFlags: ["flag_required"],
+      blockedByFlags: ["flag_blocked"],
+    });
+    expect(result.success).toBe(true);
+    if (result.success) {
+      expect(result.data.requiredFlags).toEqual(["flag_required"]);
+      expect(result.data.blockedByFlags).toEqual(["flag_blocked"]);
+    }
+  });
+
   it("accepts a valid fight-ogre-style consequence with state changes", () => {
     const result = ConsequenceSchema.safeParse(validFightOgre);
     expect(result.success).toBe(true);

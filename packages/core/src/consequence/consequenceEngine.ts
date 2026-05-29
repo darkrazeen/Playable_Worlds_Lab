@@ -5,6 +5,7 @@ import type { WorldDefinition } from "../schemas/worldDefinition.js";
 import { safeParseWorldSession, type WorldSession } from "../schemas/worldSession.js";
 
 import { applyConsequenceToLedger } from "./applyConsequenceToLedger.js";
+import { validateConsequencePreconditions } from "./validateConsequencePreconditions.js";
 
 export type ApplyConsequenceEngineContext = {
   choiceId?: string;
@@ -80,6 +81,16 @@ export function applyConsequenceEngine(
     };
   }
   const consequence = consequenceValidation.data;
+
+  const preconditionResult = validateConsequencePreconditions(
+    world,
+    sessionValidation.data,
+    consequence,
+    context?.choiceId ? { choiceId: context.choiceId } : undefined,
+  );
+  if (!preconditionResult.ok) {
+    return { ok: false, errors: preconditionResult.errors };
+  }
 
   const nextTurn = sessionValidation.data.turnNumber + 1;
   const ledger = applyConsequenceToLedger(sessionValidation.data.ledger, consequence, nextTurn, {

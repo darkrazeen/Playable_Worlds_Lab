@@ -4,3 +4,7 @@ export {
   type ApplyConsequenceEngineContext,
   type ApplyConsequenceEngineResult,
 } from "./consequenceEngine.js";
+export {
+  validateConsequencePreconditions,
+  type ConsequencePreconditionResult,
+} from "./validateConsequencePreconditions.js";

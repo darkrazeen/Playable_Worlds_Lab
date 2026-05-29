@@ -1,5 +1,6 @@
 import { z } from "zod";
 
+import { validateLedgerFlags } from "../ledger/flagLifecycle.js";
 import { GoalIdListSchema } from "./consequence.js";
 import { FlagIdListSchema } from "./playerChoice.js";
 import { LocationIdListSchema } from "./consequence.js";
@@ -25,14 +26,21 @@ export const WorldEventSchema = z.object({
   metadata: z.record(z.string(), z.unknown()).optional(),
 });
 
-export const WorldLedgerSchema = z.object({
-  activeFlags: FlagIdListSchema.default([]),
-  resolvedFlags: FlagIdListSchema.default([]),
-  unlockedGoals: GoalIdListSchema.default([]),
-  completedGoals: GoalIdListSchema.default([]),
-  discoveredLocations: LocationIdListSchema.default([]),
-  worldEvents: z.array(WorldEventSchema).default([]),
-});
+export const WorldLedgerSchema = z
+  .object({
+    activeFlags: FlagIdListSchema.default([]),
+    resolvedFlags: FlagIdListSchema.default([]),
+    unlockedGoals: GoalIdListSchema.default([]),
+    completedGoals: GoalIdListSchema.default([]),
+    discoveredLocations: LocationIdListSchema.default([]),
+    worldEvents: z.array(WorldEventSchema).default([]),
+  })
+  .superRefine((ledger, ctx) => {
+    const flagValidation = validateLedgerFlags(ledger.activeFlags, ledger.resolvedFlags);
+    for (const message of flagValidation.errors) {
+      ctx.addIssue({ code: z.ZodIssueCode.custom, message, path: ["activeFlags"] });
+    }
+  });
 
 export type WorldEvent = z.infer<typeof WorldEventSchema>;
 export type WorldEventType = z.infer<typeof WorldEventTypeSchema>;

@@ -102,6 +102,36 @@ describe("applyConsequenceEngine", () => {
     expect(result.errors.some((error) => error.includes("not found"))).toBe(true);
   });
 
+  it("rejects consequences with unknown npc references before mutating session", () => {
+    const world = loadWorldFromFile(stonepassWorldPath).world!;
+    const brokenWorld = {
+      ...world,
+      consequences: world.consequences.map((entry) =>
+        entry.id === "consequence_fight_ogre"
+          ? {
+              ...entry,
+              npcUpdates: [{ npcId: "npc_does_not_exist", attitude: "hostile" }],
+            }
+          : entry,
+      ),
+    } as WorldDefinition;
+    const session = createWorldSession(
+      {
+        id: "session_engine_bad_npc",
+        worldId: world.id,
+        worldVersionId: "world_stonepass_valley_v1",
+        startingBeatId: world.startingBeatId,
+      },
+      world,
+    );
+
+    const result = applyConsequenceEngine(brokenWorld, session, "consequence_fight_ogre");
+
+    expect(result.ok).toBe(false);
+    expect(result.errors.some((error) => error.includes("npc_does_not_exist"))).toBe(true);
+    expect(result.session).toBeUndefined();
+  });
+
   it("rejects malformed consequence data before mutating session", () => {
     const world = loadWorldFromFile(stonepassWorldPath).world!;
     const brokenWorld = {
