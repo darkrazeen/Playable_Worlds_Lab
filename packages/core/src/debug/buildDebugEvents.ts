@@ -43,6 +43,26 @@ export type SessionLoadedDebugInput = {
   worldVersionId: string;
 };
 
+export type AiSuggestionDebugInput = {
+  turnNumber: number;
+  agent: string;
+  task: string;
+  provider: string;
+  summary: string;
+  metadata?: Record<string, unknown>;
+};
+
+export type AiFallbackUsedDebugInput = {
+  turnNumber: number;
+  agent: string;
+  task: string;
+  provider: string;
+  summary: string;
+  validationErrors?: string[];
+  generationSeed?: string;
+  metadata?: Record<string, unknown>;
+};
+
 export function buildChoiceSelectedEvent(input: ChoiceSelectedDebugInput): DebugEvent {
   return {
     id: `debug_choice_${input.choiceId}`,
@@ -145,6 +165,42 @@ export function buildSessionLoadedEvent(input: SessionLoadedDebugInput): DebugEv
     metadata: {
       worldVersionId: input.worldVersionId,
       startingBeatId: input.startingBeatId,
+    },
+  };
+}
+
+export function buildAiSuggestionEvent(input: AiSuggestionDebugInput): DebugEvent {
+  const slug = input.task.replace(/[^a-z0-9]+/g, "_");
+  return {
+    id: `debug_ai_${input.agent}_${slug}_t${input.turnNumber}`,
+    turnNumber: input.turnNumber,
+    type: "ai_suggestion",
+    summary: input.summary,
+    metadata: {
+      agent: input.agent,
+      task: input.task,
+      provider: input.provider,
+      ...input.metadata,
+    },
+  };
+}
+
+export function buildFallbackUsedEvent(input: AiFallbackUsedDebugInput): DebugEvent {
+  const slug = input.task.replace(/[^a-z0-9]+/g, "_");
+  return {
+    id: `debug_fallback_${input.agent}_${slug}_t${input.turnNumber}`,
+    turnNumber: input.turnNumber,
+    type: "fallback_used",
+    summary: input.summary,
+    metadata: {
+      agent: input.agent,
+      task: input.task,
+      provider: input.provider,
+      ...(input.validationErrors && input.validationErrors.length > 0
+        ? { validationErrors: input.validationErrors }
+        : {}),
+      ...(input.generationSeed ? { generationSeed: input.generationSeed } : {}),
+      ...input.metadata,
     },
   };
 }

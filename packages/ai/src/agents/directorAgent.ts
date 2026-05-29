@@ -12,6 +12,7 @@ import {
   type CreateAIProviderFromEnvOptions,
 } from "../config/resolveAIProvider.js";
 import type { AIGateway } from "../gateway/aiGateway.js";
+import { generateStructuredWithDebug } from "../gateway/generateStructuredWithDebug.js";
 
 /** AIRequest.task values used by DirectorAgent. */
 export const DIRECTOR_TASK = {
@@ -34,6 +35,11 @@ export type DirectorSuggestionInput = {
   fallback?: DirectorDecision;
 };
 
+export type DirectorTrackedResult = {
+  result: AIResultOf<typeof DirectorDecisionSchema>;
+  session: WorldSession;
+};
+
 /**
  * Phase 2 Director — proposes DirectorDecision via AIGateway only.
  * Does not mutate WorldSession, WorldLedger, or any permanent world state.
@@ -46,9 +52,7 @@ export class DirectorAgent {
   }
 
   /** Suggest the next story beat (`select_next_beat`). */
-  suggestNextBeat(
-    input: DirectorSuggestionInput,
-  ): Promise<AIResultOf<typeof DirectorDecisionSchema>> {
+  suggestNextBeat(input: DirectorSuggestionInput): Promise<DirectorTrackedResult> {
     return this.requestDirector({
       ...input,
       action: "select_next_beat",
@@ -58,7 +62,7 @@ export class DirectorAgent {
   }
 
   /** Suggest a world recap (`summarize_world`). */
-  suggestRecap(input: DirectorSuggestionInput): Promise<AIResultOf<typeof DirectorDecisionSchema>> {
+  suggestRecap(input: DirectorSuggestionInput): Promise<DirectorTrackedResult> {
     return this.requestDirector({
       ...input,
       action: "summarize_world",
@@ -68,9 +72,7 @@ export class DirectorAgent {
   }
 
   /** Suggest ending or pausing the session (`suggest_session_wrapup`). */
-  suggestSessionWrapup(
-    input: DirectorSuggestionInput,
-  ): Promise<AIResultOf<typeof DirectorDecisionSchema>> {
+  suggestSessionWrapup(input: DirectorSuggestionInput): Promise<DirectorTrackedResult> {
     return this.requestDirector({
       ...input,
       action: "suggest_session_wrapup",
@@ -80,9 +82,7 @@ export class DirectorAgent {
   }
 
   /** Suggest a temporary instance draft (`generate_instance`). */
-  suggestInstanceRequest(
-    input: DirectorSuggestionInput,
-  ): Promise<AIResultOf<typeof DirectorDecisionSchema>> {
+  suggestInstanceRequest(input: DirectorSuggestionInput): Promise<DirectorTrackedResult> {
     return this.requestDirector({
       ...input,
       action: "generate_instance",
@@ -97,11 +97,11 @@ export class DirectorAgent {
       task: string;
       prompt: string;
     },
-  ): Promise<AIResultOf<typeof DirectorDecisionSchema>> {
+  ): Promise<DirectorTrackedResult> {
     const { session, action, task, prompt } = input;
     const fallback = input.fallback ?? buildDefaultDirectorFallback(action, session);
 
-    return this.gateway.generateStructured({
+    return generateStructuredWithDebug(this.gateway, {
       request: {
         task,
         prompt,
@@ -110,7 +110,33 @@ export class DirectorAgent {
       },
       schema: DirectorDecisionSchema,
       fallbackValue: fallback,
+      session,
+      debug: {
+        agent: "director",
+        task,
+        summary: buildDirectorOutcomeSummary(action, fallback, session),
+        metadata: { action, targetId: fallback.targetId },
+      },
     });
+  }
+}
+
+function buildDirectorOutcomeSummary(
+  action: DirectorDecisionAction,
+  fallback: DirectorDecision,
+  session: WorldSession,
+): string {
+  switch (action) {
+    case "select_next_beat":
+      return `Director beat suggestion (fallback target: ${fallback.targetId}).`;
+    case "summarize_world":
+      return `Director recap at beat ${session.currentBeatId}.`;
+    case "suggest_session_wrapup":
+      return `Director session wrap-up hint at ${session.currentBeatId}.`;
+    case "generate_instance":
+      return `Director instance draft suggestion at ${session.currentBeatId}.`;
+    default:
+      return `Director ${action} suggestion.`;
   }
 }
 

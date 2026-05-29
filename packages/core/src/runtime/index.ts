@@ -11,3 +11,4 @@ export {
   type ListAvailableChoicesResult,
   type ResolvePlayerChoiceResult,
 } from "./resolvePlayerChoice.js";
+export { recordAiGatewayOutcome, type RecordAiOutcomeContext } from "./recordAiOutcome.js";

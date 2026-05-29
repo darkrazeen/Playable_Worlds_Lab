@@ -56,9 +56,13 @@ describe("DirectorAgent", () => {
     const { session, agent } = loadStonepassSession();
     const before = snapshotSession(session);
 
-    const result = await agent.suggestNextBeat({ session, generationSeed: "seed_director_ok" });
+    const { result, session: trackedSession } = await agent.suggestNextBeat({
+      session,
+      generationSeed: "seed_director_ok",
+    });
 
     expect(result.ok).toBe(true);
+    expect(trackedSession.debugEvents.some((e) => e.type === "ai_suggestion")).toBe(true);
     expect(result.fallbackUsed).toBe(false);
     expect(result.value?.action).toBe("select_next_beat");
     expect(result.value?.targetId).toBe("beat_landslide_aftermath");
@@ -84,7 +88,7 @@ describe("DirectorAgent", () => {
       ),
     );
 
-    const result = await agent.suggestNextBeat({
+    const { result, session: trackedSession } = await agent.suggestNextBeat({
       session,
       fallback: fallbackDecision,
     });
@@ -92,6 +96,7 @@ describe("DirectorAgent", () => {
     expect(result.ok).toBe(true);
     expect(result.fallbackUsed).toBe(true);
     expect(result.value?.targetId).toBe("beat_valley_square");
+    expect(trackedSession.debugEvents.some((e) => e.type === "fallback_used")).toBe(true);
     expect(snapshotSession(session)).toBe(before);
   });
 
@@ -111,12 +116,13 @@ describe("DirectorAgent", () => {
       ),
     );
 
-    const result = await agent.suggestNextBeat({ session });
+    const { result, session: trackedSession } = await agent.suggestNextBeat({ session });
 
     expect(result.ok).toBe(true);
     expect(result.fallbackUsed).toBe(true);
     expect(result.value?.targetId).toBe(session.currentBeatId);
     expect(result.validationErrors?.some((e) => e.includes("director outage"))).toBe(true);
+    expect(trackedSession.debugEvents.some((e) => e.type === "fallback_used")).toBe(true);
     expect(snapshotSession(session)).toBe(before);
   });
 
@@ -165,11 +171,11 @@ describe("DirectorAgent", () => {
       ),
     );
 
-    const recap = await agent.suggestRecap({ session });
+    const { result: recap } = await agent.suggestRecap({ session });
     expect(recap.ok).toBe(true);
     expect(recap.value?.action).toBe("summarize_world");
 
-    const wrapup = await agent.suggestSessionWrapup({ session });
+    const { result: wrapup } = await agent.suggestSessionWrapup({ session });
     expect(wrapup.ok).toBe(true);
     expect(wrapup.value?.action).toBe("suggest_session_wrapup");
   });
@@ -189,7 +195,7 @@ describe("DirectorAgent", () => {
       ),
     );
 
-    const result = await agent.suggestNextBeat({
+    const { result } = await agent.suggestNextBeat({
       session,
       generationSeed: "replay_seed_42",
     });
