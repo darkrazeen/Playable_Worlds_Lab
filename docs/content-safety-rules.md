@@ -6,10 +6,10 @@ Playable Worlds Lab is **teen/adult only**. There is no lower-age public mode in
 
 ## Safety modes
 
-| Mode | Allowed | Not allowed |
-| --- | --- | --- |
-| **teen** | Adventure-safe tone, fantasy danger, suspense, non-graphic combat, mystery, limited mild romance references | Explicit sexual content, graphic gore, hate content, self-harm instruction, real-world extremist praise, exploitative content |
-| **adult** | Darker stakes, stronger danger, mature themes, sparing stronger language when tone supports it | Explicit sexual content, graphic gore, hate content, self-harm instruction, real-world extremist praise, exploitative content |
+| Mode      | Allowed                                                                                                     | Not allowed                                                                                                                   |
+| --------- | ----------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| **teen**  | Adventure-safe tone, fantasy danger, suspense, non-graphic combat, mystery, limited mild romance references | Explicit sexual content, graphic gore, hate content, self-harm instruction, real-world extremist praise, exploitative content |
+| **adult** | Darker stakes, stronger danger, mature themes, sparing stronger language when tone supports it              | Explicit sexual content, graphic gore, hate content, self-harm instruction, real-world extremist praise, exploitative content |
 
 ## Enforcement
 

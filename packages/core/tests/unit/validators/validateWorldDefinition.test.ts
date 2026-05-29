@@ -157,9 +157,9 @@ describe("validateWorldDefinition", () => {
     const world = loadMinimalWorld();
     const result = validateWorldDefinition(world);
     for (const beat of world.storyBeats.filter((b) => b.isEnding)) {
-      expect(
-        result.errors.some((e) => e.includes("unreachable") && e.includes(beat.id)),
-      ).toBe(false);
+      expect(result.errors.some((e) => e.includes("unreachable") && e.includes(beat.id))).toBe(
+        false,
+      );
     }
   });
 
@@ -169,11 +169,9 @@ describe("validateWorldDefinition", () => {
     starting.requiredFlags = ["flag_never_produced"];
     const result = validateWorldDefinition(world);
     expect(result.ok).toBe(false);
-    expect(
-      result.errors.some(
-        (e) => e.includes("unreachable") || e.includes("dead_end"),
-      ),
-    ).toBe(true);
+    expect(result.errors.some((e) => e.includes("unreachable") || e.includes("dead_end"))).toBe(
+      true,
+    );
   });
 
   it("converges on circular flag dependencies", () => {

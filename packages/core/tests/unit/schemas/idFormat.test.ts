@@ -19,13 +19,10 @@ describe("ID format schemas", () => {
     expect(schema.safeParse(id).success).toBe(true);
   });
 
-  it.each([
-    "Landslide_Triggered",
-    "landslide-triggered",
-    "1bad_start",
-    "",
-    "UPPER",
-  ])("rejects invalid entity id %s", (id) => {
-    expect(EntityIdSchema.safeParse(id).success).toBe(false);
-  });
+  it.each(["Landslide_Triggered", "landslide-triggered", "1bad_start", "", "UPPER"])(
+    "rejects invalid entity id %s",
+    (id) => {
+      expect(EntityIdSchema.safeParse(id).success).toBe(false);
+    },
+  );
 });

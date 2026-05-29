@@ -3,11 +3,7 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
 
-import {
-  parseStoryBeat,
-  safeParseStoryBeat,
-  StoryBeatSchema,
-} from "../../../src/schemas/index.js";
+import { parseStoryBeat, safeParseStoryBeat, StoryBeatSchema } from "../../../src/schemas/index.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const examplesDir = join(__dirname, "../../../../content/examples");
@@ -76,9 +72,7 @@ describe("StoryBeatSchema", () => {
   });
 
   it("rejects beats with no available choices", () => {
-    expect(StoryBeatSchema.safeParse({ ...validBeat, availableChoices: [] }).success).toBe(
-      false,
-    );
+    expect(StoryBeatSchema.safeParse({ ...validBeat, availableChoices: [] }).success).toBe(false);
     expect(safeParseStoryBeat({ ...validBeat, availableChoices: [] }).success).toBe(false);
   });
 
@@ -97,12 +91,10 @@ describe("StoryBeatSchema", () => {
   });
 
   it("rejects malformed beat-level flag arrays", () => {
-    expect(
-      StoryBeatSchema.safeParse({ ...validBeat, requiredFlags: [""] }).success,
-    ).toBe(false);
-    expect(
-      StoryBeatSchema.safeParse({ ...validBeat, blockedByFlags: "not-array" }).success,
-    ).toBe(false);
+    expect(StoryBeatSchema.safeParse({ ...validBeat, requiredFlags: [""] }).success).toBe(false);
+    expect(StoryBeatSchema.safeParse({ ...validBeat, blockedByFlags: "not-array" }).success).toBe(
+      false,
+    );
   });
 
   it("validates JSON example from packages/content/examples", () => {

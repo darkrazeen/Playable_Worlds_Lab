@@ -6,10 +6,7 @@ import {
 import type { Consequence } from "../schemas/consequence.js";
 import type { WorldDefinition } from "../schemas/worldDefinition.js";
 import type { WorldSession } from "../schemas/worldSession.js";
-import {
-  isPlayerChoiceAccessible,
-  ledgerActiveFlags,
-} from "../story/beatAccessibility.js";
+import { isPlayerChoiceAccessible, ledgerActiveFlags } from "../story/beatAccessibility.js";
 
 export type ConsequencePreconditionResult = {
   ok: boolean;
@@ -55,9 +52,7 @@ export function validateConsequencePreconditions(
   if (context?.choiceId) {
     const linkedChoice = world.storyBeats
       .flatMap((beat) => beat.availableChoices)
-      .find(
-        (choice) => choice.id === context.choiceId && choice.consequenceId === consequence.id,
-      );
+      .find((choice) => choice.id === context.choiceId && choice.consequenceId === consequence.id);
 
     if (!linkedChoice) {
       errors.push(

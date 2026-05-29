@@ -4,15 +4,15 @@ import { describe, expect, it } from "vitest";
 
 import { createWorldSession } from "../../../src/schemas/worldSession.js";
 import { parseWorldDefinition } from "../../../src/schemas/worldDefinition.js";
-import { listAvailableChoices, resolvePlayerChoice } from "../../../src/runtime/resolvePlayerChoice.js";
+import {
+  listAvailableChoices,
+  resolvePlayerChoice,
+} from "../../../src/runtime/resolvePlayerChoice.js";
 import { loadWorldFromFile } from "../../../src/world/loadWorld.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const contentRoot = join(__dirname, "../../../../content");
-const stonepassWorldPath = join(
-  contentRoot,
-  "worlds/stonepass/stonepass-valley.world.json",
-);
+const stonepassWorldPath = join(contentRoot, "worlds/stonepass/stonepass-valley.world.json");
 
 const ogreChoices = ["fight_ogre", "trick_ogre", "feed_ogre", "talk_ogre", "sneak_ogre"] as const;
 
@@ -99,9 +99,7 @@ describe("resolvePlayerChoice", () => {
     const open = resolvePlayerChoice(world, session, "open_choice");
 
     expect(blocked.ok).toBe(false);
-    expect(blocked.errors.some((error) => error.includes("blocked by session flags"))).toBe(
-      true,
-    );
+    expect(blocked.errors.some((error) => error.includes("blocked by session flags"))).toBe(true);
     expect(open.ok).toBe(true);
   });
 
@@ -141,9 +139,7 @@ describe("resolvePlayerChoice", () => {
     const result = resolvePlayerChoice(world, session, "blocked_choice");
 
     expect(result.ok).toBe(false);
-    expect(result.errors.some((error) => error.includes("blocked by session flags"))).toBe(
-      true,
-    );
+    expect(result.errors.some((error) => error.includes("blocked by session flags"))).toBe(true);
   });
 });
 

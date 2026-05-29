@@ -101,9 +101,7 @@ describe("WorldDNASchema", () => {
   });
 
   it("validates JSON examples from packages/content/examples", () => {
-    const teen = JSON.parse(
-      readFileSync(join(examplesDir, "world-dna-teen.example.json"), "utf8"),
-    );
+    const teen = JSON.parse(readFileSync(join(examplesDir, "world-dna-teen.example.json"), "utf8"));
     const adult = JSON.parse(
       readFileSync(join(examplesDir, "world-dna-adult.example.json"), "utf8"),
     );

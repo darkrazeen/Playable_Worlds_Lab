@@ -20,6 +20,7 @@ type OgrePathCase = {
   choiceId: string;
   consequenceId: string;
   signatureFlag: string;
+  expectedBeatId: string;
   expectedActiveFlags: string[];
   expectedGoals: string[];
   expectedDiscoveredLocations?: string[];
@@ -31,6 +32,7 @@ const OGRE_PATH_CASES: OgrePathCase[] = [
     choiceId: "fight_ogre",
     consequenceId: "consequence_fight_ogre",
     signatureFlag: "ogre_defeated",
+    expectedBeatId: "beat_landslide_aftermath",
     expectedActiveFlags: ["ogre_defeated", "bridge_open", "landslide_triggered"],
     expectedGoals: ["goal_reach_valley", "goal_explore_cave"],
     expectedDiscoveredLocations: ["location_hidden_cave"],
@@ -40,6 +42,7 @@ const OGRE_PATH_CASES: OgrePathCase[] = [
     choiceId: "trick_ogre",
     consequenceId: "consequence_trick_ogre",
     signatureFlag: "ogre_tricked",
+    expectedBeatId: "beat_valley_square",
     expectedActiveFlags: ["ogre_tricked", "bridge_open", "ogre_peaceful_crossing"],
     expectedGoals: ["goal_reach_valley"],
     mustNotHaveFlags: ["landslide_triggered"],
@@ -48,6 +51,7 @@ const OGRE_PATH_CASES: OgrePathCase[] = [
     choiceId: "feed_ogre",
     consequenceId: "consequence_feed_ogre",
     signatureFlag: "ogre_fed",
+    expectedBeatId: "beat_valley_square",
     expectedActiveFlags: ["ogre_fed", "ogre_allied", "bridge_open", "ogre_peaceful_crossing"],
     expectedGoals: ["goal_reach_valley"],
     mustNotHaveFlags: ["landslide_triggered"],
@@ -56,6 +60,7 @@ const OGRE_PATH_CASES: OgrePathCase[] = [
     choiceId: "talk_ogre",
     consequenceId: "consequence_talk_ogre",
     signatureFlag: "ogre_talked",
+    expectedBeatId: "beat_valley_square",
     expectedActiveFlags: [
       "ogre_talked",
       "bridge_open",
@@ -69,6 +74,7 @@ const OGRE_PATH_CASES: OgrePathCase[] = [
     choiceId: "sneak_ogre",
     consequenceId: "consequence_sneak_ogre",
     signatureFlag: "ogre_avoided",
+    expectedBeatId: "beat_valley_square",
     expectedActiveFlags: ["ogre_avoided", "bridge_open", "ogre_peaceful_crossing"],
     expectedGoals: ["goal_reach_valley"],
     mustNotHaveFlags: ["landslide_triggered"],
@@ -113,6 +119,7 @@ describe("Stonepass Spire Floor 1 — ogre bridge path integration", () => {
       choiceId,
       consequenceId,
       signatureFlag,
+      expectedBeatId,
       expectedActiveFlags,
       expectedGoals,
       expectedDiscoveredLocations = [],
@@ -131,6 +138,7 @@ describe("Stonepass Spire Floor 1 — ogre bridge path integration", () => {
       expect(parsed.success).toBe(true);
 
       expect(nextSession.turnNumber).toBe(1);
+      expect(nextSession.currentBeatId).toBe(expectedBeatId);
       expect(nextSession.choiceHistory).toEqual([choiceId]);
       expect(nextSession.ledger.activeFlags).toContain(signatureFlag);
       expect(nextSession.ledger.resolvedFlags).toContain("ogre_blocks_bridge");

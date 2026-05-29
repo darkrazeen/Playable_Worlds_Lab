@@ -58,9 +58,7 @@ export function buildChoiceSelectedEvent(input: ChoiceSelectedDebugInput): Debug
   };
 }
 
-export function buildConsequenceAppliedEvent(
-  input: ConsequenceAppliedDebugInput,
-): DebugEvent {
+export function buildConsequenceAppliedEvent(input: ConsequenceAppliedDebugInput): DebugEvent {
   return {
     id: `debug_consequence_${input.consequenceId.replace(/^consequence_/, "")}`,
     turnNumber: input.turnNumber,
@@ -77,9 +75,7 @@ export function buildConsequenceAppliedEvent(
 }
 
 /** Returns undefined when the consequence did not change any flags. */
-export function buildFlagsChangedEvent(
-  input: FlagsChangedDebugInput,
-): DebugEvent | undefined {
+export function buildFlagsChangedEvent(input: FlagsChangedDebugInput): DebugEvent | undefined {
   const addedActiveFlags = input.after.activeFlags.filter(
     (flag) => !input.before.activeFlags.includes(flag),
   );
@@ -113,8 +109,9 @@ export function buildFlagsChangedEvent(
 }
 
 export function buildGoalUnlockedEvent(input: GoalUnlockedDebugInput): DebugEvent {
+  const consequenceSuffix = input.consequenceId.replace(/^consequence_/, "");
   return {
-    id: `debug_goal_${input.goalId}`,
+    id: `debug_goal_${input.goalId}_t${input.turnNumber}_${consequenceSuffix}`,
     turnNumber: input.turnNumber,
     type: "goal_unlocked",
     summary: `Unlocked goal ${input.goalId}.`,

@@ -17,11 +17,11 @@
 
 ## Feature index entry
 
-| Feature | Status | Target phase (approx.) | Last updated |
-| --- | --- | --- | --- |
-| Quest module pool + eligibility | Brainstorm / proposed | Phase 5–7 (after quest generation W8-S9–S12) | 2026-05-28 |
-| Director weave decision (select + schedule) | Brainstorm / proposed | Phase 7 (after playtester) | 2026-05-28 |
-| Gap detection → side-goal injection | Brainstorm / proposed | Phase 7+ | 2026-05-28 |
+| Feature                                     | Status                | Target phase (approx.)                       | Last updated |
+| ------------------------------------------- | --------------------- | -------------------------------------------- | ------------ |
+| Quest module pool + eligibility             | Brainstorm / proposed | Phase 5–7 (after quest generation W8-S9–S12) | 2026-05-28   |
+| Director weave decision (select + schedule) | Brainstorm / proposed | Phase 7 (after playtester)                   | 2026-05-28   |
+| Gap detection → side-goal injection         | Brainstorm / proposed | Phase 7+                                     | 2026-05-28   |
 
 ---
 
@@ -33,7 +33,7 @@ When the player has no clear next goal, the Director picks an **eligible, pre-va
 
 ## Why this fits the project and plays to its strengths
 
-- **Selection, not generation, at runtime.** The risky part (authoring beats/rewards) happens offline through the quest pipeline (W8-S9–S12) and is human/health-approved; the Director only *chooses when* to surface a trusted module.
+- **Selection, not generation, at runtime.** The risky part (authoring beats/rewards) happens offline through the quest pipeline (W8-S9–S12) and is human/health-approved; the Director only _chooses when_ to surface a trusted module.
 - **Directly answers "no next goal."** Playtester step W11-S4 detects missing-goal worlds; this feature is the live-play counterpart that prevents stalls.
 - **Reuses everything.** QuestBlueprint, validateQuestDraft, merge-into-WorldDefinition (W8-S12), DirectorDecision, and DebugEvents all already exist or are planned.
 - **Bounded emergence.** Worlds feel alive and reactive without sacrificing determinism or safety.
@@ -43,15 +43,15 @@ When the player has no clear next goal, the Director picks an **eligible, pre-va
 
 ## How this fits the existing architecture
 
-| Existing piece | Role in this feature |
-| --- | --- |
-| `QuestBlueprint` / `QuestDraft` (W8-S9–S12) | The pre-validated modules in the pool |
-| `mergeQuestDraft` (W8-S12) | Mechanism to splice a chosen module into the live world |
-| `DirectorDecision` | New `weave_quest` action (select + schedule module) |
-| `WorldLedger` / session | Eligibility signals (no active goal, standing, location) |
-| Playtester (W11) | Every poolable module is pre-playtested |
-| Health score (W6 / [v2](./World_Health_Score_v2_and_AI_Critic_Loop.md)) | Modules must meet a quality threshold to be poolable |
-| `DebugEvent` | `quest_woven` event for transparency |
+| Existing piece                                                          | Role in this feature                                     |
+| ----------------------------------------------------------------------- | -------------------------------------------------------- |
+| `QuestBlueprint` / `QuestDraft` (W8-S9–S12)                             | The pre-validated modules in the pool                    |
+| `mergeQuestDraft` (W8-S12)                                              | Mechanism to splice a chosen module into the live world  |
+| `DirectorDecision`                                                      | New `weave_quest` action (select + schedule module)      |
+| `WorldLedger` / session                                                 | Eligibility signals (no active goal, standing, location) |
+| Playtester (W11)                                                        | Every poolable module is pre-playtested                  |
+| Health score (W6 / [v2](./World_Health_Score_v2_and_AI_Critic_Loop.md)) | Modules must meet a quality threshold to be poolable     |
+| `DebugEvent`                                                            | `quest_woven` event for transparency                     |
 
 **Core mantra unchanged:** AI proposes → validators check → engine executes.
 
@@ -84,7 +84,7 @@ The module is **trusted content**; the Director only decides relevance + timing.
 // Eligibility wrapper around a validated QuestDraft
 export const PoolableQuestSchema = z.object({
   questId: z.string().min(1),
-  draftRef: z.string().min(1),          // points to a validated QuestDraft
+  draftRef: z.string().min(1), // points to a validated QuestDraft
   healthScore: z.number().min(0).max(100),
   playtested: z.literal(true),
   eligibility: z.object({
@@ -119,12 +119,12 @@ export const WeaveQuestDecisionSchema = z.object({
 
 ## AI proposes / validators check / engine executes
 
-| Step | Who | Constraint |
-| --- | --- | --- |
-| Detect gap | Engine | Deterministic signals |
-| Pick module | Director | From pre-validated pool only; `weave_quest` schema |
-| Validate eligibility + merge | Engine + `validateWorldDefinition` | Merged world stays valid; offer only |
-| Play | Player | Normal accept/decline choices |
+| Step                         | Who                                | Constraint                                         |
+| ---------------------------- | ---------------------------------- | -------------------------------------------------- |
+| Detect gap                   | Engine                             | Deterministic signals                              |
+| Pick module                  | Director                           | From pre-validated pool only; `weave_quest` schema |
+| Validate eligibility + merge | Engine + `validateWorldDefinition` | Merged world stays valid; offer only               |
+| Play                         | Player                             | Normal accept/decline choices                      |
 
 ---
 
@@ -139,28 +139,28 @@ export const WeaveQuestDecisionSchema = z.object({
 
 ## Phase map / dependency order
 
-| Order | Prerequisite | Enables |
-| --- | --- | --- |
-| 1 | W8-S9–S12 quest generation | Validated modules |
-| 2 | W11 playtester | Pre-playtested pool |
-| 3 | W6 / health v2 | Quality threshold for pool |
-| 4 | Phase 2 DirectorAgent | Selection decisions |
-| 5 | Faction/standing + NPC memory | Richer eligibility |
-| 6 | Phase 9 Creator Cockpit | Pool management UI |
+| Order | Prerequisite                  | Enables                    |
+| ----- | ----------------------------- | -------------------------- |
+| 1     | W8-S9–S12 quest generation    | Validated modules          |
+| 2     | W11 playtester                | Pre-playtested pool        |
+| 3     | W6 / health v2                | Quality threshold for pool |
+| 4     | Phase 2 DirectorAgent         | Selection decisions        |
+| 5     | Faction/standing + NPC memory | Richer eligibility         |
+| 6     | Phase 9 Creator Cockpit       | Pool management UI         |
 
 ---
 
 ## Proposed step-tracker additions (NOT approved — for human review)
 
-| Step ID (suggested) | Name | Goal |
-| --- | --- | --- |
-| EW-S1 | PoolableQuest schema + pool store | Eligibility metadata |
-| EW-S2 | Deterministic gap detection | No-next-goal/idle signal |
-| EW-S3 | Add weave_quest to DirectorDecision | Bounded selection action |
-| EW-S4 | Eligibility filter + re-check at merge | Safe scheduling |
-| EW-S5 | Merge offer beat via mergeQuestDraft | Live splice + DebugEvent |
-| EW-S6 | Cooldown / oncePerWorld controls | Anti-spam |
-| EW-S7 | Pool management + reasoning panel | Creator visibility |
+| Step ID (suggested) | Name                                   | Goal                     |
+| ------------------- | -------------------------------------- | ------------------------ |
+| EW-S1               | PoolableQuest schema + pool store      | Eligibility metadata     |
+| EW-S2               | Deterministic gap detection            | No-next-goal/idle signal |
+| EW-S3               | Add weave_quest to DirectorDecision    | Bounded selection action |
+| EW-S4               | Eligibility filter + re-check at merge | Safe scheduling          |
+| EW-S5               | Merge offer beat via mergeQuestDraft   | Live splice + DebugEvent |
+| EW-S6               | Cooldown / oncePerWorld controls       | Anti-spam                |
+| EW-S7               | Pool management + reasoning panel      | Creator visibility       |
 
 ---
 
@@ -177,12 +177,12 @@ export const WeaveQuestDecisionSchema = z.object({
 
 ## Risks & mitigations
 
-| Risk | Mitigation |
-| --- | --- |
-| Irrelevant/spammy quests | Eligibility filters + cooldowns + confidence threshold |
-| Merge breaks host world | Validate merged world before commit |
-| Runtime authoring temptation | Hard rule: select from pre-validated pool only |
-| Player overwhelmed by side-goals | Max active woven quests cap |
+| Risk                             | Mitigation                                             |
+| -------------------------------- | ------------------------------------------------------ |
+| Irrelevant/spammy quests         | Eligibility filters + cooldowns + confidence threshold |
+| Merge breaks host world          | Validate merged world before commit                    |
+| Runtime authoring temptation     | Hard rule: select from pre-validated pool only         |
+| Player overwhelmed by side-goals | Max active woven quests cap                            |
 
 ---
 

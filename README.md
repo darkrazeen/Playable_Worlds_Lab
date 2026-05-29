@@ -81,50 +81,50 @@ The first milestone is:
 
 Progress is tracked in `Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv`. Update this table when a step is finished.
 
-**Agent handoff (latest session):** [AGENT_SESSION_HANDOFF.md](./AGENT_SESSION_HANDOFF.md) — current state, v4.2 contract, engine loop, next step **W3-S1**.
+**Agent handoff (latest session):** [AGENT_SESSION_HANDOFF.md](./AGENT_SESSION_HANDOFF.md) — current state, v4.2 contract, engine loop. **Step status:** [Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv](./Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv) (single source of truth).
 
-**Future ideas (scheduled in step tracker as Not started):** see [Future_Features/](./Future_Features/README.md) — [player-themed worlds + content libraries](./Future_Features/Player_World_Generation_and_Content_Libraries.md), [quest generation (W8-S9–S12)](./Future_Features/Quest_Generation.md#quest-foundation-vs-ai-flavor-creator-contract), and the **flagship [Stonepass Spire](./Future_Features/Stonepass_Spire_Aincrad_Castle.md)** (Aincrad-style 100-floor castle) plus the gameplay systems it needs — combat **Tier A**, progression, gear, region composer, dynamic difficulty, and seed/variation — now interleaved into the tracker as **W4-S8 … W12-S8** (see the *Spire & Gameplay Systems track* in `Playable_Worlds_Lab_v4_1_FULL_CURSOR.md` §13).
+**Future ideas (scheduled in step tracker as Not started):** see [Future_Features/](./Future_Features/README.md) — [player-themed worlds + content libraries](./Future_Features/Player_World_Generation_and_Content_Libraries.md), [quest generation (W8-S9–S12)](./Future_Features/Quest_Generation.md#quest-foundation-vs-ai-flavor-creator-contract), and the **flagship [Stonepass Spire](./Future_Features/Stonepass_Spire_Aincrad_Castle.md)** (Aincrad-style 100-floor castle) plus the gameplay systems it needs — combat **Tier A**, progression, gear, region composer, dynamic difficulty, and seed/variation — now interleaved into the tracker as **W4-S8 … W12-S8** (see the _Spire & Gameplay Systems track_ in `Playable_Worlds_Lab_v4_1_FULL_CURSOR.md` §13).
 
-| Step ID | Phase | Name | Status |
-| --- | --- | --- | --- |
-| **W1-S1** | Phase 0 — Foundation | Create repo and app skeleton | **Done** |
-| **W1-S2** | Phase 0 — Foundation | Create WorldDNA schema | **Done** |
-| **W1-S3** | Phase 0 — Foundation | Create PlayerChoice schema | **Done** |
-| **W1-S4** | Phase 0 — Foundation | Create StoryBeat schema | **Done** |
-| **W1-S5** | Phase 0 — Foundation | Create Consequence schema | **Done** |
-| **W1-S6** | Phase 0 — Foundation | Create WorldLedger and WorldEvent schemas | **Done** |
-| **W1-S7** | Phase 0 — Foundation | Create DirectorDecision schema | **Done** |
-| **W1-S8** | Phase 0 — Foundation | Create TemporaryInstance schema | **Done** |
-| **W1-S9** | Phase 0 — Foundation | Create NPC schema | **Done** |
-| **W1-S10** | Phase 0 — Foundation | Create WorldDefinition schema | **Done** |
-| **W1-S11** | Phase 0 — Foundation | Create WorldSession schema | **Done** |
-| **W1-S12** | Phase 0 — Foundation | Create DebugEvent schema | **Done** |
-| **W1-S13** | Phase 0 — Foundation | Create AIResult contract | **Done** |
-| **W1-S14** | Phase 0 — Foundation | validateWorldDefinition | **Done** |
-| **W1-S15** | Phase 0 — Foundation | Stonepass Spire Floor 1 world JSON (legacy `stonepass-valley`) | **Done** |
-| **W1-S16** | Phase 0 — Foundation | FakeProvider + AIProvider | **Done** |
-| **W2-S1** | Phase 1 — Text runtime | Build world JSON loader | **Done** |
-| **W2-S2** | Phase 1 — Text runtime | Initialize WorldSession | **Done** |
-| **W2-S3** | Phase 1 — Text runtime | Story beat selector | **Done** |
-| **W2-S4** | Phase 1 — Text runtime | Choice resolver | **Done** |
-| **W2-S5** | Phase 1 — Text runtime | Apply consequence through runtime | **Done** |
-| **W2-S6** | Phase 1 — Text runtime | Build text play screen | **Done** |
-| **W2-S7** | Phase 1 — Text runtime | Manual ogre path tests | **Done** |
-| W3-S1 | Phase 1 — Text runtime | Consequence Engine core | **Done** |
-| W3-S2 | Phase 1+ | Validate consequence preconditions | **Complete** |
-| W3-S3 | Phase 1+ | Finalize flag lifecycle rules | **Complete** |
-| W3-S4 | Phase 1+ | World Ledger UI panel | **Complete** |
-| W3-S5 | Phase 1+ | Debug log model usage | **Complete** |
-| W3-S6 | Phase 1+ | Debug log UI panel | **Complete** |
-| W3-S7 | Phase 1+ | Phase 1 acceptance hardening | **Complete** |
-| W4-S1 … | Phase 2 | AI Gateway | **Next** |
-| W7-S7–S11, W8-S6–S12 | Phase 5 extension | Content libraries, WorldBlueprint, quest generation | Scheduled (`Not started`) |
-| W4-S8–S10 | Phase 2 ext (Spire) | Seed plumbing, ledger difficulty signal, Director `adjust_difficulty` | Scheduled (`Not started`) |
-| W5-S8–S13 | Phase 3 ext (Spire) | ProgressionLedger, Tier A skills, gear gating, Level 0 combat, **Floor 1** | Scheduled (`Not started`) |
-| W7-S12–S13 | Phase 5 ext (Spire) | Gear/Item template library + seed | Scheduled (`Not started`) |
-| W8-S13–S20 | Phase 5 ext (Spire) | RegionMap, **SpireManifest**, ascension, **Floor 2**, EncounterResolver, DifficultyProfile | Scheduled (`Not started`) |
-| W9-S7–S9 | Phase 6 ext (Spire) | Climb persistence, persistent progression, seeded replay | Scheduled (`Not started`) |
-| W12-S8 | Phase 9 ext (Spire) | Variation Explorer UI | Scheduled (`Not started`) |
+| Step ID              | Phase                  | Name                                                                                       | Status                    |
+| -------------------- | ---------------------- | ------------------------------------------------------------------------------------------ | ------------------------- |
+| **W1-S1**            | Phase 0 — Foundation   | Create repo and app skeleton                                                               | **Done**                  |
+| **W1-S2**            | Phase 0 — Foundation   | Create WorldDNA schema                                                                     | **Done**                  |
+| **W1-S3**            | Phase 0 — Foundation   | Create PlayerChoice schema                                                                 | **Done**                  |
+| **W1-S4**            | Phase 0 — Foundation   | Create StoryBeat schema                                                                    | **Done**                  |
+| **W1-S5**            | Phase 0 — Foundation   | Create Consequence schema                                                                  | **Done**                  |
+| **W1-S6**            | Phase 0 — Foundation   | Create WorldLedger and WorldEvent schemas                                                  | **Done**                  |
+| **W1-S7**            | Phase 0 — Foundation   | Create DirectorDecision schema                                                             | **Done**                  |
+| **W1-S8**            | Phase 0 — Foundation   | Create TemporaryInstance schema                                                            | **Done**                  |
+| **W1-S9**            | Phase 0 — Foundation   | Create NPC schema                                                                          | **Done**                  |
+| **W1-S10**           | Phase 0 — Foundation   | Create WorldDefinition schema                                                              | **Done**                  |
+| **W1-S11**           | Phase 0 — Foundation   | Create WorldSession schema                                                                 | **Done**                  |
+| **W1-S12**           | Phase 0 — Foundation   | Create DebugEvent schema                                                                   | **Done**                  |
+| **W1-S13**           | Phase 0 — Foundation   | Create AIResult contract                                                                   | **Done**                  |
+| **W1-S14**           | Phase 0 — Foundation   | validateWorldDefinition                                                                    | **Done**                  |
+| **W1-S15**           | Phase 0 — Foundation   | Stonepass Spire Floor 1 world JSON (legacy `stonepass-valley`)                             | **Done**                  |
+| **W1-S16**           | Phase 0 — Foundation   | FakeProvider + AIProvider                                                                  | **Done**                  |
+| **W2-S1**            | Phase 1 — Text runtime | Build world JSON loader                                                                    | **Done**                  |
+| **W2-S2**            | Phase 1 — Text runtime | Initialize WorldSession                                                                    | **Done**                  |
+| **W2-S3**            | Phase 1 — Text runtime | Story beat selector                                                                        | **Done**                  |
+| **W2-S4**            | Phase 1 — Text runtime | Choice resolver                                                                            | **Done**                  |
+| **W2-S5**            | Phase 1 — Text runtime | Apply consequence through runtime                                                          | **Done**                  |
+| **W2-S6**            | Phase 1 — Text runtime | Build text play screen                                                                     | **Done**                  |
+| **W2-S7**            | Phase 1 — Text runtime | Manual ogre path tests                                                                     | **Done**                  |
+| W3-S1                | Phase 1 — Text runtime | Consequence Engine core                                                                    | **Done**                  |
+| W3-S2                | Phase 1+               | Validate consequence preconditions                                                         | **Complete**              |
+| W3-S3                | Phase 1+               | Finalize flag lifecycle rules                                                              | **Complete**              |
+| W3-S4                | Phase 1+               | World Ledger UI panel                                                                      | **Complete**              |
+| W3-S5                | Phase 1+               | Debug log model usage                                                                      | **Complete**              |
+| W3-S6                | Phase 1+               | Debug log UI panel                                                                         | **Complete**              |
+| W3-S7                | Phase 1+               | Phase 1 acceptance hardening                                                               | **Complete**              |
+| W4-S1 …              | Phase 2                | AI Gateway                                                                                 | **Next**                  |
+| W7-S7–S11, W8-S6–S12 | Phase 5 extension      | Content libraries, WorldBlueprint, quest generation                                        | Scheduled (`Not started`) |
+| W4-S8–S10            | Phase 2 ext (Spire)    | Seed plumbing, ledger difficulty signal, Director `adjust_difficulty`                      | Scheduled (`Not started`) |
+| W5-S8–S13            | Phase 3 ext (Spire)    | ProgressionLedger, Tier A skills, gear gating, Level 0 combat, **Floor 1**                 | Scheduled (`Not started`) |
+| W7-S12–S13           | Phase 5 ext (Spire)    | Gear/Item template library + seed                                                          | Scheduled (`Not started`) |
+| W8-S13–S20           | Phase 5 ext (Spire)    | RegionMap, **SpireManifest**, ascension, **Floor 2**, EncounterResolver, DifficultyProfile | Scheduled (`Not started`) |
+| W9-S7–S9             | Phase 6 ext (Spire)    | Climb persistence, persistent progression, seeded replay                                   | Scheduled (`Not started`) |
+| W12-S8               | Phase 9 ext (Spire)    | Variation Explorer UI                                                                      | Scheduled (`Not started`) |
 
 **W1-S1 done when (met):**
 
@@ -165,12 +165,12 @@ W1-S5–S9 schemas were aligned to v4.2 (v4.1 naming spine + v4.2 extensions). K
 
 ### Prerequisites
 
-| Requirement | Notes |
-| --- | --- |
-| **Node.js** | 20+ (see `.nvmrc`; tested with v22.x) |
-| **npm** | Workspaces monorepo; use npm at repo root |
-| **Git** | Optional; use GitHub Desktop or CLI as you prefer |
-| **Editor** | Cursor or VS Code recommended |
+| Requirement | Notes                                             |
+| ----------- | ------------------------------------------------- |
+| **Node.js** | 20+ (see `.nvmrc`; tested with v22.x)             |
+| **npm**     | Workspaces monorepo; use npm at repo root         |
+| **Git**     | Optional; use GitHub Desktop or CLI as you prefer |
+| **Editor**  | Cursor or VS Code recommended                     |
 
 Check versions:
 
@@ -187,19 +187,19 @@ Copy the template — **no API keys are required yet** through Phase 1 text runt
 cp .env.example .env.local
 ```
 
-| Variable | Needed now? | Purpose |
-| --- | --- | --- |
-| `OPENAI_API_KEY`, `ANTHROPIC_API_KEY`, `GEMINI_API_KEY` | No | Phase 2+ AI providers |
-| `SUPABASE_*` | No | Persistence / share phases |
-| `NEXT_PUBLIC_APP_URL` | No | App URL when deploying later |
+| Variable                                                | Needed now? | Purpose                      |
+| ------------------------------------------------------- | ----------- | ---------------------------- |
+| `OPENAI_API_KEY`, `ANTHROPIC_API_KEY`, `GEMINI_API_KEY` | No          | Phase 2+ AI providers        |
+| `SUPABASE_*`                                            | No          | Persistence / share phases   |
+| `NEXT_PUBLIC_APP_URL`                                   | No          | App URL when deploying later |
 
 Do not commit `.env` or `.env.local`. See [Environment Variables](#environment-variables) for full rules.
 
 ### Local dev URLs
 
-| URL | What you get |
-| --- | --- |
-| **http://localhost:3000** | Home page with link to play |
+| URL                            | What you get                                                                                            |
+| ------------------------------ | ------------------------------------------------------------------------------------------------------- |
+| **http://localhost:3000**      | Home page with link to play                                                                             |
 | **http://localhost:3000/play** | **Stonepass Spire — Floor 1** text play — ogre bridge beat, five choices, consequences via core runtime |
 
 Game logic lives in **`@playable-worlds/core`**; the web app is a thin presentation layer. No API keys required for local play.
@@ -281,14 +281,14 @@ npm run dev
 
 Then open:
 
-| Page | URL |
-| --- | --- |
-| Home | **http://localhost:3000** |
+| Page                           | URL                            |
+| ------------------------------ | ------------------------------ |
+| Home                           | **http://localhost:3000**      |
 | Play Stonepass Spire — Floor 1 | **http://localhost:3000/play** |
 
 On **`/play`** you should see **The Blocked Bridge** (Floor 1) with five choices (Fight, Trick, Offer food, Talk, Sneak). Clicking a choice runs `applyPlayerChoice` from `@playable-worlds/core` and updates session state (turn number, flags, consequence feedback). Stop the server with `Ctrl+C`.
 
-**Windows (PowerShell):** if `npm run dev` fails with *running scripts is disabled*, use:
+**Windows (PowerShell):** if `npm run dev` fails with _running scripts is disabled_, use:
 
 ```powershell
 npm.cmd run dev
@@ -306,7 +306,8 @@ npm run build -w @playable-worlds/web
 ### Verify the project
 
 ```bash
-npm test              # Vitest — 209 tests (core, ai, web smoke)
+npm test              # Vitest — see tracker for current count (core, ai, web smoke)
+npm run test:coverage # optional coverage report (core, ai, web features)
 npm run typecheck     # TypeScript — web + all workspace packages
 npm run lint          # ESLint — all workspaces
 npm run build         # Production build — apps/web
@@ -330,16 +331,16 @@ npm run format
 
 ### Root `package.json` scripts
 
-| Script | What it does |
-| --- | --- |
-| `npm run dev` | Next.js dev server (`@playable-worlds/web`) on port 3000 |
-| `npm run build` | Next.js production build |
-| `npm run start` | Next.js production server (after build) |
-| `npm test` | Vitest — all workspace tests including `apps/web/tests/world-play.smoke.test.tsx` |
-| `npm run typecheck` | `tsc --noEmit` in all workspaces that define it |
-| `npm run lint` | ESLint in all workspaces (core, ai, content, web) |
-| `npm run format` | Prettier write |
-| `npm run format:check` | Prettier check |
+| Script                 | What it does                                                                      |
+| ---------------------- | --------------------------------------------------------------------------------- |
+| `npm run dev`          | Next.js dev server (`@playable-worlds/web`) on port 3000                          |
+| `npm run build`        | Next.js production build                                                          |
+| `npm run start`        | Next.js production server (after build)                                           |
+| `npm test`             | Vitest — all workspace tests including `apps/web/tests/world-play.smoke.test.tsx` |
+| `npm run typecheck`    | `tsc --noEmit` in all workspaces that define it                                   |
+| `npm run lint`         | ESLint in all workspaces (core, ai, content, web)                                 |
+| `npm run format`       | Prettier write                                                                    |
+| `npm run format:check` | Prettier check                                                                    |
 
 ---
 
@@ -437,7 +438,7 @@ The world engine comes first.
 
 ## First Proof World: Stonepass Spire
 
-**Stonepass Spire** is the flagship playable product. The early climb is authored across **Floors 1–3**, which deliver the legacy "Valley" proof arc as engine systems mature. **"Stonepass Valley" is deprecated** as a product/world name; *Stonepass* may still appear in lore as the region at the tower's foot.
+**Stonepass Spire** is the flagship playable product. The early climb is authored across **Floors 1–3**, which deliver the legacy "Valley" proof arc as engine systems mature. **"Stonepass Valley" is deprecated** as a product/world name; _Stonepass_ may still appear in lore as the region at the tower's foot.
 
 **Floor 1** (live at `/play` today) serves two related purposes:
 
@@ -448,10 +449,10 @@ Stonepass Spire is **not** a substitute for later 2D or 3D presentation. It is t
 
 ### Floors 1–3 content map
 
-| Floor | Content | Systems |
-| --- | --- | --- |
-| **Floor 1** | Ogre bridge, five choices (now) | Text runtime (Phase 1) |
-| **Floor 2** | Landslide, hidden cave / labyrinth | Temporary instances (Phase 3) |
+| Floor       | Content                                     | Systems                             |
+| ----------- | ------------------------------------------- | ----------------------------------- |
+| **Floor 1** | Ogre bridge, five choices (now)             | Text runtime (Phase 1)              |
+| **Floor 2** | Landslide, hidden cave / labyrinth          | Temporary instances (Phase 3)       |
 | **Floor 3** | Floor boss (dragon), clear flag → stairs up | Combat Tier A, boss instances (W5+) |
 
 Until `RegionMap` exists (W8), Floor 1–3 beats may live in one `WorldDefinition`; `/play` loads **Floor 1**. See [Stonepass_Spire_Aincrad_Castle.md](./Future_Features/Stonepass_Spire_Aincrad_Castle.md).
@@ -504,18 +505,18 @@ If this minimum chain does not work, the larger platform should not move forward
 
 The project deliberately separates **proof** from **showcase** so phase gates stay honest.
 
-| Layer | Purpose | Scope (illustrative) | When |
-| --- | --- | --- | --- |
-| **Stonepass Minimum (v1)** | Prove the engine | Ogre bridge + consequence branches + one landslide → cave → dragon path; text-only; deterministic runtime works without AI | Phase 0–4 gate (30-day north star) |
-| **Stonepass Showcase (v2)** | Demonstrate platform depth | Multiple replayable loops, side arcs, richer encounters, archetype/route flavor, Director/NPC variation on major beats, health/playtest clean | After v1 gate, before treating 2D as default |
-| **World packs / other worlds** | Show reuse of framework | Different `WorldDNA` (genre, tone, session length), new `WorldDefinition`s from templates or prompt-to-world | Phase 5+ / official packs |
+| Layer                          | Purpose                    | Scope (illustrative)                                                                                                                          | When                                         |
+| ------------------------------ | -------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------- |
+| **Stonepass Minimum (v1)**     | Prove the engine           | Ogre bridge + consequence branches + one landslide → cave → dragon path; text-only; deterministic runtime works without AI                    | Phase 0–4 gate (30-day north star)           |
+| **Stonepass Showcase (v2)**    | Demonstrate platform depth | Multiple replayable loops, side arcs, richer encounters, archetype/route flavor, Director/NPC variation on major beats, health/playtest clean | After v1 gate, before treating 2D as default |
+| **World packs / other worlds** | Show reuse of framework    | Different `WorldDNA` (genre, tone, session length), new `WorldDefinition`s from templates or prompt-to-world                                  | Phase 5+ / official packs                    |
 
 **Showcase intent (product vision):**
 
 - **Multiple loops** — consequence branches, optional side beats, temporary instances, and goals that reopen or close paths; replay should differ by flags and choices, not random AI rewrites.
 - **Designs and world types** — expressed through `WorldDNA` and authored (or later generated) `WorldDefinition` data; Stonepass remains fantasy-first, but the same engine should load other tones/genres once validators and runtime are stable.
 - **Encounters** — structured as story beats, choices, consequences, and/or **temporary instance** rooms (combat, puzzle, social), not one-off prose with no state.
-- **AI Director** — makes each run *feel* different (hints, recap, NPC reaction tone, suggested next beat) while **only the Consequence Engine** updates `WorldSession` and `WorldLedger`. Invalid AI output is rejected; fallbacks keep play going.
+- **AI Director** — makes each run _feel_ different (hints, recap, NPC reaction tone, suggested next beat) while **only the Consequence Engine** updates `WorldSession` and `WorldLedger`. Invalid AI output is rejected; fallbacks keep play going.
 
 Stonepass Showcase is still **text-first** on purpose: it stress-tests the framework without art pipeline cost. A successful showcase is the green light for investing in Phaser 2D (Phase 8) and later 3D as **output layers** on the same JSON — not a rewrite of core logic.
 
@@ -563,15 +564,15 @@ Player enters a region / area
 
 #### Design principles (framework alignment)
 
-| Principle | Meaning |
-| --- | --- |
-| **Pre-defined quest** | Authored in `WorldDefinition` (beats, choices, consequences, goals). Reliable and validatable. |
-| **Region gating** | Entering a location or satisfying a trigger flag fires a **StoryBeat** — not a hardcoded UI-only modal. |
-| **Accept / decline** | Two (or more) `PlayerChoice`s with distinct `consequenceId`s (e.g. start quest vs dismiss). |
-| **Mini-adventure** | Either a **temporary instance** (dungeon, grove, ruin) or a **flag-gated subgraph** of beats only active while quest is active. |
-| **Matters / changes** | Accepting updates goals and flags; steps inside the arc apply consequences; ledger records the full trail. |
-| **AI Director** | After accept, Director may suggest reactions, pacing, or optional beats — engine still executes only validated consequences. |
-| **Share** | Phase 6: share link or fork preserves world version + session/ledger snapshot; broken worlds must not ship to public discovery. |
+| Principle             | Meaning                                                                                                                         |
+| --------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| **Pre-defined quest** | Authored in `WorldDefinition` (beats, choices, consequences, goals). Reliable and validatable.                                  |
+| **Region gating**     | Entering a location or satisfying a trigger flag fires a **StoryBeat** — not a hardcoded UI-only modal.                         |
+| **Accept / decline**  | Two (or more) `PlayerChoice`s with distinct `consequenceId`s (e.g. start quest vs dismiss).                                     |
+| **Mini-adventure**    | Either a **temporary instance** (dungeon, grove, ruin) or a **flag-gated subgraph** of beats only active while quest is active. |
+| **Matters / changes** | Accepting updates goals and flags; steps inside the arc apply consequences; ledger records the full trail.                      |
+| **AI Director**       | After accept, Director may suggest reactions, pacing, or optional beats — engine still executes only validated consequences.    |
+| **Share**             | Phase 6: share link or fork preserves world version + session/ledger snapshot; broken worlds must not ship to public discovery. |
 
 #### Example region: Mosswood Errand (illustrative data shape)
 
@@ -647,9 +648,9 @@ Names are placeholders; wire to real IDs when authoring Stonepass JSON.
 
 #### Relation to ogre → cave → dragon chain
 
-| Chain | Role in Stonepass |
-| --- | --- |
-| Ogre bridge + cave + dragon | **Minimum v1** — proves flagship consequence + instance + long-term flag (`dragon_awake`) |
+| Chain                          | Role in Stonepass                                                                           |
+| ------------------------------ | ------------------------------------------------------------------------------------------- |
+| Ogre bridge + cave + dragon    | **Minimum v1** — proves flagship consequence + instance + long-term flag (`dragon_awake`)   |
 | Regional quest (e.g. Mosswood) | **Showcase v2** — proves area entry, optional quest, side loop, ledger clarity, later share |
 
 Both use the same contracts; neither requires custom engine code beyond generic beat selection, consequence application, and instance lifecycle.
@@ -660,19 +661,19 @@ Both use the same contracts; neither requires custom engine code beyond generic 
 
 Use this table when deciding whether to implement part of the reference scenario.
 
-| Capability | Needed for regional quest | Phase (approx.) |
-| --- | --- | --- |
-| `PlayerChoice`, `StoryBeat`, `Consequence` | Quest offer + branches | Phase 0 (W1-S3–S5) |
-| `WorldDefinition`, locations, goals | Region + quest definition | Phase 0 (W1-S10, W1-S15) |
-| Text runtime, beat selector, consequence engine | Enter region → offer → accept | Phase 1 |
-| `WorldLedger`, `DebugEvent` | Remember and explain run | Phase 1 |
-| AI Director / NPC | Flavor and variation on beats | Phase 2 |
-| `TemporaryInstance` + rooms/encounters | Instance-style mini-adventure | Phase 3 |
-| Play UI + ledger/debug panels | Player sees quest and history | Phase 4 |
-| Save / share / fork | Share mini-adventure with others | Phase 6 |
-| 2D map / enter region visually | Same triggers, visual layer | Phase 8 |
+| Capability                                      | Needed for regional quest        | Phase (approx.)          |
+| ----------------------------------------------- | -------------------------------- | ------------------------ |
+| `PlayerChoice`, `StoryBeat`, `Consequence`      | Quest offer + branches           | Phase 0 (W1-S3–S5)       |
+| `WorldDefinition`, locations, goals             | Region + quest definition        | Phase 0 (W1-S10, W1-S15) |
+| Text runtime, beat selector, consequence engine | Enter region → offer → accept    | Phase 1                  |
+| `WorldLedger`, `DebugEvent`                     | Remember and explain run         | Phase 1                  |
+| AI Director / NPC                               | Flavor and variation on beats    | Phase 2                  |
+| `TemporaryInstance` + rooms/encounters          | Instance-style mini-adventure    | Phase 3                  |
+| Play UI + ledger/debug panels                   | Player sees quest and history    | Phase 4                  |
+| Save / share / fork                             | Share mini-adventure with others | Phase 6                  |
+| 2D map / enter region visually                  | Same triggers, visual layer      | Phase 8                  |
 
-**Current build status (2026-05-29):** Phase 0 complete. **Phase 1 complete (W2-S1–S7, W3-S1–S7):** deterministic runtime, `/play` UI, ledger + debug panels, ogre-path and Phase 1 acceptance tests. **Not yet:** beat progression after consequence, AI Director (W4-S1+), temporary instance runtime, persistence, share. Treat the regional quest scenario as the **target authoring pattern**, not as permission to skip phase gates.
+**Current build status (2026-05-29):** Phase 0 complete. **Phase 1 complete (W2-S1–S7, W3-S1–S7):** deterministic runtime, `/play` UI, ledger + debug panels, beat progression on ogre bridge, ogre-path and Phase 1 acceptance tests. **Not yet:** AI Director (W4-S1+), temporary instance runtime, persistence, share. See [step tracker](./Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv) for `Next` step.
 
 ---
 
@@ -1312,17 +1313,17 @@ The difference is that this project turns those ideas into a validated world eng
 
 ### Variation layers
 
-| Layer | Name | Example | Build timing |
-| --- | --- | --- | --- |
-| 1 | Starting archetype | warrior, mage, rogue, diplomat | Lightweight Phase 1/2 support only |
-| 2 | Starting route | bridge, town, castle, forest | Phase 1/2 as flavor or small route changes |
-| 3 | Consequence branches | ogre defeated, allied, tricked, avoided | Phase 1 |
-| 4 | Conditional text | mage sees runes; warrior sees battle marks | Phase 1/2 |
-| 5 | NPC memory | elder trusts or fears player | Phase 2 |
-| 6 | Temporary instance variants | puzzle cave vs creature cave | Phase 3 |
-| 7 | AI Director variation | next beat adapts to current state | Phase 2/3 |
-| 8 | Remix/fork variation | alternate timeline/version | Phase 6 |
-| 9 | Generated world variation | prompt creates a new valid world | Phase 5+ |
+| Layer | Name                        | Example                                    | Build timing                               |
+| ----- | --------------------------- | ------------------------------------------ | ------------------------------------------ |
+| 1     | Starting archetype          | warrior, mage, rogue, diplomat             | Lightweight Phase 1/2 support only         |
+| 2     | Starting route              | bridge, town, castle, forest               | Phase 1/2 as flavor or small route changes |
+| 3     | Consequence branches        | ogre defeated, allied, tricked, avoided    | Phase 1                                    |
+| 4     | Conditional text            | mage sees runes; warrior sees battle marks | Phase 1/2                                  |
+| 5     | NPC memory                  | elder trusts or fears player               | Phase 2                                    |
+| 6     | Temporary instance variants | puzzle cave vs creature cave               | Phase 3                                    |
+| 7     | AI Director variation       | next beat adapts to current state          | Phase 2/3                                  |
+| 8     | Remix/fork variation        | alternate timeline/version                 | Phase 6                                    |
+| 9     | Generated world variation   | prompt creates a new valid world           | Phase 5+                                   |
 
 ### Replay guardrails
 
@@ -1361,18 +1362,18 @@ This should remain a replay-flavor layer, not a full character-builder system.
 
 Recommended stack:
 
-| Area | Choice | Reason |
-| --- | --- | --- |
-| App framework | Next.js | Browser MVP, routing, API routes, fast iteration |
-| UI | React | Component-based play and creator UI |
-| Language | TypeScript | Safer contracts for world/runtime objects |
-| Styling | Tailwind CSS | Fast UI scaffolding |
-| Validation | Zod | Runtime schema validation |
-| Unit tests | Vitest | Fast schema/runtime testing |
-| Browser tests later | Playwright | End-to-end text runtime testing |
-| AI provider layer | Custom interface | OpenAI/Anthropic/Gemini/Ollama/FakeProvider can be swapped |
-| Persistence later | Supabase Postgres | Simple MVP backend once local runtime works |
-| 2D later | Phaser | Browser 2D rendering after text gate |
+| Area                | Choice            | Reason                                                     |
+| ------------------- | ----------------- | ---------------------------------------------------------- |
+| App framework       | Next.js           | Browser MVP, routing, API routes, fast iteration           |
+| UI                  | React             | Component-based play and creator UI                        |
+| Language            | TypeScript        | Safer contracts for world/runtime objects                  |
+| Styling             | Tailwind CSS      | Fast UI scaffolding                                        |
+| Validation          | Zod               | Runtime schema validation                                  |
+| Unit tests          | Vitest            | Fast schema/runtime testing                                |
+| Browser tests later | Playwright        | End-to-end text runtime testing                            |
+| AI provider layer   | Custom interface  | OpenAI/Anthropic/Gemini/Ollama/FakeProvider can be swapped |
+| Persistence later   | Supabase Postgres | Simple MVP backend once local runtime works                |
+| 2D later            | Phaser            | Browser 2D rendering after text gate                       |
 
 The early stack should stay boring on purpose.
 
@@ -2130,7 +2131,7 @@ The flagship direction is **[Stonepass Spire](./Future_Features/Stonepass_Spire_
 
 - **Phase 2 (W4-S8–S10):** generation-seed plumbing; bounded Director difficulty/pacing.
 - **Phase 3 (W5-S8–S13):** `ProgressionLedger`, Tier A skills (train-by-doing), gear gating, Level 0 choice-gated encounters, and reframing Stonepass as **Floor 1** (cave → labyrinth, dragon → multi-phase boss). **Decision gate:** is one floor genuinely fun in text?
-- **Phase 5 (W7-S12–S13, W8-S13–S20):** gear/item library; `RegionMap` + cross-zone travel; `SpireManifest` skeleton + ascension edges; **Floor 2** (*Castle proven* = 2 floors + 1 ascension gate); Tier A gear specials; Level 1 `EncounterResolver`; `DifficultyProfile`.
+- **Phase 5 (W7-S12–S13, W8-S13–S20):** gear/item library; `RegionMap` + cross-zone travel; `SpireManifest` skeleton + ascension edges; **Floor 2** (_Castle proven_ = 2 floors + 1 ascension gate); Tier A gear specials; Level 1 `EncounterResolver`; `DifficultyProfile`.
 - **Phase 6 (W9-S7–S9):** `WorldSession.currentFloor` + persistent climb ledger; persistent progression; seeded replay + variation attribution.
 - **Phase 9 (W12-S8):** Variation Explorer UI.
 

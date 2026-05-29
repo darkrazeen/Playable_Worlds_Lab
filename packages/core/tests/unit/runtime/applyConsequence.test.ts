@@ -2,19 +2,13 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
 
-import {
-  applyConsequence,
-  applyPlayerChoice,
-} from "../../../src/runtime/applyConsequence.js";
+import { applyConsequence, applyPlayerChoice } from "../../../src/runtime/applyConsequence.js";
 import { createWorldSession } from "../../../src/schemas/worldSession.js";
 import { loadWorldFromFile } from "../../../src/world/loadWorld.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const contentRoot = join(__dirname, "../../../../content");
-const stonepassWorldPath = join(
-  contentRoot,
-  "worlds/stonepass/stonepass-valley.world.json",
-);
+const stonepassWorldPath = join(contentRoot, "worlds/stonepass/stonepass-valley.world.json");
 
 describe("runtime applyConsequence delegates to Consequence Engine", () => {
   it("applies fight_ogre with remembered ledger and debug trace updates", () => {

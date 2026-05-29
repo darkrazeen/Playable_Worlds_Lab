@@ -87,21 +87,13 @@ describe("DebugEventSchema", () => {
   });
 
   it("rejects empty id or summary, invalid type, and invalid turnNumber", () => {
-    expect(DebugEventSchema.safeParse({ ...validChoiceSelected, id: "" }).success).toBe(
-      false,
-    );
-    expect(DebugEventSchema.safeParse({ ...validChoiceSelected, summary: "" }).success).toBe(
-      false,
-    );
-    expect(DebugEventSchema.safeParse({ ...validChoiceSelected, type: "bad" }).success).toBe(
-      false,
-    );
+    expect(DebugEventSchema.safeParse({ ...validChoiceSelected, id: "" }).success).toBe(false);
+    expect(DebugEventSchema.safeParse({ ...validChoiceSelected, summary: "" }).success).toBe(false);
+    expect(DebugEventSchema.safeParse({ ...validChoiceSelected, type: "bad" }).success).toBe(false);
     expect(DebugEventSchema.safeParse({ ...validChoiceSelected, turnNumber: -1 }).success).toBe(
       false,
     );
-    expect(safeParseDebugEvent({ ...validChoiceSelected, turnNumber: 1.5 }).success).toBe(
-      false,
-    );
+    expect(safeParseDebugEvent({ ...validChoiceSelected, turnNumber: 1.5 }).success).toBe(false);
   });
 
   it("validates JSON examples from packages/content/examples", () => {

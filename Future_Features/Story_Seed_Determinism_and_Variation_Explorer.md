@@ -1,6 +1,6 @@
 # Story Seed Determinism & Variation Explorer
 
-> **Living document** for first-class **seeds** plus a tool that explains *why* two playthroughs of the same world diverged — attributing every variation to a profile, route, seed, flag, NPC attitude, validated AI suggestion, or approved remix, enforcing the project's replay-variation guardrail.
+> **Living document** for first-class **seeds** plus a tool that explains _why_ two playthroughs of the same world diverged — attributing every variation to a profile, route, seed, flag, NPC attitude, validated AI suggestion, or approved remix, enforcing the project's replay-variation guardrail.
 >
 > **Status:** Scheduled in step tracker — rows added 2026-05-29 as `Not started`: **W4-S8** (seed plumbing), **W9-S9** (seeded replay + variation attribution), **W12-S8** (Variation Explorer UI). Implement only when each step reaches `Next` with human approval.  
 > **Last updated:** 2026-05-28  
@@ -17,11 +17,11 @@
 
 ## Feature index entry
 
-| Feature | Status | Target phase (approx.) | Last updated |
-| --- | --- | --- | --- |
-| Seed propagation through runtime + AI | Brainstorm / proposed | Phase 1–2 (seed plumbing) | 2026-05-28 |
-| Variation attribution (per-difference cause) | Brainstorm / proposed | Phase 2–6 | 2026-05-28 |
-| Variation Explorer UI (run A vs run B diff) | Brainstorm / proposed | Phase 6–9 | 2026-05-28 |
+| Feature                                      | Status                | Target phase (approx.)    | Last updated |
+| -------------------------------------------- | --------------------- | ------------------------- | ------------ |
+| Seed propagation through runtime + AI        | Brainstorm / proposed | Phase 1–2 (seed plumbing) | 2026-05-28   |
+| Variation attribution (per-difference cause) | Brainstorm / proposed | Phase 2–6                 | 2026-05-28   |
+| Variation Explorer UI (run A vs run B diff)  | Brainstorm / proposed | Phase 6–9                 | 2026-05-28   |
 
 ---
 
@@ -43,15 +43,15 @@ A run is reproducible from a `generationSeed` + recorded provider responses; the
 
 ## How this fits the existing architecture
 
-| Existing piece | Role in this feature |
-| --- | --- |
-| `AIResult.generationSeed` | Seed recorded per AI call; enables replay |
-| `WorldSession.choiceHistory` | Player route — a primary variation source |
-| `DebugEvent` | Per-transition causes (choice/consequence/flag/fallback) |
-| `WorldLedger` | End-state diff between runs |
-| `DirectorDecision` | Validated AI suggestions tagged as a variation source |
-| Fork/remix lineage (Phase 6) | "Approved remix" as an explained source |
-| Save/load (W9-S5) | Persist seeds + recorded responses for replay |
+| Existing piece               | Role in this feature                                     |
+| ---------------------------- | -------------------------------------------------------- |
+| `AIResult.generationSeed`    | Seed recorded per AI call; enables replay                |
+| `WorldSession.choiceHistory` | Player route — a primary variation source                |
+| `DebugEvent`                 | Per-transition causes (choice/consequence/flag/fallback) |
+| `WorldLedger`                | End-state diff between runs                              |
+| `DirectorDecision`           | Validated AI suggestions tagged as a variation source    |
+| Fork/remix lineage (Phase 6) | "Approved remix" as an explained source                  |
+| Save/load (W9-S5)            | Persist seeds + recorded responses for replay            |
 
 **Core mantra unchanged:** AI proposes → validators check → engine executes.
 
@@ -83,21 +83,30 @@ The explorer's job: take two runs, walk their DebugEvent timelines, and tag the 
 export const RunManifestSchema = z.object({
   worldId: z.string(),
   worldVersionId: z.string(),
-  rootSeed: z.string(),                  // master seed for the run
-  profile: z.record(z.unknown()),        // settings snapshot
-  aiResponses: z.array(z.object({        // recorded for deterministic replay
-    callId: z.string(),
-    seed: z.string(),
-    response: z.unknown(),
-  })),
+  rootSeed: z.string(), // master seed for the run
+  profile: z.record(z.unknown()), // settings snapshot
+  aiResponses: z.array(
+    z.object({
+      // recorded for deterministic replay
+      callId: z.string(),
+      seed: z.string(),
+      response: z.unknown(),
+    }),
+  ),
 });
 
 // Variation finding (output of the explorer)
 export const VariationFindingSchema = z.object({
   turnNumber: z.number().int(),
   cause: z.enum([
-    "PROFILE", "ROUTE", "SEED", "FLAG",
-    "NPC_ATTITUDE", "AI_SUGGESTION", "REMIX", "UNEXPLAINED_VARIATION",
+    "PROFILE",
+    "ROUTE",
+    "SEED",
+    "FLAG",
+    "NPC_ATTITUDE",
+    "AI_SUGGESTION",
+    "REMIX",
+    "UNEXPLAINED_VARIATION",
   ]),
   detail: z.string(),
   runARef: z.string(),
@@ -118,12 +127,12 @@ export const VariationFindingSchema = z.object({
 
 ## AI proposes / validators check / engine executes
 
-| Step | Who | Constraint |
-| --- | --- | --- |
-| Generate with seed | AI agents | Seed recorded in AIResult |
-| Replay run | Engine | Uses recorded responses; deterministic |
+| Step                | Who                      | Constraint                                 |
+| ------------------- | ------------------------ | ------------------------------------------ |
+| Generate with seed  | AI agents                | Seed recorded in AIResult                  |
+| Replay run          | Engine                   | Uses recorded responses; deterministic     |
 | Classify divergence | Explorer (deterministic) | Maps to allowed cause or flags UNEXPLAINED |
-| Surface | UI | Read-only; no state change |
+| Surface             | UI                       | Read-only; no state change                 |
 
 ---
 
@@ -137,26 +146,26 @@ export const VariationFindingSchema = z.object({
 
 ## Phase map / dependency order
 
-| Order | Prerequisite | Enables |
-| --- | --- | --- |
-| 1 | Phase 1 runtime + DebugEvents (done) | Cause data |
-| 2 | Phase 2 AI Gateway + AIResult seed | Seeded AI calls |
-| 3 | W9-S5 save/load | Persist run manifests |
-| 4 | NPC memory / Director features | Richer cause taxonomy |
-| 5 | Phase 9 Creator Cockpit | Explorer UI |
+| Order | Prerequisite                         | Enables               |
+| ----- | ------------------------------------ | --------------------- |
+| 1     | Phase 1 runtime + DebugEvents (done) | Cause data            |
+| 2     | Phase 2 AI Gateway + AIResult seed   | Seeded AI calls       |
+| 3     | W9-S5 save/load                      | Persist run manifests |
+| 4     | NPC memory / Director features       | Richer cause taxonomy |
+| 5     | Phase 9 Creator Cockpit              | Explorer UI           |
 
 ---
 
 ## Proposed step-tracker additions (NOT approved — for human review)
 
-| Step ID (suggested) | Name | Goal |
-| --- | --- | --- |
-| SV-S1 | Root + sub-seed derivation | Deterministic seed plumbing |
-| SV-S2 | RunManifest schema + record | Capture seed + AI responses |
-| SV-S3 | Deterministic run replay | Replay from manifest |
-| SV-S4 | Variation classifier | Diff two runs → causes |
-| SV-S5 | UNEXPLAINED_VARIATION alarm + tests | Correctness gate |
-| SV-S6 | Variation Explorer UI | Run A vs B visual diff |
+| Step ID (suggested) | Name                                | Goal                        |
+| ------------------- | ----------------------------------- | --------------------------- |
+| SV-S1               | Root + sub-seed derivation          | Deterministic seed plumbing |
+| SV-S2               | RunManifest schema + record         | Capture seed + AI responses |
+| SV-S3               | Deterministic run replay            | Replay from manifest        |
+| SV-S4               | Variation classifier                | Diff two runs → causes      |
+| SV-S5               | UNEXPLAINED_VARIATION alarm + tests | Correctness gate            |
+| SV-S6               | Variation Explorer UI               | Run A vs B visual diff      |
 
 ---
 
@@ -173,12 +182,12 @@ export const VariationFindingSchema = z.object({
 
 ## Risks & mitigations
 
-| Risk | Mitigation |
-| --- | --- |
-| Provider non-determinism | Record + replay responses; seed where supported |
-| Manifest size | Store compactly; optional retention policy |
-| Privacy of recorded content | Same safety/privacy rules as sessions |
-| False "unexplained" alarms | Expand taxonomy as features add sources |
+| Risk                        | Mitigation                                      |
+| --------------------------- | ----------------------------------------------- |
+| Provider non-determinism    | Record + replay responses; seed where supported |
+| Manifest size               | Store compactly; optional retention policy      |
+| Privacy of recorded content | Same safety/privacy rules as sessions           |
+| False "unexplained" alarms  | Expand taxonomy as features add sources         |
 
 ---
 

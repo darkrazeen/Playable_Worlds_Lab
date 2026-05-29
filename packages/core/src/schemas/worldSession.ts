@@ -59,9 +59,7 @@ export function createWorldSession(
   world?: WorldDefinition,
 ): WorldSession {
   if (world && !world.storyBeats.some((beat) => beat.id === input.startingBeatId)) {
-    throw new Error(
-      `startingBeatId "${input.startingBeatId}" not found in world "${world.id}"`,
-    );
+    throw new Error(`startingBeatId "${input.startingBeatId}" not found in world "${world.id}"`);
   }
 
   return WorldSessionSchema.parse({

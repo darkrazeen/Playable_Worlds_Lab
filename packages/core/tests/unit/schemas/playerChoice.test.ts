@@ -72,9 +72,9 @@ describe("PlayerChoiceSchema", () => {
   });
 
   it("rejects malformed flag arrays", () => {
-    expect(
-      PlayerChoiceSchema.safeParse({ ...validMinimal, requiredFlags: [""] }).success,
-    ).toBe(false);
+    expect(PlayerChoiceSchema.safeParse({ ...validMinimal, requiredFlags: [""] }).success).toBe(
+      false,
+    );
     expect(
       PlayerChoiceSchema.safeParse({ ...validMinimal, blockedByFlags: "ogre_alerted" }).success,
     ).toBe(false);

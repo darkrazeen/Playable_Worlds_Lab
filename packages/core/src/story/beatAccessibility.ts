@@ -11,20 +11,12 @@ export function ledgerActiveFlags(session: WorldSession): Set<string> {
 
 /** Whether a choice's required/blocked flags match the active ledger flags. */
 export function isPlayerChoiceAccessible(choice: PlayerChoice, flags: Set<string>): boolean {
-  return satisfiesFlagRequirements(
-    flags,
-    choice.requiredFlags ?? [],
-    choice.blockedByFlags ?? [],
-  );
+  return satisfiesFlagRequirements(flags, choice.requiredFlags ?? [], choice.blockedByFlags ?? []);
 }
 
 /** Whether a beat's required/blocked flags match the active ledger flags. */
 export function isStoryBeatAccessible(beat: StoryBeat, flags: Set<string>): boolean {
-  return satisfiesFlagRequirements(
-    flags,
-    beat.requiredFlags ?? [],
-    beat.blockedByFlags ?? [],
-  );
+  return satisfiesFlagRequirements(flags, beat.requiredFlags ?? [], beat.blockedByFlags ?? []);
 }
 
 /** First accessible non-hidden beat after current, then any other accessible beat. */
@@ -34,8 +26,7 @@ export function findNextAccessibleStoryBeat(
   flags: Set<string>,
 ): StoryBeat | undefined {
   const candidates = storyBeats.filter(
-    (beat) =>
-      beat.id !== currentBeatId && !beat.isHidden && isStoryBeatAccessible(beat, flags),
+    (beat) => beat.id !== currentBeatId && !beat.isHidden && isStoryBeatAccessible(beat, flags),
   );
 
   const currentIndex = storyBeats.findIndex((beat) => beat.id === currentBeatId);

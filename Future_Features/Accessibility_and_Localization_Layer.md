@@ -18,11 +18,11 @@
 
 ## Feature index entry
 
-| Feature | Status | Target phase (approx.) | Last updated |
-| --- | --- | --- | --- |
-| Localized text variants (i18n) | Brainstorm / proposed | Phase 6+ (content layer) | 2026-05-28 |
-| Reading-level / tone adaptation | Brainstorm / proposed | Phase 6+ | 2026-05-28 |
-| Accessibility metadata (alt/transcript/plain) | Brainstorm / proposed | Phase 1+ (incremental) | 2026-05-28 |
+| Feature                                       | Status                | Target phase (approx.)   | Last updated |
+| --------------------------------------------- | --------------------- | ------------------------ | ------------ |
+| Localized text variants (i18n)                | Brainstorm / proposed | Phase 6+ (content layer) | 2026-05-28   |
+| Reading-level / tone adaptation               | Brainstorm / proposed | Phase 6+                 | 2026-05-28   |
+| Accessibility metadata (alt/transcript/plain) | Brainstorm / proposed | Phase 1+ (incremental)   | 2026-05-28   |
 
 ---
 
@@ -34,8 +34,8 @@ Every player-visible string (beat text, choice labels, NPC lines) gains optional
 
 ## Why this fits the project and plays to its strengths
 
-- **Text-first means localization is tractable.** The product is strings + structure; separating *display text* from *structure* is a clean, high-value split the architecture invites.
-- **Structure stays canonical.** IDs (beats, choices, flags) are language-neutral; only the *rendered text* varies — so logic, validation, and replay are untouched.
+- **Text-first means localization is tractable.** The product is strings + structure; separating _display text_ from _structure_ is a clean, high-value split the architecture invites.
+- **Structure stays canonical.** IDs (beats, choices, flags) are language-neutral; only the _rendered text_ varies — so logic, validation, and replay are untouched.
 - **Safety-first product needs this.** Teen/adult `safetyMode` + reading-level adaptation supports the stated audience care; accessibility (alt text/transcripts) complements the art/voice layers.
 - **Generation-ready.** Generated worlds can be localized via the same agent pattern; libraries carry locale variants.
 - **Incremental.** Accessibility metadata (alt text, plain-language summaries) can start in Phase 1 with no schema upheaval.
@@ -44,16 +44,16 @@ Every player-visible string (beat text, choice labels, NPC lines) gains optional
 
 ## How this fits the existing architecture
 
-| Existing piece | Role in this feature |
-| --- | --- |
-| `StoryBeat`, `PlayerChoice`, `Npc` text fields | Source strings keyed by element ID |
-| `WorldDefinition` IDs | Language-neutral keys for variants |
-| `WorldDNA` tone + `safetyMode` | Drives reading-level/tone adaptation + safety floor |
-| AI Gateway (Phase 2) | Translation/adaptation agent behind provider contract |
-| `AIResult` | Wraps draft variants + provenance |
-| [Voice layer](./Voice_Narration_and_TTS_Layer.md) | Per-locale narration |
-| [Art layer](./Illustrated_Text_and_Scene_Art_Layer.md) | Alt text shares accessibility metadata |
-| `validateWorldDefinition` | Unchanged; structure stays canonical (variant completeness checked separately) |
+| Existing piece                                         | Role in this feature                                                           |
+| ------------------------------------------------------ | ------------------------------------------------------------------------------ |
+| `StoryBeat`, `PlayerChoice`, `Npc` text fields         | Source strings keyed by element ID                                             |
+| `WorldDefinition` IDs                                  | Language-neutral keys for variants                                             |
+| `WorldDNA` tone + `safetyMode`                         | Drives reading-level/tone adaptation + safety floor                            |
+| AI Gateway (Phase 2)                                   | Translation/adaptation agent behind provider contract                          |
+| `AIResult`                                             | Wraps draft variants + provenance                                              |
+| [Voice layer](./Voice_Narration_and_TTS_Layer.md)      | Per-locale narration                                                           |
+| [Art layer](./Illustrated_Text_and_Scene_Art_Layer.md) | Alt text shares accessibility metadata                                         |
+| `validateWorldDefinition`                              | Unchanged; structure stays canonical (variant completeness checked separately) |
 
 **Core mantra unchanged:** AI proposes → validators check → engine executes.
 
@@ -86,12 +86,12 @@ A missing variant **falls back** to the base locale — the world is always play
 
 ```ts
 export const LocalizedTextSchema = z.object({
-  elementId: z.string(),                  // beat/choice/npc field key
-  locale: z.string(),                     // BCP-47, e.g. "es", "fr"
+  elementId: z.string(), // beat/choice/npc field key
+  locale: z.string(), // BCP-47, e.g. "es", "fr"
   readingLevel: z.enum(["simple", "standard"]).default("standard"),
   text: z.string().min(1),
   status: z.enum(["draft", "validated", "approved"]).default("draft"),
-  safetyMode: z.enum(["teen", "adult"]),  // must match world; cannot loosen
+  safetyMode: z.enum(["teen", "adult"]), // must match world; cannot loosen
 });
 
 export const AccessibilityMetaSchema = z.object({
@@ -125,12 +125,12 @@ export const LocalizationBundleSchema = z.object({
 
 ## AI proposes / validators check / engine executes
 
-| Step | Who | Constraint |
-| --- | --- | --- |
-| Draft translations/adaptations | Translation agent | `AIResult`; safety = world mode; never auto-approved for publish |
-| Validate variants | Safety + coverage checks | Cannot loosen `safetyMode`; report gaps |
-| Approve (published worlds) | Human (optional) | Quality gate for showcase/published |
-| Select + render | UI | Presentation only; base-locale fallback |
+| Step                           | Who                      | Constraint                                                       |
+| ------------------------------ | ------------------------ | ---------------------------------------------------------------- |
+| Draft translations/adaptations | Translation agent        | `AIResult`; safety = world mode; never auto-approved for publish |
+| Validate variants              | Safety + coverage checks | Cannot loosen `safetyMode`; report gaps                          |
+| Approve (published worlds)     | Human (optional)         | Quality gate for showcase/published                              |
+| Select + render                | UI                       | Presentation only; base-locale fallback                          |
 
 ---
 
@@ -145,26 +145,26 @@ export const LocalizationBundleSchema = z.object({
 
 ## Phase map / dependency order
 
-| Order | Prerequisite | Enables |
-| --- | --- | --- |
-| 1 | Phase 1 text fields (done) | Source strings + accessibility meta |
-| 2 | Phase 2 AI Gateway | Translation/adaptation agent |
-| 3 | Phase 6 persistence | Store variant bundles |
-| 4 | Voice/art layers | Per-locale narration + alt text |
-| 5 | W12 Creator Cockpit | Variant review + coverage UI |
+| Order | Prerequisite               | Enables                             |
+| ----- | -------------------------- | ----------------------------------- |
+| 1     | Phase 1 text fields (done) | Source strings + accessibility meta |
+| 2     | Phase 2 AI Gateway         | Translation/adaptation agent        |
+| 3     | Phase 6 persistence        | Store variant bundles               |
+| 4     | Voice/art layers           | Per-locale narration + alt text     |
+| 5     | W12 Creator Cockpit        | Variant review + coverage UI        |
 
 ---
 
 ## Proposed step-tracker additions (NOT approved — for human review)
 
-| Step ID (suggested) | Name | Goal |
-| --- | --- | --- |
-| LX-S1 | Accessibility metadata fields | altText/transcript/plainSummary |
-| LX-S2 | LocalizedText + LocalizationBundle schema | Variant model keyed by ID |
-| LX-S3 | Variant selection + base-locale fallback | Runtime rendering |
-| LX-S4 | Translation/adaptation agent | Draft variants via AI Gateway |
-| LX-S5 | Safety + coverage validation | safetyMode floor + gap report |
-| LX-S6 | Variant review + coverage UI | Cockpit integration |
+| Step ID (suggested) | Name                                      | Goal                            |
+| ------------------- | ----------------------------------------- | ------------------------------- |
+| LX-S1               | Accessibility metadata fields             | altText/transcript/plainSummary |
+| LX-S2               | LocalizedText + LocalizationBundle schema | Variant model keyed by ID       |
+| LX-S3               | Variant selection + base-locale fallback  | Runtime rendering               |
+| LX-S4               | Translation/adaptation agent              | Draft variants via AI Gateway   |
+| LX-S5               | Safety + coverage validation              | safetyMode floor + gap report   |
+| LX-S6               | Variant review + coverage UI              | Cockpit integration             |
 
 ---
 
@@ -181,12 +181,12 @@ export const LocalizationBundleSchema = z.object({
 
 ## Risks & mitigations
 
-| Risk | Mitigation |
-| --- | --- |
+| Risk                                 | Mitigation                                                            |
+| ------------------------------------ | --------------------------------------------------------------------- |
 | Mistranslation changes meaning/gates | Structure is ID-based; text-only variants; human review for published |
-| Safety drift across locales | `safetyMode` floor enforced on every variant |
-| Coverage gaps | Coverage report + base-locale fallback |
-| Variant sprawl/storage | Bundle per world version; expire stale drafts |
+| Safety drift across locales          | `safetyMode` floor enforced on every variant                          |
+| Coverage gaps                        | Coverage report + base-locale fallback                                |
+| Variant sprawl/storage               | Bundle per world version; expire stale drafts                         |
 
 ---
 

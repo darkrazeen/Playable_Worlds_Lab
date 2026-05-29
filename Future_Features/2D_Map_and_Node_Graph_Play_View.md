@@ -18,11 +18,11 @@
 
 ## Feature index entry
 
-| Feature | Status | Target phase (approx.) | Last updated |
-| --- | --- | --- | --- |
-| Beat-graph visualization (read-only) | Brainstorm / proposed | Phase 5–8 (extends W8-S4 graph render) | 2026-05-28 |
-| Navigable map play view | Brainstorm / proposed | Phase 8+ (output layer) | 2026-05-28 |
-| Region map navigation | Brainstorm / proposed | Phase 8+ (with region composer) | 2026-05-28 |
+| Feature                              | Status                | Target phase (approx.)                 | Last updated |
+| ------------------------------------ | --------------------- | -------------------------------------- | ------------ |
+| Beat-graph visualization (read-only) | Brainstorm / proposed | Phase 5–8 (extends W8-S4 graph render) | 2026-05-28   |
+| Navigable map play view              | Brainstorm / proposed | Phase 8+ (output layer)                | 2026-05-28   |
+| Region map navigation                | Brainstorm / proposed | Phase 8+ (with region composer)        | 2026-05-28   |
 
 ---
 
@@ -44,16 +44,16 @@ The same beats/choices/instances that drive text play render as a **2D node grap
 
 ## How this fits the existing architecture
 
-| Existing piece | Role in this feature |
-| --- | --- |
-| `WorldDefinition` (beats, choices, gates) | Graph nodes + edges |
-| `WorldLedger` / session | Node state: visited / available / locked / ending |
-| `listAvailableChoices`, `applyPlayerChoice` | Navigation actions (unchanged) |
-| `selectStoryBeat` / accessibility | Determines reachable nodes |
-| `TemporaryInstance` rooms | Sub-graphs (cave room map) |
-| RegionMap (proposed) | Zone-level graph |
-| W8-S4 story graph render | Read-only precursor this builds on |
-| Art layer (optional) | Node thumbnails per beat/location |
+| Existing piece                              | Role in this feature                              |
+| ------------------------------------------- | ------------------------------------------------- |
+| `WorldDefinition` (beats, choices, gates)   | Graph nodes + edges                               |
+| `WorldLedger` / session                     | Node state: visited / available / locked / ending |
+| `listAvailableChoices`, `applyPlayerChoice` | Navigation actions (unchanged)                    |
+| `selectStoryBeat` / accessibility           | Determines reachable nodes                        |
+| `TemporaryInstance` rooms                   | Sub-graphs (cave room map)                        |
+| RegionMap (proposed)                        | Zone-level graph                                  |
+| W8-S4 story graph render                    | Read-only precursor this builds on                |
+| Art layer (optional)                        | Node thumbnails per beat/location                 |
 
 **Core mantra unchanged:** AI proposes → validators check → engine executes.
 
@@ -89,14 +89,14 @@ export interface BeatNodeView {
   beatId: string;
   title: string;
   state: "visited" | "current" | "available" | "locked" | "ending" | "hidden";
-  artRef?: string;               // optional, from art layer
+  artRef?: string; // optional, from art layer
 }
 
 export interface GraphEdgeView {
   fromBeatId: string;
   toBeatId: string;
   choiceId?: string;
-  gated: boolean;                // requiredFlags/standing/items unmet
+  gated: boolean; // requiredFlags/standing/items unmet
   gateSummary?: string;
 }
 ```
@@ -116,12 +116,12 @@ No new engine schema is required — this is a **projection** computed by the we
 
 ## AI proposes / validators check / engine executes
 
-| Step | Who | Constraint |
-| --- | --- | --- |
-| Compute view | Web layer | Read-only projection of core state |
-| Navigate | Player via UI | Calls runtime APIs; validators still gate |
-| Layout assist (optional) | AI | Cosmetic layout only; never changes graph |
-| Execute | Engine | Same `applyPlayerChoice` path |
+| Step                     | Who           | Constraint                                |
+| ------------------------ | ------------- | ----------------------------------------- |
+| Compute view             | Web layer     | Read-only projection of core state        |
+| Navigate                 | Player via UI | Calls runtime APIs; validators still gate |
+| Layout assist (optional) | AI            | Cosmetic layout only; never changes graph |
+| Execute                  | Engine        | Same `applyPlayerChoice` path             |
 
 ---
 
@@ -136,27 +136,27 @@ No new engine schema is required — this is a **projection** computed by the we
 
 ## Phase map / dependency order
 
-| Order | Prerequisite | Enables |
-| --- | --- | --- |
-| 1 | Phase 1 runtime + W2-S6 play UI | Navigation actions |
-| 2 | W8-S4 graph render | Read-only graph precursor |
-| 3 | Phase 3 instances | Room sub-graphs |
-| 4 | Region composer (proposed) | Zone-level maps |
-| 5 | Art layer (optional) | Node thumbnails |
-| 6 | Phase 8+ visual roadmap | Path toward 3D |
+| Order | Prerequisite                    | Enables                   |
+| ----- | ------------------------------- | ------------------------- |
+| 1     | Phase 1 runtime + W2-S6 play UI | Navigation actions        |
+| 2     | W8-S4 graph render              | Read-only graph precursor |
+| 3     | Phase 3 instances               | Room sub-graphs           |
+| 4     | Region composer (proposed)      | Zone-level maps           |
+| 5     | Art layer (optional)            | Node thumbnails           |
+| 6     | Phase 8+ visual roadmap         | Path toward 3D            |
 
 ---
 
 ## Proposed step-tracker additions (NOT approved — for human review)
 
-| Step ID (suggested) | Name | Goal |
-| --- | --- | --- |
-| MV-S1 | Beat-graph view model derivation | Project core state → nodes/edges |
-| MV-S2 | Read-only beat-graph render | Visualize with state colors |
-| MV-S3 | Navigable nodes via runtime APIs | Click → applyPlayerChoice |
-| MV-S4 | Instance room sub-graph view | Cave room map |
-| MV-S5 | Region map view | Zone-level navigation |
-| MV-S6 | Stonepass map play showcase | Dogfood navigable map |
+| Step ID (suggested) | Name                             | Goal                             |
+| ------------------- | -------------------------------- | -------------------------------- |
+| MV-S1               | Beat-graph view model derivation | Project core state → nodes/edges |
+| MV-S2               | Read-only beat-graph render      | Visualize with state colors      |
+| MV-S3               | Navigable nodes via runtime APIs | Click → applyPlayerChoice        |
+| MV-S4               | Instance room sub-graph view     | Cave room map                    |
+| MV-S5               | Region map view                  | Zone-level navigation            |
+| MV-S6               | Stonepass map play showcase      | Dogfood navigable map            |
 
 ---
 
@@ -173,12 +173,12 @@ No new engine schema is required — this is a **projection** computed by the we
 
 ## Risks & mitigations
 
-| Risk | Mitigation |
-| --- | --- |
-| UI re-implements rules (bypass risk) | Force all navigation through core runtime APIs |
-| Graph clutter for large worlds | Layered layout, zoom, collapse, focus-on-current |
-| Leaking hidden content | Respect `isHidden`/reachability; view filters |
-| Scope creep to 3D | Hard rule: 2D graph/map only in this feature |
+| Risk                                 | Mitigation                                       |
+| ------------------------------------ | ------------------------------------------------ |
+| UI re-implements rules (bypass risk) | Force all navigation through core runtime APIs   |
+| Graph clutter for large worlds       | Layered layout, zoom, collapse, focus-on-current |
+| Leaking hidden content               | Respect `isHidden`/reachability; view filters    |
+| Scope creep to 3D                    | Hard rule: 2D graph/map only in this feature     |
 
 ---
 

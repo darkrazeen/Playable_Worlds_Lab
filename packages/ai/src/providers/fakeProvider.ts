@@ -36,11 +36,11 @@ function formatZodErrors(error: z.ZodError): string[] {
   });
 }
 
-function resolveScenario(
-  input: AIRequest,
-  options: FakeProviderOptions,
-): FakeProviderScenario {
-  return options.responsesByTask?.[input.task] ?? options.scenario ?? { kind: "error", message: "No FakeProvider scenario configured" };
+function resolveScenario(input: AIRequest, options: FakeProviderOptions): FakeProviderScenario {
+  return (
+    options.responsesByTask?.[input.task] ??
+    options.scenario ?? { kind: "error", message: "No FakeProvider scenario configured" }
+  );
 }
 
 /** Deterministic test provider — validates canned output against the requested schema. */

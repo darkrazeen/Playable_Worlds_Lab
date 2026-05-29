@@ -30,7 +30,9 @@ export function createAIResultSchema<T extends z.ZodTypeAny>(valueSchema: T) {
   });
 }
 
-export type AIResultOf<T extends z.ZodTypeAny> = z.infer<ReturnType<typeof createAIResultSchema<T>>>;
+export type AIResultOf<T extends z.ZodTypeAny> = z.infer<
+  ReturnType<typeof createAIResultSchema<T>>
+>;
 
 export function parseAIResult(input: unknown): AIResult {
   return AIResultSchema.parse(input);

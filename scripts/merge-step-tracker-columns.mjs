@@ -69,11 +69,7 @@ const newCols = [
 const alreadyHas = header.includes(newCols[0]);
 const newHeader = alreadyHas
   ? header
-  : [
-      ...header.slice(0, insertIdx + 1),
-      ...newCols,
-      ...header.slice(insertIdx + 1),
-    ];
+  : [...header.slice(0, insertIdx + 1), ...newCols, ...header.slice(insertIdx + 1)];
 
 const newHeaderLine = newHeader.map(escapeCsvField).join(",");
 
@@ -126,4 +122,6 @@ for (let li = 1; li < lines.length; li++) {
 
 const outPath = join(root, "Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.updated.csv");
 writeFileSync(outPath, `${outLines.join("\n")}\n`, "utf8");
-console.log(`Wrote ${outPath} with ${newCols.length} new columns. Close IDE CSV tab; rename .updated.csv over original if needed.`);
+console.log(
+  `Wrote ${outPath} with ${newCols.length} new columns. Close IDE CSV tab; rename .updated.csv over original if needed.`,
+);

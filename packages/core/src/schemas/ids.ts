@@ -1,7 +1,6 @@
 import { z } from "zod";
 
-const LOWER_SNAKE_CASE_MESSAGE =
-  "IDs must be lowercase_snake_case starting with a letter";
+const LOWER_SNAKE_CASE_MESSAGE = "IDs must be lowercase_snake_case starting with a letter";
 
 /** Flag, goal, location, and similar entity identifiers. */
 export const EntityIdSchema = z

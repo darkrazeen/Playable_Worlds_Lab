@@ -19,17 +19,13 @@ describe("Stonepass consequence application integration", () => {
     });
     expect(sessionResult.ok).toBe(true);
 
-    const applyResult = applyPlayerChoice(
-      worldResult.world!,
-      sessionResult.session!,
-      "fight_ogre",
-    );
+    const applyResult = applyPlayerChoice(worldResult.world!, sessionResult.session!, "fight_ogre");
 
     expect(applyResult.ok).toBe(true);
     expect(applyResult.session?.ledger.activeFlags).toContain("ogre_defeated");
     expect(applyResult.session?.ledger.unlockedGoals).toContain("goal_reach_valley");
-    expect(applyResult.session?.debugEvents.some((event) => event.type === "consequence_applied")).toBe(
-      true,
-    );
+    expect(
+      applyResult.session?.debugEvents.some((event) => event.type === "consequence_applied"),
+    ).toBe(true);
   });
 });

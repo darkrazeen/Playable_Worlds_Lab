@@ -17,11 +17,11 @@
 
 ## Feature index entry
 
-| Feature | Status | Target phase (approx.) | Last updated |
-| --- | --- | --- | --- |
-| RegionMap schema (zones + edges) | Brainstorm / proposed | Phase 5–6 (after single-world generation) | 2026-05-28 |
-| Cross-zone travel + shared region ledger | Brainstorm / proposed | Phase 5–6 | 2026-05-28 |
-| Multi-biome generation via libraries | Brainstorm / proposed | Phase 5–7 | 2026-05-28 |
+| Feature                                  | Status                | Target phase (approx.)                    | Last updated |
+| ---------------------------------------- | --------------------- | ----------------------------------------- | ------------ |
+| RegionMap schema (zones + edges)         | Brainstorm / proposed | Phase 5–6 (after single-world generation) | 2026-05-28   |
+| Cross-zone travel + shared region ledger | Brainstorm / proposed | Phase 5–6                                 | 2026-05-28   |
+| Multi-biome generation via libraries     | Brainstorm / proposed | Phase 5–7                                 | 2026-05-28   |
 
 ---
 
@@ -43,17 +43,17 @@ A `RegionMap` is a graph of **zones** (each a `WorldDefinition` or sub-world) co
 
 ## How this fits the existing architecture
 
-| Existing piece | Role in this feature |
-| --- | --- |
-| `WorldDefinition` | A **zone**; unchanged contract, validated individually |
-| `WorldSession` | Extended with `currentZoneId` + region ledger reference |
-| `WorldLedger` | Per-zone ledger plus a new **region ledger** for cross-zone facts |
-| `Consequence` | Can carry a `travelToZone` transition (validated edge only) |
-| `TemporaryInstance` | Still used inside a zone; region is the layer above zones |
-| `validateWorldDefinition` | Validates each zone; new `validateRegionMap` validates the graph |
-| `WorldArchitectAgent` (Phase 5) | Generates zones + proposes region edges |
-| `WorldBlueprint` (W8-S6) | Extended with region-scale knobs (number of zones, biome order) |
-| Share/fork (Phase 6) | A region is shareable as a bundle of versioned zones |
+| Existing piece                  | Role in this feature                                              |
+| ------------------------------- | ----------------------------------------------------------------- |
+| `WorldDefinition`               | A **zone**; unchanged contract, validated individually            |
+| `WorldSession`                  | Extended with `currentZoneId` + region ledger reference           |
+| `WorldLedger`                   | Per-zone ledger plus a new **region ledger** for cross-zone facts |
+| `Consequence`                   | Can carry a `travelToZone` transition (validated edge only)       |
+| `TemporaryInstance`             | Still used inside a zone; region is the layer above zones         |
+| `validateWorldDefinition`       | Validates each zone; new `validateRegionMap` validates the graph  |
+| `WorldArchitectAgent` (Phase 5) | Generates zones + proposes region edges                           |
+| `WorldBlueprint` (W8-S6)        | Extended with region-scale knobs (number of zones, biome order)   |
+| Share/fork (Phase 6)            | A region is shareable as a bundle of versioned zones              |
 
 **Core mantra unchanged:** AI proposes → validators check → engine executes.
 
@@ -83,10 +83,10 @@ Each zone remains independently valid and playable; the region adds **connectivi
 
 The `RegionMap` graph is topology-agnostic — the same zones + edges + region-ledger machinery supports more than one shape. Two are designed:
 
-| Topology | Shape | Edge semantics | Example |
-| --- | --- | --- | --- |
-| **Horizontal (default)** | Branching biome map; bidirectional travel; backtracking allowed | "travel to" gated by flags/standing | lava ⇄ ocean ⇄ machine region |
-| **Vertical (tower)** | Linear, upward-only, clear-gated; no skipping ahead | "ascend" gated by `floor_N_cleared` | [Stonepass Spire](./Stonepass_Spire_Aincrad_Castle.md) — 100 floors |
+| Topology                 | Shape                                                           | Edge semantics                      | Example                                                             |
+| ------------------------ | --------------------------------------------------------------- | ----------------------------------- | ------------------------------------------------------------------- |
+| **Horizontal (default)** | Branching biome map; bidirectional travel; backtracking allowed | "travel to" gated by flags/standing | lava ⇄ ocean ⇄ machine region                                       |
+| **Vertical (tower)**     | Linear, upward-only, clear-gated; no skipping ahead             | "ascend" gated by `floor_N_cleared` | [Stonepass Spire](./Stonepass_Spire_Aincrad_Castle.md) — 100 floors |
 
 ### Vertical (tower) topology — the Stonepass Spire
 
@@ -127,9 +127,9 @@ See [Stonepass_Spire_Aincrad_Castle.md](./Stonepass_Spire_Aincrad_Castle.md) for
 // packages/core/src/schemas/regionMap.ts
 export const RegionZoneSchema = z.object({
   zoneId: z.string().min(1),
-  worldId: z.string().min(1),       // ref to a WorldDefinition (zone)
+  worldId: z.string().min(1), // ref to a WorldDefinition (zone)
   worldVersionId: z.string().min(1),
-  biomeTag: z.string().min(1),      // lava | ocean | machine | ...
+  biomeTag: z.string().min(1), // lava | ocean | machine | ...
   entryBeatId: z.string().min(1),
 });
 
@@ -173,12 +173,12 @@ export const RegionMapSchema = z.object({
 
 ## AI proposes / validators check / engine executes
 
-| Step | Who | Constraint |
-| --- | --- | --- |
-| Propose zones + edges + biome order | WorldArchitect (region mode) | Validates against `RegionMapSchema` |
-| Validate | `validateRegionMap` + per-zone `validateWorldDefinition` | Graph integrity + each zone valid |
-| Execute travel | Engine | Checks edge conditions; swaps zone; preserves region ledger; logs DebugEvent |
-| Flavor | DirectorAgent | Travel narration only; no cross-zone state writes |
+| Step                                | Who                                                      | Constraint                                                                   |
+| ----------------------------------- | -------------------------------------------------------- | ---------------------------------------------------------------------------- |
+| Propose zones + edges + biome order | WorldArchitect (region mode)                             | Validates against `RegionMapSchema`                                          |
+| Validate                            | `validateRegionMap` + per-zone `validateWorldDefinition` | Graph integrity + each zone valid                                            |
+| Execute travel                      | Engine                                                   | Checks edge conditions; swaps zone; preserves region ledger; logs DebugEvent |
+| Flavor                              | DirectorAgent                                            | Travel narration only; no cross-zone state writes                            |
 
 ---
 
@@ -193,28 +193,28 @@ export const RegionMapSchema = z.object({
 
 ## Phase map / dependency order
 
-| Order | Prerequisite | Enables |
-| --- | --- | --- |
-| 1 | Phase 1 runtime (done) | Single-zone play |
-| 2 | Phase 5 single-world generation (W7–W8) | Zones to connect |
-| 3 | W7-S11 theme packs | Distinct biomes |
-| 4 | Faction/standing (proposed) | Standing-gated edges |
-| 5 | Phase 6 persistence/share | Save + share regions |
-| 6 | [2D map view](./2D_Map_and_Node_Graph_Play_View.md) | Visual region navigation |
+| Order | Prerequisite                                        | Enables                  |
+| ----- | --------------------------------------------------- | ------------------------ |
+| 1     | Phase 1 runtime (done)                              | Single-zone play         |
+| 2     | Phase 5 single-world generation (W7–W8)             | Zones to connect         |
+| 3     | W7-S11 theme packs                                  | Distinct biomes          |
+| 4     | Faction/standing (proposed)                         | Standing-gated edges     |
+| 5     | Phase 6 persistence/share                           | Save + share regions     |
+| 6     | [2D map view](./2D_Map_and_Node_Graph_Play_View.md) | Visual region navigation |
 
 ---
 
 ## Proposed step-tracker additions (NOT approved — for human review)
 
-| Step ID (suggested) | Name | Goal |
-| --- | --- | --- |
-| RG-S1 | Create RegionMap + zone/edge schemas | Zod schema + examples |
-| RG-S2 | Build validateRegionMap | Graph + per-zone validation |
-| RG-S3 | Add region ledger + currentZoneId to session | Cross-zone memory |
-| RG-S4 | Implement travelToZone consequence + engine swap | Validated transitions + DebugEvent |
-| RG-S5 | Region blueprint knobs in WorldBlueprint | Biome count/order knobs |
-| RG-S6 | Architect region composition mode | Generate connected zones |
-| RG-S7 | Stonepass + one neighbor as 2-zone region | Dogfood region |
+| Step ID (suggested) | Name                                             | Goal                               |
+| ------------------- | ------------------------------------------------ | ---------------------------------- |
+| RG-S1               | Create RegionMap + zone/edge schemas             | Zod schema + examples              |
+| RG-S2               | Build validateRegionMap                          | Graph + per-zone validation        |
+| RG-S3               | Add region ledger + currentZoneId to session     | Cross-zone memory                  |
+| RG-S4               | Implement travelToZone consequence + engine swap | Validated transitions + DebugEvent |
+| RG-S5               | Region blueprint knobs in WorldBlueprint         | Biome count/order knobs            |
+| RG-S6               | Architect region composition mode                | Generate connected zones           |
+| RG-S7               | Stonepass + one neighbor as 2-zone region        | Dogfood region                     |
 
 ---
 
@@ -231,12 +231,12 @@ export const RegionMapSchema = z.object({
 
 ## Risks & mitigations
 
-| Risk | Mitigation |
-| --- | --- |
-| Zone version drift breaks edges | Pin `worldVersionId` per zone in the region |
-| Unreachable zones | `validateRegionMap` reachability check |
-| Ledger merge conflicts (zone vs region) | Explicit "region-scoped" flag namespace |
-| Generation scope explosion | MVP cap: 3–5 zones, linear+1 branch |
+| Risk                                    | Mitigation                                  |
+| --------------------------------------- | ------------------------------------------- |
+| Zone version drift breaks edges         | Pin `worldVersionId` per zone in the region |
+| Unreachable zones                       | `validateRegionMap` reachability check      |
+| Ledger merge conflicts (zone vs region) | Explicit "region-scoped" flag namespace     |
+| Generation scope explosion              | MVP cap: 3–5 zones, linear+1 branch         |
 
 ---
 

@@ -17,11 +17,11 @@
 
 ## Feature index entry
 
-| Feature | Status | Target phase (approx.) | Last updated |
-| --- | --- | --- | --- |
-| Faction schema + ledger standing | Brainstorm / proposed | Phase 3–5 (after consequence engine W3, before/with generation) | 2026-05-28 |
-| Reputation-gated beats & choices | Brainstorm / proposed | Phase 3–5 | 2026-05-28 |
-| Faction-aware NPC attitude | Brainstorm / proposed | Phase 4+ (with NPCReactionAgent) | 2026-05-28 |
+| Feature                          | Status                | Target phase (approx.)                                          | Last updated |
+| -------------------------------- | --------------------- | --------------------------------------------------------------- | ------------ |
+| Faction schema + ledger standing | Brainstorm / proposed | Phase 3–5 (after consequence engine W3, before/with generation) | 2026-05-28   |
+| Reputation-gated beats & choices | Brainstorm / proposed | Phase 3–5                                                       | 2026-05-28   |
+| Faction-aware NPC attitude       | Brainstorm / proposed | Phase 4+ (with NPCReactionAgent)                                | 2026-05-28   |
 
 ---
 
@@ -43,17 +43,17 @@ A `Faction` is a named group with a player-facing **standing score/tier** stored
 
 ## How this fits the existing architecture
 
-| Existing piece | Role in this feature |
-| --- | --- |
-| `WorldLedger` | New `factionStanding` map (factionId → score/tier) lives here as engine-owned truth |
-| `Consequence` | New optional `factionChanges[]` field; Consequence Engine clamps and applies |
-| `StoryBeat` / `PlayerChoice` | New optional `requiredStanding` / `blockedByStanding` gates alongside existing flag gates |
-| `Npc` | Optional `factionId`; NPC attitude can derive from faction standing |
-| `WorldDefinition` | New top-level `factions[]` array (validated like NPCs) |
-| `validateWorldDefinition` | Reference integrity: every referenced `factionId` must exist; standing thresholds in range |
-| `DebugEvent` | New `faction_standing_changed` event type for the trace/UI |
-| `WorldArchitectAgent` (Phase 5) | Proposes factions + standing effects; never applies them |
-| `DirectorAgent` (Phase 2) | May reference standing for flavor; cannot change it |
+| Existing piece                  | Role in this feature                                                                       |
+| ------------------------------- | ------------------------------------------------------------------------------------------ |
+| `WorldLedger`                   | New `factionStanding` map (factionId → score/tier) lives here as engine-owned truth        |
+| `Consequence`                   | New optional `factionChanges[]` field; Consequence Engine clamps and applies               |
+| `StoryBeat` / `PlayerChoice`    | New optional `requiredStanding` / `blockedByStanding` gates alongside existing flag gates  |
+| `Npc`                           | Optional `factionId`; NPC attitude can derive from faction standing                        |
+| `WorldDefinition`               | New top-level `factions[]` array (validated like NPCs)                                     |
+| `validateWorldDefinition`       | Reference integrity: every referenced `factionId` must exist; standing thresholds in range |
+| `DebugEvent`                    | New `faction_standing_changed` event type for the trace/UI                                 |
+| `WorldArchitectAgent` (Phase 5) | Proposes factions + standing effects; never applies them                                   |
+| `DirectorAgent` (Phase 2)       | May reference standing for flavor; cannot change it                                        |
 
 **Core mantra unchanged:** AI proposes → validators check → engine executes.
 
@@ -85,9 +85,7 @@ Standing is **monotonic only by rule**, not by default — a `Consequence` can b
 
 ```ts
 // packages/core/src/schemas/faction.ts
-export const FactionTierSchema = z.enum([
-  "hostile", "wary", "neutral", "friendly", "allied",
-]);
+export const FactionTierSchema = z.enum(["hostile", "wary", "neutral", "friendly", "allied"]);
 
 export const FactionSchema = z.object({
   id: z.string().min(1),
@@ -134,12 +132,12 @@ blockedByStanding?: Record<string, string>;  // { elders: ">= allied" }
 
 ## AI proposes / validators check / engine executes
 
-| Step | Who | Constraint |
-| --- | --- | --- |
-| Propose factions + standing effects | WorldArchitect / quest generator | Output validates against `FactionSchema` + `FactionChangeSchema` |
-| Validate | `validateWorldDefinition` | All `factionId` refs exist; thresholds ascending; deltas within per-world cap |
-| Execute | Consequence Engine | Clamps deltas; recomputes tier; writes ledger; logs DebugEvent |
-| Flavor | DirectorAgent | May read standing to color text; **cannot** write standing |
+| Step                                | Who                              | Constraint                                                                    |
+| ----------------------------------- | -------------------------------- | ----------------------------------------------------------------------------- |
+| Propose factions + standing effects | WorldArchitect / quest generator | Output validates against `FactionSchema` + `FactionChangeSchema`              |
+| Validate                            | `validateWorldDefinition`        | All `factionId` refs exist; thresholds ascending; deltas within per-world cap |
+| Execute                             | Consequence Engine               | Clamps deltas; recomputes tier; writes ledger; logs DebugEvent                |
+| Flavor                              | DirectorAgent                    | May read standing to color text; **cannot** write standing                    |
 
 ---
 
@@ -154,30 +152,30 @@ blockedByStanding?: Record<string, string>;  // { elders: ">= allied" }
 
 ## Phase map / dependency order
 
-| Order | Prerequisite | Enables |
-| --- | --- | --- |
-| 1 | W1-S5 Consequence, W1-S6 WorldLedger (done) | Data shape for standing |
-| 2 | W3-S1 Consequence Engine | Deterministic standing application |
-| 3 | W1-S14 validateWorldDefinition (done) | Reference + threshold checks |
-| 4 | Phase 4 NPCReactionAgent | Faction-aware NPC tone |
-| 5 | Phase 5 WorldArchitect + libraries | Generated worlds ship factions |
-| 6 | Phase 9 Creator Cockpit | Faction editor + standing inspector |
+| Order | Prerequisite                                | Enables                             |
+| ----- | ------------------------------------------- | ----------------------------------- |
+| 1     | W1-S5 Consequence, W1-S6 WorldLedger (done) | Data shape for standing             |
+| 2     | W3-S1 Consequence Engine                    | Deterministic standing application  |
+| 3     | W1-S14 validateWorldDefinition (done)       | Reference + threshold checks        |
+| 4     | Phase 4 NPCReactionAgent                    | Faction-aware NPC tone              |
+| 5     | Phase 5 WorldArchitect + libraries          | Generated worlds ship factions      |
+| 6     | Phase 9 Creator Cockpit                     | Faction editor + standing inspector |
 
 ---
 
 ## Proposed step-tracker additions (NOT approved — for human review)
 
-| Step ID (suggested) | Name | Goal |
-| --- | --- | --- |
-| FR-S1 | Create Faction + FactionTier schemas | Zod schema, thresholds validation, examples |
-| FR-S2 | Add factionStanding to WorldLedger | Ledger field + helpers + tests |
-| FR-S3 | Add factionChanges to Consequence + clamp in engine | Bounded apply + DebugEvent |
-| FR-S4 | Add requiredStanding/blockedByStanding gates | Beat/choice accessibility checks |
-| FR-S5 | Faction-aware NPC attitude resolution | Derive attitude from tier + override |
-| FR-S6 | Stonepass faction pack (ogre clan, elders) | Dogfood on canonical world |
-| FR-S7 | Faction standing debug/creator panel | Read-only inspector |
+| Step ID (suggested) | Name                                                | Goal                                        |
+| ------------------- | --------------------------------------------------- | ------------------------------------------- |
+| FR-S1               | Create Faction + FactionTier schemas                | Zod schema, thresholds validation, examples |
+| FR-S2               | Add factionStanding to WorldLedger                  | Ledger field + helpers + tests              |
+| FR-S3               | Add factionChanges to Consequence + clamp in engine | Bounded apply + DebugEvent                  |
+| FR-S4               | Add requiredStanding/blockedByStanding gates        | Beat/choice accessibility checks            |
+| FR-S5               | Faction-aware NPC attitude resolution               | Derive attitude from tier + override        |
+| FR-S6               | Stonepass faction pack (ogre clan, elders)          | Dogfood on canonical world                  |
+| FR-S7               | Faction standing debug/creator panel                | Read-only inspector                         |
 
-*Place after Phase 3 consequence engine work; exact week IDs assigned at approval time.*
+_Place after Phase 3 consequence engine work; exact week IDs assigned at approval time._
 
 ---
 
@@ -194,12 +192,12 @@ blockedByStanding?: Record<string, string>;  // { elders: ">= allied" }
 
 ## Risks & mitigations
 
-| Risk | Mitigation |
-| --- | --- |
-| Standing creep makes worlds unwinnable | Per-world delta caps + playtester check for unreachable beats |
-| Designers confuse flags vs standing | Standing = scalar relationships; flags = discrete facts. Document in §22 contract |
-| AI invents off-tone factions | Same content filter + human approve before publish |
-| Score thresholds inconsistent | Validator requires ascending thresholds |
+| Risk                                   | Mitigation                                                                        |
+| -------------------------------------- | --------------------------------------------------------------------------------- |
+| Standing creep makes worlds unwinnable | Per-world delta caps + playtester check for unreachable beats                     |
+| Designers confuse flags vs standing    | Standing = scalar relationships; flags = discrete facts. Document in §22 contract |
+| AI invents off-tone factions           | Same content filter + human approve before publish                                |
+| Score thresholds inconsistent          | Validator requires ascending thresholds                                           |
 
 ---
 

@@ -56,8 +56,11 @@ describe("TemporaryInstanceRoomSchema", () => {
   });
 
   it("defaults interactions and connectedRoomIds to empty arrays", () => {
-    const { interactions: _interactions, connectedRoomIds: _connectedRoomIds, ...minimalRoom } =
-      validRoom;
+    const {
+      interactions: _interactions,
+      connectedRoomIds: _connectedRoomIds,
+      ...minimalRoom
+    } = validRoom;
     const result = TemporaryInstanceRoomSchema.safeParse(minimalRoom);
     expect(result.success).toBe(true);
     if (result.success) {
@@ -142,14 +145,15 @@ describe("TemporaryInstanceSchema", () => {
   });
 
   it("rejects empty required strings", () => {
-    expect(TemporaryInstanceSchema.safeParse({ ...validHiddenCave, entranceText: "" }).success).toBe(
-      false,
-    );
+    expect(
+      TemporaryInstanceSchema.safeParse({ ...validHiddenCave, entranceText: "" }).success,
+    ).toBe(false);
     expect(
       TemporaryInstanceSchema.safeParse({ ...validHiddenCave, completionCondition: "" }).success,
     ).toBe(false);
     expect(
-      TemporaryInstanceSchema.safeParse({ ...validHiddenCave, completionConsequenceId: "" }).success,
+      TemporaryInstanceSchema.safeParse({ ...validHiddenCave, completionConsequenceId: "" })
+        .success,
     ).toBe(false);
   });
 
@@ -166,7 +170,9 @@ describe("TemporaryInstanceSchema", () => {
   });
 
   it("rejects instances with no rooms", () => {
-    expect(TemporaryInstanceSchema.safeParse({ ...validHiddenCave, rooms: [] }).success).toBe(false);
+    expect(TemporaryInstanceSchema.safeParse({ ...validHiddenCave, rooms: [] }).success).toBe(
+      false,
+    );
   });
 
   it("rejects malformed nested rooms", () => {

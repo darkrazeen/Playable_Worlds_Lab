@@ -1,6 +1,6 @@
 # Combat & Encounter Resolution
 
-> **Living document** for a deterministic, text-first combat and skill system inspired by RuneScape's *train-by-doing* progression — delivered in two stages. **Tier A (approved direction): bounded** — skills as discrete usage-advanced tiers, gear as tiers + unlockable specials, encounters resolved into discrete outcome bands. **Tier B (deferred): continuous** — XP curves and stateful leveling gear, which would require an explicit README boundary amendment. This doc specifies Tier A in full and maps the clean upgrade path to Tier B.
+> **Living document** for a deterministic, text-first combat and skill system inspired by RuneScape's _train-by-doing_ progression — delivered in two stages. **Tier A (approved direction): bounded** — skills as discrete usage-advanced tiers, gear as tiers + unlockable specials, encounters resolved into discrete outcome bands. **Tier B (deferred): continuous** — XP curves and stateful leveling gear, which would require an explicit README boundary amendment. This doc specifies Tier A in full and maps the clean upgrade path to Tier B.
 >
 > **Status:** Tier A scheduled in step tracker — rows added 2026-05-29 as `Not started`: **W5-S9/S10** (skills), **W5-S12** (Level 0 encounters), **W8-S18** (Tier A gear), **W8-S19** (Level 1 EncounterResolver), plus **W4-S10** Director difficulty. **Tier B remains deferred** (needs a README boundary amendment). Implement only when each step reaches `Next` with human approval.
 > **Last updated:** 2026-05-28
@@ -20,20 +20,20 @@
 
 ## Feature index entry
 
-| Feature | Status | Target phase (approx.) | Last updated |
-| --- | --- | --- | --- |
-| Level 0: choice-gated encounters | Brainstorm / proposed | Phase 3 (no new code) | 2026-05-28 |
-| Tier A skills (bounded, usage-advanced) | Brainstorm / proposed | Phase 3 (session) / Phase 6 (persistent) | 2026-05-28 |
-| Tier A gear (tiers + unlockable specials) | Brainstorm / proposed | Phase 5 (with items library) | 2026-05-28 |
-| Level 1: bounded `EncounterResolver` | Brainstorm / proposed | Phase 5 (after a floor is fun) | 2026-05-28 |
-| Director `adjust_difficulty` integration | Brainstorm / proposed | Phase 2+ | 2026-05-28 |
-| Tier B (continuous XP + leveling gear) | **Deferred** (needs README amendment) | Post-decision | 2026-05-28 |
+| Feature                                   | Status                                | Target phase (approx.)                   | Last updated |
+| ----------------------------------------- | ------------------------------------- | ---------------------------------------- | ------------ |
+| Level 0: choice-gated encounters          | Brainstorm / proposed                 | Phase 3 (no new code)                    | 2026-05-28   |
+| Tier A skills (bounded, usage-advanced)   | Brainstorm / proposed                 | Phase 3 (session) / Phase 6 (persistent) | 2026-05-28   |
+| Tier A gear (tiers + unlockable specials) | Brainstorm / proposed                 | Phase 5 (with items library)             | 2026-05-28   |
+| Level 1: bounded `EncounterResolver`      | Brainstorm / proposed                 | Phase 5 (after a floor is fun)           | 2026-05-28   |
+| Director `adjust_difficulty` integration  | Brainstorm / proposed                 | Phase 2+                                 | 2026-05-28   |
+| Tier B (continuous XP + leveling gear)    | **Deferred** (needs README amendment) | Post-decision                            | 2026-05-28   |
 
 ---
 
 ## One-line summary
 
-Combat is a **deterministic, choice-driven encounter** gated by the player's **skill tiers** and **gear tiers**; skills rise through **usage counts** (defeat N of a creature class → tier up) and higher tiers **unlock new combat choices**; encounters resolve into **discrete outcome bands** (`clean | victory | costly | repelled | defeat`) that map to pre-authored, clamped `Consequence` objects — giving RuneScape's *train-by-doing* and build-identity feel without continuous XP, stat math, or a stateful inventory.
+Combat is a **deterministic, choice-driven encounter** gated by the player's **skill tiers** and **gear tiers**; skills rise through **usage counts** (defeat N of a creature class → tier up) and higher tiers **unlock new combat choices**; encounters resolve into **discrete outcome bands** (`clean | victory | costly | repelled | defeat`) that map to pre-authored, clamped `Consequence` objects — giving RuneScape's _train-by-doing_ and build-identity feel without continuous XP, stat math, or a stateful inventory.
 
 ---
 
@@ -47,11 +47,11 @@ You get better at what you do. Swing a sword often and your swordsmanship rises;
 
 RuneScape's defining mechanics (continuous 1–99 XP curves, stat numbers, stateful leveling gear) are exactly what the project's README defers:
 
-> *"Not a full RPG stat, inventory, economy, or combat simulator."* — Progression = *"milestone flags + bounded tiers + unlocks only."*
+> _"Not a full RPG stat, inventory, economy, or combat simulator."_ — Progression = _"milestone flags + bounded tiers + unlocks only."_
 
 So this feature is delivered in two tiers:
 
-- **Tier A (approved):** bounded tiers + usage counts + unlockable specials + discrete outcome bands. Stays inside the rule. ~75–80% of the RuneScape *feel*.
+- **Tier A (approved):** bounded tiers + usage counts + unlockable specials + discrete outcome bands. Stays inside the rule. ~75–80% of the RuneScape _feel_.
 - **Tier B (deferred):** continuous XP, overall level = sum of skills, stateful leveling gear with stats. A real boundary change — requires an explicit README amendment and is documentation-only until then.
 
 **Tier A is designed as a clean stepping stone to Tier B**, so starting bounded costs nothing if you later choose to promote it.
@@ -215,18 +215,18 @@ Defeat is bounded and humane: it returns the climber to the floor town with a se
 
 ## How this maps to contracts
 
-| Existing / proposed piece | Role |
-| --- | --- |
-| `ProgressionLedger` ([progression doc](./Player_Progression_and_Mastery.md)) | Hosts skill tiers, unlocks, milestones, usage counters |
-| `Consequence` | New `progressionChanges[]` (usage +1, tier check, unlock) — **clamped** |
-| `Consequence` (items) | `grantItems[]` / `gearTierDelta` — clamped to floor allowed-reward list |
-| `StoryBeat` / `PlayerChoice` | New `requiredTier` / `requiredUnlock` / `requiredGearTier` / `requiredItems` gates |
-| `TemporaryInstance` rooms | Encounters and boss phases live here |
-| `WorldLedger` | Usage counters + outcome flags = engine truth |
-| `DirectorDecision` | `adjust_difficulty` action selects encounter intensity within bounds |
-| `DifficultyProfile` ([difficulty doc](./Dynamic_Difficulty_Director.md)) | Immutable bounds the resolver/Director clamp to |
-| `validateWorldDefinition` | Gate refs resolve; every intensity band remains completable |
-| `EncounterResolver` | **New** pure deterministic function (Level 1) |
+| Existing / proposed piece                                                    | Role                                                                               |
+| ---------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- |
+| `ProgressionLedger` ([progression doc](./Player_Progression_and_Mastery.md)) | Hosts skill tiers, unlocks, milestones, usage counters                             |
+| `Consequence`                                                                | New `progressionChanges[]` (usage +1, tier check, unlock) — **clamped**            |
+| `Consequence` (items)                                                        | `grantItems[]` / `gearTierDelta` — clamped to floor allowed-reward list            |
+| `StoryBeat` / `PlayerChoice`                                                 | New `requiredTier` / `requiredUnlock` / `requiredGearTier` / `requiredItems` gates |
+| `TemporaryInstance` rooms                                                    | Encounters and boss phases live here                                               |
+| `WorldLedger`                                                                | Usage counters + outcome flags = engine truth                                      |
+| `DirectorDecision`                                                           | `adjust_difficulty` action selects encounter intensity within bounds               |
+| `DifficultyProfile` ([difficulty doc](./Dynamic_Difficulty_Director.md))     | Immutable bounds the resolver/Director clamp to                                    |
+| `validateWorldDefinition`                                                    | Gate refs resolve; every intensity band remains completable                        |
+| `EncounterResolver`                                                          | **New** pure deterministic function (Level 1)                                      |
 
 **Core mantra unchanged:** AI proposes → validators check → engine executes.
 
@@ -237,27 +237,25 @@ Defeat is bounded and humane: it returns the climber to the floor town with a se
 ```ts
 // Skill tiers + usage counters live in the ProgressionLedger
 export const SkillTierSchema = z.object({
-  skill: NamedIdSchema,           // swordsmanship, defence, evasion, lore
-  tier: z.number().int().min(0),  // bounded by track maxTier
+  skill: NamedIdSchema, // swordsmanship, defence, evasion, lore
+  tier: z.number().int().min(0), // bounded by track maxTier
 });
 
 export const UsageCounterSchema = z.object({
-  key: NamedIdSchema,             // skeletons_defeated, parries_landed
+  key: NamedIdSchema, // skeletons_defeated, parries_landed
   count: z.number().int().min(0),
 });
 
 // Consequence extension (clamped at apply-time)
 export const ProgressionChangeSchema = z.object({
-  usage: NamedIdSchema.optional(),          // increment a usage counter
+  usage: NamedIdSchema.optional(), // increment a usage counter
   skillTierCheck: NamedIdSchema.optional(), // re-evaluate a skill's tier vs thresholds
-  unlock: NamedIdSchema.optional(),         // grant a capability unlock
+  unlock: NamedIdSchema.optional(), // grant a capability unlock
   gearTierDelta: z.record(z.number().int()).optional(), // clamped to gearBand cap
 });
 
 // Bounded resolver (Level 1) — pure function, deterministic
-export const EncounterOutcomeSchema = z.enum([
-  "clean", "victory", "costly", "repelled", "defeat",
-]);
+export const EncounterOutcomeSchema = z.enum(["clean", "victory", "costly", "repelled", "defeat"]);
 ```
 
 ---
@@ -272,15 +270,15 @@ The Director may propose an `adjust_difficulty` decision based on deterministic 
 
 Tier A is deliberately a subset of Tier B along the same seams, so promotion is additive, not a rewrite:
 
-| Seam | Tier A (now) | Tier B (if approved later) |
-| --- | --- | --- |
-| **Skills** | discrete tiers from usage counts | continuous XP from the same accrual hook; tier = curve(XP) |
-| **Overall level** | sum of tiers (display) | sum of skill levels (1–99 curves) |
-| **Advancement hook** | `progressionChanges` increments usage → tier check | same hook grants XP → level recompute |
-| **Gear** | shared tiers + usage-unlocked specials | per-instance stateful weapons with own XP/stats |
-| **Inventory** | stateless flags/tiers | owned item instances with state (new system) |
-| **Validation** | band completability | band completability **+ level-band balance proofs** |
-| **README rule** | no change | **requires explicit boundary amendment** |
+| Seam                 | Tier A (now)                                       | Tier B (if approved later)                                 |
+| -------------------- | -------------------------------------------------- | ---------------------------------------------------------- |
+| **Skills**           | discrete tiers from usage counts                   | continuous XP from the same accrual hook; tier = curve(XP) |
+| **Overall level**    | sum of tiers (display)                             | sum of skill levels (1–99 curves)                          |
+| **Advancement hook** | `progressionChanges` increments usage → tier check | same hook grants XP → level recompute                      |
+| **Gear**             | shared tiers + usage-unlocked specials             | per-instance stateful weapons with own XP/stats            |
+| **Inventory**        | stateless flags/tiers                              | owned item instances with state (new system)               |
+| **Validation**       | band completability                                | band completability **+ level-band balance proofs**        |
+| **README rule**      | no change                                          | **requires explicit boundary amendment**                   |
 
 **Promotion trigger:** only after Floors 1–3 are built and fun, and a human decides the continuous model is worth its cost (balancing 100 floors against a curve, stateful inventory, larger save model, harder generation-time validation).
 

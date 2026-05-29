@@ -35,7 +35,7 @@ export function applyConsequenceToLedger(
   }
   discoveredLocations = mergeUnique(discoveredLocations, consequence.exposeLocations ?? []);
 
-  const eventId = `event_${consequence.id.replace(/^consequence_/, "")}`;
+  const eventId = `event_${consequence.id.replace(/^consequence_/, "")}_t${turnNumber}`;
   const worldEvents = [
     ...ledger.worldEvents,
     {

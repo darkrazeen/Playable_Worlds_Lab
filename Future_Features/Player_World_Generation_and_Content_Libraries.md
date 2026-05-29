@@ -17,11 +17,11 @@
 
 ## Feature index entry
 
-| Feature | Status | Target phase (approx.) | Last updated |
-| --- | --- | --- | --- |
-| Player-themed world generation | Brainstorm / approved direction | Phase 5–7 (after Phase 0–4 gates) | 2026-05-28 |
-| Content libraries (creatures, NPCs, encounters, puzzles) | Brainstorm / approved direction | Phase 5–7 (after Phase 3 instance runtime) | 2026-05-28 |
-| Player world knobs (beats, difficulty, gear bounds) | Brainstorm / approved direction | Phase 5+ (extends WorldDNA + WorldBlueprint) | 2026-05-28 |
+| Feature                                                  | Status                          | Target phase (approx.)                       | Last updated |
+| -------------------------------------------------------- | ------------------------------- | -------------------------------------------- | ------------ |
+| Player-themed world generation                           | Brainstorm / approved direction | Phase 5–7 (after Phase 0–4 gates)            | 2026-05-28   |
+| Content libraries (creatures, NPCs, encounters, puzzles) | Brainstorm / approved direction | Phase 5–7 (after Phase 3 instance runtime)   | 2026-05-28   |
+| Player world knobs (beats, difficulty, gear bounds)      | Brainstorm / approved direction | Phase 5+ (extends WorldDNA + WorldBlueprint) | 2026-05-28   |
 
 ---
 
@@ -60,19 +60,19 @@ This is **not** infinite AI freestyle. It is **curated generation**: libraries +
 
 ## How this fits the existing architecture
 
-| Existing piece | Role in this vision |
-| --- | --- |
-| `WorldDefinition` | Same top-level shape for Stonepass, lava world, ocean world |
-| `WorldDNA` | Theme/tone/session/difficulty flavor at world level |
-| `StoryBeat` + `PlayerChoice` + `Consequence` | Graph the Architect assembles |
-| `WorldLedger` + `WorldSession` | Memory during play — engine-owned |
-| `validateWorldDefinition` | Blocks broken generated worlds |
-| `WorldArchitectAgent` (Phase 5, W7-*) | Prompt → world draft |
-| `DirectorAgent` (Phase 2, W4-*) | Play-time suggestions + variant selection |
-| `TemporaryInstance` + rooms (Phase 3, W5-*) | Encounter/puzzle spaces library entries plug into |
-| `QuestBlueprint` ([Quest_Generation.md](./Quest_Generation.md)) | Per-quest reward/difficulty/criteria bounds |
-| Share/fork/remix (Phase 6, W9–W10) | Portable worlds with lineage |
-| AI Playtester (Phase 7, W11-*) | Blocks publish of broken generated worlds |
+| Existing piece                                                  | Role in this vision                                         |
+| --------------------------------------------------------------- | ----------------------------------------------------------- |
+| `WorldDefinition`                                               | Same top-level shape for Stonepass, lava world, ocean world |
+| `WorldDNA`                                                      | Theme/tone/session/difficulty flavor at world level         |
+| `StoryBeat` + `PlayerChoice` + `Consequence`                    | Graph the Architect assembles                               |
+| `WorldLedger` + `WorldSession`                                  | Memory during play — engine-owned                           |
+| `validateWorldDefinition`                                       | Blocks broken generated worlds                              |
+| `WorldArchitectAgent` (Phase 5, W7-\*)                          | Prompt → world draft                                        |
+| `DirectorAgent` (Phase 2, W4-\*)                                | Play-time suggestions + variant selection                   |
+| `TemporaryInstance` + rooms (Phase 3, W5-\*)                    | Encounter/puzzle spaces library entries plug into           |
+| `QuestBlueprint` ([Quest_Generation.md](./Quest_Generation.md)) | Per-quest reward/difficulty/criteria bounds                 |
+| Share/fork/remix (Phase 6, W9–W10)                              | Portable worlds with lineage                                |
+| AI Playtester (Phase 7, W11-\*)                                 | Blocks publish of broken generated worlds                   |
 
 **Core mantra unchanged:** AI proposes → validators check → engine executes.
 
@@ -122,15 +122,15 @@ This extends the Quest_Generation three-layer model to **full worlds**:
 **Who sets it:** Player at world creation, or creator in Cockpit (Phase 9+).  
 **Who enforces it:** Validators at generation time + engine at apply time.
 
-| Knob | Example values | Enforced how |
-| --- | --- | --- |
-| **Theme / prompt** | "lava world", "machine planet", "ocean world" | Maps to `WorldDNA.genre/tone` + library tag filters |
-| **Beat outline** | 3–7 named beats ("crash", "first contact", "core breach") | Architect must emit beats matching outline IDs or slots |
-| **Difficulty** | easy / normal / hard | Caps encounter severity, puzzle complexity, reward tier |
-| **Gear / reward profile** | allowedGearIds[], rewardTierMax | Consequence engine clamps; see Quest reward bounds |
-| **Session length** | 15 / 30 / 60 min target | Beat count + instance depth limits |
-| **Safety mode** | teen / adult | All text + AI output filtered |
-| **Archetype (optional)** | warrior / mage / rogue / diplomat | RunProfile flavor; conditional text (Replay layer 1) |
+| Knob                      | Example values                                            | Enforced how                                            |
+| ------------------------- | --------------------------------------------------------- | ------------------------------------------------------- |
+| **Theme / prompt**        | "lava world", "machine planet", "ocean world"             | Maps to `WorldDNA.genre/tone` + library tag filters     |
+| **Beat outline**          | 3–7 named beats ("crash", "first contact", "core breach") | Architect must emit beats matching outline IDs or slots |
+| **Difficulty**            | easy / normal / hard                                      | Caps encounter severity, puzzle complexity, reward tier |
+| **Gear / reward profile** | allowedGearIds[], rewardTierMax                           | Consequence engine clamps; see Quest reward bounds      |
+| **Session length**        | 15 / 30 / 60 min target                                   | Beat count + instance depth limits                      |
+| **Safety mode**           | teen / adult                                              | All text + AI output filtered                           |
+| **Archetype (optional)**  | warrior / mage / rogue / diplomat                         | RunProfile flavor; conditional text (Replay layer 1)    |
 
 ### Illustrative schema (not implemented)
 
@@ -174,13 +174,13 @@ Think: **monster manual + encounter deck + puzzle kit** — not random noise.
 
 ### Library entry types
 
-| Template type | Contains | Used for |
-| --- | --- | --- |
-| **CreatureTemplate** | id, name, description variants, threat tier, theme tags, safety notes | Encounter flavor, instance enemies |
-| **NpcArchetype** | Extends NPC shape: role, default attitude, toneRules, dialogue hooks | Populating world NPCs; Director reactions |
-| **EncounterTemplate** | Room/interaction pattern: setup text, choice roles, consequence effect types | Instance rooms, beat midpoints |
-| **PuzzleTemplate** | Completion condition pattern, hint tiers, failure consequence slot | Instance puzzles (Phase 3+) |
-| **GearTemplate** (optional MVP+) | id, name, tier, tags | Reward bounds reference; flavor only until economy exists |
+| Template type                    | Contains                                                                     | Used for                                                  |
+| -------------------------------- | ---------------------------------------------------------------------------- | --------------------------------------------------------- |
+| **CreatureTemplate**             | id, name, description variants, threat tier, theme tags, safety notes        | Encounter flavor, instance enemies                        |
+| **NpcArchetype**                 | Extends NPC shape: role, default attitude, toneRules, dialogue hooks         | Populating world NPCs; Director reactions                 |
+| **EncounterTemplate**            | Room/interaction pattern: setup text, choice roles, consequence effect types | Instance rooms, beat midpoints                            |
+| **PuzzleTemplate**               | Completion condition pattern, hint tiers, failure consequence slot           | Instance puzzles (Phase 3+)                               |
+| **GearTemplate** (optional MVP+) | id, name, tier, tags                                                         | Reward bounds reference; flavor only until economy exists |
 
 Each entry is **standalone valid JSON** with its own Zod schema. Entries do **not** go live in a world until referenced by a validated `WorldDefinition` or merged by Architect.
 
@@ -282,12 +282,12 @@ Input: WorldBlueprint + optional player prompt
 
 See Phase 2 (W4-S4–S7). For generated worlds, Director additionally:
 
-| Allowed | Not allowed |
-| --- | --- |
-| Pick variant text from `allowedVariantIds` | Change reward tables |
-| NPC reaction lines (NPCReactionAgent) | Add new choices to live graph |
-| Hints, recap, session wrap-up suggestion | Set flags on ledger directly |
-| Suggest next beat **within validated graph** | Bypass safetyMode |
+| Allowed                                      | Not allowed                   |
+| -------------------------------------------- | ----------------------------- |
+| Pick variant text from `allowedVariantIds`   | Change reward tables          |
+| NPC reaction lines (NPCReactionAgent)        | Add new choices to live graph |
+| Hints, recap, session wrap-up suggestion     | Set flags on ledger directly  |
+| Suggest next beat **within validated graph** | Bypass safetyMode             |
 
 **Director reasoning panel** (W4-S7) is the primary UX for "watching AI decide" — shows action, targetId, reason, confidence, fallbackUsed, validationErrors.
 
@@ -295,16 +295,16 @@ See Phase 2 (W4-S4–S7). For generated worlds, Director additionally:
 
 ## Security, safety, and shareability
 
-| Concern | Approach |
-| --- | --- |
-| **Validation** | No world publishes without `validateWorldDefinition` + health threshold |
-| **Safety** | teen/adult on blueprint; filter AI text; block terms list (README safety gates) |
-| **Secrets** | No API keys in content; env vars only (W4-S3) |
-| **Share** | Phase 6: share tokens, world_versions table (W9-S2–S6) — generated worlds are versioned like Stonepass |
-| **Fork/remix** | W10-*: fork copies definition; remix may patch WorldDNA within validator |
-| **Public UGC** | Explicitly gated — no marketplace/discovery until health + safety policy (README blocked scope) |
-| **Anti-cheat on rewards** | Engine clamps to `rewardBounds`; DebugEvent logs clamp/reject |
-| **Explainability** | Every variation traceable: blueprintId, libraryEntryId, variantId, seed, Director decision |
+| Concern                   | Approach                                                                                               |
+| ------------------------- | ------------------------------------------------------------------------------------------------------ |
+| **Validation**            | No world publishes without `validateWorldDefinition` + health threshold                                |
+| **Safety**                | teen/adult on blueprint; filter AI text; block terms list (README safety gates)                        |
+| **Secrets**               | No API keys in content; env vars only (W4-S3)                                                          |
+| **Share**                 | Phase 6: share tokens, world_versions table (W9-S2–S6) — generated worlds are versioned like Stonepass |
+| **Fork/remix**            | W10-\*: fork copies definition; remix may patch WorldDNA within validator                              |
+| **Public UGC**            | Explicitly gated — no marketplace/discovery until health + safety policy (README blocked scope)        |
+| **Anti-cheat on rewards** | Engine clamps to `rewardBounds`; DebugEvent logs clamp/reject                                          |
+| **Explainability**        | Every variation traceable: blueprintId, libraryEntryId, variantId, seed, Director decision             |
 
 ---
 
@@ -312,15 +312,15 @@ See Phase 2 (W4-S4–S7). For generated worlds, Director additionally:
 
 Combines FULL_CURSOR §1 replay layers with libraries:
 
-| Layer | Library role |
-| --- | --- |
-| Consequence branches (layer 3) | Authored in world graph — unchanged |
-| Conditional text (layer 4) | Variant pools on templates + beats |
-| NPC memory (layer 5) | NpcArchetype + consequence npcUpdates |
-| Instance variants (layer 6) | EncounterTemplate / PuzzleTemplate swaps per theme |
-| Director variation (layer 7) | Picks variants, reactions, hints per session state |
-| Remix/fork (layer 8) | New blueprint + library query → new world version |
-| Generated world (layer 9) | Full Architect pass from player knobs |
+| Layer                          | Library role                                       |
+| ------------------------------ | -------------------------------------------------- |
+| Consequence branches (layer 3) | Authored in world graph — unchanged                |
+| Conditional text (layer 4)     | Variant pools on templates + beats                 |
+| NPC memory (layer 5)           | NpcArchetype + consequence npcUpdates              |
+| Instance variants (layer 6)    | EncounterTemplate / PuzzleTemplate swaps per theme |
+| Director variation (layer 7)   | Picks variants, reactions, hints per session state |
+| Remix/fork (layer 8)           | New blueprint + library query → new world version  |
+| Generated world (layer 9)      | Full Architect pass from player knobs              |
 
 **Guardrail (unchanged):** Every variation explainable by profile, route, seed, flag, library entry, or validated AI suggestion — not random improvisation.
 
@@ -330,21 +330,21 @@ Combines FULL_CURSOR §1 replay layers with libraries:
 
 **Do not skip gates.** Approximate order:
 
-| Order | Prerequisite | Enables |
-| --- | --- | --- |
-| 1 | Phase 0 complete ✅ | Schemas, Stonepass JSON, validator, FakeProvider |
-| 2 | Phase 1 in progress (W2-S6 next) | Browser play of authored Stonepass |
-| 3 | Phase 1 complete (W3-*) | Full consequence engine, ledger/debug UI |
-| 4 | Phase 2 (W4-*) | AI Gateway, Director, NPC reactions, reasoning panel |
-| 5 | Phase 3 (W5-*) | Instance runtime — **encounters/puzzles become playable spaces** |
-| 6 | Phase 6 prep (W9-*) | Persistence — libraries/worlds in DB |
-| 7 | **NEW: Library schemas + query API** | Tagged templates, validateLibraryEntry |
-| 8 | Phase 5 (W7–W8) WorldArchitect | Prompt/blueprint → world draft |
-| 9 | **NEW: QuestBlueprint schema + generateQuest** | Regional quests inside worlds ([Quest_Generation.md](./Quest_Generation.md)) |
-| 10 | **NEW: WorldBlueprint + player create UI** | Theme + knobs → Architect input |
-| 11 | Phase 6 (W10) fork/remix | Share generated worlds |
-| 12 | Phase 7 (W11) playtester | Auto-block broken generated content |
-| 13 | Phase 9 Creator Cockpit | Preview, approve, regenerate, library editor |
+| Order | Prerequisite                                   | Enables                                                                      |
+| ----- | ---------------------------------------------- | ---------------------------------------------------------------------------- |
+| 1     | Phase 0 complete ✅                            | Schemas, Stonepass JSON, validator, FakeProvider                             |
+| 2     | Phase 1 in progress (W2-S6 next)               | Browser play of authored Stonepass                                           |
+| 3     | Phase 1 complete (W3-\*)                       | Full consequence engine, ledger/debug UI                                     |
+| 4     | Phase 2 (W4-\*)                                | AI Gateway, Director, NPC reactions, reasoning panel                         |
+| 5     | Phase 3 (W5-\*)                                | Instance runtime — **encounters/puzzles become playable spaces**             |
+| 6     | Phase 6 prep (W9-\*)                           | Persistence — libraries/worlds in DB                                         |
+| 7     | **NEW: Library schemas + query API**           | Tagged templates, validateLibraryEntry                                       |
+| 8     | Phase 5 (W7–W8) WorldArchitect                 | Prompt/blueprint → world draft                                               |
+| 9     | **NEW: QuestBlueprint schema + generateQuest** | Regional quests inside worlds ([Quest_Generation.md](./Quest_Generation.md)) |
+| 10    | **NEW: WorldBlueprint + player create UI**     | Theme + knobs → Architect input                                              |
+| 11    | Phase 6 (W10) fork/remix                       | Share generated worlds                                                       |
+| 12    | Phase 7 (W11) playtester                       | Auto-block broken generated content                                          |
+| 13    | Phase 9 Creator Cockpit                        | Preview, approve, regenerate, library editor                                 |
 
 **Libraries are most valuable after Phase 3** — encounters and puzzles are structured runtime objects, not just schema fields.
 
@@ -352,13 +352,13 @@ Combines FULL_CURSOR §1 replay layers with libraries:
 
 ## Relationship to Quest_Generation.md
 
-| Quest_Generation | This document |
-| --- | --- |
+| Quest_Generation                            | This document                                  |
+| ------------------------------------------- | ---------------------------------------------- |
 | `QuestBlueprint` — bounds for **one quest** | `WorldBlueprint` — bounds for **entire world** |
-| `QuestArchitectAgent` — draft quest graph | `WorldArchitectAgent` — draft full world |
-| Quest uses encounters/NPCs from libraries | Same libraries; quest is a subgraph module |
-| Reward clamping per quest | Reward clamping per world + per quest |
-| Regional offer → mini-adventure | One beat chain inside generated world |
+| `QuestArchitectAgent` — draft quest graph   | `WorldArchitectAgent` — draft full world       |
+| Quest uses encounters/NPCs from libraries   | Same libraries; quest is a subgraph module     |
+| Reward clamping per quest                   | Reward clamping per world + per quest          |
+| Regional offer → mini-adventure             | One beat chain inside generated world          |
 
 **Implementation order recommendation:**
 
@@ -370,43 +370,43 @@ Combines FULL_CURSOR §1 replay layers with libraries:
 
 ## Proposed step-tracker additions (approved in CSV 2026-05-28)
 
-These step IDs are **in** [Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv](../Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv) and summarized in FULL_CURSOR *Phase 5 extension*. **Do not implement until each row is human-approved as `Next`.**
+These step IDs are **in** [Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv](../Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv) and summarized in FULL*CURSOR \_Phase 5 extension*. **Do not implement until each row is human-approved as `Next`.**
 
 ### Phase 5 extension — Content Libraries (new week or W7-S7+)
 
-| Step ID | Name | Goal |
-| --- | --- | --- |
-| W7-S7 | Create library entry schemas | CreatureTemplate, NpcArchetype, EncounterTemplate, PuzzleTemplate Zod schemas |
-| W7-S8 | Create validateLibraryEntry | Per-entry validation + tag rules |
-| W7-S9 | Create queryLibrary API | Filter by themeTags, difficulty, safetyMode |
-| W7-S10 | Seed Stonepass library pack | Extract ogre, elder, cave encounter/puzzle from canonical world |
-| W7-S11 | Seed theme packs (lava/ocean/machine) | Minimal teen-safe starter entries per theme |
+| Step ID | Name                                  | Goal                                                                          |
+| ------- | ------------------------------------- | ----------------------------------------------------------------------------- |
+| W7-S7   | Create library entry schemas          | CreatureTemplate, NpcArchetype, EncounterTemplate, PuzzleTemplate Zod schemas |
+| W7-S8   | Create validateLibraryEntry           | Per-entry validation + tag rules                                              |
+| W7-S9   | Create queryLibrary API               | Filter by themeTags, difficulty, safetyMode                                   |
+| W7-S10  | Seed Stonepass library pack           | Extract ogre, elder, cave encounter/puzzle from canonical world               |
+| W7-S11  | Seed theme packs (lava/ocean/machine) | Minimal teen-safe starter entries per theme                                   |
 
 ### Phase 5 extension — WorldBlueprint (after W8 graph generator)
 
-| Step ID | Name | Goal |
-| --- | --- | --- |
-| W8-S6 | Create WorldBlueprint schema | Player knobs: theme, beat outline, difficulty, reward/gear bounds |
-| W8-S7 | Wire Architect to WorldBlueprint | Generation respects blueprint caps |
-| W8-S8 | Wire Architect to queryLibrary | Draft world composes library templates |
+| Step ID | Name                             | Goal                                                              |
+| ------- | -------------------------------- | ----------------------------------------------------------------- |
+| W8-S6   | Create WorldBlueprint schema     | Player knobs: theme, beat outline, difficulty, reward/gear bounds |
+| W8-S7   | Wire Architect to WorldBlueprint | Generation respects blueprint caps                                |
+| W8-S8   | Wire Architect to queryLibrary   | Draft world composes library templates                            |
 
 ### Phase 5 extension — Quest generation (from Quest_Generation.md)
 
-| Step ID | Name | Goal |
-| --- | --- | --- |
-| W8-S9 | Create QuestBlueprint schema | Per-quest bounds (see Quest_Generation.md) |
-| W8-S10 | Create validateQuestDraft | Graph rules for quest packages |
-| W8-S11 | Build generateQuest API | QuestArchitectAgent orchestration |
-| W8-S12 | Merge QuestDraft into WorldDefinition | Preview + validate merged world |
+| Step ID | Name                                  | Goal                                       |
+| ------- | ------------------------------------- | ------------------------------------------ |
+| W8-S9   | Create QuestBlueprint schema          | Per-quest bounds (see Quest_Generation.md) |
+| W8-S10  | Create validateQuestDraft             | Graph rules for quest packages             |
+| W8-S11  | Build generateQuest API               | QuestArchitectAgent orchestration          |
+| W8-S12  | Merge QuestDraft into WorldDefinition | Preview + validate merged world            |
 
 ### Phase 5 UI — Player create flow
 
-| Step ID | Name | Goal |
-| --- | --- | --- |
-| W7-S6+ | Extend world-create preview | Show blueprint knobs + library picks + health score |
-| W12-S* | Creator Cockpit (existing phase) | Library editor, approve/regenerate, publish policy |
+| Step ID | Name                             | Goal                                                |
+| ------- | -------------------------------- | --------------------------------------------------- |
+| W7-S6+  | Extend world-create preview      | Show blueprint knobs + library picks + health score |
+| W12-S\* | Creator Cockpit (existing phase) | Library editor, approve/regenerate, publish policy  |
 
-*Exact W12 step IDs exist in FULL_CURSOR for Creator Cockpit — link library editor there rather than duplicating.
+\*Exact W12 step IDs exist in FULL_CURSOR for Creator Cockpit — link library editor there rather than duplicating.
 
 ---
 
@@ -428,14 +428,14 @@ Treat **player world generation v1** as done when:
 
 ## Risks and mitigations
 
-| Risk | Mitigation |
-| --- | --- |
-| Library + Architect scope explosion | MVP = 3 theme packs × ~10 entries; one world blueprint shape |
-| Generic "samey" generated worlds | Theme tags + variant pools + health "consequence quality" |
-| AI invents invalid mechanics | Structured output + Zod + validateWorldDefinition |
-| Libraries stale vs generated text | Curator agent drafts templates → human approve → library version bump |
-| Difficulty meaningless without combat math | Use tier enums + flag consequences until full economy (README MVP rule) |
-| Player expects instant AAA variety | Set expectation: text-first proof → showcase v2 → visual layers Phase 8+ |
+| Risk                                       | Mitigation                                                               |
+| ------------------------------------------ | ------------------------------------------------------------------------ |
+| Library + Architect scope explosion        | MVP = 3 theme packs × ~10 entries; one world blueprint shape             |
+| Generic "samey" generated worlds           | Theme tags + variant pools + health "consequence quality"                |
+| AI invents invalid mechanics               | Structured output + Zod + validateWorldDefinition                        |
+| Libraries stale vs generated text          | Curator agent drafts templates → human approve → library version bump    |
+| Difficulty meaningless without combat math | Use tier enums + flag consequences until full economy (README MVP rule)  |
+| Player expects instant AAA variety         | Set expectation: text-first proof → showcase v2 → visual layers Phase 8+ |
 
 ---
 

@@ -20,5 +20,16 @@ export default defineConfig({
       "apps/web/tests/**/*.test.ts",
       "apps/web/tests/**/*.test.tsx",
     ],
+    coverage: {
+      provider: "v8",
+      reporter: ["text", "text-summary"],
+      include: [
+        "packages/core/src/**/*.ts",
+        "packages/ai/src/**/*.ts",
+        "apps/web/features/**/*.ts",
+        "apps/web/features/**/*.tsx",
+      ],
+      exclude: ["**/*.test.ts", "**/*.test.tsx", "**/index.ts"],
+    },
   },
 });

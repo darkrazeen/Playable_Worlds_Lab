@@ -11,6 +11,7 @@
     "build": "npm run build -w @playable-worlds/web",
     "start": "npm run start -w @playable-worlds/web",
     "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
     "typecheck": "npm run typecheck --workspaces --if-present",
     "lint": "npm run lint --workspaces --if-present",
     "format": "prettier --write .",
@@ -19,6 +20,7 @@
   "devDependencies": {
     "@eslint/js": "^9.22.0",
     "@testing-library/react": "^16.3.0",
+    "@vitest/coverage-v8": "^3.2.4",
     "eslint": "^9.22.0",
     "happy-dom": "^17.4.4",
     "prettier": "^3.5.3",

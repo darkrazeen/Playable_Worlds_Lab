@@ -10,7 +10,10 @@ import {
   satisfiesFlagRequirements,
   validateLedgerFlags,
 } from "../../../src/ledger/flagLifecycle.js";
-import { isPlayerChoiceAccessible, isStoryBeatAccessible } from "../../../src/story/beatAccessibility.js";
+import {
+  isPlayerChoiceAccessible,
+  isStoryBeatAccessible,
+} from "../../../src/story/beatAccessibility.js";
 import { parseConsequence } from "../../../src/schemas/consequence.js";
 import { createEmptyWorldLedger, WorldLedgerSchema } from "../../../src/schemas/worldLedger.js";
 
@@ -27,9 +30,7 @@ describe("flag lifecycle primitives", () => {
     expect(isExemptFlag("system_intro")).toBe(true);
     expect(isExemptFlag("external_partner")).toBe(true);
     expect(isExemptFlag("ogre_defeated")).toBe(false);
-    expect(
-      satisfiesFlagRequirements(new Set(), ["system_intro"], []),
-    ).toBe(true);
+    expect(satisfiesFlagRequirements(new Set(), ["system_intro"], [])).toBe(true);
   });
 
   it("applyFlagChanges removes from active and records resolved", () => {
@@ -61,11 +62,10 @@ describe("flag lifecycle primitives", () => {
   });
 
   it("keeps active and resolved mutually exclusive after combined changes", () => {
-    const result = applyFlagChanges(
-      ["flag_a"],
-      ["flag_b"],
-      { removeFlags: ["flag_a"], addFlags: ["flag_b", "flag_c"] },
-    );
+    const result = applyFlagChanges(["flag_a"], ["flag_b"], {
+      removeFlags: ["flag_a"],
+      addFlags: ["flag_b", "flag_c"],
+    });
 
     expect(result.activeFlags).toEqual(["flag_b", "flag_c"]);
     expect(result.resolvedFlags).toEqual(["flag_a"]);
@@ -143,11 +143,7 @@ describe("applyConsequenceToLedger flag lifecycle integration", () => {
 
     const ledger = applyConsequenceToLedger(createEmptyWorldLedger(), consequence, 1);
 
-    expect(ledger.activeFlags).toEqual([
-      "ogre_defeated",
-      "bridge_open",
-      "landslide_triggered",
-    ]);
+    expect(ledger.activeFlags).toEqual(["ogre_defeated", "bridge_open", "landslide_triggered"]);
     expect(ledger.resolvedFlags).toEqual(["ogre_blocks_bridge"]);
     expect(validateLedgerFlags(ledger.activeFlags, ledger.resolvedFlags).ok).toBe(true);
   });

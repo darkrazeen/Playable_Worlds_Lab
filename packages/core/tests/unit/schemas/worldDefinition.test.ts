@@ -120,9 +120,9 @@ describe("WorldDefinitionSchema", () => {
   });
 
   it("rejects empty storyBeats or consequences arrays", () => {
-    expect(
-      WorldDefinitionSchema.safeParse({ ...validMinimalWorld, storyBeats: [] }).success,
-    ).toBe(false);
+    expect(WorldDefinitionSchema.safeParse({ ...validMinimalWorld, storyBeats: [] }).success).toBe(
+      false,
+    );
     expect(
       WorldDefinitionSchema.safeParse({ ...validMinimalWorld, consequences: [] }).success,
     ).toBe(false);

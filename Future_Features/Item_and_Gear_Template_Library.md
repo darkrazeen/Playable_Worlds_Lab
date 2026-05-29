@@ -18,11 +18,11 @@
 
 ## Feature index entry
 
-| Feature | Status | Target phase (approx.) | Last updated |
-| --- | --- | --- | --- |
-| GearTemplate / ItemTemplate schema | Brainstorm / proposed | Phase 5 (with content libraries) | 2026-05-28 |
-| Inventory as ledger flags/tiers | Brainstorm / proposed | Phase 3–5 | 2026-05-28 |
-| Item-gated beats/choices + clamped rewards | Brainstorm / proposed | Phase 5 (with quest generation) | 2026-05-28 |
+| Feature                                    | Status                | Target phase (approx.)           | Last updated |
+| ------------------------------------------ | --------------------- | -------------------------------- | ------------ |
+| GearTemplate / ItemTemplate schema         | Brainstorm / proposed | Phase 5 (with content libraries) | 2026-05-28   |
+| Inventory as ledger flags/tiers            | Brainstorm / proposed | Phase 3–5                        | 2026-05-28   |
+| Item-gated beats/choices + clamped rewards | Brainstorm / proposed | Phase 5 (with quest generation)  | 2026-05-28   |
 
 ---
 
@@ -44,16 +44,16 @@ Items/gear are **typed templates with tiers**, "owned" via ledger flags (`has_it
 
 ## How this fits the existing architecture
 
-| Existing piece | Role in this feature |
-| --- | --- |
-| `WorldLedger` | Item possession + gear tier stored as flags (engine-owned) |
-| `Consequence` | `grantItems[]` / `consumeItems[]`, **clamped** to allowed reward IDs/tiers |
-| `StoryBeat` / `PlayerChoice` | `requiredItems` / `requiredGearTier` gates beside flag gates |
-| `WorldDefinition` | New `itemTemplates[]` (or library-referenced) |
-| `QuestBlueprint` (W8-S9) | `allowedRewardIds[]` + `rewardTier` cap already planned — items plug in |
-| `validateWorldDefinition` | Item ref integrity; gates reference known items/tiers |
-| `WorldArchitectAgent` (Phase 5) | Proposes item rewards from allowed lists only |
-| Content libraries (W7-S7) | `ItemTemplate` / `GearTemplate` as new library entry types |
+| Existing piece                  | Role in this feature                                                       |
+| ------------------------------- | -------------------------------------------------------------------------- |
+| `WorldLedger`                   | Item possession + gear tier stored as flags (engine-owned)                 |
+| `Consequence`                   | `grantItems[]` / `consumeItems[]`, **clamped** to allowed reward IDs/tiers |
+| `StoryBeat` / `PlayerChoice`    | `requiredItems` / `requiredGearTier` gates beside flag gates               |
+| `WorldDefinition`               | New `itemTemplates[]` (or library-referenced)                              |
+| `QuestBlueprint` (W8-S9)        | `allowedRewardIds[]` + `rewardTier` cap already planned — items plug in    |
+| `validateWorldDefinition`       | Item ref integrity; gates reference known items/tiers                      |
+| `WorldArchitectAgent` (Phase 5) | Proposes item rewards from allowed lists only                              |
+| Content libraries (W7-S7)       | `ItemTemplate` / `GearTemplate` as new library entry types                 |
 
 **Core mantra unchanged:** AI proposes → validators check → engine executes.
 
@@ -117,12 +117,12 @@ setGearTier?: z.record(z.number().int()); // { tool: 2 } clamped to cap
 
 ## AI proposes / validators check / engine executes
 
-| Step | Who | Constraint |
-| --- | --- | --- |
-| Propose item rewards | WorldArchitect / quest gen | Only from `allowedRewardIds`; validated `ItemTemplate` |
-| Validate | `validateWorldDefinition` + Consequence preconditions | Item refs exist; tiers within cap |
-| Execute grant/consume | Consequence Engine | Clamps; writes flags/tiers; logs DebugEvent |
-| Flavor | DirectorAgent | Describe the loot; cannot grant it |
+| Step                  | Who                                                   | Constraint                                             |
+| --------------------- | ----------------------------------------------------- | ------------------------------------------------------ |
+| Propose item rewards  | WorldArchitect / quest gen                            | Only from `allowedRewardIds`; validated `ItemTemplate` |
+| Validate              | `validateWorldDefinition` + Consequence preconditions | Item refs exist; tiers within cap                      |
+| Execute grant/consume | Consequence Engine                                    | Clamps; writes flags/tiers; logs DebugEvent            |
+| Flavor                | DirectorAgent                                         | Describe the loot; cannot grant it                     |
 
 ---
 
@@ -137,27 +137,27 @@ setGearTier?: z.record(z.number().int()); // { tool: 2 } clamped to cap
 
 ## Phase map / dependency order
 
-| Order | Prerequisite | Enables |
-| --- | --- | --- |
-| 1 | W1-S5 Consequence, W1-S6 ledger (done) | Possession-as-flags |
-| 2 | W3-S1 Consequence Engine | Clamped grant/consume |
-| 3 | W7-S7 library entry schemas | ItemTemplate as library type |
-| 4 | W8-S9 QuestBlueprint | Allowed reward lists |
-| 5 | Phase 9 Creator Cockpit | Item editor + satchel panel |
+| Order | Prerequisite                           | Enables                      |
+| ----- | -------------------------------------- | ---------------------------- |
+| 1     | W1-S5 Consequence, W1-S6 ledger (done) | Possession-as-flags          |
+| 2     | W3-S1 Consequence Engine               | Clamped grant/consume        |
+| 3     | W7-S7 library entry schemas            | ItemTemplate as library type |
+| 4     | W8-S9 QuestBlueprint                   | Allowed reward lists         |
+| 5     | Phase 9 Creator Cockpit                | Item editor + satchel panel  |
 
 ---
 
 ## Proposed step-tracker additions (NOT approved — for human review)
 
-| Step ID (suggested) | Name | Goal |
-| --- | --- | --- |
-| IG-S1 | Create ItemTemplate/GearTemplate schemas | Zod + examples + tier rules |
-| IG-S2 | Add grant/consume/setGearTier to Consequence + clamp | Engine apply + DebugEvent |
-| IG-S3 | Add requiredItems/requiredGearTier gates | Beat/choice accessibility |
-| IG-S4 | Item validation in validateWorldDefinition | Ref integrity + caps |
-| IG-S5 | Stonepass item pack (lantern, dragon key) | Dogfood gating |
-| IG-S6 | Theme gear packs (lava/ocean/machine) | Library theme entries |
-| IG-S7 | Satchel + item creator panel | Read-only projection + editor |
+| Step ID (suggested) | Name                                                 | Goal                          |
+| ------------------- | ---------------------------------------------------- | ----------------------------- |
+| IG-S1               | Create ItemTemplate/GearTemplate schemas             | Zod + examples + tier rules   |
+| IG-S2               | Add grant/consume/setGearTier to Consequence + clamp | Engine apply + DebugEvent     |
+| IG-S3               | Add requiredItems/requiredGearTier gates             | Beat/choice accessibility     |
+| IG-S4               | Item validation in validateWorldDefinition           | Ref integrity + caps          |
+| IG-S5               | Stonepass item pack (lantern, dragon key)            | Dogfood gating                |
+| IG-S6               | Theme gear packs (lava/ocean/machine)                | Library theme entries         |
+| IG-S7               | Satchel + item creator panel                         | Read-only projection + editor |
 
 ---
 
@@ -174,12 +174,12 @@ setGearTier?: z.record(z.number().int()); // { tool: 2 } clamped to cap
 
 ## Risks & mitigations
 
-| Risk | Mitigation |
-| --- | --- |
-| Scope creep toward full economy | Hard rule: flags + tiers only in v1; revisit only after MVP |
-| AI grants overpowered loot | Allowed-reward clamping + validator |
-| Soft-locks from missing key items | Playtester/health "required item never granted" check |
-| Flag namespace pollution | Reserved `has_item_` / `gear_tier_` prefixes |
+| Risk                              | Mitigation                                                  |
+| --------------------------------- | ----------------------------------------------------------- |
+| Scope creep toward full economy   | Hard rule: flags + tiers only in v1; revisit only after MVP |
+| AI grants overpowered loot        | Allowed-reward clamping + validator                         |
+| Soft-locks from missing key items | Playtester/health "required item never granted" check       |
+| Flag namespace pollution          | Reserved `has_item_` / `gear_tier_` prefixes                |
 
 ---
 

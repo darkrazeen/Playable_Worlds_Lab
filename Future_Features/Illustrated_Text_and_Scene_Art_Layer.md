@@ -18,11 +18,11 @@
 
 ## Feature index entry
 
-| Feature | Status | Target phase (approx.) | Last updated |
-| --- | --- | --- | --- |
-| Art binding to beats/locations/NPCs/items | Brainstorm / proposed | Phase 8+ (output layer) | 2026-05-28 |
-| Generated scene art via AI Gateway | Brainstorm / proposed | Phase 8+ | 2026-05-28 |
-| Art cache + provenance + fallback | Brainstorm / proposed | Phase 8+ | 2026-05-28 |
+| Feature                                   | Status                | Target phase (approx.)  | Last updated |
+| ----------------------------------------- | --------------------- | ----------------------- | ------------ |
+| Art binding to beats/locations/NPCs/items | Brainstorm / proposed | Phase 8+ (output layer) | 2026-05-28   |
+| Generated scene art via AI Gateway        | Brainstorm / proposed | Phase 8+                | 2026-05-28   |
+| Art cache + provenance + fallback         | Brainstorm / proposed | Phase 8+                | 2026-05-28   |
 
 ---
 
@@ -34,7 +34,7 @@ Each renderable element (beat, location, NPC, item) gains an **optional `artRef`
 
 ## Why this fits the project and plays to its strengths
 
-- **"Same JSON, many output layers" is a core thesis.** This is the first visual output layer, and it changes *nothing* about the engine — pure projection.
+- **"Same JSON, many output layers" is a core thesis.** This is the first visual output layer, and it changes _nothing_ about the engine — pure projection.
 - **Text-first integrity preserved.** Art is additive; the game is fully playable without it, so it can never block or break play.
 - **Library-aligned.** Creature/NPC/encounter templates already carry descriptions + theme tags — ideal prompts/keys for consistent art.
 - **Cache + provenance reuse existing patterns.** Generated assets validate and cache like any AI output (AIResult), keeping cost/latency controlled.
@@ -44,15 +44,15 @@ Each renderable element (beat, location, NPC, item) gains an **optional `artRef`
 
 ## How this fits the existing architecture
 
-| Existing piece | Role in this feature |
-| --- | --- |
-| `StoryBeat`, `Npc`, `TemporaryInstance`, item templates | Gain optional `artRef` / `artPrompt` |
-| `WorldDNA` | Theme/tone drives a consistent **art style profile** |
-| AI Gateway (Phase 2) | Hosts an image-generation agent behind the provider contract |
-| `AIResult` | Wraps generation result + provenance + seed |
-| Content libraries | Art keyed to template IDs for reuse across worlds |
-| Play UI (apps/web) | Renders art when present; text fallback always |
-| Caching/persistence (Phase 6) | Stores generated assets keyed by element + style |
+| Existing piece                                          | Role in this feature                                         |
+| ------------------------------------------------------- | ------------------------------------------------------------ |
+| `StoryBeat`, `Npc`, `TemporaryInstance`, item templates | Gain optional `artRef` / `artPrompt`                         |
+| `WorldDNA`                                              | Theme/tone drives a consistent **art style profile**         |
+| AI Gateway (Phase 2)                                    | Hosts an image-generation agent behind the provider contract |
+| `AIResult`                                              | Wraps generation result + provenance + seed                  |
+| Content libraries                                       | Art keyed to template IDs for reuse across worlds            |
+| Play UI (apps/web)                                      | Renders art when present; text fallback always               |
+| Caching/persistence (Phase 6)                           | Stores generated assets keyed by element + style             |
 
 **Core mantra unchanged:** AI proposes → validators check → engine executes — here "executes" = render, never mutate state.
 
@@ -126,12 +126,12 @@ export const ArtAssetSchema = z.object({
 
 ## AI proposes / validators check / engine executes
 
-| Step | Who | Constraint |
-| --- | --- | --- |
-| Propose art | Image agent | `AIResult`; cached; never blocks play |
-| Safety check | Filter | `safetyMode`; blocked assets never shown |
-| Approve (curated) | Human (optional) | For showcase/published worlds |
-| Render | UI | Presentation only; text fallback |
+| Step              | Who              | Constraint                               |
+| ----------------- | ---------------- | ---------------------------------------- |
+| Propose art       | Image agent      | `AIResult`; cached; never blocks play    |
+| Safety check      | Filter           | `safetyMode`; blocked assets never shown |
+| Approve (curated) | Human (optional) | For showcase/published worlds            |
+| Render            | UI               | Presentation only; text fallback         |
 
 ---
 
@@ -147,26 +147,26 @@ export const ArtAssetSchema = z.object({
 
 ## Phase map / dependency order
 
-| Order | Prerequisite | Enables |
-| --- | --- | --- |
-| 1 | Phase 1 play UI (W2-S6) | Surface to render into |
-| 2 | Phase 2 AI Gateway | Image agent behind provider contract |
-| 3 | Phase 5 libraries | Stable keys for reuse |
-| 4 | Phase 6 caching/persistence | Asset storage |
-| 5 | Phase 8+ visual roadmap | First visual layer |
+| Order | Prerequisite                | Enables                              |
+| ----- | --------------------------- | ------------------------------------ |
+| 1     | Phase 1 play UI (W2-S6)     | Surface to render into               |
+| 2     | Phase 2 AI Gateway          | Image agent behind provider contract |
+| 3     | Phase 5 libraries           | Stable keys for reuse                |
+| 4     | Phase 6 caching/persistence | Asset storage                        |
+| 5     | Phase 8+ visual roadmap     | First visual layer                   |
 
 ---
 
 ## Proposed step-tracker additions (NOT approved — for human review)
 
-| Step ID (suggested) | Name | Goal |
-| --- | --- | --- |
-| AR-S1 | Art bindings + ArtStyleProfile schema | Optional refs + style |
-| AR-S2 | ArtAsset catalog + cache | Keyed, validated assets |
-| AR-S3 | Image agent behind AI Gateway | Generate via provider contract |
-| AR-S4 | Safety check + altText enforcement | Blocked → fallback |
-| AR-S5 | Play UI render + text fallback | Graceful presentation |
-| AR-S6 | Stonepass illustrated showcase | Dogfood art layer |
+| Step ID (suggested) | Name                                  | Goal                           |
+| ------------------- | ------------------------------------- | ------------------------------ |
+| AR-S1               | Art bindings + ArtStyleProfile schema | Optional refs + style          |
+| AR-S2               | ArtAsset catalog + cache              | Keyed, validated assets        |
+| AR-S3               | Image agent behind AI Gateway         | Generate via provider contract |
+| AR-S4               | Safety check + altText enforcement    | Blocked → fallback             |
+| AR-S5               | Play UI render + text fallback        | Graceful presentation          |
+| AR-S6               | Stonepass illustrated showcase        | Dogfood art layer              |
 
 ---
 
@@ -183,12 +183,12 @@ export const ArtAssetSchema = z.object({
 
 ## Risks & mitigations
 
-| Risk | Mitigation |
-| --- | --- |
-| Unsafe imagery | Safety check + human approval for published worlds |
-| Cost/latency | Cache by key; lazy generation; reuse across worlds |
-| Style inconsistency | Per-world style profile from WorldDNA |
-| Scope creep to real rendering | Hard rule: static/illustrative presentation only |
+| Risk                          | Mitigation                                         |
+| ----------------------------- | -------------------------------------------------- |
+| Unsafe imagery                | Safety check + human approval for published worlds |
+| Cost/latency                  | Cache by key; lazy generation; reuse across worlds |
+| Style inconsistency           | Per-world style profile from WorldDNA              |
+| Scope creep to real rendering | Hard rule: static/illustrative presentation only   |
 
 ---
 

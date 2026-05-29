@@ -4,9 +4,9 @@ Contract for `activeFlags`, `resolvedFlags`, and gate fields `requiredFlags` / `
 
 ## Lists
 
-| Field | Meaning |
-| --- | --- |
-| `activeFlags` | Flags currently true in the session |
+| Field           | Meaning                                           |
+| --------------- | ------------------------------------------------- |
+| `activeFlags`   | Flags currently true in the session               |
 | `resolvedFlags` | Flags settled by `removeFlags` — no longer active |
 
 Rules:
@@ -23,10 +23,10 @@ Applied in order via `applyFlagChanges()`:
 
 ## Gates (beats, choices, consequences)
 
-| Gate | Rule |
-| --- | --- |
-| `requiredFlags` | Every flag must be in `activeFlags`, unless exempt (`system_*`, `external_*`) |
-| `blockedByFlags` | No flag may be in `activeFlags` |
+| Gate             | Rule                                                                          |
+| ---------------- | ----------------------------------------------------------------------------- |
+| `requiredFlags`  | Every flag must be in `activeFlags`, unless exempt (`system_*`, `external_*`) |
+| `blockedByFlags` | No flag may be in `activeFlags`                                               |
 
 Accessibility helpers (`satisfiesFlagRequirements`) and precondition validation share this logic.
 

@@ -95,9 +95,7 @@ export function applyFlagChanges(
   }
 
   nextActive = normalizeFlagList(nextActive);
-  nextResolved = normalizeFlagList(
-    nextResolved.filter((flag) => !nextActive.includes(flag)),
-  );
+  nextResolved = normalizeFlagList(nextResolved.filter((flag) => !nextActive.includes(flag)));
 
   return { activeFlags: nextActive, resolvedFlags: nextResolved };
 }
@@ -124,9 +122,7 @@ export function validateLedgerFlags(
   const resolvedSet = new Set(resolvedFlags);
   for (const flag of activeFlags) {
     if (resolvedSet.has(flag)) {
-      errors.push(
-        `ledger-flags: flag "${flag}" cannot be both active and resolved`,
-      );
+      errors.push(`ledger-flags: flag "${flag}" cannot be both active and resolved`);
     }
   }
 

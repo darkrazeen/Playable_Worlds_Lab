@@ -18,11 +18,11 @@
 
 ## Feature index entry
 
-| Feature | Status | Target phase (approx.) | Last updated |
-| --- | --- | --- | --- |
-| TTS narration of beats/choices | Brainstorm / proposed | Phase 8+ (output layer) | 2026-05-28 |
-| Per-NPC voice profiles | Brainstorm / proposed | Phase 8+ | 2026-05-28 |
-| Audio cache + fallback | Brainstorm / proposed | Phase 8+ | 2026-05-28 |
+| Feature                        | Status                | Target phase (approx.)  | Last updated |
+| ------------------------------ | --------------------- | ----------------------- | ------------ |
+| TTS narration of beats/choices | Brainstorm / proposed | Phase 8+ (output layer) | 2026-05-28   |
+| Per-NPC voice profiles         | Brainstorm / proposed | Phase 8+                | 2026-05-28   |
+| Audio cache + fallback         | Brainstorm / proposed | Phase 8+                | 2026-05-28   |
 
 ---
 
@@ -44,16 +44,16 @@ Beat text and NPC reaction lines can be spoken via a TTS agent using per-NPC/nar
 
 ## How this fits the existing architecture
 
-| Existing piece | Role in this feature |
-| --- | --- |
-| `StoryBeat` text, `Npc` reaction lines | The content narrated |
-| `WorldDNA` | Tone → narrator/voice style selection |
-| `Npc` attitude + memory | Per-NPC voice profile + delivery hints |
-| AI Gateway (Phase 2) | TTS agent behind provider contract |
-| `AIResult` | Wraps audio generation + provenance |
-| Play UI (apps/web) | Playback controls; silent fallback |
-| Caching/persistence (Phase 6) | Stores audio keyed by text hash + voice |
-| [Localization layer](./Accessibility_and_Localization_Layer.md) | Per-locale narration |
+| Existing piece                                                  | Role in this feature                    |
+| --------------------------------------------------------------- | --------------------------------------- |
+| `StoryBeat` text, `Npc` reaction lines                          | The content narrated                    |
+| `WorldDNA`                                                      | Tone → narrator/voice style selection   |
+| `Npc` attitude + memory                                         | Per-NPC voice profile + delivery hints  |
+| AI Gateway (Phase 2)                                            | TTS agent behind provider contract      |
+| `AIResult`                                                      | Wraps audio generation + provenance     |
+| Play UI (apps/web)                                              | Playback controls; silent fallback      |
+| Caching/persistence (Phase 6)                                   | Stores audio keyed by text hash + voice |
+| [Localization layer](./Accessibility_and_Localization_Layer.md) | Per-locale narration                    |
 
 **Core mantra unchanged:** AI proposes → validators check → engine executes — "executes" = play audio, never mutate state.
 
@@ -99,7 +99,7 @@ export const AudioAssetSchema = z.object({
   }),
   uri: z.string(),
   durationMs: z.number().int(),
-  transcript: z.string(),               // == source text; accessibility
+  transcript: z.string(), // == source text; accessibility
   provenance: z.object({
     source: z.enum(["generated", "recorded"]),
     approvedBy: z.string().optional(),
@@ -121,12 +121,12 @@ export const AudioAssetSchema = z.object({
 
 ## AI proposes / validators check / engine executes
 
-| Step | Who | Constraint |
-| --- | --- | --- |
-| Generate audio | TTS agent | `AIResult`; cached; never blocks play |
-| Safety/transcript check | Filter | Transcript == source text; `safetyMode` |
-| Approve (published) | Human (optional) | For showcase/published worlds |
-| Play | UI | Presentation only; silent fallback |
+| Step                    | Who              | Constraint                              |
+| ----------------------- | ---------------- | --------------------------------------- |
+| Generate audio          | TTS agent        | `AIResult`; cached; never blocks play   |
+| Safety/transcript check | Filter           | Transcript == source text; `safetyMode` |
+| Approve (published)     | Human (optional) | For showcase/published worlds           |
+| Play                    | UI               | Presentation only; silent fallback      |
 
 ---
 
@@ -141,26 +141,26 @@ export const AudioAssetSchema = z.object({
 
 ## Phase map / dependency order
 
-| Order | Prerequisite | Enables |
-| --- | --- | --- |
-| 1 | Phase 1 play UI (W2-S6) | Playback surface |
-| 2 | Phase 2 AI Gateway | TTS agent behind provider contract |
-| 3 | NPC memory/attitude | Per-NPC voices |
-| 4 | Phase 6 caching | Audio storage |
-| 5 | Localization layer | Multi-locale narration |
+| Order | Prerequisite            | Enables                            |
+| ----- | ----------------------- | ---------------------------------- |
+| 1     | Phase 1 play UI (W2-S6) | Playback surface                   |
+| 2     | Phase 2 AI Gateway      | TTS agent behind provider contract |
+| 3     | NPC memory/attitude     | Per-NPC voices                     |
+| 4     | Phase 6 caching         | Audio storage                      |
+| 5     | Localization layer      | Multi-locale narration             |
 
 ---
 
 ## Proposed step-tracker additions (NOT approved — for human review)
 
-| Step ID (suggested) | Name | Goal |
-| --- | --- | --- |
-| VN-S1 | VoiceProfile + AudioAsset schemas | Voices + catalog |
-| VN-S2 | TTS agent behind AI Gateway | Generate via provider contract |
-| VN-S3 | Audio cache keyed by text/voice/locale | Reuse + cost control |
-| VN-S4 | Transcript/safety enforcement | Blocked → silent |
-| VN-S5 | Playback UI + silent fallback | Graceful audio |
-| VN-S6 | Stonepass narrated showcase | Dogfood audio layer |
+| Step ID (suggested) | Name                                   | Goal                           |
+| ------------------- | -------------------------------------- | ------------------------------ |
+| VN-S1               | VoiceProfile + AudioAsset schemas      | Voices + catalog               |
+| VN-S2               | TTS agent behind AI Gateway            | Generate via provider contract |
+| VN-S3               | Audio cache keyed by text/voice/locale | Reuse + cost control           |
+| VN-S4               | Transcript/safety enforcement          | Blocked → silent               |
+| VN-S5               | Playback UI + silent fallback          | Graceful audio                 |
+| VN-S6               | Stonepass narrated showcase            | Dogfood audio layer            |
 
 ---
 
@@ -177,12 +177,12 @@ export const AudioAssetSchema = z.object({
 
 ## Risks & mitigations
 
-| Risk | Mitigation |
-| --- | --- |
-| Cost/latency | Cache by text/voice/locale; lazy/opt-in generation |
-| Voice mismatch with tone | Profiles from WorldDNA + attitude |
-| Unsafe/altered audio | Transcript-equals-text check + safety filter |
-| Scope creep to voice chat/input | Hard rule: narration output only in v1 |
+| Risk                            | Mitigation                                         |
+| ------------------------------- | -------------------------------------------------- |
+| Cost/latency                    | Cache by text/voice/locale; lazy/opt-in generation |
+| Voice mismatch with tone        | Profiles from WorldDNA + attitude                  |
+| Unsafe/altered audio            | Transcript-equals-text check + safety filter       |
+| Scope creep to voice chat/input | Hard rule: narration output only in v1             |
 
 ---
 

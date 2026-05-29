@@ -10,10 +10,7 @@ import { loadWorldFromFile } from "../../../src/world/loadWorld.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const contentRoot = join(__dirname, "../../../../content");
-const stonepassWorldPath = join(
-  contentRoot,
-  "worlds/stonepass/stonepass-valley.world.json",
-);
+const stonepassWorldPath = join(contentRoot, "worlds/stonepass/stonepass-valley.world.json");
 
 function loadMinimalWorld() {
   return parseWorldDefinition(
@@ -140,9 +137,7 @@ describe("selectStoryBeat", () => {
     const result = selectStoryBeat(world, session);
 
     expect(result.ok).toBe(false);
-    expect(result.errors.some((error) => error.includes("no accessible story beat"))).toBe(
-      true,
-    );
+    expect(result.errors.some((error) => error.includes("no accessible story beat"))).toBe(true);
   });
 });
 

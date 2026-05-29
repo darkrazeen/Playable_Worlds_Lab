@@ -65,11 +65,11 @@ export function DebugTracePanel({ debugEvents, turnNumber }: DebugTracePanelProp
         <p className="text-sm italic text-neutral-400 dark:text-neutral-500">No trace yet</p>
       ) : (
         <ol className="flex max-h-64 flex-col gap-2 overflow-y-auto text-sm">
-          {sortedEvents.map((event) => {
+          {sortedEvents.map((event, index) => {
             const metadataHint = formatMetadataHint(event.metadata);
             return (
               <li
-                key={event.id}
+                key={`${event.id}-${index}`}
                 className="rounded-md border border-neutral-200 bg-white px-3 py-2 dark:border-neutral-700 dark:bg-neutral-900"
               >
                 <div className="flex flex-wrap items-center gap-2">

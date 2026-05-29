@@ -14,10 +14,7 @@ import { loadWorld } from "@playable-worlds/core";
 import { WorldLedgerPanel } from "../features/world-debug/WorldLedgerPanel";
 import { STONEPASS_WORLD_ID } from "../features/world-play/constants";
 import { WorldPlayScreen } from "../features/world-play/WorldPlayScreen";
-import {
-  applyPlayChoice,
-  createInitialPlayState,
-} from "../features/world-play/worldPlayRuntime";
+import { applyPlayChoice, createInitialPlayState } from "../features/world-play/worldPlayRuntime";
 
 function loadStonepassWorldForTest() {
   const worldResult = loadWorld(STONEPASS_WORLD_ID, contentRoot);

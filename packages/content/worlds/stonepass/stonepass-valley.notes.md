@@ -12,10 +12,10 @@
 
 The original "Valley" vision is delivered across the **first three Spire floors** as systems land:
 
-| Floor | Content (from legacy Valley arc) | Systems |
-| --- | --- | --- |
-| **Floor 1** | Ogre bridge, five entry choices, first consequences | Text runtime, beat flow (Phase 1) |
-| **Floor 2** | Landslide aftermath, hidden cave / labyrinth | Temporary instances (Phase 3) |
+| Floor       | Content (from legacy Valley arc)                    | Systems                             |
+| ----------- | --------------------------------------------------- | ----------------------------------- |
+| **Floor 1** | Ogre bridge, five entry choices, first consequences | Text runtime, beat flow (Phase 1)   |
+| **Floor 2** | Landslide aftermath, hidden cave / labyrinth        | Temporary instances (Phase 3)       |
 | **Floor 3** | Floor boss (dragon), `floor_03_cleared` → stairs up | Tier A combat, boss instances (W5+) |
 
 Until `RegionMap` and separate floor worlds exist (W8+), Floor 1–3 beats may live in one `WorldDefinition` with narrative floor labels; physical split happens at W5-S13 / W8.

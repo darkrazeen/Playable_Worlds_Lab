@@ -93,9 +93,12 @@ describe("Phase 1 acceptance — Stonepass text runtime (no AI)", () => {
     expect(debugTypes).toContain("flags_changed");
     expect(debugTypes.filter((type) => type === "goal_unlocked").length).toBeGreaterThan(0);
 
+    expect(nextSession.currentBeatId).toBe("beat_landslide_aftermath");
+
     const postBeat = selectStoryBeat(world, nextSession);
     expect(postBeat.ok).toBe(true);
-    expect(postBeat.beat?.id).toBe("beat_ogre_bridge");
+    expect(postBeat.beat?.id).toBe("beat_landslide_aftermath");
+    expect(postBeat.source).toBe("current");
   });
 
   it("blocks an invalid choice without advancing turn or mutating ledger", () => {
@@ -127,8 +130,9 @@ describe("Phase 1 acceptance — Stonepass text runtime (no AI)", () => {
       expect(applyResult.ok).toBe(true);
       assertValidSession(applyResult.session!, `after ${choiceId}`);
       expect(applyResult.session?.choiceHistory).toEqual([choiceId]);
-      expect(applyResult.session?.debugEvents.some((event) => event.type === "consequence_applied"))
-        .toBe(true);
+      expect(
+        applyResult.session?.debugEvents.some((event) => event.type === "consequence_applied"),
+      ).toBe(true);
     },
   );
 });

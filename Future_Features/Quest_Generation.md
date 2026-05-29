@@ -20,11 +20,11 @@
 
 ## Feature index
 
-| Feature | Status | Target phase (approx.) | Last updated |
-| --- | --- | --- | --- |
-| [Quest generator](#quest-generator) | Brainstorm / approved direction | Phase 5–7 (after Phase 0–4 gates) | 2026-05-26 |
-| [Quest foundation vs AI flavor](#quest-foundation-vs-ai-flavor-creator-contract) | Approved design direction | Phase 0–2+ (schema/runtime), generator Phase 5+ | 2026-05-26 |
-| [Player world generation](../Player_World_Generation_and_Content_Libraries.md) | See linked doc | Phase 5–7 | 2026-05-28 |
+| Feature                                                                          | Status                          | Target phase (approx.)                          | Last updated |
+| -------------------------------------------------------------------------------- | ------------------------------- | ----------------------------------------------- | ------------ |
+| [Quest generator](#quest-generator)                                              | Brainstorm / approved direction | Phase 5–7 (after Phase 0–4 gates)               | 2026-05-26   |
+| [Quest foundation vs AI flavor](#quest-foundation-vs-ai-flavor-creator-contract) | Approved design direction       | Phase 0–2+ (schema/runtime), generator Phase 5+ | 2026-05-26   |
+| [Player world generation](../Player_World_Generation_and_Content_Libraries.md)   | See linked doc                  | Phase 5–7                                       | 2026-05-28   |
 
 ---
 
@@ -36,12 +36,12 @@
 
 ### Summary
 
-| Layer | Who owns it | Can change at runtime? |
-| --- | --- | --- |
-| **Quest blueprint** (foundation) | Human author / designer | No — hardcoded parameters |
-| **Quest content graph** (beats, choices, consequence *slots*) | Human + optional generator *within* blueprint | Only via validated publish/merge |
-| **Scenario flavor** (text, NPC tone, set dressing, pacing) | AI Director (+ optional draft agent) | Yes — per run, within bounds |
-| **Rewards & progression truth** | Engine applies **clamped** consequences from blueprint | AI cannot exceed bounds |
+| Layer                                                         | Who owns it                                            | Can change at runtime?           |
+| ------------------------------------------------------------- | ------------------------------------------------------ | -------------------------------- |
+| **Quest blueprint** (foundation)                              | Human author / designer                                | No — hardcoded parameters        |
+| **Quest content graph** (beats, choices, consequence _slots_) | Human + optional generator _within_ blueprint          | Only via validated publish/merge |
+| **Scenario flavor** (text, NPC tone, set dressing, pacing)    | AI Director (+ optional draft agent)                   | Yes — per run, within bounds     |
+| **Rewards & progression truth**                               | Engine applies **clamped** consequences from blueprint | AI cannot exceed bounds          |
 
 **Your example (XP / rewards):** Quest may always grant experience or loot, but only **within min/max and allowed reward IDs** you define. AI may create **different scenarios in between** (dialogue, encounters, hints, branch emphasis)—not different payout tables.
 
@@ -77,15 +77,15 @@
 
 These fields live in a **`QuestBlueprint`** (or `QuestTemplate`) object—authored by you, validated once, referenced by quest ID. AI agents receive them as **read-only context** in prompts and runtime.
 
-| Category | Examples (illustrative) | Enforced by |
-| --- | --- | --- |
-| **Quest type** | `fetch`, `rescue`, `explore`, `escort`, `regional_offer` | Enum in schema; validator rejects unknown type |
-| **Direction** | Premise, tone, region, target NPC/faction, success definition | Blueprint text + `WorldDNA` alignment |
-| **Rules** | Max steps, time/turn limits, fail conditions, re-offer policy, PvP/combat allowed | Blueprint rules object; playtester checks |
-| **Criteria** | Required flags to start; completion flag/goal; optional optional objectives | `successCriteria` / `failCriteria` in blueprint |
-| **Reward bounds** | `xpMin`/`xpMax`, `goldMin`/`goldMax`, `allowedRewardIds[]`, `rewardTier` cap | Consequence Engine **clamps**; validator rejects out-of-range consequence definitions |
-| **Safety** | `safetyMode: teen \| adult` | Zod + content filters on AI *and* authored text |
-| **Choice slots** | Which choice *roles* exist (`accept`, `decline`, `resolve_puzzle`, …) and which consequence *kinds* each may trigger | Blueprint maps slot → allowed effect types |
+| Category          | Examples (illustrative)                                                                                              | Enforced by                                                                           |
+| ----------------- | -------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- |
+| **Quest type**    | `fetch`, `rescue`, `explore`, `escort`, `regional_offer`                                                             | Enum in schema; validator rejects unknown type                                        |
+| **Direction**     | Premise, tone, region, target NPC/faction, success definition                                                        | Blueprint text + `WorldDNA` alignment                                                 |
+| **Rules**         | Max steps, time/turn limits, fail conditions, re-offer policy, PvP/combat allowed                                    | Blueprint rules object; playtester checks                                             |
+| **Criteria**      | Required flags to start; completion flag/goal; optional optional objectives                                          | `successCriteria` / `failCriteria` in blueprint                                       |
+| **Reward bounds** | `xpMin`/`xpMax`, `goldMin`/`goldMax`, `allowedRewardIds[]`, `rewardTier` cap                                         | Consequence Engine **clamps**; validator rejects out-of-range consequence definitions |
+| **Safety**        | `safetyMode: teen \| adult`                                                                                          | Zod + content filters on AI _and_ authored text                                       |
+| **Choice slots**  | Which choice _roles_ exist (`accept`, `decline`, `resolve_puzzle`, …) and which consequence _kinds_ each may trigger | Blueprint maps slot → allowed effect types                                            |
 
 **Immutable means:** Even if the model outputs “grant 5000 XP,” the runtime ignores or clamps to `xpMax` and logs `ai.rejected` / `consequence.clamped` on `DebugEvent`.
 
@@ -130,7 +130,7 @@ Not allowed (fits README **AI may not do**):
 - Set flags or goals directly on the ledger
 - Bypass `safetyMode`
 
-**“Things in between shift”** = Layer 3: different dialogue, encounter *description*, order of optional validated beats, Director-selected variant from pools—not different win conditions or reward tables.
+**“Things in between shift”** = Layer 3: different dialogue, encounter _description_, order of optional validated beats, Director-selected variant from pools—not different win conditions or reward tables.
 
 ---
 
@@ -176,8 +176,15 @@ AI never calls this path directly—it only triggers **player choices** that lea
   "questId": "quest_mosswood_errand",
   "questType": "fetch",
   "direction": "Recover courier satchel; tone heroic; region mosswood",
-  "rewardBounds": { "xpMin": 50, "xpMax": 80, "allowedRewardIds": ["item_satchel", "rep_mosswood_small"] },
-  "successCriteria": { "requiredFlags": ["found_satchel"], "completeGoalId": "goal_mosswood_errand" },
+  "rewardBounds": {
+    "xpMin": 50,
+    "xpMax": 80,
+    "allowedRewardIds": ["item_satchel", "rep_mosswood_small"]
+  },
+  "successCriteria": {
+    "requiredFlags": ["found_satchel"],
+    "completeGoalId": "goal_mosswood_errand"
+  },
   "rules": { "maxTurnsInQuest": 40, "allowReofferAfterDecline": true }
 }
 ```
@@ -190,14 +197,14 @@ AI never calls this path directly—it only triggers **player choices** that lea
 
 ### How this maps to agents
 
-| Agent | Layer | Role |
-| --- | --- | --- |
-| **You (author)** | 1 | Write `QuestBlueprint` + approve graphs |
-| **QuestArchitectAgent** (future) | 2 | Draft graph inside blueprint; no publish without approval |
-| **AI Director** | 3 | Per-run flavor inside published graph + variant pools |
-| **NPC Reaction Agent** | 3 | Lines bounded by tone/safety/beat |
-| **Consequence Engine** | — | Sole applier of rewards/flags/goals |
-| **Playtester / Health** | — | Verify blueprint criteria achievable; rewards within bounds |
+| Agent                            | Layer | Role                                                        |
+| -------------------------------- | ----- | ----------------------------------------------------------- |
+| **You (author)**                 | 1     | Write `QuestBlueprint` + approve graphs                     |
+| **QuestArchitectAgent** (future) | 2     | Draft graph inside blueprint; no publish without approval   |
+| **AI Director**                  | 3     | Per-run flavor inside published graph + variant pools       |
+| **NPC Reaction Agent**           | 3     | Lines bounded by tone/safety/beat                           |
+| **Consequence Engine**           | —     | Sole applier of rewards/flags/goals                         |
+| **Playtester / Health**          | —     | Verify blueprint criteria achievable; rewards within bounds |
 
 ---
 
@@ -247,13 +254,13 @@ type RewardBounds = {
 
 ### Status
 
-| Field | Value |
-| --- | --- |
-| **Name** | Quest generator (`generateQuest` / `QuestArchitectAgent`) |
-| **Status** | Future — brainstorm captured, **not implemented** |
-| **Confidence** | High alignment with platform; medium–high feasibility after foundation |
-| **Blocked until** | Phase 0 schemas complete, text runtime (Phase 1), AI Gateway + Director (Phase 2), instances (Phase 3), `validateWorldDefinition`, World Health / Playtester |
-| **Primary dependencies** | `PlayerChoice`, `StoryBeat`, `Consequence`, `WorldDefinition`, `WorldDNA`, `TemporaryInstance`, AI Gateway, cross-file validator, optional Creator Cockpit |
+| Field                    | Value                                                                                                                                                        |
+| ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Name**                 | Quest generator (`generateQuest` / `QuestArchitectAgent`)                                                                                                    |
+| **Status**               | Future — brainstorm captured, **not implemented**                                                                                                            |
+| **Confidence**           | High alignment with platform; medium–high feasibility after foundation                                                                                       |
+| **Blocked until**        | Phase 0 schemas complete, text runtime (Phase 1), AI Gateway + Director (Phase 2), instances (Phase 3), `validateWorldDefinition`, World Health / Playtester |
+| **Primary dependencies** | `PlayerChoice`, `StoryBeat`, `Consequence`, `WorldDefinition`, `WorldDNA`, `TemporaryInstance`, AI Gateway, cross-file validator, optional Creator Cockpit   |
 
 ### One-line summary
 
@@ -298,15 +305,15 @@ This extends the **[regional quest reference scenario](../README.md#reference-sc
 
 ### Relation to overall project
 
-| Project pillar | How quest generator uses it |
-| --- | --- |
-| Schema-first | Output must pass Zod + graph validators |
-| Text-first | Quest playable as text before any 2D/3D |
-| Stonepass | v1 manual proof; v2 showcase can include hand-authored regional quests; generator is **additive** |
-| AI Director | Runtime flavor on generated quests; optional critic during generation |
-| Consequence Engine | All state change still via validated consequences at play time |
-| World Health / Playtester | Reject or flag weak generated quests |
-| 2D / 3D later | Same quest data; visual layer subscribes to flags/beats |
+| Project pillar            | How quest generator uses it                                                                       |
+| ------------------------- | ------------------------------------------------------------------------------------------------- |
+| Schema-first              | Output must pass Zod + graph validators                                                           |
+| Text-first                | Quest playable as text before any 2D/3D                                                           |
+| Stonepass                 | v1 manual proof; v2 showcase can include hand-authored regional quests; generator is **additive** |
+| AI Director               | Runtime flavor on generated quests; optional critic during generation                             |
+| Consequence Engine        | All state change still via validated consequences at play time                                    |
+| World Health / Playtester | Reject or flag weak generated quests                                                              |
+| 2D / 3D later             | Same quest data; visual layer subscribes to flags/beats                                           |
 
 **Stonepass showcase alignment:** A strong demo can mix **authored** flagship chains (ogre → cave → dragon) with **one generated regional quest** to prove the generator—only after validators and runtime are stable.
 
@@ -332,15 +339,15 @@ Quest generator = AI-authored DRAFT of structured game logic
 
 The generator should be able to produce packages matching this template (see README for full narrative).
 
-| Step | Structure |
-| --- | --- |
-| Enter region | Location + trigger flag → select offer beat |
-| Offer beat | `StoryBeat` + accept/decline `PlayerChoice`s |
-| Accept | `Consequence` → `goal_*`, `quest_*_active` flags |
-| Decline | `Consequence` → `quest_*_declined`, optional re-offer rules |
+| Step           | Structure                                                                                             |
+| -------------- | ----------------------------------------------------------------------------------------------------- |
+| Enter region   | Location + trigger flag → select offer beat                                                           |
+| Offer beat     | `StoryBeat` + accept/decline `PlayerChoice`s                                                          |
+| Accept         | `Consequence` → `goal_*`, `quest_*_active` flags                                                      |
+| Decline        | `Consequence` → `quest_*_declined`, optional re-offer rules                                           |
 | Mini-adventure | **Option A:** `TemporaryInstance` with rooms/encounters **or** **Option B:** flag-gated beat subgraph |
-| Complete | `Consequence` → complete goal, cleanup flags, ledger events |
-| Share (later) | Snapshot / fork with version lineage (Phase 6) |
+| Complete       | `Consequence` → complete goal, cleanup flags, ledger events                                           |
+| Share (later)  | Snapshot / fork with version lineage (Phase 6)                                                        |
 
 **Illustrative IDs (Mosswood-style):**
 
@@ -467,12 +474,12 @@ type GenerateQuestResult =
 
 ### AI roles: QuestArchitect vs Director
 
-| Agent / function | When | May do | May not do |
-| --- | --- | --- | --- |
+| Agent / function                     | When                      | May do                                                                     | May not do                                                               |
+| ------------------------------------ | ------------------------- | -------------------------------------------------------------------------- | ------------------------------------------------------------------------ |
 | **QuestArchitectAgent** (generation) | Create / regenerate draft | Propose beats, `PlayerChoice`s, consequences, instance rooms, titles, copy | Write to live `WorldSession`; bypass schemas; publish without validation |
-| **AI Director** (play) | During active quest | NPC reactions, hints, recap, suggest next beat **within validated graph** | Mutate ledger; invent new choices not in published definition |
-| **PlaytesterAgent** (quality) | Post-generation | Report broken paths, weak choices, missing goals | Auto-approve quest |
-| **CriticAgent** (optional) | Post-generation | Natural-language quality summary | Override deterministic failures |
+| **AI Director** (play)               | During active quest       | NPC reactions, hints, recap, suggest next beat **within validated graph**  | Mutate ledger; invent new choices not in published definition            |
+| **PlaytesterAgent** (quality)        | Post-generation           | Report broken paths, weak choices, missing goals                           | Auto-approve quest                                                       |
+| **CriticAgent** (optional)           | Post-generation           | Natural-language quality summary                                           | Override deterministic failures                                          |
 
 **“Heavily rely on PlayerChoice”** means: generation prompts and `QuestDraft` schema require a **minimum choice count** per beat and explicit `consequenceId` for every choice; validators fail drafts that are narrative-only.
 
@@ -482,15 +489,15 @@ type GenerateQuestResult =
 
 ### Validation pipeline (required before merge)
 
-| Stage | Checks |
-| --- | --- |
-| 1. Per-object Zod | Each `StoryBeat`, `PlayerChoice`, `Consequence`, `TemporaryInstance` parses |
-| 2. Quest draft graph | All `consequenceId` references resolve; `possibleConsequences` align; duplicate IDs rejected |
-| 3. World merge | Draft merged into copy of `WorldDefinition` → `validateWorldDefinition` on full world |
-| 4. Reachability | Offer beat reachable from `startingBeatId` or region entry flags; ending or return-to-main path exists |
-| 5. Health score | Threshold for auto-reject vs “needs review” (tune later) |
-| 6. Playtester | Simulate paths; flag no-op choices, missing goals, dead ends |
-| 7. Safety | `safetyMode` content rules (teen/adult) on generated text fields |
+| Stage                | Checks                                                                                                 |
+| -------------------- | ------------------------------------------------------------------------------------------------------ |
+| 1. Per-object Zod    | Each `StoryBeat`, `PlayerChoice`, `Consequence`, `TemporaryInstance` parses                            |
+| 2. Quest draft graph | All `consequenceId` references resolve; `possibleConsequences` align; duplicate IDs rejected           |
+| 3. World merge       | Draft merged into copy of `WorldDefinition` → `validateWorldDefinition` on full world                  |
+| 4. Reachability      | Offer beat reachable from `startingBeatId` or region entry flags; ending or return-to-main path exists |
+| 5. Health score      | Threshold for auto-reject vs “needs review” (tune later)                                               |
+| 6. Playtester        | Simulate paths; flag no-op choices, missing goals, dead ends                                           |
+| 7. Safety            | `safetyMode` content rules (teen/adult) on generated text fields                                       |
 
 **Fallback behavior:**
 
@@ -504,19 +511,19 @@ type GenerateQuestResult =
 
 Do **not** skip gates. Approximate mapping to README roadmap / step tracker:
 
-| Order | Prerequisite | Enables |
-| --- | --- | --- |
-| 1 | W1-S4–S10+ schemas (`Consequence`, `WorldDefinition`, ledger, session) | Valid quest data shape |
-| 2 | W1-S14 `validateWorldDefinition` | Graph integrity |
-| 3 | W1-S15 Stonepass JSON (manual) | Reference templates for prompts |
-| 4 | Phase 1 text runtime | Play generated quest after merge |
-| 5 | Phase 2 AI Gateway + Director + NPC | Play-time flavor + generation agent infra |
-| 6 | Phase 3 temporary instances | Instance-shaped mini-adventures |
-| 7 | Phase 5 prompt-to-world / WorldArchitect | Shared generation pipeline patterns |
-| 8 | Phase 7 playtester + health | Automated quality gate |
-| 9 | Phase 6 share/fork | Share generated quest runs |
-| 10 | Phase 9 Creator Cockpit | Preview, approve, regenerate, rollback |
-| 11 | Phase 8+ 2D | Visual quest markers / region enter (same triggers) |
+| Order | Prerequisite                                                           | Enables                                             |
+| ----- | ---------------------------------------------------------------------- | --------------------------------------------------- |
+| 1     | W1-S4–S10+ schemas (`Consequence`, `WorldDefinition`, ledger, session) | Valid quest data shape                              |
+| 2     | W1-S14 `validateWorldDefinition`                                       | Graph integrity                                     |
+| 3     | W1-S15 Stonepass JSON (manual)                                         | Reference templates for prompts                     |
+| 4     | Phase 1 text runtime                                                   | Play generated quest after merge                    |
+| 5     | Phase 2 AI Gateway + Director + NPC                                    | Play-time flavor + generation agent infra           |
+| 6     | Phase 3 temporary instances                                            | Instance-shaped mini-adventures                     |
+| 7     | Phase 5 prompt-to-world / WorldArchitect                               | Shared generation pipeline patterns                 |
+| 8     | Phase 7 playtester + health                                            | Automated quality gate                              |
+| 9     | Phase 6 share/fork                                                     | Share generated quest runs                          |
+| 10    | Phase 9 Creator Cockpit                                                | Preview, approve, regenerate, rollback              |
+| 11    | Phase 8+ 2D                                                            | Visual quest markers / region enter (same triggers) |
 
 **Step-tracker items (CSV rows W8-S9–S12, added 2026-05-28):**
 
@@ -524,7 +531,7 @@ Do **not** skip gates. Approximate mapping to README roadmap / step tracker:
 - W8-S10 — `validateQuestDraft.ts`
 - W8-S11 — `generateQuest()` orchestration + QuestArchitectAgent + tests
 - W8-S12 — Merge QuestDraft into WorldDefinition + creator preview
-- Creator UI (W12-S*): quest preview panel + approve merge
+- Creator UI (W12-S\*): quest preview panel + approve merge
 - One Stonepass showcase quest slot filled via generator (dogfood)
 
 ---
@@ -571,17 +578,26 @@ Illustrative only—IDs and consequence bodies must match real `Consequence` sch
       "unlockGoals": ["goal_mosswood_errand"]
     }
   ],
-  "temporaryInstances": [{
-    "id": "instance_mosswood_trail",
-    "type": "dungeon",
-    "title": "Mosswood Trail",
-    "entranceText": "The mosswood path opens before you.",
-    "requiredEntryFlags": ["quest_mosswood_active"],
-    "completionCondition": "found_satchel",
-    "completionConsequenceId": "consequence_mosswood_complete",
-    "cleanupBehavior": "seal",
-    "rooms": [{ "id": "room_trail_start", "title": "Trail Head", "description": "A narrow path.", "connectedRoomIds": [] }]
-  }]
+  "temporaryInstances": [
+    {
+      "id": "instance_mosswood_trail",
+      "type": "dungeon",
+      "title": "Mosswood Trail",
+      "entranceText": "The mosswood path opens before you.",
+      "requiredEntryFlags": ["quest_mosswood_active"],
+      "completionCondition": "found_satchel",
+      "completionConsequenceId": "consequence_mosswood_complete",
+      "cleanupBehavior": "seal",
+      "rooms": [
+        {
+          "id": "room_trail_start",
+          "title": "Trail Head",
+          "description": "A narrow path.",
+          "connectedRoomIds": []
+        }
+      ]
+    }
+  ]
 }
 ```
 
@@ -598,15 +614,15 @@ Illustrative only—IDs and consequence bodies must match real `Consequence` sch
 
 ### Risks and mitigations
 
-| Risk | Mitigation |
-| --- | --- |
-| Broken graphs (orphan `consequenceId`) | `validateQuestDraft` + `validateWorldDefinition` + path runner |
-| Generic / boring quests | Templates per genre; health “consequence quality”; human preview |
-| AI hallucinates invalid fields | Strict structured output; Zod; retry; template fallback |
-| Director contradicts published graph | Runtime only offers validated choices; Director text-only for reactions |
-| Scope creep (full campaign generator) | MVP = **single regional mini-arc** per `generateQuest` call |
-| Teen safety violations | `safetyMode` in prompt + post-filter + blocked terms list (see README) |
-| Performance / cost | Cache drafts; FakeProvider in CI; rate limits in Gateway |
+| Risk                                   | Mitigation                                                              |
+| -------------------------------------- | ----------------------------------------------------------------------- |
+| Broken graphs (orphan `consequenceId`) | `validateQuestDraft` + `validateWorldDefinition` + path runner          |
+| Generic / boring quests                | Templates per genre; health “consequence quality”; human preview        |
+| AI hallucinates invalid fields         | Strict structured output; Zod; retry; template fallback                 |
+| Director contradicts published graph   | Runtime only offers validated choices; Director text-only for reactions |
+| Scope creep (full campaign generator)  | MVP = **single regional mini-arc** per `generateQuest` call             |
+| Teen safety violations                 | `safetyMode` in prompt + post-filter + blocked terms list (see README)  |
+| Performance / cost                     | Cache drafts; FakeProvider in CI; rate limits in Gateway                |
 
 ---
 
@@ -640,13 +656,13 @@ Treat quest generator v1 as done when:
 
 ### Testing strategy (when built)
 
-| Layer | Tests |
-| --- | --- |
-| Unit | `validateQuestDraft`, schema edge cases, ID uniqueness |
-| Fixture | Golden valid/invalid quest JSON files in `packages/content/examples/` or `tests/fixtures/quests/` |
-| Integration | Merge into world → run path runner → complete quest |
-| AI | FakeProvider valid/invalid structured output; no live API required in CI |
-| E2E (later) | Playwright: preview quest in browser, approve, play one path |
+| Layer       | Tests                                                                                             |
+| ----------- | ------------------------------------------------------------------------------------------------- |
+| Unit        | `validateQuestDraft`, schema edge cases, ID uniqueness                                            |
+| Fixture     | Golden valid/invalid quest JSON files in `packages/content/examples/` or `tests/fixtures/quests/` |
+| Integration | Merge into world → run path runner → complete quest                                               |
+| AI          | FakeProvider valid/invalid structured output; no live API required in CI                          |
+| E2E (later) | Playwright: preview quest in browser, approve, play one path                                      |
 
 ---
 
@@ -669,16 +685,27 @@ When brainstorming a new feature, copy this template:
 ## <Feature name>
 
 ### Status
+
 ### One-line summary
+
 ### Vision
+
 ### Product goals / Non-goals
+
 ### Relation to overall project
+
 ### Architecture (proposed)
+
 ### API / data contract sketch
+
 ### Validation & safety
+
 ### Implementation phases
+
 ### Risks & open questions
+
 ### Definition of done
+
 ### References
 ```
 

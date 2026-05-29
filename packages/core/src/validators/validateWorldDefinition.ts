@@ -1,3 +1,4 @@
+import { isExemptFlag } from "../ledger/flagLifecycle.js";
 import type { Consequence } from "../schemas/consequence.js";
 import type { StoryBeat } from "../schemas/storyBeat.js";
 import { SUPPORTED_SCHEMA_VERSIONS } from "../schemas/schemaVersion.js";
@@ -8,10 +9,6 @@ export type WorldValidationResult = {
   ok: boolean;
   errors: string[];
 };
-
-function isExemptFlag(flag: string): boolean {
-  return flag.startsWith("system_") || flag.startsWith("external_");
-}
 
 function applyConsequenceFlags(flags: Set<string>, consequence: Consequence): Set<string> {
   const next = new Set(flags);
@@ -33,11 +30,7 @@ function beatAccessible(beat: StoryBeat, flags: Set<string>): boolean {
   );
 }
 
-function choiceAccessible(
-  beat: StoryBeat,
-  choiceIndex: number,
-  flags: Set<string>,
-): boolean {
+function choiceAccessible(beat: StoryBeat, choiceIndex: number, flags: Set<string>): boolean {
   const choice = beat.availableChoices[choiceIndex];
   if (!choice) return false;
   const required = choice.requiredFlags ?? [];
@@ -117,9 +110,7 @@ export function validateWorldDefinition(world: WorldDefinition): WorldValidation
       choiceIdsInBeat.add(choice.id);
 
       if (choiceIds.has(choice.id)) {
-        errors.push(
-          `duplicate_id: choice id "${choice.id}" is duplicated across story beats`,
-        );
+        errors.push(`duplicate_id: choice id "${choice.id}" is duplicated across story beats`);
       }
       choiceIds.add(choice.id);
     }

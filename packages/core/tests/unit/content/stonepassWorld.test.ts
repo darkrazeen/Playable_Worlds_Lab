@@ -11,10 +11,7 @@ import {
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const contentRoot = join(__dirname, "../../../../content");
-const stonepassWorldPath = join(
-  contentRoot,
-  "worlds/stonepass/stonepass-valley.world.json",
-);
+const stonepassWorldPath = join(contentRoot, "worlds/stonepass/stonepass-valley.world.json");
 const invalidExamplePath = join(
   contentRoot,
   "examples/world-definition-stonepass-invalid.example.json",

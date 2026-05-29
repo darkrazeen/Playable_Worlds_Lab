@@ -17,11 +17,11 @@
 
 ## Feature index entry
 
-| Feature | Status | Target phase (approx.) | Last updated |
-| --- | --- | --- | --- |
-| Contribution submission + validation | Brainstorm / proposed | Phase 7+ (after content libraries W7-S7) | 2026-05-28 |
-| Review + approval workflow | Brainstorm / proposed | Phase 7–9 | 2026-05-28 |
-| Library versioning + provenance | Brainstorm / proposed | Phase 6–9 | 2026-05-28 |
+| Feature                              | Status                | Target phase (approx.)                   | Last updated |
+| ------------------------------------ | --------------------- | ---------------------------------------- | ------------ |
+| Contribution submission + validation | Brainstorm / proposed | Phase 7+ (after content libraries W7-S7) | 2026-05-28   |
+| Review + approval workflow           | Brainstorm / proposed | Phase 7–9                                | 2026-05-28   |
+| Library versioning + provenance      | Brainstorm / proposed | Phase 6–9                                | 2026-05-28   |
 
 ---
 
@@ -37,21 +37,21 @@ A contributor submits a library template draft (optionally AI-assisted by a **cu
 - **Validation infrastructure already exists.** `validateLibraryEntry` (W7-S8) + safety filters mean submissions can be machine-checked before any human looks.
 - **Curated, not open.** Fits the README boundary precisely: reviewed contributions, no marketplace/monetization/discovery.
 - **Versioning + provenance reuse Phase 6.** World versioning patterns extend to library versions and attribution.
-- **Curator agent reuses the agent pattern.** It *drafts*; validators + humans gate — same mantra.
+- **Curator agent reuses the agent pattern.** It _drafts_; validators + humans gate — same mantra.
 
 ---
 
 ## How this fits the existing architecture
 
-| Existing piece | Role in this feature |
-| --- | --- |
-| Content libraries (W7-S7–S11) | The target of contributions |
-| `validateLibraryEntry` (W7-S8) | First automated gate on every submission |
-| Safety filters / `safetyMode` | Content safety gate |
-| `AIResult` | Wraps curator-agent draft output |
-| World/library versioning (Phase 6) | `libraryVersion` bump + provenance |
-| Creator Cockpit (W12) | Submission + review UI |
-| Health/playtester patterns | Optional quality scoring for entries |
+| Existing piece                     | Role in this feature                     |
+| ---------------------------------- | ---------------------------------------- |
+| Content libraries (W7-S7–S11)      | The target of contributions              |
+| `validateLibraryEntry` (W7-S8)     | First automated gate on every submission |
+| Safety filters / `safetyMode`      | Content safety gate                      |
+| `AIResult`                         | Wraps curator-agent draft output         |
+| World/library versioning (Phase 6) | `libraryVersion` bump + provenance       |
+| Creator Cockpit (W12)              | Submission + review UI                   |
+| Health/playtester patterns         | Optional quality scoring for entries     |
 
 **Core mantra unchanged:** AI proposes → validators check → engine executes.
 
@@ -79,7 +79,7 @@ Rejected drafts return structured reasons; nothing reaches the live library with
 export const ContributionSchema = z.object({
   contributionId: z.string(),
   entryType: z.enum(["creature", "npc", "encounter", "puzzle", "item"]),
-  entry: z.unknown(),                    // validated against the matching template schema
+  entry: z.unknown(), // validated against the matching template schema
   submittedBy: z.string(),
   source: z.enum(["human", "curator_agent", "extracted"]),
   status: z.enum(["draft", "validated", "in_review", "approved", "rejected"]),
@@ -91,7 +91,7 @@ export const ContributionSchema = z.object({
 // Library version + provenance
 export const LibraryEntryProvenanceSchema = z.object({
   entryId: z.string(),
-  libraryVersion: z.string(),            // separate from schemaVersion
+  libraryVersion: z.string(), // separate from schemaVersion
   contributionId: z.string(),
   approvedBy: z.string(),
   approvedAt: z.string(),
@@ -112,12 +112,12 @@ export const LibraryEntryProvenanceSchema = z.object({
 
 ## AI proposes / validators check / engine executes
 
-| Step | Who | Constraint |
-| --- | --- | --- |
-| Draft entry | Curator agent (optional) | `AIResult`; must validate; never auto-published |
-| Validate | `validateLibraryEntry` + safety | Blocking; structured errors |
-| Approve | Human reviewer | Mandatory before publish |
-| Publish | Engine | Version bump + provenance |
+| Step        | Who                             | Constraint                                      |
+| ----------- | ------------------------------- | ----------------------------------------------- |
+| Draft entry | Curator agent (optional)        | `AIResult`; must validate; never auto-published |
+| Validate    | `validateLibraryEntry` + safety | Blocking; structured errors                     |
+| Approve     | Human reviewer                  | Mandatory before publish                        |
+| Publish     | Engine                          | Version bump + provenance                       |
 
 ---
 
@@ -132,26 +132,26 @@ export const LibraryEntryProvenanceSchema = z.object({
 
 ## Phase map / dependency order
 
-| Order | Prerequisite | Enables |
-| --- | --- | --- |
-| 1 | W7-S7 library schemas | Entry types to contribute |
-| 2 | W7-S8 validateLibraryEntry | Automated gate |
-| 3 | Phase 6 versioning | Library version + provenance |
-| 4 | W6 health / W11 playtester | Optional quality scoring |
-| 5 | W12 Creator Cockpit | Submission + review UI |
+| Order | Prerequisite               | Enables                      |
+| ----- | -------------------------- | ---------------------------- |
+| 1     | W7-S7 library schemas      | Entry types to contribute    |
+| 2     | W7-S8 validateLibraryEntry | Automated gate               |
+| 3     | Phase 6 versioning         | Library version + provenance |
+| 4     | W6 health / W11 playtester | Optional quality scoring     |
+| 5     | W12 Creator Cockpit        | Submission + review UI       |
 
 ---
 
 ## Proposed step-tracker additions (NOT approved — for human review)
 
-| Step ID (suggested) | Name | Goal |
-| --- | --- | --- |
-| CC-S1 | Contribution schema + status lifecycle | Submission record |
-| CC-S2 | Automated validate + safety gate | Block invalid/unsafe drafts |
-| CC-S3 | Curator agent draft mode | AI-assisted authoring (optional) |
-| CC-S4 | Review workflow + approve/reject | Human gate |
-| CC-S5 | Library versioning + provenance | Traceable publish |
-| CC-S6 | Contribution + review UI | Cockpit integration |
+| Step ID (suggested) | Name                                   | Goal                             |
+| ------------------- | -------------------------------------- | -------------------------------- |
+| CC-S1               | Contribution schema + status lifecycle | Submission record                |
+| CC-S2               | Automated validate + safety gate       | Block invalid/unsafe drafts      |
+| CC-S3               | Curator agent draft mode               | AI-assisted authoring (optional) |
+| CC-S4               | Review workflow + approve/reject       | Human gate                       |
+| CC-S5               | Library versioning + provenance        | Traceable publish                |
+| CC-S6               | Contribution + review UI               | Cockpit integration              |
 
 ---
 
@@ -168,12 +168,12 @@ export const LibraryEntryProvenanceSchema = z.object({
 
 ## Risks & mitigations
 
-| Risk | Mitigation |
-| --- | --- |
-| Unsafe/off-tone UGC | Two gates (auto + human) + safetyMode filters |
+| Risk                     | Mitigation                                        |
+| ------------------------ | ------------------------------------------------- |
+| Unsafe/off-tone UGC      | Two gates (auto + human) + safetyMode filters     |
 | Drift toward marketplace | Hard boundary: curated, no monetization/discovery |
-| Library bloat / dupes | Tagging + dedup checks + review |
-| Provenance gaps | Mandatory submitter/reviewer/version on publish |
+| Library bloat / dupes    | Tagging + dedup checks + review                   |
+| Provenance gaps          | Mandatory submitter/reviewer/version on publish   |
 
 ---
 

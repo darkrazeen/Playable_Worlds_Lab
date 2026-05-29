@@ -6,7 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint app --max-warnings 0",
+    "lint": "eslint app features tests --max-warnings 0",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {

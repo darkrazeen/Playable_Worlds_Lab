@@ -2,13 +2,7 @@ import { z } from "zod";
 
 import { SafetyModeSchema } from "./safetyMode.js";
 
-export const WorldGenreSchema = z.enum([
-  "fantasy",
-  "sci_fi",
-  "mystery",
-  "cozy",
-  "survival",
-]);
+export const WorldGenreSchema = z.enum(["fantasy", "sci_fi", "mystery", "cozy", "survival"]);
 
 export const WorldToneSchema = z.enum(["cozy", "heroic", "dark", "funny", "mysterious"]);
 

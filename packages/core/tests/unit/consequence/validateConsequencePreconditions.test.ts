@@ -150,11 +150,7 @@ describe("validateConsequencePreconditions", () => {
       world,
     );
 
-    const result = validateConsequencePreconditions(
-      world,
-      session,
-      world.consequences[0]!,
-    );
+    const result = validateConsequencePreconditions(world, session, world.consequences[0]!);
 
     expect(result.ok).toBe(false);
     expect(result.errors.some((error) => error.includes("flag_required"))).toBe(true);
@@ -185,11 +181,7 @@ describe("validateConsequencePreconditions", () => {
     );
     session.ledger.activeFlags = ["flag_blocked"];
 
-    const result = validateConsequencePreconditions(
-      world,
-      session,
-      world.consequences[0]!,
-    );
+    const result = validateConsequencePreconditions(world, session, world.consequences[0]!);
 
     expect(result.ok).toBe(false);
     expect(result.errors.some((error) => error.includes("flag_blocked"))).toBe(true);
@@ -219,11 +211,7 @@ describe("validateConsequencePreconditions", () => {
       world,
     );
 
-    const result = validateConsequencePreconditions(
-      world,
-      session,
-      world.consequences[0]!,
-    );
+    const result = validateConsequencePreconditions(world, session, world.consequences[0]!);
 
     expect(result.ok).toBe(false);
     expect(result.errors.some((error) => error.includes("npc_missing"))).toBe(true);
@@ -265,7 +253,11 @@ describe("validateConsequencePreconditions", () => {
 describe("applyConsequenceEngine precondition gate", () => {
   it("rejects fake consequence ids before mutating session", () => {
     const world = minimalWorld([
-      testConsequence({ id: "consequence_open", summary: "Open.", unlockGoals: ["goal_reach_valley"] }),
+      testConsequence({
+        id: "consequence_open",
+        summary: "Open.",
+        unlockGoals: ["goal_reach_valley"],
+      }),
     ]);
     const session = createWorldSession(
       {
@@ -311,9 +303,7 @@ describe("applyConsequenceEngine precondition gate", () => {
     const result = applyConsequenceEngine(world, session, "consequence_gated");
 
     expect(result.ok).toBe(false);
-    expect(result.errors.some((error) => error.includes("consequence-precondition"))).toBe(
-      true,
-    );
+    expect(result.errors.some((error) => error.includes("consequence-precondition"))).toBe(true);
     expect(session.turnNumber).toBe(0);
   });
 });

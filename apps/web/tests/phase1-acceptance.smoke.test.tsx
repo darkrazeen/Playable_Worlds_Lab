@@ -9,10 +9,7 @@ import { loadWorld, parseAndValidateWorldDefinition } from "@playable-worlds/cor
 
 import { STONEPASS_WORLD_ID } from "../features/world-play/constants";
 import { WorldPlayScreen } from "../features/world-play/WorldPlayScreen";
-import {
-  applyPlayChoice,
-  createInitialPlayState,
-} from "../features/world-play/worldPlayRuntime";
+import { applyPlayChoice, createInitialPlayState } from "../features/world-play/worldPlayRuntime";
 
 afterEach(() => {
   cleanup();
@@ -49,10 +46,12 @@ describe("Phase 1 acceptance — browser play path", () => {
 
     fireEvent.click(screen.getByRole("button", { name: /Fight the ogre/i }));
 
+    expect(screen.getByRole("heading", { level: 1, name: "After the Landslide" })).toBeTruthy();
     expect(ledgerPanel.textContent).toMatch(/ogre_defeated/);
     expect(debugPanel.textContent).toMatch(/choice: fight_ogre/i);
     expect(debugPanel.textContent).toMatch(/consequence: consequence_fight_ogre/i);
     expect(screen.getByRole("status")).toBeTruthy();
+    expect(screen.queryByRole("button", { name: /Fight the ogre/i })).toBeNull();
   });
 
   it("returns traced session on applyPlayChoice failure for invalid choice id", () => {

@@ -1,6 +1,6 @@
 # Stonepass Spire — Aincrad-Style Floor Castle
 
-> **Living document** for retuning the Stonepass proof world into a **vertical castle of 100 floors** (inspired by *Sword Art Online*'s Aincrad) where each floor is its own validated `WorldDefinition` (zone), floors stack into a `RegionMap`-derived tower, and ascension is gated by clearing the floor below. Single-player, text-first, fleshed out one floor at a time on top of a complete 100-floor **skeleton**.
+> **Living document** for retuning the Stonepass proof world into a **vertical castle of 100 floors** (inspired by _Sword Art Online_'s Aincrad) where each floor is its own validated `WorldDefinition` (zone), floors stack into a `RegionMap`-derived tower, and ascension is gated by clearing the floor below. Single-player, text-first, fleshed out one floor at a time on top of a complete 100-floor **skeleton**.
 >
 > **Status:** Scheduled in step tracker — flagship rows added 2026-05-29 as `Not started`: **W5-S13** (Stonepass → Floor 1), **W8-S15** (SpireManifest), **W8-S16** (ascension edges), **W8-S17** (Floor 2 / Castle proven), **W9-S7** (climb persistence). Implement only when each step reaches `Next` with human approval; move to **Implemented** as steps land.
 > **Last updated:** 2026-05-29
@@ -20,14 +20,14 @@
 
 ## Feature index entry
 
-| Feature | Status | Target phase (approx.) | Last updated |
-| --- | --- | --- | --- |
-| Spire Manifest (100-floor skeleton registry) | Brainstorm / proposed | Phase 5 (with RegionMap) | 2026-05-28 |
-| Floor = WorldDefinition (zone) anatomy | Brainstorm / proposed | Phase 3 (single floor) / Phase 5 (multi) | 2026-05-28 |
-| Ascension gating (floor_N_cleared → edge) | Brainstorm / proposed | Phase 5 (RegionMap edges) | 2026-05-28 |
-| Boss raid as multi-phase instance (single-player) | Brainstorm / proposed | Phase 3 (instances) | 2026-05-28 |
-| Floor difficulty + gear band curve | Brainstorm / proposed | Phase 5 | 2026-05-28 |
-| Director-paced climb (recap, hints, variants) | Brainstorm / proposed | Phase 2+ (extends DirectorDecision) | 2026-05-28 |
+| Feature                                           | Status                | Target phase (approx.)                   | Last updated |
+| ------------------------------------------------- | --------------------- | ---------------------------------------- | ------------ |
+| Spire Manifest (100-floor skeleton registry)      | Brainstorm / proposed | Phase 5 (with RegionMap)                 | 2026-05-28   |
+| Floor = WorldDefinition (zone) anatomy            | Brainstorm / proposed | Phase 3 (single floor) / Phase 5 (multi) | 2026-05-28   |
+| Ascension gating (floor_N_cleared → edge)         | Brainstorm / proposed | Phase 5 (RegionMap edges)                | 2026-05-28   |
+| Boss raid as multi-phase instance (single-player) | Brainstorm / proposed | Phase 3 (instances)                      | 2026-05-28   |
+| Floor difficulty + gear band curve                | Brainstorm / proposed | Phase 5                                  | 2026-05-28   |
+| Director-paced climb (recap, hints, variants)     | Brainstorm / proposed | Phase 2+ (extends DirectorDecision)      | 2026-05-28   |
 
 ---
 
@@ -41,7 +41,7 @@
 
 ### The fantasy
 
-A lone climber ascends an ancient spire rising out of Stonepass Valley. Each floor is a sealed, themed world with its own monsters, labyrinth, and floor boss. You cannot skip ahead: the stairs to the next floor stay locked until you defeat the current floor's boss. Over the climb you grow stronger (skills, gear), the floors grow stranger and deadlier, and the Spire itself seems to notice you. This is the *Aincrad* loop — **progress as literal ascent** — minus VR, minus permadeath, minus multiplayer.
+A lone climber ascends an ancient spire rising out of Stonepass Valley. Each floor is a sealed, themed world with its own monsters, labyrinth, and floor boss. You cannot skip ahead: the stairs to the next floor stay locked until you defeat the current floor's boss. Over the climb you grow stronger (skills, gear), the floors grow stranger and deadlier, and the Spire itself seems to notice you. This is the _Aincrad_ loop — **progress as literal ascent** — minus VR, minus permadeath, minus multiplayer.
 
 ### What we are building
 
@@ -61,28 +61,28 @@ A lone climber ascends an ancient spire rising out of Stonepass Valley. Each flo
 
 ### The guiding constraint
 
-The implementation path does not change: **text-first → 2D → beyond.** The castle is a *content and composition* reframe on top of the existing engine, not a rewrite. Every new capability (region edges, gear tiers, progression, combat resolution) is an additive, validated extension that obeys the core mantra.
+The implementation path does not change: **text-first → 2D → beyond.** The castle is a _content and composition_ reframe on top of the existing engine, not a rewrite. Every new capability (region edges, gear tiers, progression, combat resolution) is an additive, validated extension that obeys the core mantra.
 
 ---
 
 ## Why this fits the project and plays to its strengths
 
-- **The engine's natural units already match Aincrad's natural units.** A floor *is* a `WorldDefinition`; a labyrinth *is* a `TemporaryInstance`; "floor cleared → stairs open" *is* a flag gating a region edge. Almost nothing is forced.
+- **The engine's natural units already match Aincrad's natural units.** A floor _is_ a `WorldDefinition`; a labyrinth _is_ a `TemporaryInstance`; "floor cleared → stairs open" _is_ a flag gating a region edge. Almost nothing is forced.
 - **The castle is just a vertical `RegionMap`.** The project already designed a region composer (lava → ocean → machine). A tower is the same graph with a **linear, upward, clear-gated topology**. We reuse, not reinvent.
 - **It is the cleanest possible single-player showcase.** Removing guilds/NPC-AI/multiplayer leaves exactly the deterministic, text-first, remembered-state core the engine is strongest at.
 - **Stonepass content is preserved, not discarded.** The legacy ogre → landslide → cave → dragon arc becomes **Floors 1–3** of the Spire (see [Floors 1–3 plan](#floors-13-early-climb-content-plan)).
-- **Incremental by construction.** The manifest lets the tower be complete in *structure* while floors are filled in over many phases as variability (libraries, generation) improves.
+- **Incremental by construction.** The manifest lets the tower be complete in _structure_ while floors are filled in over many phases as variability (libraries, generation) improves.
 - **Determinism survives.** Clears, drops, and progression are engine-owned ledger truth; the Director only proposes flavor/pacing.
 
 ---
 
 ## Product naming (human-approved 2026-05-29)
 
-| Use | Name |
-| --- | --- |
-| **Player-facing product / world title** | **Stonepass Spire** — Floor *N* (e.g. **Floor 1** at `/play` today) |
-| **Deprecated (do not use for new copy)** | "Stonepass Valley" as a separate game or world product |
-| **In-world geography (optional lore)** | *Stonepass* — the region at the foot of the tower (valley/hollow), not the name of the climb |
+| Use                                       | Name                                                                                          |
+| ----------------------------------------- | --------------------------------------------------------------------------------------------- |
+| **Player-facing product / world title**   | **Stonepass Spire** — Floor _N_ (e.g. **Floor 1** at `/play` today)                           |
+| **Deprecated (do not use for new copy)**  | "Stonepass Valley" as a separate game or world product                                        |
+| **In-world geography (optional lore)**    | _Stonepass_ — the region at the foot of the tower (valley/hollow), not the name of the climb  |
 | **Legacy engineering ids (until W5-S13)** | `world_stonepass_valley`, `stonepass-valley.world.json`, `packages/content/worlds/stonepass/` |
 
 Phase 1 browser play loads **Floor 1** content from the legacy file; formal multi-floor split and id rename land at **W5-S13** (Floor 1 reframe) and **W8** (`RegionMap`, `SpireManifest`).
@@ -93,11 +93,11 @@ Phase 1 browser play loads **Floor 1** content from the legacy file; formal mult
 
 The original single-world "Valley" arc is delivered across **the first three floors** as engine systems mature. This is the authoring target for the proof climb before the 100-floor manifest fills in.
 
-| Floor | Player fantasy | Legacy Valley arc | Primary systems |
-| --- | --- | --- | --- |
-| **Floor 1** | Gate at the tower's foot — prove you may climb | Ogre bridge, five choices, first consequences | Text runtime, beat flow (Phase 1 — **live now**) |
-| **Floor 2** | Deeper into the tower — the labyrinth opens | Landslide aftermath, hidden cave / dungeon instance | Temporary instances (Phase 3) |
-| **Floor 3** | First true floor boss — stairs unlock upward | Dragon (or multi-phase boss), `floor_03_cleared` | Tier A combat, boss instances (W5-S8–S13), ascension edges (W8) |
+| Floor       | Player fantasy                                 | Legacy Valley arc                                   | Primary systems                                                 |
+| ----------- | ---------------------------------------------- | --------------------------------------------------- | --------------------------------------------------------------- |
+| **Floor 1** | Gate at the tower's foot — prove you may climb | Ogre bridge, five choices, first consequences       | Text runtime, beat flow (Phase 1 — **live now**)                |
+| **Floor 2** | Deeper into the tower — the labyrinth opens    | Landslide aftermath, hidden cave / dungeon instance | Temporary instances (Phase 3)                                   |
+| **Floor 3** | First true floor boss — stairs unlock upward   | Dragon (or multi-phase boss), `floor_03_cleared`    | Tier A combat, boss instances (W5-S8–S13), ascension edges (W8) |
 
 **Until W8:** Floors 1–3 may share one `WorldDefinition` with narrative floor labels; `/play` is **Floor 1** today. **After W8:** separate floor worlds linked by vertical `RegionMap` and `SpireManifest`.
 
@@ -105,13 +105,13 @@ The original single-world "Valley" arc is delivered across **the first three flo
 
 ## The reframe: legacy Valley arc → Stonepass Spire
 
-| Before (deprecated product framing) | After (flagship) |
-| --- | --- |
-| "Stonepass Valley" as the game | **Stonepass Spire** — a 100-floor climb |
-| One small world (ogre bridge) | **Floor 1** at the tower's base (ogre gate) |
-| Landslide → hidden cave | **Floor 2** labyrinth (`TemporaryInstance`, type `dungeon`) |
-| Dragon stirs (ending) | **Floor 3** boss clear → `floor_03_cleared` → stairs to Floor 4+ |
-| "The end" | "Ascend the Spire" (`goal_ascend_spire`, macro arc) |
+| Before (deprecated product framing) | After (flagship)                                                 |
+| ----------------------------------- | ---------------------------------------------------------------- |
+| "Stonepass Valley" as the game      | **Stonepass Spire** — a 100-floor climb                          |
+| One small world (ogre bridge)       | **Floor 1** at the tower's base (ogre gate)                      |
+| Landslide → hidden cave             | **Floor 2** labyrinth (`TemporaryInstance`, type `dungeon`)      |
+| Dragon stirs (ending)               | **Floor 3** boss clear → `floor_03_cleared` → stairs to Floor 4+ |
+| "The end"                           | "Ascend the Spire" (`goal_ascend_spire`, macro arc)              |
 
 The current canonical `stonepass-valley.world.json` is **Floor 1** content (title: **Stonepass Spire — Floor 1**). Phase 1 proof work is not wasted — it is the first floor of the flagship.
 
@@ -119,20 +119,20 @@ The current canonical `stonepass-valley.world.json` is **Floor 1** content (titl
 
 ## Core mapping: Aincrad → contracts
 
-| Aincrad concept | Contract | Built today? |
-| --- | --- | --- |
-| The castle (Aincrad / Spire) | `RegionMap` (vertical, clear-gated) | ❌ future (region composer) |
-| A floor | `WorldDefinition` (zone) | ✅ |
-| Floor theme/biome | `WorldDNA` | ✅ |
-| Town / field / scene | `StoryBeat` + `PlayerChoice` | ✅ |
-| Labyrinth / dungeon | `TemporaryInstance` (type `dungeon`) + `rooms[]` | ✅ |
-| Floor boss raid (single-player) | multi-phase boss `TemporaryInstance` | ✅ (resolution logic = combat doc) |
-| "Floor cleared → stairs unlock" | `Consequence.addFlags:[floor_N_cleared]` gates region edge | ✅ flags / ❌ edge |
-| Gear / drops | flags + tiers ([items doc](./Item_and_Gear_Template_Library.md)) | ❌ future |
-| Skills / leveling / builds | bounded tiers + unlocks ([progression doc](./Player_Progression_and_Mastery.md)) | ❌ future |
-| Creatures / monsters | creature library entries | ❌ future (libraries) |
-| Difficulty / pacing / hints | `DirectorDecision` + `DifficultyProfile` | ❌ future (Director Phase 2) |
-| Combat resolution | EncounterResolver (Tier A) | ❌ **new — see combat doc** |
+| Aincrad concept                 | Contract                                                                         | Built today?                       |
+| ------------------------------- | -------------------------------------------------------------------------------- | ---------------------------------- |
+| The castle (Aincrad / Spire)    | `RegionMap` (vertical, clear-gated)                                              | ❌ future (region composer)        |
+| A floor                         | `WorldDefinition` (zone)                                                         | ✅                                 |
+| Floor theme/biome               | `WorldDNA`                                                                       | ✅                                 |
+| Town / field / scene            | `StoryBeat` + `PlayerChoice`                                                     | ✅                                 |
+| Labyrinth / dungeon             | `TemporaryInstance` (type `dungeon`) + `rooms[]`                                 | ✅                                 |
+| Floor boss raid (single-player) | multi-phase boss `TemporaryInstance`                                             | ✅ (resolution logic = combat doc) |
+| "Floor cleared → stairs unlock" | `Consequence.addFlags:[floor_N_cleared]` gates region edge                       | ✅ flags / ❌ edge                 |
+| Gear / drops                    | flags + tiers ([items doc](./Item_and_Gear_Template_Library.md))                 | ❌ future                          |
+| Skills / leveling / builds      | bounded tiers + unlocks ([progression doc](./Player_Progression_and_Mastery.md)) | ❌ future                          |
+| Creatures / monsters            | creature library entries                                                         | ❌ future (libraries)              |
+| Difficulty / pacing / hints     | `DirectorDecision` + `DifficultyProfile`                                         | ❌ future (Director Phase 2)       |
+| Combat resolution               | EncounterResolver (Tier A)                                                       | ❌ **new — see combat doc**        |
 
 ---
 
@@ -194,11 +194,11 @@ export const SpireFloorSchema = z.object({
   floor: z.number().int().min(1),
   theme: z.string().min(1),
   status: FloorStatusSchema,
-  worldDefinitionRef: NamedIdSchema.nullable(),   // null while not built
+  worldDefinitionRef: NamedIdSchema.nullable(), // null while not built
   bossId: NamedIdSchema.nullable(),
-  difficultyBand: z.number().int().min(1),         // pre-planned climb curve
+  difficultyBand: z.number().int().min(1), // pre-planned climb curve
   gearBand: z.number().int().min(1),
-  clearedFlag: FlagIdSchema,                        // floor_NN_cleared
+  clearedFlag: FlagIdSchema, // floor_NN_cleared
 });
 
 export const SpireManifestSchema = z.object({
@@ -299,7 +299,7 @@ Bands are **planning metadata + validation guards**, not stat math. The combat d
 
 ## AI Director role (within bounds)
 
-The tower gives the Director many *safe* knobs — all flavor/pacing/selection, never truth:
+The tower gives the Director many _safe_ knobs — all flavor/pacing/selection, never truth:
 
 - **Adaptive pacing:** struggling on a floor → raise `hintPolicy`, select a lower encounter-intensity variant from the allowed band. Never changes the boss or the drop.
 - **Floor recaps:** deterministic recap from the ledger on ascent ("Floor 7 cleared: parry mastered, dragon-touched gauntlets earned").
@@ -324,23 +324,23 @@ Combat/skills/gear are specified in [Combat_and_Encounter_Resolution.md](./Comba
 
 ## How this fits existing future features
 
-| Existing future feature | Role for the Spire |
-| --- | --- |
-| [Procedural_Region_and_Biome_Composer.md](./Procedural_Region_and_Biome_Composer.md) | The tower IS a vertical RegionMap; add linear/upward/clear-gated topology |
-| [Player_World_Generation_and_Content_Libraries.md](./Player_World_Generation_and_Content_Libraries.md) | Creature/encounter/gear/puzzle libraries fill floors past 2–3 |
-| [Combat_and_Encounter_Resolution.md](./Combat_and_Encounter_Resolution.md) | Combat, skills (Tier A), encounter resolution |
-| [Player_Progression_and_Mastery.md](./Player_Progression_and_Mastery.md) | Skill tiers, unlocks, the climb's mastery record |
-| [Item_and_Gear_Template_Library.md](./Item_and_Gear_Template_Library.md) | Gear tiers, boss drops, gear-gated boss entry |
-| [Dynamic_Difficulty_Director.md](./Dynamic_Difficulty_Director.md) | Director-paced climb, hints, variant selection |
-| [Quest_Generation.md](./Quest_Generation.md) | Optional per-floor side objectives |
-| [2D_Map_and_Node_Graph_Play_View.md](./2D_Map_and_Node_Graph_Play_View.md) | Floor selector + labyrinth map render over the same JSON |
-| [Story_Seed_Determinism_and_Variation_Explorer.md](./Story_Seed_Determinism_and_Variation_Explorer.md) | Explain run-to-run differences across the climb |
+| Existing future feature                                                                                | Role for the Spire                                                        |
+| ------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------- |
+| [Procedural_Region_and_Biome_Composer.md](./Procedural_Region_and_Biome_Composer.md)                   | The tower IS a vertical RegionMap; add linear/upward/clear-gated topology |
+| [Player_World_Generation_and_Content_Libraries.md](./Player_World_Generation_and_Content_Libraries.md) | Creature/encounter/gear/puzzle libraries fill floors past 2–3             |
+| [Combat_and_Encounter_Resolution.md](./Combat_and_Encounter_Resolution.md)                             | Combat, skills (Tier A), encounter resolution                             |
+| [Player_Progression_and_Mastery.md](./Player_Progression_and_Mastery.md)                               | Skill tiers, unlocks, the climb's mastery record                          |
+| [Item_and_Gear_Template_Library.md](./Item_and_Gear_Template_Library.md)                               | Gear tiers, boss drops, gear-gated boss entry                             |
+| [Dynamic_Difficulty_Director.md](./Dynamic_Difficulty_Director.md)                                     | Director-paced climb, hints, variant selection                            |
+| [Quest_Generation.md](./Quest_Generation.md)                                                           | Optional per-floor side objectives                                        |
+| [2D_Map_and_Node_Graph_Play_View.md](./2D_Map_and_Node_Graph_Play_View.md)                             | Floor selector + labyrinth map render over the same JSON                  |
+| [Story_Seed_Determinism_and_Variation_Explorer.md](./Story_Seed_Determinism_and_Variation_Explorer.md) | Explain run-to-run differences across the climb                           |
 
 ---
 
 ## Phased rollout plan
 
-Aligned to the existing roadmap; do **not** skip gates. The next *step* remains W2-S6.
+Aligned to the existing roadmap; do **not** skip gates. The next _step_ remains W2-S6.
 
 ```text
 NOW (Phase 1)      Finish W2-S6 text play + W2-S7 path tests on the EXISTING
@@ -377,16 +377,16 @@ Long tail          Author/generate Floors 3 → 100 into the pre-planned bands.
 
 ## New schemas / what's missing
 
-| Need | New / extends | Notes |
-| --- | --- | --- |
-| `SpireManifest` + `validateSpireManifest` | **New** | The 100-floor skeleton + frontier rules |
-| Vertical `RegionMap` topology | Extends region composer | Linear, upward, clear-gated edges |
-| `EncounterResolver` (Tier A) | **New** (combat doc) | Deterministic, discrete outcome bands |
-| Skill tiers + usage-count accrual | Extends `ProgressionLedger` | Bounded; stepping stone to Tier B |
-| Gear tiers + unlockable specials | Extends items library | Boss drops, gear-gated entry |
-| `WorldSession.currentFloor` / region ledger | Extends session | Tracks the climb; persists on save/load |
-| Boss/elite tagging on creatures/encounters | Extends libraries | `role: minion \| elite \| floor_boss` + `intensityTier` |
-| `schemaVersion` bump | **Reality check** | Region + skills + gear push past `0.2.0` → migrations become real |
+| Need                                        | New / extends               | Notes                                                             |
+| ------------------------------------------- | --------------------------- | ----------------------------------------------------------------- |
+| `SpireManifest` + `validateSpireManifest`   | **New**                     | The 100-floor skeleton + frontier rules                           |
+| Vertical `RegionMap` topology               | Extends region composer     | Linear, upward, clear-gated edges                                 |
+| `EncounterResolver` (Tier A)                | **New** (combat doc)        | Deterministic, discrete outcome bands                             |
+| Skill tiers + usage-count accrual           | Extends `ProgressionLedger` | Bounded; stepping stone to Tier B                                 |
+| Gear tiers + unlockable specials            | Extends items library       | Boss drops, gear-gated entry                                      |
+| `WorldSession.currentFloor` / region ledger | Extends session             | Tracks the climb; persists on save/load                           |
+| Boss/elite tagging on creatures/encounters  | Extends libraries           | `role: minion \| elite \| floor_boss` + `intensityTier`           |
+| `schemaVersion` bump                        | **Reality check**           | Region + skills + gear push past `0.2.0` → migrations become real |
 
 ---
 

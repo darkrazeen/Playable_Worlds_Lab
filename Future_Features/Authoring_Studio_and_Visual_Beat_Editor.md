@@ -17,11 +17,11 @@
 
 ## Feature index entry
 
-| Feature | Status | Target phase (approx.) | Last updated |
-| --- | --- | --- | --- |
-| Visual beat/graph editor (write) | Brainstorm / proposed | Phase 9+ (extends Creator Cockpit W12) | 2026-05-28 |
-| Live validation + health feedback | Brainstorm / proposed | Phase 9+ | 2026-05-28 |
-| AI-assisted drafting + approve/version | Brainstorm / proposed | Phase 9+ | 2026-05-28 |
+| Feature                                | Status                | Target phase (approx.)                 | Last updated |
+| -------------------------------------- | --------------------- | -------------------------------------- | ------------ |
+| Visual beat/graph editor (write)       | Brainstorm / proposed | Phase 9+ (extends Creator Cockpit W12) | 2026-05-28   |
+| Live validation + health feedback      | Brainstorm / proposed | Phase 9+                               | 2026-05-28   |
+| AI-assisted drafting + approve/version | Brainstorm / proposed | Phase 9+                               | 2026-05-28   |
 
 ---
 
@@ -36,23 +36,23 @@ A creator visually edits a world's beat graph, choices, and consequences with **
 - **Validation-first authoring is a differentiator.** The whole engine is built around `validateWorldDefinition`; surfacing it live as the author works is a uniquely strong fit.
 - **Creator Cockpit (W12) is the foundation.** W12 already specs DNA viewer/editor, ledger viewer, graph viewer, approve/rollback — this unifies them into an editing surface.
 - **Read-view sibling exists.** The [2D map/graph view](./2D_Map_and_Node_Graph_Play_View.md) is the read-mode projection; this adds write-mode on the same canvas.
-- **AI assist reuses the agent pattern.** The assistant *drafts*; validators + the author gate — same mantra, no auto-publish.
+- **AI assist reuses the agent pattern.** The assistant _drafts_; validators + the author gate — same mantra, no auto-publish.
 - **Feeds contributions + health loop.** Authored entries flow into [community contributions](./Curator_and_Community_Library_Contributions.md) and the [health v2 loop](./World_Health_Score_v2_and_AI_Critic_Loop.md).
 
 ---
 
 ## How this fits the existing architecture
 
-| Existing piece | Role in this feature |
-| --- | --- |
-| `WorldDefinition` + all sub-schemas | The document being edited (draft) |
-| `validateWorldDefinition` | Live, inline validation as the author edits |
-| Health score (W6 / [v2](./World_Health_Score_v2_and_AI_Critic_Loop.md)) | Live quality feedback panel |
-| Creator Cockpit (W12-S1–S7) | Host surface: DNA/ledger/graph viewers, approve/rollback |
-| `WorldArchitectAgent` / critic | AI drafting + fix suggestions (proposals) |
-| World versioning (W9-S3) | Each publish = new validated version |
-| Content libraries | Drag-in templates (creatures/NPCs/encounters/puzzles/items) |
-| [2D graph view](./2D_Map_and_Node_Graph_Play_View.md) | Shared canvas (read-mode counterpart) |
+| Existing piece                                                          | Role in this feature                                        |
+| ----------------------------------------------------------------------- | ----------------------------------------------------------- |
+| `WorldDefinition` + all sub-schemas                                     | The document being edited (draft)                           |
+| `validateWorldDefinition`                                               | Live, inline validation as the author edits                 |
+| Health score (W6 / [v2](./World_Health_Score_v2_and_AI_Critic_Loop.md)) | Live quality feedback panel                                 |
+| Creator Cockpit (W12-S1–S7)                                             | Host surface: DNA/ledger/graph viewers, approve/rollback    |
+| `WorldArchitectAgent` / critic                                          | AI drafting + fix suggestions (proposals)                   |
+| World versioning (W9-S3)                                                | Each publish = new validated version                        |
+| Content libraries                                                       | Drag-in templates (creatures/NPCs/encounters/puzzles/items) |
+| [2D graph view](./2D_Map_and_Node_Graph_Play_View.md)                   | Shared canvas (read-mode counterpart)                       |
 
 **Core mantra unchanged:** AI proposes → validators check → engine executes.
 
@@ -87,17 +87,17 @@ The editor can always **save a draft**, but can only **publish** a valid world.
 ```ts
 // The editor operates on a draft (a WorldDefinition that may be temporarily invalid)
 export interface WorldDraftState {
-  draft: unknown;                 // partial/in-progress WorldDefinition
-  zodIssues: ZodIssueView[];      // per-field
-  graphIssues: GraphIssueView[];  // from validateWorldDefinition
-  health?: HealthReportV2;        // from health v2
+  draft: unknown; // partial/in-progress WorldDefinition
+  zodIssues: ZodIssueView[]; // per-field
+  graphIssues: GraphIssueView[]; // from validateWorldDefinition
+  health?: HealthReportV2; // from health v2
   dirty: boolean;
 }
 
 // AI draft request (proposal only)
 export interface AuthoringAssistRequest {
   intent: "draft_branch" | "fill_consequence" | "suggest_npc" | "fix_finding";
-  context: unknown;               // selected node(s), finding code, etc.
+  context: unknown; // selected node(s), finding code, etc.
 }
 // → returns a draft delta wrapped in AIResult; author must accept + it must validate
 ```
@@ -117,12 +117,12 @@ No new engine schema — the editor manipulates existing `WorldDefinition` data 
 
 ## AI proposes / validators check / engine executes
 
-| Step | Who | Constraint |
-| --- | --- | --- |
-| Draft node/branch/fix | Authoring assistant | `AIResult` delta; author must accept; must validate |
-| Validate live | Zod + `validateWorldDefinition` + health | Authoritative; blocks publish |
-| Approve + version | Human author | Mandatory; only valid drafts |
-| Execute | Engine | Stores new version; original intact |
+| Step                  | Who                                      | Constraint                                          |
+| --------------------- | ---------------------------------------- | --------------------------------------------------- |
+| Draft node/branch/fix | Authoring assistant                      | `AIResult` delta; author must accept; must validate |
+| Validate live         | Zod + `validateWorldDefinition` + health | Authoritative; blocks publish                       |
+| Approve + version     | Human author                             | Mandatory; only valid drafts                        |
+| Execute               | Engine                                   | Stores new version; original intact                 |
 
 ---
 
@@ -137,28 +137,28 @@ No new engine schema — the editor manipulates existing `WorldDefinition` data 
 
 ## Phase map / dependency order
 
-| Order | Prerequisite | Enables |
-| --- | --- | --- |
-| 1 | W1-S14 validateWorldDefinition (done) | Live validation |
-| 2 | W6 / health v2 | Live quality feedback |
-| 3 | W12 Creator Cockpit | Host surface |
-| 4 | [2D graph view](./2D_Map_and_Node_Graph_Play_View.md) | Shared canvas |
-| 5 | W7 libraries | Drag-in templates |
-| 6 | W9-S3 versioning | Approve → version |
+| Order | Prerequisite                                          | Enables               |
+| ----- | ----------------------------------------------------- | --------------------- |
+| 1     | W1-S14 validateWorldDefinition (done)                 | Live validation       |
+| 2     | W6 / health v2                                        | Live quality feedback |
+| 3     | W12 Creator Cockpit                                   | Host surface          |
+| 4     | [2D graph view](./2D_Map_and_Node_Graph_Play_View.md) | Shared canvas         |
+| 5     | W7 libraries                                          | Drag-in templates     |
+| 6     | W9-S3 versioning                                      | Approve → version     |
 
 ---
 
 ## Proposed step-tracker additions (NOT approved — for human review)
 
-| Step ID (suggested) | Name | Goal |
-| --- | --- | --- |
-| AS-S1 | WorldDraft state + live Zod validation | Per-field inline issues |
-| AS-S2 | Live validateWorldDefinition on draft | Graph badges (refs/reachability/dead ends) |
-| AS-S3 | Editable graph canvas (add/move/connect) | Visual beat/choice editing |
-| AS-S4 | Library palette drag-in | Insert validated templates |
-| AS-S5 | Live health panel | Quality feedback while editing |
-| AS-S6 | AI authoring assist (proposals) | Draft branch/consequence/fix |
-| AS-S7 | Approve → versioned publish | Safe publish with lineage |
+| Step ID (suggested) | Name                                     | Goal                                       |
+| ------------------- | ---------------------------------------- | ------------------------------------------ |
+| AS-S1               | WorldDraft state + live Zod validation   | Per-field inline issues                    |
+| AS-S2               | Live validateWorldDefinition on draft    | Graph badges (refs/reachability/dead ends) |
+| AS-S3               | Editable graph canvas (add/move/connect) | Visual beat/choice editing                 |
+| AS-S4               | Library palette drag-in                  | Insert validated templates                 |
+| AS-S5               | Live health panel                        | Quality feedback while editing             |
+| AS-S6               | AI authoring assist (proposals)          | Draft branch/consequence/fix               |
+| AS-S7               | Approve → versioned publish              | Safe publish with lineage                  |
 
 ---
 
@@ -175,12 +175,12 @@ No new engine schema — the editor manipulates existing `WorldDefinition` data 
 
 ## Risks & mitigations
 
-| Risk | Mitigation |
-| --- | --- |
-| Complex UI scope | Build on W12 cockpit + read-mode graph; ship incrementally |
-| Invalid worlds published | Hard gate: publish requires passing validation |
-| AI changes structure unexpectedly | Deltas are proposals; author accepts; re-validate |
-| Large-world performance | Debounced validation; incremental checks; virtualized canvas |
+| Risk                              | Mitigation                                                   |
+| --------------------------------- | ------------------------------------------------------------ |
+| Complex UI scope                  | Build on W12 cockpit + read-mode graph; ship incrementally   |
+| Invalid worlds published          | Hard gate: publish requires passing validation               |
+| AI changes structure unexpectedly | Deltas are proposals; author accepts; re-validate            |
+| Large-world performance           | Debounced validation; incremental checks; virtualized canvas |
 
 ---
 

@@ -6,10 +6,7 @@ import { loadWorld, loadWorldFromFile } from "../../src/world/loadWorld.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const contentRoot = join(__dirname, "../../../content");
-const stonepassValleyWorldPath = join(
-  contentRoot,
-  "worlds/stonepass/stonepass-valley.world.json",
-);
+const stonepassValleyWorldPath = join(contentRoot, "worlds/stonepass/stonepass-valley.world.json");
 const stonepassInvalidExamplePath = join(
   contentRoot,
   "examples/world-definition-stonepass-invalid.example.json",

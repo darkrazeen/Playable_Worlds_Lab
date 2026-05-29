@@ -17,11 +17,11 @@
 
 ## Feature index entry
 
-| Feature | Status | Target phase (approx.) | Last updated |
-| --- | --- | --- | --- |
-| DifficultyProfile in WorldBlueprint | Brainstorm / proposed | Phase 5 (with WorldBlueprint W8-S6) | 2026-05-28 |
-| Director difficulty decisions (bounded) | Brainstorm / proposed | Phase 2+ extension of DirectorDecision | 2026-05-28 |
-| Ledger-signal difficulty heuristics | Brainstorm / proposed | Phase 2–3 | 2026-05-28 |
+| Feature                                 | Status                | Target phase (approx.)                 | Last updated |
+| --------------------------------------- | --------------------- | -------------------------------------- | ------------ |
+| DifficultyProfile in WorldBlueprint     | Brainstorm / proposed | Phase 5 (with WorldBlueprint W8-S6)    | 2026-05-28   |
+| Director difficulty decisions (bounded) | Brainstorm / proposed | Phase 2+ extension of DirectorDecision | 2026-05-28   |
+| Ledger-signal difficulty heuristics     | Brainstorm / proposed | Phase 2–3                              | 2026-05-28   |
 
 ---
 
@@ -34,7 +34,7 @@ The Director reads deterministic ledger signals (turns taken, retries, failed ch
 ## Why this fits the project and plays to its strengths
 
 - **Pure extension of an existing seam.** `DirectorDecision` already models "AI suggests, engine executes." This adds one bounded action type, not a new system.
-- **Keeps AI on the safe side of the line.** Difficulty knobs touch *selection and flavor*, never ledger truth — fits the README "AI may do" list exactly.
+- **Keeps AI on the safe side of the line.** Difficulty knobs touch _selection and flavor_, never ledger truth — fits the README "AI may do" list exactly.
 - **Signals already exist.** Turn count, choice history, retries, and (with the item feature) gear tier are all in the ledger/session — no new telemetry needed.
 - **Strengthens replayability.** The same world feels different at easy vs hard without authoring two worlds.
 - **Composable.** Pairs with encounter/puzzle libraries (pick a higher-intensity variant) and the seed/variation explorer (difficulty as an explained variation axis).
@@ -43,15 +43,15 @@ The Director reads deterministic ledger signals (turns taken, retries, failed ch
 
 ## How this fits the existing architecture
 
-| Existing piece | Role in this feature |
-| --- | --- |
-| `DirectorDecision` | New `adjust_difficulty` action with bounded target value |
-| `WorldBlueprint` (W8-S6) | Holds `DifficultyProfile` (min/max intensity, hint policy) — immutable bounds |
-| `WorldLedger` / `WorldSession` | Source of deterministic signals (turns, retries, history) |
-| `DirectorAgent` (Phase 2, W4-S4) | Produces the suggestion via AI Gateway, validated + clamped |
-| Encounter/Puzzle templates (W7-S7) | Carry `intensityTier`; Director selects within allowed band |
-| `DebugEvent` | `difficulty_adjusted` event for trace/UI transparency |
-| `validateWorldDefinition` / health | Ensure each intensity band remains completable |
+| Existing piece                     | Role in this feature                                                          |
+| ---------------------------------- | ----------------------------------------------------------------------------- |
+| `DirectorDecision`                 | New `adjust_difficulty` action with bounded target value                      |
+| `WorldBlueprint` (W8-S6)           | Holds `DifficultyProfile` (min/max intensity, hint policy) — immutable bounds |
+| `WorldLedger` / `WorldSession`     | Source of deterministic signals (turns, retries, history)                     |
+| `DirectorAgent` (Phase 2, W4-S4)   | Produces the suggestion via AI Gateway, validated + clamped                   |
+| Encounter/Puzzle templates (W7-S7) | Carry `intensityTier`; Director selects within allowed band                   |
+| `DebugEvent`                       | `difficulty_adjusted` event for trace/UI transparency                         |
+| `validateWorldDefinition` / health | Ensure each intensity band remains completable                                |
 
 **Core mantra unchanged:** AI proposes → validators check → engine executes.
 
@@ -119,12 +119,12 @@ export const DifficultySignalsSchema = z.object({
 
 ## AI proposes / validators check / engine executes
 
-| Step | Who | Constraint |
-| --- | --- | --- |
-| Compute signals | Engine | Deterministic from ledger/session |
-| Propose tier | DirectorAgent | `DifficultyDecisionSchema`; AIResult wrapper; fallback on fail |
-| Clamp + apply | Engine | Within `allowedRange`; only selection/flavor effects |
-| Reject overreach | Engine | If world `adaptive: false`, ignore + log |
+| Step             | Who           | Constraint                                                     |
+| ---------------- | ------------- | -------------------------------------------------------------- |
+| Compute signals  | Engine        | Deterministic from ledger/session                              |
+| Propose tier     | DirectorAgent | `DifficultyDecisionSchema`; AIResult wrapper; fallback on fail |
+| Clamp + apply    | Engine        | Within `allowedRange`; only selection/flavor effects           |
+| Reject overreach | Engine        | If world `adaptive: false`, ignore + log                       |
 
 ---
 
@@ -139,26 +139,26 @@ export const DifficultySignalsSchema = z.object({
 
 ## Phase map / dependency order
 
-| Order | Prerequisite | Enables |
-| --- | --- | --- |
-| 1 | Phase 1 runtime + ledger (done) | Difficulty signals |
-| 2 | Phase 2 DirectorAgent (W4-S4) | Bounded suggestions |
-| 3 | Phase 3 encounter/puzzle (W5-S3/S4) | Variant selection by tier |
-| 4 | W8-S6 WorldBlueprint | DifficultyProfile bounds |
-| 5 | Phase 9 Creator Cockpit | Difficulty config + reasoning panel |
+| Order | Prerequisite                        | Enables                             |
+| ----- | ----------------------------------- | ----------------------------------- |
+| 1     | Phase 1 runtime + ledger (done)     | Difficulty signals                  |
+| 2     | Phase 2 DirectorAgent (W4-S4)       | Bounded suggestions                 |
+| 3     | Phase 3 encounter/puzzle (W5-S3/S4) | Variant selection by tier           |
+| 4     | W8-S6 WorldBlueprint                | DifficultyProfile bounds            |
+| 5     | Phase 9 Creator Cockpit             | Difficulty config + reasoning panel |
 
 ---
 
 ## Proposed step-tracker additions (NOT approved — for human review)
 
-| Step ID (suggested) | Name | Goal |
-| --- | --- | --- |
-| DD-S1 | Create DifficultyProfile schema | In WorldBlueprint + examples |
-| DD-S2 | Add adjust_difficulty to DirectorDecision | Action + validation |
-| DD-S3 | Compute deterministic difficulty signals | Engine helper + tests |
-| DD-S4 | Clamp + apply difficulty tier in session | Bounded apply + DebugEvent |
-| DD-S5 | Encounter/puzzle variant selection by tier | Library tier wiring |
-| DD-S6 | Difficulty reasoning panel | Show signals + decision + clamp |
+| Step ID (suggested) | Name                                       | Goal                            |
+| ------------------- | ------------------------------------------ | ------------------------------- |
+| DD-S1               | Create DifficultyProfile schema            | In WorldBlueprint + examples    |
+| DD-S2               | Add adjust_difficulty to DirectorDecision  | Action + validation             |
+| DD-S3               | Compute deterministic difficulty signals   | Engine helper + tests           |
+| DD-S4               | Clamp + apply difficulty tier in session   | Bounded apply + DebugEvent      |
+| DD-S5               | Encounter/puzzle variant selection by tier | Library tier wiring             |
+| DD-S6               | Difficulty reasoning panel                 | Show signals + decision + clamp |
 
 ---
 
@@ -175,12 +175,12 @@ export const DifficultySignalsSchema = z.object({
 
 ## Risks & mitigations
 
-| Risk | Mitigation |
-| --- | --- |
-| Difficulty makes a path uncompletable | Health/playtester verify each tier is completable |
-| AI overreach into rewards/graph | Hard clamp + schema; only selection/flavor effects |
-| Oscillating difficulty (yo-yo) | Hysteresis / min turns between adjustments |
-| Non-determinism | Snapshot signals + seed; record provider response |
+| Risk                                  | Mitigation                                         |
+| ------------------------------------- | -------------------------------------------------- |
+| Difficulty makes a path uncompletable | Health/playtester verify each tier is completable  |
+| AI overreach into rewards/graph       | Hard clamp + schema; only selection/flavor effects |
+| Oscillating difficulty (yo-yo)        | Hysteresis / min turns between adjustments         |
+| Non-determinism                       | Snapshot signals + seed; record provider response  |
 
 ---
 

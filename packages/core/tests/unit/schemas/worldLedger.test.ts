@@ -107,9 +107,9 @@ describe("WorldLedgerSchema", () => {
   });
 
   it("rejects malformed ledger arrays", () => {
-    expect(
-      WorldLedgerSchema.safeParse({ ...validPostOgreLedger, activeFlags: [""] }).success,
-    ).toBe(false);
+    expect(WorldLedgerSchema.safeParse({ ...validPostOgreLedger, activeFlags: [""] }).success).toBe(
+      false,
+    );
     expect(
       WorldLedgerSchema.safeParse({ ...validPostOgreLedger, unlockedGoals: "bad" }).success,
     ).toBe(false);

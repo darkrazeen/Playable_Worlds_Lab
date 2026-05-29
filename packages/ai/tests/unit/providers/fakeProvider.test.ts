@@ -19,7 +19,8 @@ const directorRequest: AIRequest = {
 const validDirectorDecision = {
   action: "select_next_beat",
   targetId: "beat_landslide_aftermath",
-  reason: "Player defeated the ogre and triggered the landslide; the aftermath beat fits current flags.",
+  reason:
+    "Player defeated the ogre and triggered the landslide; the aftermath beat fits current flags.",
   confidence: 0.82,
   safetyNotes: ["teen-safe combat resolution"],
 };

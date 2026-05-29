@@ -97,18 +97,16 @@ describe("ConsequenceSchema", () => {
   });
 
   it("rejects malformed state-change lists", () => {
-    expect(ConsequenceSchema.safeParse({ ...validMinimal, addFlags: [""] }).success).toBe(
-      false,
-    );
+    expect(ConsequenceSchema.safeParse({ ...validMinimal, addFlags: [""] }).success).toBe(false);
     expect(ConsequenceSchema.safeParse({ ...validMinimal, removeFlags: "bad" }).success).toBe(
       false,
     );
     expect(
       ConsequenceSchema.safeParse({ ...validMinimal, unlockGoals: ["", "goal_ok"] }).success,
     ).toBe(false);
-    expect(
-      ConsequenceSchema.safeParse({ ...validMinimal, visibleChanges: [""] }).success,
-    ).toBe(false);
+    expect(ConsequenceSchema.safeParse({ ...validMinimal, visibleChanges: [""] }).success).toBe(
+      false,
+    );
     expect(
       ConsequenceSchema.safeParse({
         ...validMinimal,

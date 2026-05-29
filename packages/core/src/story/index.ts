@@ -1,3 +1,4 @@
+export { advanceSessionBeat, type AdvanceSessionBeatResult } from "./advanceSessionBeat.js";
 export {
   findNextAccessibleStoryBeat,
   isPlayerChoiceAccessible,

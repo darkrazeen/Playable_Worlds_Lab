@@ -2,10 +2,7 @@ import type { PlayerChoice } from "../schemas/playerChoice.js";
 import type { StoryBeat } from "../schemas/storyBeat.js";
 import type { WorldDefinition } from "../schemas/worldDefinition.js";
 import type { WorldSession } from "../schemas/worldSession.js";
-import {
-  isPlayerChoiceAccessible,
-  ledgerActiveFlags,
-} from "../story/beatAccessibility.js";
+import { isPlayerChoiceAccessible, ledgerActiveFlags } from "../story/beatAccessibility.js";
 import { selectStoryBeat } from "../story/selectStoryBeat.js";
 
 export type ResolvePlayerChoiceResult = {

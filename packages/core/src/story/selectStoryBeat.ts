@@ -28,9 +28,7 @@ export function selectStoryBeat(
   if (!currentBeat) {
     return {
       ok: false,
-      errors: [
-        `story: currentBeatId "${session.currentBeatId}" not found in world "${world.id}"`,
-      ],
+      errors: [`story: currentBeatId "${session.currentBeatId}" not found in world "${world.id}"`],
     };
   }
 
@@ -43,11 +41,7 @@ export function selectStoryBeat(
     };
   }
 
-  const nextBeat = findNextAccessibleStoryBeat(
-    world.storyBeats,
-    session.currentBeatId,
-    flags,
-  );
+  const nextBeat = findNextAccessibleStoryBeat(world.storyBeats, session.currentBeatId, flags);
   if (nextBeat) {
     return {
       ok: true,
@@ -59,9 +53,7 @@ export function selectStoryBeat(
 
   return {
     ok: false,
-    errors: [
-      `story: no accessible story beat for session "${session.id}" with current flags`,
-    ],
+    errors: [`story: no accessible story beat for session "${session.id}" with current flags`],
   };
 }
 

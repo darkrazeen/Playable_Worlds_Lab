@@ -4,9 +4,7 @@ import type { WorldSession } from "../schemas/worldSession.js";
 import { appendDebugEvent } from "./appendDebugEvent.js";
 import { buildValidationFailedEvent } from "./buildDebugEvents.js";
 
-export type AppendDebugEventsResult =
-  | WorldSession
-  | { ok: false; errors: string[] };
+export type AppendDebugEventsResult = WorldSession | { ok: false; errors: string[] };
 
 /** Append validated debug events in order; returns errors if any event fails schema parse. */
 export function appendDebugEvents(

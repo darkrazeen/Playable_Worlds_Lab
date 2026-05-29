@@ -2,11 +2,7 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
 
-import {
-  isKnownWorldId,
-  loadWorld,
-  loadWorldFromFile,
-} from "../../../src/world/loadWorld.js";
+import { isKnownWorldId, loadWorld, loadWorldFromFile } from "../../../src/world/loadWorld.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const contentRoot = join(__dirname, "../../../../content");
@@ -21,9 +17,7 @@ describe("loadWorldFromFile", () => {
   });
 
   it("returns schema errors for invalid JSON shape", () => {
-    const result = loadWorldFromFile(
-      join(contentRoot, "examples/world-dna-teen.example.json"),
-    );
+    const result = loadWorldFromFile(join(contentRoot, "examples/world-dna-teen.example.json"));
 
     expect(result.ok).toBe(false);
     expect(result.world).toBeUndefined();

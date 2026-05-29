@@ -12,6 +12,7 @@ import { safeParseConsequence } from "../schemas/consequence.js";
 import type { WorldDefinition } from "../schemas/worldDefinition.js";
 import { safeParseWorldSession, type WorldSession } from "../schemas/worldSession.js";
 
+import { advanceSessionBeat } from "../story/advanceSessionBeat.js";
 import { applyConsequenceToLedger } from "./applyConsequenceToLedger.js";
 import { validateConsequencePreconditions } from "./validateConsequencePreconditions.js";
 
@@ -28,10 +29,11 @@ export type ApplyConsequenceEngineResult = {
   consequence?: Consequence;
 };
 
-function formatSchemaErrors(prefix: string, issues: { path: (string | number)[]; message: string }[]) {
-  return issues.map(
-    (issue) => `${prefix}: ${issue.path.join(".") || "<root>"}: ${issue.message}`,
-  );
+function formatSchemaErrors(
+  prefix: string,
+  issues: { path: (string | number)[]; message: string }[],
+) {
+  return issues.map((issue) => `${prefix}: ${issue.path.join(".") || "<root>"}: ${issue.message}`);
 }
 
 function failureResult(
@@ -70,9 +72,11 @@ export function applyConsequenceEngine(
 
   const rawConsequence = world.consequences.find((entry) => entry.id === consequenceId);
   if (!rawConsequence) {
-    return failureResult(validatedSession, [
-      `consequence-engine: consequence "${consequenceId}" not found in world "${world.id}"`,
-    ], { consequenceId, choiceId: context?.choiceId });
+    return failureResult(
+      validatedSession,
+      [`consequence-engine: consequence "${consequenceId}" not found in world "${world.id}"`],
+      { consequenceId, choiceId: context?.choiceId },
+    );
   }
 
   const consequenceValidation = safeParseConsequence(rawConsequence);
@@ -113,6 +117,9 @@ export function applyConsequenceEngine(
       : validatedSession.choiceHistory,
   };
 
+  const beatAdvance = advanceSessionBeat(world, nextSession);
+  nextSession = beatAdvance.session;
+
   const traceEvents: DebugEvent[] = [];
 
   if (context?.choiceId) {
@@ -145,7 +152,10 @@ export function applyConsequenceEngine(
     traceEvents.push(flagsChanged);
   }
 
-  for (const goalId of consequence.unlockGoals) {
+  for (const goalId of consequence.unlockGoals ?? []) {
+    if (ledgerBefore.unlockedGoals.includes(goalId)) {
+      continue;
+    }
     traceEvents.push(
       buildGoalUnlockedEvent({
         turnNumber: nextTurn,

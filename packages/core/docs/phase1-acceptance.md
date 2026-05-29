@@ -12,20 +12,23 @@ Human approval checkpoint after **W3-S7**. Automated coverage lives in:
 
 ## Criteria (met by tests)
 
-| Check | Evidence |
-| --- | --- |
-| Stonepass world loads and cross-file validates | `parseAndValidateWorldDefinition` in acceptance tests |
-| Session starts at `beat_ogre_bridge` with `session_loaded` | init + web smoke |
-| Five ogre choices list and resolve | `listAvailableChoices` / `resolvePlayerChoice` |
-| Consequences apply; ledger flags/events update | ogre path + acceptance |
-| Debug trace records choice/consequence/flags/goals | debug integration + UI smoke |
-| Invalid choice blocked; turn and ledger unchanged | blocked-choice tests |
-| WorldSession + ledger flag invariants after actions | `safeParseWorldSession` + `validateLedgerFlags` |
-| Browser `/play` shows ledger + debug without direct mutation | web acceptance smoke |
+| Check                                                        | Evidence                                              |
+| ------------------------------------------------------------ | ----------------------------------------------------- |
+| Stonepass world loads and cross-file validates               | `parseAndValidateWorldDefinition` in acceptance tests |
+| Session starts at `beat_ogre_bridge` with `session_loaded`   | init + web smoke                                      |
+| Five ogre choices list and resolve                           | `listAvailableChoices` / `resolvePlayerChoice`        |
+| Consequences apply; ledger flags/events update               | ogre path + acceptance                                |
+| Debug trace records choice/consequence/flags/goals           | debug integration + UI smoke                          |
+| Invalid choice blocked; turn and ledger unchanged            | blocked-choice tests                                  |
+| WorldSession + ledger flag invariants after actions          | `safeParseWorldSession` + `validateLedgerFlags`       |
+| Browser `/play` shows ledger + debug without direct mutation | web acceptance smoke                                  |
+
+## Beat progression (implemented)
+
+- `beat_ogre_bridge` retires when `bridge_open` is set; `advanceSessionBeat` updates `currentBeatId` after each consequence. See `packages/core/docs/beat-progression.md`.
 
 ## Deferred (not Phase 1 gate)
 
-- **Beat progression** after consequence (`currentBeatId` advance) — UI/engine still on Floor 1 bridge beat.
 - AI Director, temporary instances, persistence, share.
 
 ## Human sign-off

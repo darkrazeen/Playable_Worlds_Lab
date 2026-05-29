@@ -17,11 +17,11 @@
 
 ## Feature index entry
 
-| Feature | Status | Target phase (approx.) | Last updated |
-| --- | --- | --- | --- |
-| Shared session model + turn ownership | Brainstorm / proposed | Phase 6+ (after persistence/share) | 2026-05-28 |
-| Ledger merge / conflict resolution | Brainstorm / proposed | Phase 6+ | 2026-05-28 |
-| Asymmetric roles (player vs "guide") | Brainstorm / proposed | Phase 7+ | 2026-05-28 |
+| Feature                               | Status                | Target phase (approx.)             | Last updated |
+| ------------------------------------- | --------------------- | ---------------------------------- | ------------ |
+| Shared session model + turn ownership | Brainstorm / proposed | Phase 6+ (after persistence/share) | 2026-05-28   |
+| Ledger merge / conflict resolution    | Brainstorm / proposed | Phase 6+                           | 2026-05-28   |
+| Asymmetric roles (player vs "guide")  | Brainstorm / proposed | Phase 7+                           | 2026-05-28   |
 
 ---
 
@@ -36,23 +36,23 @@ Two-plus invited players share one world; turns are **owned** (or branched then 
 - **The ledger is already an event-sourced truth.** Async multiplayer is fundamentally "apply ordered, validated consequences to shared state" — which is exactly what the engine does single-player.
 - **Determinism makes merges tractable.** Because consequences are validated and explicit, a merge policy can be principled rather than guesswork.
 - **No netcode required.** Turn-based async over persisted sessions (Phase 6) avoids real-time infrastructure entirely — fits the text-first ethos.
-- **Asymmetric roles reuse the Director seam.** A "guide/DM" player can *propose* (like the Director does) while the engine still validates — a natural, safe role split.
+- **Asymmetric roles reuse the Director seam.** A "guide/DM" player can _propose_ (like the Director does) while the engine still validates — a natural, safe role split.
 - **Share links already planned.** Phase 6 share/fork is the on-ramp; this extends a share into a co-played session.
 
 ---
 
 ## How this fits the existing architecture
 
-| Existing piece | Role in this feature |
-| --- | --- |
-| `WorldSession` | Becomes a **shared session** with a participants list + turn owner |
-| `WorldLedger` | Shared truth; all writes are ordered, validated consequences |
-| `applyPlayerChoice` | Per-turn apply path, unchanged, now attributed to a player |
-| `DebugEvent` | Already an ordered event log — basis for sync + replay |
-| Save/load (W9-S5) | Persistence backbone for async turns |
-| Share token (W9-S6) | Invite mechanism (private/unlisted) |
-| Fork/remix (W10) | "Branch then merge" co-op variant |
-| `validateWorldDefinition` / session validation | Each applied turn must keep state valid |
+| Existing piece                                 | Role in this feature                                               |
+| ---------------------------------------------- | ------------------------------------------------------------------ |
+| `WorldSession`                                 | Becomes a **shared session** with a participants list + turn owner |
+| `WorldLedger`                                  | Shared truth; all writes are ordered, validated consequences       |
+| `applyPlayerChoice`                            | Per-turn apply path, unchanged, now attributed to a player         |
+| `DebugEvent`                                   | Already an ordered event log — basis for sync + replay             |
+| Save/load (W9-S5)                              | Persistence backbone for async turns                               |
+| Share token (W9-S6)                            | Invite mechanism (private/unlisted)                                |
+| Fork/remix (W10)                               | "Branch then merge" co-op variant                                  |
+| `validateWorldDefinition` / session validation | Each applied turn must keep state valid                            |
 
 **Core mantra unchanged:** AI proposes → validators check → engine executes.
 
@@ -87,12 +87,16 @@ Start with **Model A** (no merge) for v1; Model B + asymmetric roles later.
 ```ts
 // Extends WorldSession into a shared session
 export const SharedSessionSchema = WorldSessionSchema.extend({
-  participants: z.array(z.object({
-    playerId: z.string(),
-    role: z.enum(["player", "guide", "observer"]).default("player"),
-    displayName: z.string(),
-  })).min(1),
-  turnOwnerId: z.string(),               // Model A
+  participants: z
+    .array(
+      z.object({
+        playerId: z.string(),
+        role: z.enum(["player", "guide", "observer"]).default("player"),
+        displayName: z.string(),
+      }),
+    )
+    .min(1),
+  turnOwnerId: z.string(), // Model A
   coopModel: z.enum(["shared_turn", "branch_merge"]).default("shared_turn"),
 });
 
@@ -126,12 +130,12 @@ export const LedgerConflictSchema = z.object({
 
 ## AI proposes / validators check / engine executes
 
-| Step | Who | Constraint |
-| --- | --- | --- |
-| Apply turn | Player (turn owner) | Validated choice; session stays valid |
-| Propose (guide) | Guide player | Like Director: proposes; engine validates; needs approval |
-| Merge branches | Engine | Deterministic replay + conflict policy |
-| AI flavor | DirectorAgent | Same bounded rules as single-player |
+| Step            | Who                 | Constraint                                                |
+| --------------- | ------------------- | --------------------------------------------------------- |
+| Apply turn      | Player (turn owner) | Validated choice; session stays valid                     |
+| Propose (guide) | Guide player        | Like Director: proposes; engine validates; needs approval |
+| Merge branches  | Engine              | Deterministic replay + conflict policy                    |
+| AI flavor       | DirectorAgent       | Same bounded rules as single-player                       |
 
 ---
 
@@ -147,27 +151,27 @@ export const LedgerConflictSchema = z.object({
 
 ## Phase map / dependency order
 
-| Order | Prerequisite | Enables |
-| --- | --- | --- |
-| 1 | W9-S5 save/load | Persisted sessions |
-| 2 | W9-S6 share token | Invite mechanism |
-| 3 | Phase 1 runtime (done) | Per-turn apply |
-| 4 | W10 fork/remix | Branch + merge basis |
-| 5 | Phase 2 Director | Guide role analog |
-| 6 | Faction/NPC memory | Shared social state |
+| Order | Prerequisite           | Enables              |
+| ----- | ---------------------- | -------------------- |
+| 1     | W9-S5 save/load        | Persisted sessions   |
+| 2     | W9-S6 share token      | Invite mechanism     |
+| 3     | Phase 1 runtime (done) | Per-turn apply       |
+| 4     | W10 fork/remix         | Branch + merge basis |
+| 5     | Phase 2 Director       | Guide role analog    |
+| 6     | Faction/NPC memory     | Shared social state  |
 
 ---
 
 ## Proposed step-tracker additions (NOT approved — for human review)
 
-| Step ID (suggested) | Name | Goal |
-| --- | --- | --- |
-| MP-S1 | SharedSession schema + participants/roles | Multi-player session shape |
-| MP-S2 | Turn ownership + attributed apply (Model A) | Safe shared-turn play |
-| MP-S3 | Private invite via share token | Invite-only join |
-| MP-S4 | Branch + deterministic merge (Model B) | Replay + conflict policy |
-| MP-S5 | Conflict resolution (host) UI | Resolve needs_host flags |
-| MP-S6 | Guide (asymmetric) role + proposal validation | DM-style bounded role |
+| Step ID (suggested) | Name                                          | Goal                       |
+| ------------------- | --------------------------------------------- | -------------------------- |
+| MP-S1               | SharedSession schema + participants/roles     | Multi-player session shape |
+| MP-S2               | Turn ownership + attributed apply (Model A)   | Safe shared-turn play      |
+| MP-S3               | Private invite via share token                | Invite-only join           |
+| MP-S4               | Branch + deterministic merge (Model B)        | Replay + conflict policy   |
+| MP-S5               | Conflict resolution (host) UI                 | Resolve needs_host flags   |
+| MP-S6               | Guide (asymmetric) role + proposal validation | DM-style bounded role      |
 
 ---
 
@@ -184,11 +188,11 @@ export const LedgerConflictSchema = z.object({
 
 ## Risks & mitigations
 
-| Risk | Mitigation |
-| --- | --- |
-| Merge complexity (Model B) | Ship Model A first; Model B behind a flag |
-| Scope creep into real-time | Hard async-only boundary; no sockets in v1 |
-| Griefing | Invite-only + attribution + host rollback |
+| Risk                        | Mitigation                                 |
+| --------------------------- | ------------------------------------------ |
+| Merge complexity (Model B)  | Ship Model A first; Model B behind a flag  |
+| Scope creep into real-time  | Hard async-only boundary; no sockets in v1 |
+| Griefing                    | Invite-only + attribution + host rollback  |
 | Safety drift across players | Host-set `safetyMode` enforced engine-side |
 
 ---

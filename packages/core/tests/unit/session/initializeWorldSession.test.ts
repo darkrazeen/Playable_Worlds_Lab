@@ -9,10 +9,7 @@ import { parseWorldDefinition } from "../../../src/schemas/worldDefinition.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const contentRoot = join(__dirname, "../../../../content");
-const stonepassWorldPath = join(
-  contentRoot,
-  "worlds/stonepass/stonepass-valley.world.json",
-);
+const stonepassWorldPath = join(contentRoot, "worlds/stonepass/stonepass-valley.world.json");
 
 describe("initializeWorldSession", () => {
   it("creates a valid session at the world startingBeatId with turn 0 and empty history", () => {

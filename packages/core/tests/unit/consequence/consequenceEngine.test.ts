@@ -11,10 +11,7 @@ import { loadWorldFromFile } from "../../../src/world/loadWorld.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const contentRoot = join(__dirname, "../../../../content");
-const stonepassWorldPath = join(
-  contentRoot,
-  "worlds/stonepass/stonepass-valley.world.json",
-);
+const stonepassWorldPath = join(contentRoot, "worlds/stonepass/stonepass-valley.world.json");
 
 describe("applyConsequenceToLedger", () => {
   it("applies addFlags, removeFlags, unlockGoals, and exposeLocations", () => {
@@ -26,11 +23,7 @@ describe("applyConsequenceToLedger", () => {
       choiceId: "fight_ogre",
     });
 
-    expect(ledger.activeFlags).toEqual([
-      "ogre_defeated",
-      "bridge_open",
-      "landslide_triggered",
-    ]);
+    expect(ledger.activeFlags).toEqual(["ogre_defeated", "bridge_open", "landslide_triggered"]);
     expect(ledger.resolvedFlags).toEqual(["ogre_blocks_bridge"]);
     expect(ledger.unlockedGoals).toEqual(["goal_reach_valley", "goal_explore_cave"]);
     expect(ledger.discoveredLocations).toEqual(["location_hidden_cave"]);

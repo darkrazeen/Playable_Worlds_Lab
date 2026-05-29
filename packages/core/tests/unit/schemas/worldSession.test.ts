@@ -91,10 +91,7 @@ describe("WorldSessionSchema", () => {
   it("throws when startingBeatId is not in the provided world", () => {
     const world = parseWorldDefinition(
       JSON.parse(
-        readFileSync(
-          join(examplesDir, "world-definition-stonepass-minimal.example.json"),
-          "utf8",
-        ),
+        readFileSync(join(examplesDir, "world-definition-stonepass-minimal.example.json"), "utf8"),
       ),
     );
     expect(() =>
@@ -120,8 +117,11 @@ describe("WorldSessionSchema", () => {
   });
 
   it("defaults omitted choiceHistory and debugEvents to empty arrays", () => {
-    const { choiceHistory: _choiceHistory, debugEvents: _debugEvents, ...minimal } =
-      validNewSession;
+    const {
+      choiceHistory: _choiceHistory,
+      debugEvents: _debugEvents,
+      ...minimal
+    } = validNewSession;
     const session = parseWorldSession(minimal);
     expect(session.choiceHistory).toEqual([]);
     expect(session.debugEvents).toEqual([]);
@@ -149,9 +149,9 @@ describe("WorldSessionSchema", () => {
   });
 
   it("rejects empty currentBeatId and invalid turnNumber", () => {
-    expect(
-      WorldSessionSchema.safeParse({ ...validNewSession, currentBeatId: "" }).success,
-    ).toBe(false);
+    expect(WorldSessionSchema.safeParse({ ...validNewSession, currentBeatId: "" }).success).toBe(
+      false,
+    );
     expect(WorldSessionSchema.safeParse({ ...validNewSession, turnNumber: -1 }).success).toBe(
       false,
     );

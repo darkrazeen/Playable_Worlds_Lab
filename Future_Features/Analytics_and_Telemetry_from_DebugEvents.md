@@ -18,11 +18,11 @@
 
 ## Feature index entry
 
-| Feature | Status | Target phase (approx.) | Last updated |
-| --- | --- | --- | --- |
-| DebugEvent aggregation pipeline | Brainstorm / proposed | Phase 6+ (after persistence) | 2026-05-28 |
-| Creator analytics dashboards | Brainstorm / proposed | Phase 7–9 | 2026-05-28 |
-| Drop-off / coverage / fallback metrics | Brainstorm / proposed | Phase 7–9 | 2026-05-28 |
+| Feature                                | Status                | Target phase (approx.)       | Last updated |
+| -------------------------------------- | --------------------- | ---------------------------- | ------------ |
+| DebugEvent aggregation pipeline        | Brainstorm / proposed | Phase 6+ (after persistence) | 2026-05-28   |
+| Creator analytics dashboards           | Brainstorm / proposed | Phase 7–9                    | 2026-05-28   |
+| Drop-off / coverage / fallback metrics | Brainstorm / proposed | Phase 7–9                    | 2026-05-28   |
 
 ---
 
@@ -35,7 +35,7 @@ Because every runtime transition already emits a typed `DebugEvent`, sessions ca
 ## Why this fits the project and plays to its strengths
 
 - **The instrumentation already exists.** `DebugEvent` logs choice/consequence/flag/goal/fallback/validation events — analytics is aggregation, not new logging.
-- **Closes the creator feedback loop.** Pairs with health v2 (static quality) and the variation explorer (single-run causes) to give *population-level* quality signal.
+- **Closes the creator feedback loop.** Pairs with health v2 (static quality) and the variation explorer (single-run causes) to give _population-level_ quality signal.
 - **Deterministic source of truth.** Metrics derive from validated engine events, not guesswork — trustworthy by construction.
 - **Drives authoring + weaving.** Drop-off and unseen-branch data directly inform the [authoring studio](./Authoring_Studio_and_Visual_Beat_Editor.md) and [quest weaving](./Emergent_Goal_and_Director_Quest_Weaving.md).
 - **First-party + privacy-respecting.** No third-party trackers; fits a safety-first product.
@@ -44,17 +44,17 @@ Because every runtime transition already emits a typed `DebugEvent`, sessions ca
 
 ## How this fits the existing architecture
 
-| Existing piece | Role in this feature |
-| --- | --- |
-| `DebugEvent` | The raw event source (already typed + logged) |
-| `WorldSession.choiceHistory` | Per-session route data |
-| `WorldLedger` | End-state for completion/goal funnels |
-| Persistence (Phase 6, W9) | Stores sessions/events for aggregation |
-| `AIResult.fallbackUsed` | Fallback-rate metric |
-| Creator Cockpit (W12) | Dashboard host |
-| Health v2 / weaving | Consumers of the insight |
+| Existing piece               | Role in this feature                          |
+| ---------------------------- | --------------------------------------------- |
+| `DebugEvent`                 | The raw event source (already typed + logged) |
+| `WorldSession.choiceHistory` | Per-session route data                        |
+| `WorldLedger`                | End-state for completion/goal funnels         |
+| Persistence (Phase 6, W9)    | Stores sessions/events for aggregation        |
+| `AIResult.fallbackUsed`      | Fallback-rate metric                          |
+| Creator Cockpit (W12)        | Dashboard host                                |
+| Health v2 / weaving          | Consumers of the insight                      |
 
-**Core mantra unchanged:** AI proposes → validators check → engine executes — analytics only *reads* the resulting events.
+**Core mantra unchanged:** AI proposes → validators check → engine executes — analytics only _reads_ the resulting events.
 
 ---
 
@@ -86,9 +86,9 @@ All metrics are **counts/rates over events** — no raw free-text content requir
 export const TelemetryEventSchema = z.object({
   worldId: z.string(),
   worldVersionId: z.string(),
-  sessionHash: z.string(),         // anonymized session id (no PII)
+  sessionHash: z.string(), // anonymized session id (no PII)
   turnNumber: z.number().int(),
-  eventType: z.string(),           // mirrors DebugEvent type enum
+  eventType: z.string(), // mirrors DebugEvent type enum
   beatId: z.string().optional(),
   choiceId: z.string().optional(),
   fallbackUsed: z.boolean().optional(),
@@ -116,12 +116,12 @@ export const ChoiceDistributionSchema = z.object({
 
 ## AI proposes / validators check / engine executes
 
-| Step | Who | Constraint |
-| --- | --- | --- |
-| Emit events | Engine | Derived from existing DebugEvents; consent-gated |
-| Aggregate | Deterministic job | Counts/rates; no gameplay effect |
-| Interpret (optional) | AI summary | Advisory narrative over metrics; cannot change data |
-| Act | Human (author) | Uses insight in studio/weaving |
+| Step                 | Who               | Constraint                                          |
+| -------------------- | ----------------- | --------------------------------------------------- |
+| Emit events          | Engine            | Derived from existing DebugEvents; consent-gated    |
+| Aggregate            | Deterministic job | Counts/rates; no gameplay effect                    |
+| Interpret (optional) | AI summary        | Advisory narrative over metrics; cannot change data |
+| Act                  | Human (author)    | Uses insight in studio/weaving                      |
 
 ---
 
@@ -137,27 +137,27 @@ export const ChoiceDistributionSchema = z.object({
 
 ## Phase map / dependency order
 
-| Order | Prerequisite | Enables |
-| --- | --- | --- |
-| 1 | Phase 1 DebugEvents (done) | Event source |
-| 2 | Phase 6 persistence (W9) | Store events/sessions |
-| 3 | Consent model | Privacy-respecting collection |
-| 4 | Aggregation job | Metrics |
-| 5 | W12 Creator Cockpit | Dashboards |
-| 6 | Health v2 / weaving / studio | Consumers |
+| Order | Prerequisite                 | Enables                       |
+| ----- | ---------------------------- | ----------------------------- |
+| 1     | Phase 1 DebugEvents (done)   | Event source                  |
+| 2     | Phase 6 persistence (W9)     | Store events/sessions         |
+| 3     | Consent model                | Privacy-respecting collection |
+| 4     | Aggregation job              | Metrics                       |
+| 5     | W12 Creator Cockpit          | Dashboards                    |
+| 6     | Health v2 / weaving / studio | Consumers                     |
 
 ---
 
 ## Proposed step-tracker additions (NOT approved — for human review)
 
-| Step ID (suggested) | Name | Goal |
-| --- | --- | --- |
-| AN-S1 | TelemetryEvent schema + consent tiers | Privacy model |
-| AN-S2 | Emit anonymized events from DebugEvents | Consent-gated capture |
-| AN-S3 | Aggregation job (distributions/coverage/funnel) | Core metrics |
-| AN-S4 | Fallback + drop-off + dead-end metrics | Quality signals |
-| AN-S5 | k-anonymity suppression | Safe small samples |
-| AN-S6 | Creator analytics dashboards | Cockpit visualization |
+| Step ID (suggested) | Name                                            | Goal                  |
+| ------------------- | ----------------------------------------------- | --------------------- |
+| AN-S1               | TelemetryEvent schema + consent tiers           | Privacy model         |
+| AN-S2               | Emit anonymized events from DebugEvents         | Consent-gated capture |
+| AN-S3               | Aggregation job (distributions/coverage/funnel) | Core metrics          |
+| AN-S4               | Fallback + drop-off + dead-end metrics          | Quality signals       |
+| AN-S5               | k-anonymity suppression                         | Safe small samples    |
+| AN-S6               | Creator analytics dashboards                    | Cockpit visualization |
 
 ---
 
@@ -174,12 +174,12 @@ export const ChoiceDistributionSchema = z.object({
 
 ## Risks & mitigations
 
-| Risk | Mitigation |
-| --- | --- |
-| Privacy concerns | Opt-in tiers + anonymization + k-anonymity + first-party only |
-| Misleading metrics on low data | Sample-size thresholds + confidence notes |
-| Storage cost | Aggregate + retain summaries; expire raw events |
-| Scope creep to ad/marketing tracking | Hard rule: first-party creator insight only |
+| Risk                                 | Mitigation                                                    |
+| ------------------------------------ | ------------------------------------------------------------- |
+| Privacy concerns                     | Opt-in tiers + anonymization + k-anonymity + first-party only |
+| Misleading metrics on low data       | Sample-size thresholds + confidence notes                     |
+| Storage cost                         | Aggregate + retain summaries; expire raw events               |
+| Scope creep to ad/marketing tracking | Hard rule: first-party creator insight only                   |
 
 ---
 

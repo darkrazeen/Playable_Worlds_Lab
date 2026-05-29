@@ -10,10 +10,7 @@ import { loadWorld } from "@playable-worlds/core";
 import { DebugTracePanel } from "../features/world-debug/DebugTracePanel";
 import { STONEPASS_WORLD_ID } from "../features/world-play/constants";
 import { WorldPlayScreen } from "../features/world-play/WorldPlayScreen";
-import {
-  applyPlayChoice,
-  createInitialPlayState,
-} from "../features/world-play/worldPlayRuntime";
+import { applyPlayChoice, createInitialPlayState } from "../features/world-play/worldPlayRuntime";
 
 function loadStonepassWorldForTest() {
   const worldResult = loadWorld(STONEPASS_WORLD_ID, contentRoot);
@@ -30,12 +27,7 @@ describe("DebugTracePanel", () => {
     const world = loadStonepassWorldForTest();
     const playState = createInitialPlayState(world, "session_debug_empty");
 
-    render(
-      <DebugTracePanel
-        debugEvents={playState.session!.debugEvents}
-        turnNumber={0}
-      />,
-    );
+    render(<DebugTracePanel debugEvents={playState.session!.debugEvents} turnNumber={0} />);
 
     expect(screen.getByRole("complementary", { name: "Debug trace" })).toBeTruthy();
     expect(screen.getByText("Session")).toBeTruthy();

@@ -37,7 +37,10 @@ const validFailure = {
   raw: { action: "bad_action", confidence: 2 },
   provider: "fake",
   fallbackUsed: true,
-  validationErrors: ["action: Invalid enum value", "confidence: Number must be less than or equal to 1"],
+  validationErrors: [
+    "action: Invalid enum value",
+    "confidence: Number must be less than or equal to 1",
+  ],
 };
 
 describe("AIResultSchema", () => {
@@ -80,9 +83,9 @@ describe("AIResultSchema", () => {
 
   it("rejects negative latencyMs and empty validation error strings", () => {
     expect(AIResultSchema.safeParse({ ...validSuccess, latencyMs: -1 }).success).toBe(false);
-    expect(
-      AIResultSchema.safeParse({ ...validFailure, validationErrors: [""] }).success,
-    ).toBe(false);
+    expect(AIResultSchema.safeParse({ ...validFailure, validationErrors: [""] }).success).toBe(
+      false,
+    );
   });
 
   it("validates JSON examples from packages/content/examples", () => {
