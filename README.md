@@ -63,7 +63,7 @@ The first proof content is **Stonepass Spire — Floor 1** (legacy file `stonepa
 
 [![CI](https://github.com/darkrazeen/Playable_Worlds_Lab/actions/workflows/ci.yml/badge.svg)](https://github.com/darkrazeen/Playable_Worlds_Lab/actions/workflows/ci.yml)
 
-**Status:** **Phase 0–2 complete. Phase 3 in progress:** **W5-S1–S4 complete.** **Next (needs approval):** **W5-S5** — instance completion and cleanup.
+**Status:** **Phase 0–2 complete. Phase 3 in progress:** **W5-S1–S6 complete.** **Next (needs approval):** **W5-S7** — temporary instance acceptance tests.
 
 **Verification (2026-05-29):** **365 tests** passing (62 files). Instances: [`temporary-instance-entry.md`](./packages/core/docs/temporary-instance-entry.md) (entry + room navigation).
 
@@ -124,7 +124,9 @@ Progress is tracked in `Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv`. Updat
 | W5-S2                | Phase 3                | Create room system                                                                         | **Complete**              |
 | W5-S3                | Phase 3                | Create encounter system                                                                    | **Complete**              |
 | W5-S4                | Phase 3                | Create puzzle system                                                                       | **Complete**              |
-| W5-S5                | Phase 3                | Apply instance completion consequence and cleanup                                          | **Next**                  |
+| W5-S5                | Phase 3                | Apply instance completion consequence and cleanup                                          | **Complete**              |
+| W5-S6                | Phase 3                | Awaken dragon and return to main world                                                     | **Complete**              |
+| W5-S7                | Phase 3                | Temporary instance acceptance tests                                                        | **Next**                  |
 | W7-S7–S11, W8-S6–S12 | Phase 5 extension      | Content libraries, WorldBlueprint, quest generation                                        | Scheduled (`Not started`) |
 | W4-S8–S10            | Phase 2 ext (Spire)    | Seed plumbing, ledger difficulty signal, Director `adjust_difficulty`                      | **Complete**              |
 | W5-S8–S13            | Phase 3 ext (Spire)    | ProgressionLedger, Tier A skills, gear gating, Level 0 combat, **Floor 1**                 | Scheduled (`Not started`) |
@@ -158,7 +160,7 @@ Progress is tracked in `Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv`. Updat
 
 **W2-S1–S6 done when (met):** `loadWorld` / `loadWorldFromFile`; `initializeWorldSession`; `selectStoryBeat`; `resolvePlayerChoice` / `listAvailableChoices`; `applyConsequence` / `applyPlayerChoice`; browser text play at `/play` wired through `@playable-worlds/core` runtime (no direct ledger mutation in UI); Stonepass integration + web smoke tests; **203 tests** green (2026-05-29).
 
-**Next step:** **W5-S5** — Apply instance completion consequence and cleanup (human approval required).
+**Next step:** **W5-S7** — Temporary instance acceptance tests (human approval required).
 
 ### Data contract (v4.2 hybrid)
 
@@ -699,7 +701,7 @@ Use this table when deciding whether to implement part of the reference scenario
 | Save / share / fork                             | Share mini-adventure with others | Phase 6                  |
 | 2D map / enter region visually                  | Same triggers, visual layer      | Phase 8                  |
 
-**Current build status (2026-05-29):** Phase 0–2 complete. **W5-S1–S4 complete** — cave entry, room navigation, bat encounter, and dragon runes puzzle in instances runtime. **Next:** W5-S5 instance completion.
+**Current build status (2026-05-29):** Phase 0–2 complete. **W5-S1–S6 complete** — full Floor 1 fight-path chain through dragon awakening and main-world return. **Next:** W5-S7 acceptance tests.
 
 ---
 

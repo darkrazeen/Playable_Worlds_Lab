@@ -2,7 +2,11 @@ export {
   activateTemporaryInstance,
   type ActivateTemporaryInstanceResult,
 } from "./activateTemporaryInstance.js";
-export { activateStonepassHiddenCave, loadStonepassHiddenCave } from "./loadStonepassHiddenCave.js";
+export {
+  activateStonepassHiddenCave,
+  completeStonepassHiddenCave,
+  loadStonepassHiddenCave,
+} from "./loadStonepassHiddenCave.js";
 export {
   loadTemporaryInstance,
   type LoadTemporaryInstanceResult,
@@ -96,3 +100,20 @@ export {
   buildPuzzleInteractionDebugEvent,
   type PuzzleEventInput,
 } from "./recordPuzzleEvent.js";
+export {
+  completeTemporaryInstance,
+  clearTemporaryInstanceSession,
+  type CompleteTemporaryInstanceResult,
+} from "./completeTemporaryInstance.js";
+export {
+  appendInstanceCleanupDebugEvent,
+  appendInstanceCleanupLedgerEvent,
+  buildInstanceCleanupDebugEvent,
+  type InstanceCleanupEventInput,
+} from "./recordInstanceCleanupEvent.js";
+export {
+  isTemporaryInstanceCompletionReady,
+  resolveCompletionTargetRoomId,
+  validateTemporaryInstanceCompletion,
+  type ValidateTemporaryInstanceCompletionResult,
+} from "./temporaryInstanceCompletion.js";

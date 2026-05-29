@@ -6,6 +6,10 @@ import {
   type ActivateTemporaryInstanceResult,
 } from "./activateTemporaryInstance.js";
 import {
+  completeTemporaryInstance,
+  type CompleteTemporaryInstanceResult,
+} from "./completeTemporaryInstance.js";
+import {
   loadTemporaryInstance,
   type LoadTemporaryInstanceResult,
 } from "./loadTemporaryInstance.js";
@@ -25,4 +29,12 @@ export function activateStonepassHiddenCave(
   session: WorldSession,
 ): ActivateTemporaryInstanceResult {
   return activateTemporaryInstance(world, session, STONEPASS_HIDDEN_CAVE_INSTANCE_ID);
+}
+
+/** Complete Stonepass hidden cave when completion conditions are met in the active session. */
+export function completeStonepassHiddenCave(
+  world: WorldDefinition,
+  session: WorldSession,
+): CompleteTemporaryInstanceResult {
+  return completeTemporaryInstance(world, session);
 }

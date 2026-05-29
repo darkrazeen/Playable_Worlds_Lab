@@ -97,7 +97,24 @@ const submitted = submitInstancePuzzleSolution(world, session, "align_awakening_
 
 Stonepass: `room_dragon_chamber` hooks `puzzle_dragon_runes` (trace warm rune / align awakening sequence).
 
+## Instance completion (W5-S5)
+
+When the player satisfies `completionCondition` in the active instance, apply `completionConsequenceId`, log cleanup metadata for `cleanupBehavior`, and clear `activeTemporaryInstanceId` / `currentTemporaryRoomId` so control returns to the main world.
+
+```typescript
+import {
+  completeStonepassHiddenCave,
+  completeTemporaryInstance,
+  validateTemporaryInstanceCompletion,
+} from "@playable-worlds/core";
+
+const validated = validateTemporaryInstanceCompletion(world, session);
+const completed = completeTemporaryInstance(world, session);
+```
+
+Stonepass: `reached_dragon_chamber` completes from `room_dragon_chamber` with `consequence_cave_complete` and `cleanupBehavior: "collapse"`. Completing the cave sets `dragon_awake`, unlocks `goal_face_dragon`, and advances to `beat_dragon_stirring` (landslide beat is blocked once the dragon wakes).
+
 ## Not in scope (later steps)
 
-- Wiring `/play` UI to enter the cave, move rooms, resolve encounters, or submit puzzles
-- Instance completion / cleanup (`W5-S5`)
+- Wiring `/play` UI to enter the cave, move rooms, resolve encounters, submit puzzles, or complete instances
+- W5-S7 temporary instance acceptance test gate

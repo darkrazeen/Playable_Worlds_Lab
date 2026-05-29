@@ -66,6 +66,7 @@
       "description": "The battle shook the cliffs. Fresh rubble covers the path and cold air breathes from a newly torn cave mouth beneath the bridge.",
       "trigger": "landslide_after_fight",
       "requiredFlags": ["landslide_triggered"],
+      "blockedByFlags": ["dragon_awake"],
       "availableChoices": [
         {
           "id": "enter_hidden_cave",

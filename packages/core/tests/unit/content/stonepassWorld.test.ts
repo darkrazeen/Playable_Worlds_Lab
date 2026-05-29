@@ -47,6 +47,14 @@ describe("Stonepass Spire Floor 1 world content", () => {
 
     const caveComplete = world.consequences.find((c) => c.id === "consequence_cave_complete");
     expect(caveComplete?.addFlags).toContain("dragon_awake");
+    expect(caveComplete?.unlockGoals).toContain("goal_face_dragon");
+
+    const landslideBeat = world.storyBeats.find((beat) => beat.id === "beat_landslide_aftermath");
+    expect(landslideBeat?.blockedByFlags).toContain("dragon_awake");
+
+    const dragonBeat = world.storyBeats.find((beat) => beat.id === "beat_dragon_stirring");
+    expect(dragonBeat?.requiredFlags).toContain("dragon_awake");
+    expect(dragonBeat?.availableChoices.map((choice) => choice.id)).toContain("warn_the_valley");
 
     const hiddenCave = world.temporaryInstances.find((i) => i.id === "instance_hidden_cave");
     expect(hiddenCave?.completionConsequenceId).toBe("consequence_cave_complete");
