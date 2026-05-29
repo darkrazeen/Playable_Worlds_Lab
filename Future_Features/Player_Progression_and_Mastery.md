@@ -2,7 +2,7 @@
 
 > **Living document** for a unified, deterministic **progression model**: player growth expressed as **tiers, unlocks, milestones, and mastery flags** in a dedicated `ProgressionLedger` — session-local or persistent across worlds/regions — granted only through validated, clamped `Consequence` objects. Explicitly **not** a full RPG stat/XP-curve/economy system.
 >
-> **Status:** Brainstorm / proposed direction — **not in step tracker yet** (Future_Features only).  
+> **Status:** Scheduled in step tracker — rows added 2026-05-29 as `Not started`: **W5-S8** (ProgressionLedger), **W5-S9** (clamped `progressionChanges`), **W9-S8** (persistent progression). Implement only when each step reaches `Next` with human approval.  
 > **Last updated:** 2026-05-28  
 > **Related:** [Item_and_Gear_Template_Library.md](./Item_and_Gear_Template_Library.md), [Faction_and_Reputation_System.md](./Faction_and_Reputation_System.md), [NPC_Memory_and_Relationship_Arcs.md](./NPC_Memory_and_Relationship_Arcs.md), [Quest_Generation.md](./Quest_Generation.md), [Procedural_Region_and_Biome_Composer.md](./Procedural_Region_and_Biome_Composer.md), [README.md](./README.md)
 

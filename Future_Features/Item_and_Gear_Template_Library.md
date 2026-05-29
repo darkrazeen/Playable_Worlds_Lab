@@ -2,7 +2,7 @@
 
 > **Living document** for a tier-based item/gear system expressed as **flags + bounded tiers** (not a full economy): reusable `GearTemplate` / `ItemTemplate` entries that quests and worlds can reward, that gate beats/choices, and that the Architect composes per theme — staying inside the README "no full economy" MVP rule.
 >
-> **Status:** Brainstorm / proposed direction — **not in step tracker yet** (Future_Features only).  
+> **Status:** Scheduled in step tracker — rows added 2026-05-29 as `Not started`: **W5-S11** (flag/tier gating), **W7-S12/S13** (gear/item library + seed), **W8-S18** (Tier A gear specials). Implement only when each step reaches `Next` with human approval.  
 > **Last updated:** 2026-05-28  
 > **Related:** [Player_World_Generation_and_Content_Libraries.md](./Player_World_Generation_and_Content_Libraries.md), [Quest_Generation.md](./Quest_Generation.md), [Faction_and_Reputation_System.md](./Faction_and_Reputation_System.md), [README.md](./README.md)
 

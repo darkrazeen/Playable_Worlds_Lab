@@ -2,7 +2,7 @@
 
 > **Living document** for a deterministic, text-first combat and skill system inspired by RuneScape's *train-by-doing* progression — delivered in two stages. **Tier A (approved direction): bounded** — skills as discrete usage-advanced tiers, gear as tiers + unlockable specials, encounters resolved into discrete outcome bands. **Tier B (deferred): continuous** — XP curves and stateful leveling gear, which would require an explicit README boundary amendment. This doc specifies Tier A in full and maps the clean upgrade path to Tier B.
 >
-> **Status:** Brainstorm / proposed direction — **Tier A approved as design direction; not in step tracker yet** (Future_Features only).
+> **Status:** Tier A scheduled in step tracker — rows added 2026-05-29 as `Not started`: **W5-S9/S10** (skills), **W5-S12** (Level 0 encounters), **W8-S18** (Tier A gear), **W8-S19** (Level 1 EncounterResolver), plus **W4-S10** Director difficulty. **Tier B remains deferred** (needs a README boundary amendment). Implement only when each step reaches `Next` with human approval.
 > **Last updated:** 2026-05-28
 > **Related:** [Stonepass_Spire_Aincrad_Castle.md](./Stonepass_Spire_Aincrad_Castle.md), [Player_Progression_and_Mastery.md](./Player_Progression_and_Mastery.md), [Item_and_Gear_Template_Library.md](./Item_and_Gear_Template_Library.md), [Dynamic_Difficulty_Director.md](./Dynamic_Difficulty_Director.md), [Player_World_Generation_and_Content_Libraries.md](./Player_World_Generation_and_Content_Libraries.md), [Story_Seed_Determinism_and_Variation_Explorer.md](./Story_Seed_Determinism_and_Variation_Explorer.md), [README.md](./README.md)
 

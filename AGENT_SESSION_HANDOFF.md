@@ -1,7 +1,7 @@
 # Playable Worlds Lab — Agent Session Handoff
 
-**Handoff date:** 2026-05-28  
-**Last reconciled:** 2026-05-28  
+**Handoff date:** 2026-05-29  
+**Last reconciled:** 2026-05-29  
 **Workspace:** `Playable_Worlds_Lab`  
 **Purpose:** Onboard a Cursor/agent on the current repo state, contract rules, Phase 0 complete, Phase 1 W2-S1–S5 complete, and the next approved step (**W2-S6**).
 
@@ -24,7 +24,7 @@
 | 2 | Human-approved step prompt |
 | 3 | Repository code in `packages/core` |
 | 4 | [README.md](./README.md) (secondary) |
-| 5 | [Future_Features/](./Future_Features/README.md) — specs for W7-S7+ / W8-S6+ (scheduled `Not started`; not current work) |
+| 5 | [Future_Features/](./Future_Features/README.md) — specs for scheduled `Not started` rows (W7-S7+ / W8-S6+ libraries & quest; **W4-S8–S10, W5-S8–S13, W7-S12–S13, W8-S13–S20, W9-S7–S9, W12-S8** Spire & gameplay systems). **Not current work** until a row is `Next`. |
 
 ---
 
@@ -35,7 +35,7 @@
 - **First proof world:** Stonepass Valley (ogre bridge → choice branches → landslide → cave → dragon).
 - **Not day one:** 3D metaverse, full economy, multiplayer, public UGC marketplace.
 - **Long-term vision:** Rich Stonepass showcase (v2), AI Director variation, **player-themed worlds** (WorldBlueprint + content libraries — [Future_Features/Player_World_Generation_and_Content_Libraries.md](./Future_Features/Player_World_Generation_and_Content_Libraries.md)), **quest generation** ([Future_Features/Quest_Generation.md](./Future_Features/Quest_Generation.md), tracker W8-S9–S12), 2D/3D as output layers on same JSON.
-- **Flagship product direction (brainstorm, 2026-05-28):** **Stonepass Spire** — retune Stonepass into an Aincrad-style **100-floor castle** (single-player). Floor = `WorldDefinition`; castle = vertical `RegionMap` gated by `floor_N_cleared`; boss raids = multi-phase instances; **Tier A** RuneScape-inspired combat/skills (bounded, usage-advanced). Design only — see [Future_Features/Stonepass_Spire_Aincrad_Castle.md](./Future_Features/Stonepass_Spire_Aincrad_Castle.md) and [Future_Features/Combat_and_Encounter_Resolution.md](./Future_Features/Combat_and_Encounter_Resolution.md). **No code, no tracker rows, no phase change** — next step is still W2-S6. Out of scope for this direction: guilds, multiplayer, AI-authored NPCs, Tier B continuous XP (would require a README boundary amendment).
+- **Flagship product direction (scheduled 2026-05-29):** **Stonepass Spire** — retune Stonepass into an Aincrad-style **100-floor castle** (single-player). Floor = `WorldDefinition`; castle = vertical `RegionMap` gated by `floor_N_cleared`; boss raids = multi-phase instances; **Tier A** RuneScape-inspired combat/skills (bounded, usage-advanced). **23 tracker rows** interleaved into Weeks 4–12 (see §3 *Spire & gameplay systems*). Specs: [Stonepass_Spire_Aincrad_Castle.md](./Future_Features/Stonepass_Spire_Aincrad_Castle.md), [Combat_and_Encounter_Resolution.md](./Future_Features/Combat_and_Encounter_Resolution.md), and linked docs in [Future_Features/README.md](./Future_Features/README.md). **Phase gates unchanged — next step is still W2-S6.** Do not implement Spire rows until each reaches `Next` with human approval. Out of scope: guilds, multiplayer, AI-authored NPCs, Tier B continuous XP (README boundary amendment required).
 
 ```text
 WorldDefinition → StoryBeats → PlayerChoices → Consequences → WorldLedger
@@ -69,7 +69,7 @@ W1-S1 through W1-S16 — all **Complete**.
 
 **Gap to close:** W2-S6 wires this loop into `apps/web`. The home page at `http://localhost:3000` is still a placeholder.
 
-### Current snapshot (2026-05-28)
+### Current snapshot (2026-05-29)
 
 | Area | Status |
 | --- | --- |
@@ -80,8 +80,10 @@ W1-S1 through W1-S16 — all **Complete**.
 | Browser text play UI | **Not started** — W2-S6 next |
 | AI Gateway / Director | Phase 2 — not started |
 | Temporary instance runtime | Phase 3 — not started |
+| Spire & gameplay systems (combat Tier A, progression, gear, region, manifest) | **Scheduled** — tracker rows `Not started`; first Spire content step **W5-S13** (after Phase 3 instances) |
 | Tests | **200 passing** (28 files) |
 | CI | `.github/workflows/ci.yml` — typecheck, lint, test |
+| Step tracker | **122 rows** (99 original + 23 Spire/gameplay rows added 2026-05-29) |
 
 ### Phase 5 extension — scheduled, not current work
 
@@ -91,7 +93,24 @@ Tracker rows added 2026-05-28 (all `Not started` until human approval):
 - **W8-S6–S8** — WorldBlueprint + Architect wiring
 - **W8-S9–S12** — Quest generation (QuestBlueprint → merge into WorldDefinition)
 
-Chain: W7-S6 → W7-S7 … → W7-S11 → W8-S1 … → W8-S5 → W8-S6 … → W8-S12 → W9-S1. See FULL_CURSOR *Phase 5 extension* and [Future_Features/](./Future_Features/README.md).
+Chain: W7-S6 → W7-S7 … → W7-S11 → W8-S1 … → W8-S5 → W8-S6 … → W8-S12 → W8-S13 … → W9-S1. See FULL_CURSOR §13 and [Future_Features/](./Future_Features/README.md).
+
+### Spire & gameplay systems — scheduled, not current work
+
+Tracker rows added **2026-05-29** (all `Not started`; interleaved into existing weeks — **122 total tracker rows**). Full step cards: FULL_CURSOR §17; summary table: FULL_CURSOR §13 *Spire & Gameplay Systems track*.
+
+| Phase | Steps | What they add |
+| --- | --- | --- |
+| Phase 2 (W4) | **W4-S8–S10** | Seed plumbing · ledger difficulty signal · Director `adjust_difficulty` |
+| Phase 3 (W5) | **W5-S8–S13** | ProgressionLedger · Tier A skills · gear gating · Level 0 combat · **Stonepass → Floor 1** |
+| Phase 5 (W7) | **W7-S12–S13** | Gear/Item library schema + seed |
+| Phase 5 (W8) | **W8-S13–S20** | RegionMap · SpireManifest · ascension · Floor 2 · EncounterResolver · DifficultyProfile |
+| Phase 6 (W9) | **W9-S7–S9** | Climb save/resume · persistent progression · seeded replay |
+| Phase 9 (W12) | **W12-S8** | Variation Explorer UI |
+
+**Milestones (future):** single floor fun in text (**W5-S13**) → *Castle proven* = 2 floors + ascension (**W8-S17**) → continue-your-climb persistence (**W9-S7**).
+
+**None of these are startable now** — all gated behind Phase 2/3+ work. After W2-S6: W2-S7 → W3-* → …
 
 Detailed per-step notes are in the CSV documentation columns — see §5.
 
@@ -198,20 +217,30 @@ Integration tests use `contentRoot = join(__dirname, "../../../content")`.
 - `applyPlayerChoice("fight_ogre")` updates flags, goals, locations, ledger events, choice history, debug trace, and turn number.
 - Session validates after each update via `WorldSessionSchema`.
 
-### 4.7 Documentation and process updates (2026-05-28)
+### 4.7 Documentation and process updates
+
+#### 2026-05-28
 
 - [Playable_Worlds_Lab_v4_1_FULL_CURSOR.md](./Playable_Worlds_Lab_v4_1_FULL_CURSOR.md) — §17 step tracker rules; **Phase 5 extension** (W7-S7–W8-S12); replay layer 10 (content libraries).
 - [Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv](./Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv) — W1-S1–S16 and W2-S1–S5 **Complete**; W2-S6 **Next**; W7-S7–S11 and W8-S6–S12 added as `Not started`.
-- [Future_Features/](./Future_Features/README.md) — **21** brainstorm/spec docs; player world generation + quest specs linked to tracker rows (W7-S7+, W8-S6+; all `Not started`).
+- [Future_Features/](./Future_Features/README.md) — brainstorm/spec docs; player world generation + quest specs linked to tracker rows (W7-S7+, W8-S6+; all `Not started`).
 - [scripts/step-tracker-enrichment.json](./scripts/step-tracker-enrichment.json) — reference text for backfill.
 
-#### Stonepass Spire design package (2026-05-28, brainstorm — no code/tracker impact)
+#### Stonepass Spire design package (2026-05-28 — specs only at this point)
 
 - [Future_Features/Stonepass_Spire_Aincrad_Castle.md](./Future_Features/Stonepass_Spire_Aincrad_Castle.md) — flagship: 100-floor castle, `SpireManifest` skeleton, floor anatomy, single-player boss raids, climb curve, phased rollout.
 - [Future_Features/Combat_and_Encounter_Resolution.md](./Future_Features/Combat_and_Encounter_Resolution.md) — Tier A combat/skills (bounded, usage-advanced); Level 0 (no new code) → Level 1 `EncounterResolver`; Tier A→B migration path.
-- [Future_Features/Procedural_Region_and_Biome_Composer.md](./Future_Features/Procedural_Region_and_Biome_Composer.md) — added **vertical (tower) topology** section + `validateRegionMap` rules for the Spire.
-- [Future_Features/README.md](./Future_Features/README.md) — new "Flagship direction: Stonepass Spire" index section + `FLAGSHIP` layer in the vision stack.
+- [Future_Features/Procedural_Region_and_Biome_Composer.md](./Future_Features/Procedural_Region_and_Biome_Composer.md) — **vertical (tower) topology** section + `validateRegionMap` rules for the Spire.
+- [Future_Features/README.md](./Future_Features/README.md) — "Flagship direction: Stonepass Spire" index + `FLAGSHIP` layer in the vision stack.
 - `packages/content/examples/_design_drafts/` — **non-production** illustrative `*.draft.json` (Spire manifest + vertical region) + README. Uses `.draft.json` suffix; **never loaded by tests**, nothing imports it.
+
+#### 2026-05-29 — Spire & gameplay systems scheduled in tracker
+
+- [Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv](./Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv) — **23 new rows** (`Not started`): W4-S8–S10, W5-S8–S13, W7-S12–S13, W8-S13–S20, W9-S7–S9, W12-S8. **122 total rows.** Chain re-pointed at W4-S7, W5-S7, W7-S11, W8-S12, W9-S6, W12-S7.
+- [Playable_Worlds_Lab_v4_1_FULL_CURSOR.md](./Playable_Worlds_Lab_v4_1_FULL_CURSOR.md) — §13 *Spire & Gameplay Systems track* summary table; §17 full step cards for all 23 new steps.
+- [README.md](./README.md) — Implementation Progress table + Roadmap subsection for Spire track; Tier A combat boundary note.
+- [Future_Features/](./Future_Features/README.md) — *Scheduled: Stonepass Spire & gameplay systems* index; 7 feature doc statuses flipped to **Scheduled in step tracker**.
+- Feature specs updated with assigned step IDs: Stonepass Spire, Combat, Progression, Items/Gear, Region Composer, Dynamic Difficulty, Story Seed/Variation Explorer.
 
 ### 4.8 Verification state (2026-05-28)
 
@@ -295,7 +324,7 @@ playable-worlds-lab/
   Playable_Worlds_Lab_v4_1_FULL_CURSOR.md
   Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv
   AGENT_SESSION_HANDOFF.md               # This file
-  Future_Features/                       # 19 brainstorm/spec docs
+  Future_Features/                       # 22 brainstorm/spec docs (8 scheduled in tracker)
 ```
 
 ---
@@ -314,6 +343,7 @@ playable-worlds-lab/
 | AI Gateway, DirectorAgent | Phase 2 (W4-*) |
 | Temporary instance runtime | Phase 3 (W5-*) |
 | Content libraries, WorldBlueprint, quest generation | Phase 5 extension (W7-S7+, W8-S6+) — scheduled only |
+| Spire & gameplay systems (combat Tier A, progression, gear, RegionMap, SpireManifest, climb persistence) | W4-S8–S10, W5-S8–S13, W7-S12–S13, W8-S13–S20, W9-S7–S9, W12-S8 — scheduled only; **not startable at W2-S6** |
 
 **Validation layers today:**
 
@@ -361,6 +391,7 @@ playable-worlds-lab/
 | **Git** | Agent should not commit unless asked |
 | **Step tracker detail** | Five documentation columns required post-step (2026-05-28) |
 | **Phase 5 extension tracker** | W7-S7–S11 libraries + W8-S6–S12 WorldBlueprint/quest rows in CSV (2026-05-28); implement when `Next` |
+| **Spire & gameplay systems tracker** | 23 rows interleaved W4–W12 (2026-05-29); Tier A combat only; Tier B needs README amendment; implement when `Next` |
 
 ---
 
@@ -397,11 +428,12 @@ npm run dev    # http://localhost:3000 — placeholder home page until W2-S6
 
 1. This file — `AGENT_SESSION_HANDOFF.md`
 2. [Playable_Worlds_Lab_v4_1_FULL_CURSOR.md §22](./Playable_Worlds_Lab_v4_1_FULL_CURSOR.md#22-contract-v42-hybrid-addendum-implementation-tracking)
-3. W2-S6 step card in FULL_CURSOR
-4. [Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv](./Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv) — row W2-S6 (`Next`)
+3. W2-S6 step card in FULL_CURSOR §17
+4. [Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv](./Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv) — row W2-S6 (`Next`); **122 rows total**
 5. `packages/core/src/runtime/` and `packages/core/src/world/` for conventions
 6. `stonepass-valley.world.json` as reference content
-7. [Future_Features/](./Future_Features/README.md) — long-term vision (not current implementation)
+7. [Future_Features/](./Future_Features/README.md) — long-term vision including Spire track (**not current implementation**)
+8. FULL_CURSOR §13 *Spire & Gameplay Systems track* — when planning Phase 2+ work
 
 ---
 

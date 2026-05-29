@@ -2,7 +2,7 @@
 
 > **Living document** for letting the AI Director **propose** pacing and difficulty adjustments — hint frequency, encounter intensity tier, optional-branch emphasis — based on ledger signals, always **inside immutable WorldBlueprint bounds**, never mutating truth.
 >
-> **Status:** Brainstorm / proposed direction — **not in step tracker yet** (Future_Features only).  
+> **Status:** Scheduled in step tracker — rows added 2026-05-29 as `Not started`: **W4-S9** (ledger-signal heuristics), **W4-S10** (`adjust_difficulty` action), **W8-S20** (`DifficultyProfile`). Implement only when each step reaches `Next` with human approval.  
 > **Last updated:** 2026-05-28  
 > **Related:** [Player_World_Generation_and_Content_Libraries.md](./Player_World_Generation_and_Content_Libraries.md), [Item_and_Gear_Template_Library.md](./Item_and_Gear_Template_Library.md), [Story_Seed_Determinism_and_Variation_Explorer.md](./Story_Seed_Determinism_and_Variation_Explorer.md), [README.md](./README.md)
 

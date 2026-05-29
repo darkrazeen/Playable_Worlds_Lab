@@ -2,7 +2,7 @@
 
 > **Living document** for first-class **seeds** plus a tool that explains *why* two playthroughs of the same world diverged — attributing every variation to a profile, route, seed, flag, NPC attitude, validated AI suggestion, or approved remix, enforcing the project's replay-variation guardrail.
 >
-> **Status:** Brainstorm / proposed direction — **not in step tracker yet** (Future_Features only).  
+> **Status:** Scheduled in step tracker — rows added 2026-05-29 as `Not started`: **W4-S8** (seed plumbing), **W9-S9** (seeded replay + variation attribution), **W12-S8** (Variation Explorer UI). Implement only when each step reaches `Next` with human approval.  
 > **Last updated:** 2026-05-28  
 > **Related:** [Dynamic_Difficulty_Director.md](./Dynamic_Difficulty_Director.md), [Analytics_and_Telemetry_from_DebugEvents.md](./Analytics_and_Telemetry_from_DebugEvents.md), [Player_World_Generation_and_Content_Libraries.md](./Player_World_Generation_and_Content_Libraries.md), [README.md](./README.md)
 

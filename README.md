@@ -59,7 +59,7 @@ The first proof world is **Stonepass Valley** — a compact fantasy scenario use
 
 ## Project Status
 
-**Last reconciled:** 2026-05-28
+**Last reconciled:** 2026-05-29
 
 [![CI](https://github.com/darkrazeen/Playable_Worlds_Lab/actions/workflows/ci.yml/badge.svg)](https://github.com/darkrazeen/Playable_Worlds_Lab/actions/workflows/ci.yml)
 
@@ -83,7 +83,7 @@ Progress is tracked in `Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv`. Updat
 
 **Agent handoff (latest session):** [AGENT_SESSION_HANDOFF.md](./AGENT_SESSION_HANDOFF.md) — current state, v4.2 contract, engine loop, next step **W2-S6**.
 
-**Future ideas (scheduled in step tracker as Not started):** see [Future_Features/](./Future_Features/README.md) (19 brainstorm/spec docs) — [player-themed worlds + content libraries](./Future_Features/Player_World_Generation_and_Content_Libraries.md), [quest generation (W8-S9–S12)](./Future_Features/Quest_Generation.md#quest-foundation-vs-ai-flavor-creator-contract).
+**Future ideas (scheduled in step tracker as Not started):** see [Future_Features/](./Future_Features/README.md) — [player-themed worlds + content libraries](./Future_Features/Player_World_Generation_and_Content_Libraries.md), [quest generation (W8-S9–S12)](./Future_Features/Quest_Generation.md#quest-foundation-vs-ai-flavor-creator-contract), and the **flagship [Stonepass Spire](./Future_Features/Stonepass_Spire_Aincrad_Castle.md)** (Aincrad-style 100-floor castle) plus the gameplay systems it needs — combat **Tier A**, progression, gear, region composer, dynamic difficulty, and seed/variation — now interleaved into the tracker as **W4-S8 … W12-S8** (see the *Spire & Gameplay Systems track* in `Playable_Worlds_Lab_v4_1_FULL_CURSOR.md` §13).
 
 | Step ID | Phase | Name | Status |
 | --- | --- | --- | --- |
@@ -111,6 +111,12 @@ Progress is tracked in `Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv`. Updat
 | **W2-S6** | Phase 1 — Text runtime | Build text play screen | **Next** |
 | W2-S7 … W3-* | Phase 1+ | Path tests, consequence engine, debug UI | Not started |
 | W7-S7–S11, W8-S6–S12 | Phase 5 extension | Content libraries, WorldBlueprint, quest generation | Scheduled (`Not started`) |
+| W4-S8–S10 | Phase 2 ext (Spire) | Seed plumbing, ledger difficulty signal, Director `adjust_difficulty` | Scheduled (`Not started`) |
+| W5-S8–S13 | Phase 3 ext (Spire) | ProgressionLedger, Tier A skills, gear gating, Level 0 combat, **Floor 1** | Scheduled (`Not started`) |
+| W7-S12–S13 | Phase 5 ext (Spire) | Gear/Item template library + seed | Scheduled (`Not started`) |
+| W8-S13–S20 | Phase 5 ext (Spire) | RegionMap, **SpireManifest**, ascension, **Floor 2**, EncounterResolver, DifficultyProfile | Scheduled (`Not started`) |
+| W9-S7–S9 | Phase 6 ext (Spire) | Climb persistence, persistent progression, seeded replay | Scheduled (`Not started`) |
+| W12-S8 | Phase 9 ext (Spire) | Variation Explorer UI | Scheduled (`Not started`) |
 
 **W1-S1 done when (met):**
 
@@ -221,7 +227,7 @@ playable-worlds-lab/
   tests/smoke.test.ts
   .github/workflows/ci.yml
   AGENT_SESSION_HANDOFF.md
-  Future_Features/               # 19 brainstorm/spec docs
+  Future_Features/               # 22 brainstorm/spec docs (Spire track scheduled in tracker)
   Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv
   Playable_Worlds_Lab_v4_1_FULL_CURSOR.md
 ```
@@ -325,6 +331,8 @@ At least for the MVP, this project is **not**:
 - An autonomous AI agent that can directly rewrite permanent world truth.
 
 Those features may sound exciting, but building them too early would be a mistake. The engine needs structure, memory, validation, testing, and replayability before visual or social scale makes sense.
+
+> **On combat/RPG systems:** The flagship [Stonepass Spire](./Future_Features/Stonepass_Spire_Aincrad_Castle.md) adds combat, skills, and gear as **Tier A only** — bounded discrete tiers, flags, and unlocks (no continuous XP curves, stat simulation, inventory economy, or PvP). Continuous-XP / stateful-leveling-gear (**Tier B**) stays out of scope and would require an explicit amendment to this section.
 
 ---
 
@@ -2047,6 +2055,20 @@ Possible work:
 Done when:
 
 - 3D is an output layer, not a rewrite.
+
+---
+
+### Stonepass Spire & Gameplay Systems (interleaved track)
+
+The flagship direction is **[Stonepass Spire](./Future_Features/Stonepass_Spire_Aincrad_Castle.md)** — an Aincrad-style 100-floor castle where each floor is a validated `WorldDefinition`, floors stack into a vertical `RegionMap`, and ascension is gated by clearing the floor below. It is a **content + composition reframe on the existing engine, not a rewrite**, so its steps interleave into the existing phases rather than forming a new phase:
+
+- **Phase 2 (W4-S8–S10):** generation-seed plumbing; bounded Director difficulty/pacing.
+- **Phase 3 (W5-S8–S13):** `ProgressionLedger`, Tier A skills (train-by-doing), gear gating, Level 0 choice-gated encounters, and reframing Stonepass as **Floor 1** (cave → labyrinth, dragon → multi-phase boss). **Decision gate:** is one floor genuinely fun in text?
+- **Phase 5 (W7-S12–S13, W8-S13–S20):** gear/item library; `RegionMap` + cross-zone travel; `SpireManifest` skeleton + ascension edges; **Floor 2** (*Castle proven* = 2 floors + 1 ascension gate); Tier A gear specials; Level 1 `EncounterResolver`; `DifficultyProfile`.
+- **Phase 6 (W9-S7–S9):** `WorldSession.currentFloor` + persistent climb ledger; persistent progression; seeded replay + variation attribution.
+- **Phase 9 (W12-S8):** Variation Explorer UI.
+
+All of it obeys **AI proposes → validators check → engine executes**, stays **text-first** (no 2D until floors are fun as text), and stays inside the MVP boundary (**Tier A only**). Full step cards live in `Playable_Worlds_Lab_v4_1_FULL_CURSOR.md` §17; tracker rows are in the CSV. **Phase gates are unchanged — the next step is still W2-S6.**
 
 ---
 

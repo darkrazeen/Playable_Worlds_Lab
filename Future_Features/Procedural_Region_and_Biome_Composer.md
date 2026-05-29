@@ -2,7 +2,7 @@
 
 > **Living document** for stitching multiple validated worlds/zones into a connected **region map** — e.g. lava → ocean → machine — where each zone is its own `WorldDefinition`-shaped unit and travel between zones is a first-class, validated transition.
 >
-> **Status:** Brainstorm / proposed direction — **not in step tracker yet** (Future_Features only).  
+> **Status:** Scheduled in step tracker — rows added 2026-05-29 as `Not started`: **W8-S13** (RegionMap schema + validator), **W8-S14** (cross-zone travel + region ledger), **W8-S16** (vertical Spire edges). Implement only when each step reaches `Next` with human approval.  
 > **Last updated:** 2026-05-28  
 > **Related:** [Stonepass_Spire_Aincrad_Castle.md](./Stonepass_Spire_Aincrad_Castle.md), [Player_World_Generation_and_Content_Libraries.md](./Player_World_Generation_and_Content_Libraries.md), [2D_Map_and_Node_Graph_Play_View.md](./2D_Map_and_Node_Graph_Play_View.md), [Quest_Generation.md](./Quest_Generation.md), [README.md](./README.md)
 

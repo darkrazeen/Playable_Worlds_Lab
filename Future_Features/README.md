@@ -4,7 +4,9 @@ Brainstorm and specification docs for features **scheduled or planned** in the s
 
 **Tracker status (2026-05-28):** W7-S7–S11 (content libraries), W8-S6–S12 (WorldBlueprint + quest generation) are in the CSV as `Not started` — implement only when each step is human-approved as `Next`.
 
-**"Earliest implementable" = the prerequisite step/gate that must be `Complete` before this feature can start.** It does not mean the feature is scheduled — proposed features still need human-approved tracker rows. Current build state (2026-05-28): Phase 0 complete; Phase 1 W2-S1–S5 done; **W2-S6 is next**.
+**Tracker status (2026-05-29):** the flagship **Stonepass Spire** track and the gameplay systems it needs were added to the CSV as `Not started`, interleaved across Weeks 4–12 (W4-S8–S10, W5-S8–S13, W7-S12–S13, W8-S13–S20, W9-S7–S9, W12-S8). Phase gates are unchanged; the next step is still **W2-S6**. See *Scheduled: Stonepass Spire & gameplay systems* below.
+
+**"Earliest implementable" = the prerequisite step/gate that must be `Complete` before this feature can start.** It does not mean the feature is scheduled — proposed features still need human-approved tracker rows. Current build state (2026-05-29): Phase 0 complete; Phase 1 W2-S1–S5 done; **W2-S6 is next**. Tracker has **122 rows** (includes Spire & gameplay systems scheduled 2026-05-29).
 
 ### Scheduled in step tracker (CSV rows added 2026-05-28)
 
@@ -13,7 +15,23 @@ Brainstorm and specification docs for features **scheduled or planned** in the s
 | [Player_World_Generation_and_Content_Libraries.md](./Player_World_Generation_and_Content_Libraries.md) | Player-themed worlds (lava/ocean/machine), **content libraries**, WorldBlueprint knobs, Director + Architect integration | Phase 5 | After W7-S6 (libraries W7-S7+); richest after Phase 3 instances + Phase 4 Director |
 | [Quest_Generation.md](./Quest_Generation.md) | Quest generator, regional quests, **quest blueprint vs AI flavor** | Phase 5 | After W8-S5 graph generator (rows W8-S9–S12); needs W4-S1 Gateway |
 
-### Proposed ambitious features (brainstorm — not yet in step tracker)
+### Scheduled: Stonepass Spire & gameplay systems (CSV rows added 2026-05-29)
+
+The flagship **Stonepass Spire** (Aincrad-style 100-floor castle) and the systems it depends on are now interleaved into the tracker as `Not started` rows. Full step cards: `Playable_Worlds_Lab_v4_1_FULL_CURSOR.md` §17 (*Spire & Gameplay Systems track* in §13).
+
+| Document | Scheduled steps | Target phase |
+| --- | --- | --- |
+| [Stonepass_Spire_Aincrad_Castle.md](./Stonepass_Spire_Aincrad_Castle.md) | W5-S13, W8-S15, W8-S16, W8-S17, W9-S7 | Phase 3 / 5 / 6 |
+| [Combat_and_Encounter_Resolution.md](./Combat_and_Encounter_Resolution.md) | W5-S9, W5-S10, W5-S12, W8-S18, W8-S19 (Tier A) | Phase 3 / 5 |
+| [Player_Progression_and_Mastery.md](./Player_Progression_and_Mastery.md) | W5-S8, W5-S9, W9-S8 | Phase 3 / 6 |
+| [Item_and_Gear_Template_Library.md](./Item_and_Gear_Template_Library.md) | W5-S11, W7-S12, W7-S13, W8-S18 | Phase 3 / 5 |
+| [Procedural_Region_and_Biome_Composer.md](./Procedural_Region_and_Biome_Composer.md) | W8-S13, W8-S14, W8-S16 | Phase 5 |
+| [Dynamic_Difficulty_Director.md](./Dynamic_Difficulty_Director.md) | W4-S9, W4-S10, W8-S20 | Phase 2 / 5 |
+| [Story_Seed_Determinism_and_Variation_Explorer.md](./Story_Seed_Determinism_and_Variation_Explorer.md) | W4-S8, W9-S9, W12-S8 | Phase 2 / 6 / 9 |
+
+**Tier B (continuous XP / stateful leveling gear) is NOT scheduled** — it requires an explicit README "What This Project Is Not" boundary amendment.
+
+### Proposed deep-dives (design detail — flagship + gameplay systems above are now scheduled)
 
 Each doc proposes its own suggested step IDs; none are scheduled until human-approved. "Earliest implementable" assumes the gating step is complete and prior phase gates passed.
 

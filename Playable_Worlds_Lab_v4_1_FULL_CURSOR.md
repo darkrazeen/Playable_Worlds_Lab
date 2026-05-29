@@ -844,6 +844,8 @@ layers                                            official packs, co-op,   imple
                                                   2.5D/3D.                 starts.
 
 
+> **Spire & Gameplay Systems extension (added 2026-05-29):** Weeks 4–12 also carry interleaved steps for the flagship **Stonepass Spire** and its gameplay systems (combat Tier A, progression, gear, region composer, dynamic difficulty, seed/variation). See the *Spire & Gameplay Systems track* table at the end of §13 and the step cards in §17. Phase gates are unchanged; the next step is still W2-S6.
+
 ## 13. Week-by-Week Implementation Plan
 
 Week              Phase            Theme          Main output       Human setup Hard stop
@@ -918,6 +920,43 @@ Week              Phase           Theme            Main output     Human setup H
                                                    regenerate,
                                                    approve/roll
                                                    back.
+
+
+### Spire & Gameplay Systems track (interleaved steps — added 2026-05-29)
+
+These steps extend Weeks 4–12 to implement the flagship **Stonepass Spire** (Aincrad-style 100-floor castle) and the gameplay systems it depends on. They **interleave** into existing weeks (no renumbering of prior steps) and are gated by the phase steps named in **Blocked by**. They obey the core mantra (AI proposes → validators check → engine executes) and stay inside the README MVP boundary: combat is **Tier A only** (bounded tiers/flags/unlocks — no continuous XP, stat-sim, or economy). Full step cards are in §17; tracker rows are in the CSV as `Not started`. Specs: [Future_Features/](./Future_Features/README.md).
+
+| Step | Week / Phase | Adds | Feature spec |
+| --- | --- | --- | --- |
+| W4-S8 | 4 / Phase 2 | Generation-seed plumbing | Story Seed & Variation Explorer |
+| W4-S9 | 4 / Phase 2 | Ledger-signal difficulty (advisory) | Dynamic Difficulty Director |
+| W4-S10 | 4 / Phase 2 | Director `adjust_difficulty` (bounded) | Dynamic Difficulty Director |
+| W5-S8 | 5 / Phase 3 | `ProgressionLedger` schema | Player Progression & Mastery |
+| W5-S9 | 5 / Phase 3 | Clamped `progressionChanges` | Progression / Combat |
+| W5-S10 | 5 / Phase 3 | Tier A skills (usage + unlocks) | Combat & Encounter Resolution |
+| W5-S11 | 5 / Phase 3 | Gear gating via flags/tiers | Item & Gear Template Library |
+| W5-S12 | 5 / Phase 3 | Level 0 choice-gated encounters | Combat & Encounter Resolution |
+| W5-S13 | 5 / Phase 3 | Stonepass becomes Spire **Floor 1** | Stonepass Spire |
+| W7-S12 | 7 / Phase 5 | Gear/Item library schema | Item & Gear Template Library |
+| W7-S13 | 7 / Phase 5 | Seed gear library (tier bands) | Item & Gear Template Library |
+| W8-S13 | 8 / Phase 5 | `RegionMap` schema + validator | Procedural Region Composer |
+| W8-S14 | 8 / Phase 5 | Cross-zone travel + region ledger | Procedural Region Composer |
+| W8-S15 | 8 / Phase 5 | `SpireManifest` skeleton + validator | Stonepass Spire |
+| W8-S16 | 8 / Phase 5 | Vertical edges + ascension gating | Stonepass Spire |
+| W8-S17 | 8 / Phase 5 | Floor 2 + ascension gate (**Castle proven**) | Stonepass Spire |
+| W8-S18 | 8 / Phase 5 | Tier A gear tiers + specials | Combat / Items |
+| W8-S19 | 8 / Phase 5 | Level 1 `EncounterResolver` | Combat & Encounter Resolution |
+| W8-S20 | 8 / Phase 5 | `DifficultyProfile` in WorldBlueprint | Dynamic Difficulty Director |
+| W9-S7 | 9 / Phase 6 | `WorldSession.currentFloor` + climb ledger | Stonepass Spire / Progression |
+| W9-S8 | 9 / Phase 6 | Persistent cross-floor progression | Player Progression & Mastery |
+| W9-S9 | 9 / Phase 6 | Seeded replay + variation attribution | Story Seed & Variation Explorer |
+| W12-S8 | 12 / Phase 9 | Variation Explorer UI | Story Seed & Variation Explorer |
+
+**Milestones:** *single floor fun in text* (W5-S13, decision gate) → *Castle proven* = 2 built floors + 1 working ascension gate (W8-S17) → *continue your climb* persistence (W9-S7).
+
+**schemaVersion note:** `RegionMap`, `ProgressionLedger`, gear, and `SpireManifest` push the contract past `0.2.0`. Bump `CURRENT_SCHEMA_VERSION` and add migrations when W8-S13/S15 land.
+
+**Out of scope (per Spire non-goals):** guilds/multiplayer/co-op, AI-authored NPC dialogue, VR, permadeath, continuous-XP combat (Tier B needs an explicit README boundary amendment).
 
 
 ## 14. Cursor / Agentic IDE Required Work Loop
@@ -1028,7 +1067,7 @@ These columns were added so each step records **what changed**, **why it matters
 
 **Do not fill** `Commit Hash` unless the human provides a hash. Leave `Blocked By` empty unless blocked.
 
-**Future_Features specs:** [Future_Features/Quest_Generation.md](./Future_Features/Quest_Generation.md) and [Future_Features/Player_World_Generation_and_Content_Libraries.md](./Future_Features/Player_World_Generation_and_Content_Libraries.md) define **W8-S9–S12** (quest) and **W7-S7–S11 / W8-S6–S8** (libraries + WorldBlueprint) — tracker rows added 2026-05-28; implement only when step reaches `Next` with human approval.
+**Future_Features specs:** [Future_Features/Quest_Generation.md](./Future_Features/Quest_Generation.md) and [Future_Features/Player_World_Generation_and_Content_Libraries.md](./Future_Features/Player_World_Generation_and_Content_Libraries.md) define **W8-S9–S12** (quest) and **W7-S7–S11 / W8-S6–S8** (libraries + WorldBlueprint) — tracker rows added 2026-05-28. The **Stonepass Spire & gameplay systems** track (**W4-S8–S10, W5-S8–S13, W7-S12–S13, W8-S13–S20, W9-S7–S9, W12-S8**) was added 2026-05-29 — see §13 *Spire & Gameplay Systems track* and [Future_Features/README.md](./Future_Features/README.md). Implement only when a step reaches `Next` with human approval.
 
 #### Reference: enrichment backfill
 
@@ -4243,6 +4282,204 @@ Completion report required:
 Stop after this step.
 
 
+### W4-S8 - Thread generation seed through runtime and AI Gateway
+
+ Field                                        Instruction
+ Phase                                        Phase 2 - AI Director v1
+ Week                                         4
+ Goal                                         Propagate a deterministic generationSeed through WorldSession init, runtime selection, and AI Gateway calls so runs are reproducible.
+ Human action before step                     None unless external setup is discovered.
+ AI allowed scope                             packages/core/session, packages/core/runtime, packages/ai/gateway, tests.
+ AI blocked scope                             No 2D/3D rendering; no real-time multiplayer; no public UGC discovery; no marketplace; no creator monetization; no social chat or voice; no complex avatar system; no full economy; no PvP; no VR; no hardcoded secrets; no broad refactors; no cross-phase work.
+ Contracts touched                            WorldSession, AIResult (generationSeed), AIRequest.
+ Validator required                           Same seed plus same inputs must reproduce a run; seed recorded in session and debug.
+ Tests required                               Seeded run reproduces choice/beat order; missing seed defaults safely.
+ Done when                                    Seed plumbing exists end-to-end and is recorded for replay.
+ Blocked by                                   W4-S1
+ Next allowed step                            W4-S9
+
+Cursor kickoff prompt:
+You are working in Cursor on Playable Worlds Lab.
+Current assignment:
+- Phase: Phase 2 - AI Director v1
+- Week: 4
+- Step ID: W4-S8
+
+- Step name: Thread generation seed through runtime and AI Gateway
+
+Goal: Propagate a deterministic generationSeed through WorldSession init, runtime selection, and AI Gateway calls so runs are reproducible.
+
+Before coding:
+1. Read the relevant project files and this step card.
+2. State a 3-7 bullet implementation plan.
+3. List exact files you expect to create or edit.
+4. Confirm source priority, allowed scope, blocked scope, validators, tests, and human setup.
+5. Confirm you will not work outside this step.
+
+Allowed scope: packages/core/session, packages/core/runtime, packages/ai/gateway, tests.
+Blocked scope: No 2D/3D rendering; no real-time multiplayer; no public UGC discovery; no marketplace; no creator monetization; no social chat or voice; no complex avatar system; no full economy; no PvP; no VR; no hardcoded secrets; no broad refactors; no cross-phase work.
+Contracts touched: WorldSession, AIResult (generationSeed), AIRequest.
+Validation required: Same seed plus same inputs must reproduce a run; seed recorded in session and debug.
+Testing required: Seeded run reproduces choice/beat order; missing seed defaults safely.
+
+Implementation requirements:
+- Make the smallest useful change.
+- Use schemas and deterministic validators before runtime depends on data.
+- AI may propose or explain, but deterministic engine code owns permanent world state.
+- If credentials, accounts, Supabase setup, browser action, billing, or API keys are needed,
+stop and tell the human owner exactly what to do.
+- Do not continue into the next step without explicit human approval.
+
+Done when: Seed plumbing exists end-to-end and is recorded for replay.
+
+Future Features alignment: Story_Seed_Determinism_and_Variation_Explorer.md (seed plumbing). Enables W9-S9 seeded replay and W12-S8 Variation Explorer.
+
+Completion report required:
+- Task completed
+- Files changed and why
+- Tests run and exact result
+- Acceptance criteria evidence
+- Validation/fallback added
+- Human action required
+- Blocked items intentionally not touched
+- Step tracker CSV updated (§17 Step tracker CSV)
+- Next safe task only
+
+Stop after this step.
+
+
+### W4-S9 - Compute ledger-signal difficulty heuristics (advisory)
+
+ Field                                        Instruction
+ Phase                                        Phase 2 - AI Director v1
+ Week                                         4
+ Goal                                         Derive a bounded advisory difficulty signal from ledger state (struggle/streak indicators) without mutating truth.
+ Human action before step                     None unless external setup is discovered.
+ AI allowed scope                             packages/core/difficulty, tests.
+ AI blocked scope                             No 2D/3D rendering; no real-time multiplayer; no public UGC discovery; no marketplace; no creator monetization; no social chat or voice; no complex avatar system; no full economy; no PvP; no VR; no hardcoded secrets; no broad refactors; no cross-phase work.
+ Contracts touched                            WorldLedger, DifficultyProfile (draft), DirectorDecision.
+ Validator required                           Signal is deterministic from ledger; advisory only; never sets flags or grants rewards.
+ Tests required                               Struggle/streak fixtures map to expected bounded signal; empty ledger safe.
+ Done when                                    Difficulty signal is computed deterministically and stays advisory only.
+ Blocked by                                   W4-S4
+ Next allowed step                            W4-S10
+
+Cursor kickoff prompt:
+You are working in Cursor on Playable Worlds Lab.
+Current assignment:
+- Phase: Phase 2 - AI Director v1
+- Week: 4
+- Step ID: W4-S9
+
+- Step name: Compute ledger-signal difficulty heuristics (advisory)
+
+Goal: Derive a bounded advisory difficulty signal from ledger state (struggle/streak indicators) without mutating truth.
+
+Before coding:
+1. Read the relevant project files and this step card.
+2. State a 3-7 bullet implementation plan.
+3. List exact files you expect to create or edit.
+4. Confirm source priority, allowed scope, blocked scope, validators, tests, and human setup.
+5. Confirm you will not work outside this step.
+
+Allowed scope: packages/core/difficulty, tests.
+Blocked scope: No 2D/3D rendering; no real-time multiplayer; no public UGC discovery; no marketplace; no creator monetization; no social chat or voice; no complex avatar system; no full economy; no PvP; no VR; no hardcoded secrets; no broad refactors; no cross-phase work.
+Contracts touched: WorldLedger, DifficultyProfile (draft), DirectorDecision.
+Validation required: Signal is deterministic from ledger; advisory only; never sets flags or grants rewards.
+Testing required: Struggle/streak fixtures map to expected bounded signal; empty ledger safe.
+
+Implementation requirements:
+- Make the smallest useful change.
+- Use schemas and deterministic validators before runtime depends on data.
+- AI may propose or explain, but deterministic engine code owns permanent world state.
+- If credentials, accounts, Supabase setup, browser action, billing, or API keys are needed,
+stop and tell the human owner exactly what to do.
+- Do not continue into the next step without explicit human approval.
+
+Done when: Difficulty signal is computed deterministically and stays advisory only.
+
+Future Features alignment: Dynamic_Difficulty_Director.md (ledger-signal heuristics). Feeds W4-S10 and W8-S20.
+
+Completion report required:
+- Task completed
+- Files changed and why
+- Tests run and exact result
+- Acceptance criteria evidence
+- Validation/fallback added
+- Human action required
+- Blocked items intentionally not touched
+- Step tracker CSV updated (§17 Step tracker CSV)
+- Next safe task only
+
+Stop after this step.
+
+
+### W4-S10 - Add Director adjust_difficulty action (bounded)
+
+ Field                                        Instruction
+ Phase                                        Phase 2 - AI Director v1
+ Week                                         4
+ Goal                                         Add a bounded adjust_difficulty DirectorDecision action that selects allowed encounter-intensity/hint variants within clamps, with fallback.
+ Human action before step                     None unless external setup is discovered.
+ AI allowed scope                             packages/core/schemas/directorDecision, packages/ai/agents/directorAgent, tests.
+ AI blocked scope                             No 2D/3D rendering; no real-time multiplayer; no public UGC discovery; no marketplace; no creator monetization; no social chat or voice; no complex avatar system; no full economy; no PvP; no VR; no hardcoded secrets; no broad refactors; no cross-phase work.
+ Contracts touched                            DirectorDecision (adjust_difficulty), DifficultyProfile clamp, AIResult.
+ Validator required                           Action stays within DifficultyProfile bounds; clamped/rejected output falls back; no reward or flag changes.
+ Tests required                               In-bounds adjust passes; out-of-bounds clamped/rejected; fallback fires.
+ Done when                                    Director can propose bounded difficulty/pacing changes that never alter truth.
+ Blocked by                                   W4-S9
+ Next allowed step                            W5-S1
+
+Cursor kickoff prompt:
+You are working in Cursor on Playable Worlds Lab.
+Current assignment:
+- Phase: Phase 2 - AI Director v1
+- Week: 4
+- Step ID: W4-S10
+
+- Step name: Add Director adjust_difficulty action (bounded)
+
+Goal: Add a bounded adjust_difficulty DirectorDecision action that selects allowed encounter-intensity/hint variants within clamps, with fallback.
+
+Before coding:
+1. Read the relevant project files and this step card.
+2. State a 3-7 bullet implementation plan.
+3. List exact files you expect to create or edit.
+4. Confirm source priority, allowed scope, blocked scope, validators, tests, and human setup.
+5. Confirm you will not work outside this step.
+
+Allowed scope: packages/core/schemas/directorDecision, packages/ai/agents/directorAgent, tests.
+Blocked scope: No 2D/3D rendering; no real-time multiplayer; no public UGC discovery; no marketplace; no creator monetization; no social chat or voice; no complex avatar system; no full economy; no PvP; no VR; no hardcoded secrets; no broad refactors; no cross-phase work.
+Contracts touched: DirectorDecision (adjust_difficulty), DifficultyProfile clamp, AIResult.
+Validation required: Action stays within DifficultyProfile bounds; clamped/rejected output falls back; no reward or flag changes.
+Testing required: In-bounds adjust passes; out-of-bounds clamped/rejected; fallback fires.
+
+Implementation requirements:
+- Make the smallest useful change.
+- Use schemas and deterministic validators before runtime depends on data.
+- AI may propose or explain, but deterministic engine code owns permanent world state.
+- If credentials, accounts, Supabase setup, browser action, billing, or API keys are needed,
+stop and tell the human owner exactly what to do.
+- Do not continue into the next step without explicit human approval.
+
+Done when: Director can propose bounded difficulty/pacing changes that never alter truth.
+
+Future Features alignment: Dynamic_Difficulty_Director.md and Stonepass_Spire (Director role). Bounds enforced later by W8-S20.
+
+Completion report required:
+- Task completed
+- Files changed and why
+- Tests run and exact result
+- Acceptance criteria evidence
+- Validation/fallback added
+- Human action required
+- Blocked items intentionally not touched
+- Step tracker CSV updated (§17 Step tracker CSV)
+- Next safe task only
+
+Stop after this step.
+
+
 ### Week 5
 
 
@@ -4832,6 +5069,402 @@ Completion report required:
 
 <!-- Source PDF page 100 -->
 
+- Validation/fallback added
+- Human action required
+- Blocked items intentionally not touched
+- Step tracker CSV updated (§17 Step tracker CSV)
+- Next safe task only
+
+Stop after this step.
+
+
+### W5-S8 - Create ProgressionLedger schema
+
+ Field                                        Instruction
+ Phase                                        Phase 3 - Temporary Instances
+ Week                                         5
+ Goal                                         Create ProgressionLedger schema for bounded skill tiers, unlocks, and milestones (no XP curves, no economy).
+ Human action before step                     None unless external setup is discovered.
+ AI allowed scope                             packages/core/schemas/progressionLedger, tests, examples.
+ AI blocked scope                             No 2D/3D rendering; no real-time multiplayer; no public UGC discovery; no marketplace; no creator monetization; no social chat or voice; no complex avatar system; no full economy; no PvP; no VR; no hardcoded secrets; no broad refactors; no cross-phase work.
+ Contracts touched                            ProgressionLedger, WorldSession (session-local progression).
+ Validator required                           Discrete tiers/unlocks/milestones only; bounded; reject continuous XP or stat numbers.
+ Tests required                               Valid progression ledger passes; XP/stat-number fixture fails; empty defaults safely.
+ Done when                                    Progression shape exists as bounded tiers/unlocks before runtime grants any.
+ Blocked by                                   W3-S1
+ Next allowed step                            W5-S9
+
+Cursor kickoff prompt:
+You are working in Cursor on Playable Worlds Lab.
+Current assignment:
+- Phase: Phase 3 - Temporary Instances
+- Week: 5
+- Step ID: W5-S8
+
+- Step name: Create ProgressionLedger schema
+
+Goal: Create ProgressionLedger schema for bounded skill tiers, unlocks, and milestones (no XP curves, no economy).
+
+Before coding:
+1. Read the relevant project files and this step card.
+2. State a 3-7 bullet implementation plan.
+3. List exact files you expect to create or edit.
+4. Confirm source priority, allowed scope, blocked scope, validators, tests, and human setup.
+5. Confirm you will not work outside this step.
+
+Allowed scope: packages/core/schemas/progressionLedger, tests, examples.
+Blocked scope: No 2D/3D rendering; no real-time multiplayer; no public UGC discovery; no marketplace; no creator monetization; no social chat or voice; no complex avatar system; no full economy; no PvP; no VR; no hardcoded secrets; no broad refactors; no cross-phase work.
+Contracts touched: ProgressionLedger, WorldSession (session-local progression).
+Validation required: Discrete tiers/unlocks/milestones only; bounded; reject continuous XP or stat numbers.
+Testing required: Valid progression ledger passes; XP/stat-number fixture fails; empty defaults safely.
+
+Implementation requirements:
+- Make the smallest useful change.
+- Use schemas and deterministic validators before runtime depends on data.
+- AI may propose or explain, but deterministic engine code owns permanent world state.
+- If credentials, accounts, Supabase setup, browser action, billing, or API keys are needed,
+stop and tell the human owner exactly what to do.
+- Do not continue into the next step without explicit human approval.
+
+Done when: Progression shape exists as bounded tiers/unlocks before runtime grants any.
+
+Future Features alignment: Player_Progression_and_Mastery.md (ProgressionLedger). Powers Combat Tier A skills (W5-S10) and persistence (W9-S8).
+
+Completion report required:
+- Task completed
+- Files changed and why
+- Tests run and exact result
+- Acceptance criteria evidence
+- Validation/fallback added
+- Human action required
+- Blocked items intentionally not touched
+- Step tracker CSV updated (§17 Step tracker CSV)
+- Next safe task only
+
+Stop after this step.
+
+
+### W5-S9 - Extend Consequence with clamped progressionChanges
+
+ Field                                        Instruction
+ Phase                                        Phase 3 - Temporary Instances
+ Week                                         5
+ Goal                                         Extend Consequence with a clamped progressionChanges field so only the engine advances tiers/unlocks via validated consequences.
+ Human action before step                     None unless external setup is discovered.
+ AI allowed scope                             packages/core/schemas/consequence, packages/core/consequence, tests.
+ AI blocked scope                             No 2D/3D rendering; no real-time multiplayer; no public UGC discovery; no marketplace; no creator monetization; no social chat or voice; no complex avatar system; no full economy; no PvP; no VR; no hardcoded secrets; no broad refactors; no cross-phase work.
+ Contracts touched                            Consequence (progressionChanges), ProgressionLedger, WorldSession.
+ Validator required                           Advancement clamped to allowed tiers/unlocks; AI cannot grant directly; engine applies only.
+ Tests required                               Clamped advance applies; over-cap advance rejected/clamped; AI-proposed grant blocked.
+ Done when                                    Session-local progression advances only through validated clamped consequences.
+ Blocked by                                   W5-S8
+ Next allowed step                            W5-S10
+
+Cursor kickoff prompt:
+You are working in Cursor on Playable Worlds Lab.
+Current assignment:
+- Phase: Phase 3 - Temporary Instances
+- Week: 5
+- Step ID: W5-S9
+
+- Step name: Extend Consequence with clamped progressionChanges
+
+Goal: Extend Consequence with a clamped progressionChanges field so only the engine advances tiers/unlocks via validated consequences.
+
+Before coding:
+1. Read the relevant project files and this step card.
+2. State a 3-7 bullet implementation plan.
+3. List exact files you expect to create or edit.
+4. Confirm source priority, allowed scope, blocked scope, validators, tests, and human setup.
+5. Confirm you will not work outside this step.
+
+Allowed scope: packages/core/schemas/consequence, packages/core/consequence, tests.
+Blocked scope: No 2D/3D rendering; no real-time multiplayer; no public UGC discovery; no marketplace; no creator monetization; no social chat or voice; no complex avatar system; no full economy; no PvP; no VR; no hardcoded secrets; no broad refactors; no cross-phase work.
+Contracts touched: Consequence (progressionChanges), ProgressionLedger, WorldSession.
+Validation required: Advancement clamped to allowed tiers/unlocks; AI cannot grant directly; engine applies only.
+Testing required: Clamped advance applies; over-cap advance rejected/clamped; AI-proposed grant blocked.
+
+Implementation requirements:
+- Make the smallest useful change.
+- Use schemas and deterministic validators before runtime depends on data.
+- AI may propose or explain, but deterministic engine code owns permanent world state.
+- If credentials, accounts, Supabase setup, browser action, billing, or API keys are needed,
+stop and tell the human owner exactly what to do.
+- Do not continue into the next step without explicit human approval.
+
+Done when: Session-local progression advances only through validated clamped consequences.
+
+Future Features alignment: Player_Progression_and_Mastery.md and Combat_and_Encounter_Resolution.md (clamped advancement seam).
+
+Completion report required:
+- Task completed
+- Files changed and why
+- Tests run and exact result
+- Acceptance criteria evidence
+- Validation/fallback added
+- Human action required
+- Blocked items intentionally not touched
+- Step tracker CSV updated (§17 Step tracker CSV)
+- Next safe task only
+
+Stop after this step.
+
+
+### W5-S10 - Add Tier A skills (usage accrual + unlock-gated choices)
+
+ Field                                        Instruction
+ Phase                                        Phase 3 - Temporary Instances
+ Week                                         5
+ Goal                                         Implement bounded skills that advance by usage counts and unlock new combat choices at higher tiers (Combat Tier A).
+ Human action before step                     None unless external setup is discovered.
+ AI allowed scope                             packages/core/progression, packages/content/worlds/stonepass, tests.
+ AI blocked scope                             No 2D/3D rendering; no real-time multiplayer; no public UGC discovery; no marketplace; no creator monetization; no social chat or voice; no complex avatar system; no full economy; no PvP; no VR; no hardcoded secrets; no broad refactors; no cross-phase work.
+ Contracts touched                            ProgressionLedger, Consequence progressionChanges, PlayerChoice tier gates.
+ Validator required                           Usage accrual deterministic; tier-up clamped; unlocked choices gated by tier flags only.
+ Tests required                               Defeat-N usage advances tier; tier unlocks a new choice; below-tier choice blocked.
+ Done when                                    Skills rise by play and unlock choices without stat math.
+ Blocked by                                   W5-S9
+ Next allowed step                            W5-S11
+
+Cursor kickoff prompt:
+You are working in Cursor on Playable Worlds Lab.
+Current assignment:
+- Phase: Phase 3 - Temporary Instances
+- Week: 5
+- Step ID: W5-S10
+
+- Step name: Add Tier A skills (usage accrual + unlock-gated choices)
+
+Goal: Implement bounded skills that advance by usage counts and unlock new combat choices at higher tiers (Combat Tier A).
+
+Before coding:
+1. Read the relevant project files and this step card.
+2. State a 3-7 bullet implementation plan.
+3. List exact files you expect to create or edit.
+4. Confirm source priority, allowed scope, blocked scope, validators, tests, and human setup.
+5. Confirm you will not work outside this step.
+
+Allowed scope: packages/core/progression, packages/content/worlds/stonepass, tests.
+Blocked scope: No 2D/3D rendering; no real-time multiplayer; no public UGC discovery; no marketplace; no creator monetization; no social chat or voice; no complex avatar system; no full economy; no PvP; no VR; no hardcoded secrets; no broad refactors; no cross-phase work.
+Contracts touched: ProgressionLedger, Consequence progressionChanges, PlayerChoice tier gates.
+Validation required: Usage accrual deterministic; tier-up clamped; unlocked choices gated by tier flags only.
+Testing required: Defeat-N usage advances tier; tier unlocks a new choice; below-tier choice blocked.
+
+Implementation requirements:
+- Make the smallest useful change.
+- Use schemas and deterministic validators before runtime depends on data.
+- AI may propose or explain, but deterministic engine code owns permanent world state.
+- If credentials, accounts, Supabase setup, browser action, billing, or API keys are needed,
+stop and tell the human owner exactly what to do.
+- Do not continue into the next step without explicit human approval.
+
+Done when: Skills rise by play and unlock choices without stat math.
+
+Future Features alignment: Combat_and_Encounter_Resolution.md (Tier A skills). Used by EncounterResolver (W8-S19) and boss raids.
+
+Completion report required:
+- Task completed
+- Files changed and why
+- Tests run and exact result
+- Acceptance criteria evidence
+- Validation/fallback added
+- Human action required
+- Blocked items intentionally not touched
+- Step tracker CSV updated (§17 Step tracker CSV)
+- Next safe task only
+
+Stop after this step.
+
+
+### W5-S11 - Add item/gear gating via ledger flags and tiers
+
+ Field                                        Instruction
+ Phase                                        Phase 3 - Temporary Instances
+ Week                                         5
+ Goal                                         Represent inventory/gear as ledger flags plus tiers and gate beats/choices/instance entry on gear tier (no economy).
+ Human action before step                     None unless external setup is discovered.
+ AI allowed scope                             packages/core/runtime, packages/content/worlds/stonepass, tests.
+ AI blocked scope                             No 2D/3D rendering; no real-time multiplayer; no public UGC discovery; no marketplace; no creator monetization; no social chat or voice; no complex avatar system; no full economy; no PvP; no VR; no hardcoded secrets; no broad refactors; no cross-phase work.
+ Contracts touched                            WorldLedger (gear flags/tiers), PlayerChoice/StoryBeat gates, Consequence (clamped grants).
+ Validator required                           Gear as discrete flags/tiers only; clamped grants; gates reference known tiers.
+ Tests required                               Gear-tier-gated beat blocks under-geared player; clamped gear grant applies; unknown tier fails.
+ Done when                                    Gear gating works as flags/tiers before a full items library exists.
+ Blocked by                                   W5-S9
+ Next allowed step                            W5-S12
+
+Cursor kickoff prompt:
+You are working in Cursor on Playable Worlds Lab.
+Current assignment:
+- Phase: Phase 3 - Temporary Instances
+- Week: 5
+- Step ID: W5-S11
+
+- Step name: Add item/gear gating via ledger flags and tiers
+
+Goal: Represent inventory/gear as ledger flags plus tiers and gate beats/choices/instance entry on gear tier (no economy).
+
+Before coding:
+1. Read the relevant project files and this step card.
+2. State a 3-7 bullet implementation plan.
+3. List exact files you expect to create or edit.
+4. Confirm source priority, allowed scope, blocked scope, validators, tests, and human setup.
+5. Confirm you will not work outside this step.
+
+Allowed scope: packages/core/runtime, packages/content/worlds/stonepass, tests.
+Blocked scope: No 2D/3D rendering; no real-time multiplayer; no public UGC discovery; no marketplace; no creator monetization; no social chat or voice; no complex avatar system; no full economy; no PvP; no VR; no hardcoded secrets; no broad refactors; no cross-phase work.
+Contracts touched: WorldLedger (gear flags/tiers), PlayerChoice/StoryBeat gates, Consequence (clamped grants).
+Validation required: Gear as discrete flags/tiers only; clamped grants; gates reference known tiers.
+Testing required: Gear-tier-gated beat blocks under-geared player; clamped gear grant applies; unknown tier fails.
+
+Implementation requirements:
+- Make the smallest useful change.
+- Use schemas and deterministic validators before runtime depends on data.
+- AI may propose or explain, but deterministic engine code owns permanent world state.
+- If credentials, accounts, Supabase setup, browser action, billing, or API keys are needed,
+stop and tell the human owner exactly what to do.
+- Do not continue into the next step without explicit human approval.
+
+Done when: Gear gating works as flags/tiers before a full items library exists.
+
+Future Features alignment: Item_and_Gear_Template_Library.md (gating) and Stonepass_Spire (gear-gated boss entry). Library type lands W7-S12.
+
+Completion report required:
+- Task completed
+- Files changed and why
+- Tests run and exact result
+- Acceptance criteria evidence
+- Validation/fallback added
+- Human action required
+- Blocked items intentionally not touched
+- Step tracker CSV updated (§17 Step tracker CSV)
+- Next safe task only
+
+Stop after this step.
+
+
+### W5-S12 - Author Level 0 choice-gated encounters in Floor 1 instances
+
+ Field                                        Instruction
+ Phase                                        Phase 3 - Temporary Instances
+ Week                                         5
+ Goal                                         Author choice-gated combat encounters inside Floor 1 instance rooms resolved by existing Consequence logic (no new combat code).
+ Human action before step                     None unless external setup is discovered.
+ AI allowed scope                             packages/content/worlds/stonepass, packages/core/tests/integration.
+ AI blocked scope                             No 2D/3D rendering; no real-time multiplayer; no public UGC discovery; no marketplace; no creator monetization; no social chat or voice; no complex avatar system; no full economy; no PvP; no VR; no hardcoded secrets; no broad refactors; no cross-phase work.
+ Contracts touched                            TemporaryInstanceRoom, PlayerChoice, Consequence (existing).
+ Validator required                           Encounters resolve via authored consequences; tier/gear gates respected; no new schema.
+ Tests required                               Encounter choices resolve to bounded outcomes; under-tier choice blocked; ledger/debug recorded.
+ Done when                                    A floor encounter is fun and fair in text using only existing contracts.
+ Blocked by                                   W5-S3
+ Next allowed step                            W5-S13
+
+Cursor kickoff prompt:
+You are working in Cursor on Playable Worlds Lab.
+Current assignment:
+- Phase: Phase 3 - Temporary Instances
+- Week: 5
+- Step ID: W5-S12
+
+- Step name: Author Level 0 choice-gated encounters in Floor 1 instances
+
+Goal: Author choice-gated combat encounters inside Floor 1 instance rooms resolved by existing Consequence logic (no new combat code).
+
+Before coding:
+1. Read the relevant project files and this step card.
+2. State a 3-7 bullet implementation plan.
+3. List exact files you expect to create or edit.
+4. Confirm source priority, allowed scope, blocked scope, validators, tests, and human setup.
+5. Confirm you will not work outside this step.
+
+Allowed scope: packages/content/worlds/stonepass, packages/core/tests/integration.
+Blocked scope: No 2D/3D rendering; no real-time multiplayer; no public UGC discovery; no marketplace; no creator monetization; no social chat or voice; no complex avatar system; no full economy; no PvP; no VR; no hardcoded secrets; no broad refactors; no cross-phase work.
+Contracts touched: TemporaryInstanceRoom, PlayerChoice, Consequence (existing).
+Validation required: Encounters resolve via authored consequences; tier/gear gates respected; no new schema.
+Testing required: Encounter choices resolve to bounded outcomes; under-tier choice blocked; ledger/debug recorded.
+
+Implementation requirements:
+- Make the smallest useful change.
+- Use schemas and deterministic validators before runtime depends on data.
+- AI may propose or explain, but deterministic engine code owns permanent world state.
+- If credentials, accounts, Supabase setup, browser action, billing, or API keys are needed,
+stop and tell the human owner exactly what to do.
+- Do not continue into the next step without explicit human approval.
+
+Done when: A floor encounter is fun and fair in text using only existing contracts.
+
+Future Features alignment: Combat_and_Encounter_Resolution.md (Level 0). Proves combat-as-choices before the resolver (W8-S19).
+
+Completion report required:
+- Task completed
+- Files changed and why
+- Tests run and exact result
+- Acceptance criteria evidence
+- Validation/fallback added
+- Human action required
+- Blocked items intentionally not touched
+- Step tracker CSV updated (§17 Step tracker CSV)
+- Next safe task only
+
+Stop after this step.
+
+
+### W5-S13 - Reframe Stonepass as Spire Floor 1 (labyrinth + boss)
+
+ Field                                        Instruction
+ Phase                                        Phase 3 - Temporary Instances
+ Week                                         5
+ Goal                                         Recast canonical Stonepass as Spire Floor 1: the cave becomes the labyrinth instance and the dragon becomes a multi-phase floor-boss instance that sets floor_01_cleared.
+ Human action before step                     None unless external setup is discovered.
+ AI allowed scope                             packages/content/worlds/stonepass, packages/core/tests/integration.
+ AI blocked scope                             No 2D/3D rendering; no real-time multiplayer; no public UGC discovery; no marketplace; no creator monetization; no social chat or voice; no complex avatar system; no full economy; no PvP; no VR; no hardcoded secrets; no broad refactors; no cross-phase work.
+ Contracts touched                            TemporaryInstance (dungeon), Consequence (floor_01_cleared), WorldDefinition.
+ Validator required                           Boss clear is the only setter of floor_01_cleared; labyrinth-then-boss gating; world still validates.
+ Tests required                               arrive-field-labyrinth-boss-floor_01_cleared path passes; under-prepared boss entry blocked.
+ Done when                                    Floor 1 plays as a complete Aincrad-style floor loop in text.
+ Blocked by                                   W5-S6
+ Next allowed step                            W6-S1
+
+Cursor kickoff prompt:
+You are working in Cursor on Playable Worlds Lab.
+Current assignment:
+- Phase: Phase 3 - Temporary Instances
+- Week: 5
+- Step ID: W5-S13
+
+- Step name: Reframe Stonepass as Spire Floor 1 (labyrinth + boss)
+
+Goal: Recast canonical Stonepass as Spire Floor 1: the cave becomes the labyrinth instance and the dragon becomes a multi-phase floor-boss instance that sets floor_01_cleared.
+
+Before coding:
+1. Read the relevant project files and this step card.
+2. State a 3-7 bullet implementation plan.
+3. List exact files you expect to create or edit.
+4. Confirm source priority, allowed scope, blocked scope, validators, tests, and human setup.
+5. Confirm you will not work outside this step.
+
+Allowed scope: packages/content/worlds/stonepass, packages/core/tests/integration.
+Blocked scope: No 2D/3D rendering; no real-time multiplayer; no public UGC discovery; no marketplace; no creator monetization; no social chat or voice; no complex avatar system; no full economy; no PvP; no VR; no hardcoded secrets; no broad refactors; no cross-phase work.
+Contracts touched: TemporaryInstance (dungeon), Consequence (floor_01_cleared), WorldDefinition.
+Validation required: Boss clear is the only setter of floor_01_cleared; labyrinth-then-boss gating; world still validates.
+Testing required: arrive-field-labyrinth-boss-floor_01_cleared path passes; under-prepared boss entry blocked.
+
+Implementation requirements:
+- Make the smallest useful change.
+- Use schemas and deterministic validators before runtime depends on data.
+- AI may propose or explain, but deterministic engine code owns permanent world state.
+- If credentials, accounts, Supabase setup, browser action, billing, or API keys are needed,
+stop and tell the human owner exactly what to do.
+- Do not continue into the next step without explicit human approval.
+
+Done when: Floor 1 plays as a complete Aincrad-style floor loop in text.
+
+Future Features alignment: Stonepass_Spire_Aincrad_Castle.md (Floor 1 build). Manifest (W8-S15) and Floor 2 + ascension (W8-S17) follow.
+
+Completion report required:
+- Task completed
+- Files changed and why
+- Tests run and exact result
+- Acceptance criteria evidence
 - Validation/fallback added
 - Human action required
 - Blocked items intentionally not touched
@@ -5855,6 +6488,138 @@ Completion report required:
 Stop after this step.
 
 
+### W7-S12 - Create GearTemplate and ItemTemplate library schemas
+
+ Field                                        Instruction
+ Phase                                        Phase 5 - Content Libraries
+ Week                                         7
+ Goal                                         Add GearTemplate/ItemTemplate library entry schemas (tiers plus unlockable specials, no economy) and extend validateLibraryEntry.
+ Human action before step                     None unless external setup is discovered.
+ AI allowed scope                             packages/core/schemas/library, packages/core/validators/validateLibraryEntry, tests, examples.
+ AI blocked scope                             No 2D/3D rendering; no real-time multiplayer; no public UGC discovery; no marketplace; no creator monetization; no social chat or voice; no complex avatar system; no full economy; no PvP; no VR; no hardcoded secrets; no broad refactors; no cross-phase work.
+ Contracts touched                            GearTemplate/ItemTemplate library entries, validateLibraryEntry.
+ Validator required                           Tier/flag-based only; no stats/economy; safetyMode and tag rules; reject continuous stat fields.
+ Tests required                               Valid gear/item entries pass; stat/economy fixture fails; tier bands validate.
+ Done when                                    Gear/item entries validate independently as a library type.
+ Blocked by                                   W7-S8
+ Next allowed step                            W7-S13
+
+Cursor kickoff prompt:
+You are working in Cursor on Playable Worlds Lab.
+Current assignment:
+- Phase: Phase 5 - Content Libraries
+- Week: 7
+- Step ID: W7-S12
+
+- Step name: Create GearTemplate and ItemTemplate library schemas
+
+Goal: Add GearTemplate/ItemTemplate library entry schemas (tiers plus unlockable specials, no economy) and extend validateLibraryEntry.
+
+Before coding:
+1. Read the relevant project files and this step card.
+2. State a 3-7 bullet implementation plan.
+3. List exact files you expect to create or edit.
+4. Confirm source priority, allowed scope, blocked scope, validators, tests, and human setup.
+5. Confirm you will not work outside this step.
+
+Allowed scope: packages/core/schemas/library, packages/core/validators/validateLibraryEntry, tests, examples.
+Blocked scope: No 2D/3D rendering; no real-time multiplayer; no public UGC discovery; no marketplace; no creator monetization; no social chat or voice; no complex avatar system; no full economy; no PvP; no VR; no hardcoded secrets; no broad refactors; no cross-phase work.
+Contracts touched: GearTemplate/ItemTemplate library entries, validateLibraryEntry.
+Validation required: Tier/flag-based only; no stats/economy; safetyMode and tag rules; reject continuous stat fields.
+Testing required: Valid gear/item entries pass; stat/economy fixture fails; tier bands validate.
+
+Implementation requirements:
+- Make the smallest useful change.
+- Use schemas and deterministic validators before runtime depends on data.
+- AI may propose or explain, but deterministic engine code owns permanent world state.
+- If credentials, accounts, Supabase setup, browser action, billing, or API keys are needed,
+stop and tell the human owner exactly what to do.
+- Do not continue into the next step without explicit human approval.
+
+Done when: Gear/item entries validate independently as a library type.
+
+Future Features alignment: Item_and_Gear_Template_Library.md (library type). Seeded by W7-S13; specials wired in W8-S18.
+
+Completion report required:
+- Task completed
+- Files changed and why
+- Tests run and exact result
+- Acceptance criteria evidence
+- Validation/fallback added
+- Human action required
+- Blocked items intentionally not touched
+- Step tracker CSV updated (§17 Step tracker CSV)
+- Next safe task only
+
+Stop after this step.
+
+
+### W7-S13 - Seed gear/item library entries with tier bands
+
+ Field                                        Instruction
+ Phase                                        Phase 5 - Content Libraries
+ Week                                         7
+ Goal                                         Seed minimal teen-safe gear/item library entries tagged with tier bands aligned to the Spire gear curve.
+ Human action before step                     None unless external setup is discovered.
+ AI allowed scope                             packages/content/libraries/gear, tests.
+ AI blocked scope                             No 2D/3D rendering; no real-time multiplayer; no public UGC discovery; no marketplace; no creator monetization; no social chat or voice; no complex avatar system; no full economy; no PvP; no VR; no hardcoded secrets; no broad refactors; no cross-phase work.
+ Contracts touched                            GearTemplate/ItemTemplate entries from W7-S12.
+ Validator required                           Entries pass validateLibraryEntry; tier bands monotonic-friendly; teen defaults.
+ Tests required                               Gear pack loads; queryLibrary returns tier-filtered sets; invalid entry rejected.
+ Done when                                    Concrete gear library exists for clamped floor drops and gating.
+ Blocked by                                   W7-S12
+ Next allowed step                            W8-S1
+
+Cursor kickoff prompt:
+You are working in Cursor on Playable Worlds Lab.
+Current assignment:
+- Phase: Phase 5 - Content Libraries
+- Week: 7
+- Step ID: W7-S13
+
+- Step name: Seed gear/item library entries with tier bands
+
+Goal: Seed minimal teen-safe gear/item library entries tagged with tier bands aligned to the Spire gear curve.
+
+Before coding:
+1. Read the relevant project files and this step card.
+2. State a 3-7 bullet implementation plan.
+3. List exact files you expect to create or edit.
+4. Confirm source priority, allowed scope, blocked scope, validators, tests, and human setup.
+5. Confirm you will not work outside this step.
+
+Allowed scope: packages/content/libraries/gear, tests.
+Blocked scope: No 2D/3D rendering; no real-time multiplayer; no public UGC discovery; no marketplace; no creator monetization; no social chat or voice; no complex avatar system; no full economy; no PvP; no VR; no hardcoded secrets; no broad refactors; no cross-phase work.
+Contracts touched: GearTemplate/ItemTemplate entries from W7-S12.
+Validation required: Entries pass validateLibraryEntry; tier bands monotonic-friendly; teen defaults.
+Testing required: Gear pack loads; queryLibrary returns tier-filtered sets; invalid entry rejected.
+
+Implementation requirements:
+- Make the smallest useful change.
+- Use schemas and deterministic validators before runtime depends on data.
+- AI may propose or explain, but deterministic engine code owns permanent world state.
+- If credentials, accounts, Supabase setup, browser action, billing, or API keys are needed,
+stop and tell the human owner exactly what to do.
+- Do not continue into the next step without explicit human approval.
+
+Done when: Concrete gear library exists for clamped floor drops and gating.
+
+Future Features alignment: Item_and_Gear_Template_Library.md and Stonepass_Spire (gearBand curve / boss drops).
+
+Completion report required:
+- Task completed
+- Files changed and why
+- Tests run and exact result
+- Acceptance criteria evidence
+- Validation/fallback added
+- Human action required
+- Blocked items intentionally not touched
+- Step tracker CSV updated (§17 Step tracker CSV)
+- Next safe task only
+
+Stop after this step.
+
+
 ### Week 8
 
 
@@ -6298,6 +7063,534 @@ Full step cards for W7-S7–W8-S12 live in the step tracker CSV; expand into FUL
 
 
 <!-- Source PDF page 130 -->
+
+
+### W8-S13 - Create RegionMap schema and validateRegionMap
+
+ Field                                        Instruction
+ Phase                                        Phase 5 - Region Composer
+ Week                                         8
+ Goal                                         Create RegionMap schema (zones plus gated edges) and a validateRegionMap cross-file validator.
+ Human action before step                     None unless external setup is discovered.
+ AI allowed scope                             packages/core/schemas/regionMap, packages/core/validators/validateRegionMap, tests, examples.
+ AI blocked scope                             No 2D/3D rendering; no real-time multiplayer; no public UGC discovery; no marketplace; no creator monetization; no social chat or voice; no complex avatar system; no full economy; no PvP; no VR; no hardcoded secrets; no broad refactors; no cross-phase work.
+ Contracts touched                            RegionMap (zones, edges, requiredFlags), WorldDefinition refs.
+ Validator required                           Edges reference existing zones; gating flags known; no orphan zones; startZone valid.
+ Tests required                               Valid region passes; dangling edge/unknown flag fails; single-zone region safe.
+ Done when                                    A multi-zone region can validate as one connected graph.
+ Blocked by                                   W7-S5
+ Next allowed step                            W8-S14
+
+Cursor kickoff prompt:
+You are working in Cursor on Playable Worlds Lab.
+Current assignment:
+- Phase: Phase 5 - Region Composer
+- Week: 8
+- Step ID: W8-S13
+
+- Step name: Create RegionMap schema and validateRegionMap
+
+Goal: Create RegionMap schema (zones plus gated edges) and a validateRegionMap cross-file validator.
+
+Before coding:
+1. Read the relevant project files and this step card.
+2. State a 3-7 bullet implementation plan.
+3. List exact files you expect to create or edit.
+4. Confirm source priority, allowed scope, blocked scope, validators, tests, and human setup.
+5. Confirm you will not work outside this step.
+
+Allowed scope: packages/core/schemas/regionMap, packages/core/validators/validateRegionMap, tests, examples.
+Blocked scope: No 2D/3D rendering; no real-time multiplayer; no public UGC discovery; no marketplace; no creator monetization; no social chat or voice; no complex avatar system; no full economy; no PvP; no VR; no hardcoded secrets; no broad refactors; no cross-phase work.
+Contracts touched: RegionMap (zones, edges, requiredFlags), WorldDefinition refs.
+Validation required: Edges reference existing zones; gating flags known; no orphan zones; startZone valid.
+Testing required: Valid region passes; dangling edge/unknown flag fails; single-zone region safe.
+
+Implementation requirements:
+- Make the smallest useful change.
+- Use schemas and deterministic validators before runtime depends on data.
+- AI may propose or explain, but deterministic engine code owns permanent world state.
+- If credentials, accounts, Supabase setup, browser action, billing, or API keys are needed,
+stop and tell the human owner exactly what to do.
+- Do not continue into the next step without explicit human approval.
+
+Done when: A multi-zone region can validate as one connected graph.
+
+Future Features alignment: Procedural_Region_and_Biome_Composer.md (RegionMap). The Spire tower is a vertical RegionMap (W8-S15/S16).
+
+Completion report required:
+- Task completed
+- Files changed and why
+- Tests run and exact result
+- Acceptance criteria evidence
+- Validation/fallback added
+- Human action required
+- Blocked items intentionally not touched
+- Step tracker CSV updated (§17 Step tracker CSV)
+- Next safe task only
+
+Stop after this step.
+
+
+### W8-S14 - Add cross-zone travel and shared region ledger
+
+ Field                                        Instruction
+ Phase                                        Phase 5 - Region Composer
+ Week                                         8
+ Goal                                         Add runtime cross-zone travel and a shared region ledger so state persists across zones via validated consequences.
+ Human action before step                     None unless external setup is discovered.
+ AI allowed scope                             packages/core/runtime, packages/core/session, tests.
+ AI blocked scope                             No 2D/3D rendering; no real-time multiplayer; no public UGC discovery; no marketplace; no creator monetization; no social chat or voice; no complex avatar system; no full economy; no PvP; no VR; no hardcoded secrets; no broad refactors; no cross-phase work.
+ Contracts touched                            RegionMap, WorldSession (currentZone), WorldLedger (region scope).
+ Validator required                           Travel only across valid edges with satisfied flags; region ledger updates via consequences only.
+ Tests required                               Gated edge blocks until flag set; valid travel updates currentZone and region ledger.
+ Done when                                    Player can move between zones with remembered shared state.
+ Blocked by                                   W8-S13
+ Next allowed step                            W8-S15
+
+Cursor kickoff prompt:
+You are working in Cursor on Playable Worlds Lab.
+Current assignment:
+- Phase: Phase 5 - Region Composer
+- Week: 8
+- Step ID: W8-S14
+
+- Step name: Add cross-zone travel and shared region ledger
+
+Goal: Add runtime cross-zone travel and a shared region ledger so state persists across zones via validated consequences.
+
+Before coding:
+1. Read the relevant project files and this step card.
+2. State a 3-7 bullet implementation plan.
+3. List exact files you expect to create or edit.
+4. Confirm source priority, allowed scope, blocked scope, validators, tests, and human setup.
+5. Confirm you will not work outside this step.
+
+Allowed scope: packages/core/runtime, packages/core/session, tests.
+Blocked scope: No 2D/3D rendering; no real-time multiplayer; no public UGC discovery; no marketplace; no creator monetization; no social chat or voice; no complex avatar system; no full economy; no PvP; no VR; no hardcoded secrets; no broad refactors; no cross-phase work.
+Contracts touched: RegionMap, WorldSession (currentZone), WorldLedger (region scope).
+Validation required: Travel only across valid edges with satisfied flags; region ledger updates via consequences only.
+Testing required: Gated edge blocks until flag set; valid travel updates currentZone and region ledger.
+
+Implementation requirements:
+- Make the smallest useful change.
+- Use schemas and deterministic validators before runtime depends on data.
+- AI may propose or explain, but deterministic engine code owns permanent world state.
+- If credentials, accounts, Supabase setup, browser action, billing, or API keys are needed,
+stop and tell the human owner exactly what to do.
+- Do not continue into the next step without explicit human approval.
+
+Done when: Player can move between zones with remembered shared state.
+
+Future Features alignment: Procedural_Region_and_Biome_Composer.md (cross-zone travel). Ascension reuses this (W8-S16).
+
+Completion report required:
+- Task completed
+- Files changed and why
+- Tests run and exact result
+- Acceptance criteria evidence
+- Validation/fallback added
+- Human action required
+- Blocked items intentionally not touched
+- Step tracker CSV updated (§17 Step tracker CSV)
+- Next safe task only
+
+Stop after this step.
+
+
+### W8-S15 - Create SpireManifest schema and validateSpireManifest
+
+ Field                                        Instruction
+ Phase                                        Phase 5 - Stonepass Spire
+ Week                                         8
+ Goal                                         Create the 100-floor SpireManifest skeleton schema and validateSpireManifest (contiguous floors, unique cleared flags, frontier rules, monotonic bands).
+ Human action before step                     None unless external setup is discovered.
+ AI allowed scope                             packages/core/schemas/spireManifest, packages/core/validators/validateSpireManifest, tests, examples.
+ AI blocked scope                             No 2D/3D rendering; no real-time multiplayer; no public UGC discovery; no marketplace; no creator monetization; no social chat or voice; no complex avatar system; no full economy; no PvP; no VR; no hardcoded secrets; no broad refactors; no cross-phase work.
+ Contracts touched                            SpireManifest, SpireFloor (status locked|stub|built); schemaVersion bump consideration.
+ Validator required                           Contiguous 1..totalFloors; unique floor_NN_cleared; built floors ref valid WorldDefinition+bossId; no built-above-locked gap; non-decreasing bands.
+ Tests required                               Valid manifest (Floors 1-2 built, rest stub) passes; gap/dup/bad-frontier/decreasing-band fixtures fail.
+ Done when                                    The tower is structurally complete as data while most floors are stubs.
+ Blocked by                                   W8-S13
+ Next allowed step                            W8-S16
+
+Cursor kickoff prompt:
+You are working in Cursor on Playable Worlds Lab.
+Current assignment:
+- Phase: Phase 5 - Stonepass Spire
+- Week: 8
+- Step ID: W8-S15
+
+- Step name: Create SpireManifest schema and validateSpireManifest
+
+Goal: Create the 100-floor SpireManifest skeleton schema and validateSpireManifest (contiguous floors, unique cleared flags, frontier rules, monotonic bands).
+
+Before coding:
+1. Read the relevant project files and this step card.
+2. State a 3-7 bullet implementation plan.
+3. List exact files you expect to create or edit.
+4. Confirm source priority, allowed scope, blocked scope, validators, tests, and human setup.
+5. Confirm you will not work outside this step.
+
+Allowed scope: packages/core/schemas/spireManifest, packages/core/validators/validateSpireManifest, tests, examples.
+Blocked scope: No 2D/3D rendering; no real-time multiplayer; no public UGC discovery; no marketplace; no creator monetization; no social chat or voice; no complex avatar system; no full economy; no PvP; no VR; no hardcoded secrets; no broad refactors; no cross-phase work.
+Contracts touched: SpireManifest, SpireFloor (status locked|stub|built); schemaVersion bump consideration.
+Validation required: Contiguous 1..totalFloors; unique floor_NN_cleared; built floors ref valid WorldDefinition+bossId; no built-above-locked gap; non-decreasing bands.
+Testing required: Valid manifest (Floors 1-2 built, rest stub) passes; gap/dup/bad-frontier/decreasing-band fixtures fail.
+
+Implementation requirements:
+- Make the smallest useful change.
+- Use schemas and deterministic validators before runtime depends on data.
+- AI may propose or explain, but deterministic engine code owns permanent world state.
+- If credentials, accounts, Supabase setup, browser action, billing, or API keys are needed,
+stop and tell the human owner exactly what to do.
+- Do not continue into the next step without explicit human approval.
+
+Done when: The tower is structurally complete as data while most floors are stubs.
+
+Future Features alignment: Stonepass_Spire_Aincrad_Castle.md (Spire Manifest skeleton). Edges derived in W8-S16.
+
+Completion report required:
+- Task completed
+- Files changed and why
+- Tests run and exact result
+- Acceptance criteria evidence
+- Validation/fallback added
+- Human action required
+- Blocked items intentionally not touched
+- Step tracker CSV updated (§17 Step tracker CSV)
+- Next safe task only
+
+Stop after this step.
+
+
+### W8-S16 - Derive vertical region edges and ascension gating from manifest
+
+ Field                                        Instruction
+ Phase                                        Phase 5 - Stonepass Spire
+ Week                                         8
+ Goal                                         Derive the vertical RegionMap from the SpireManifest with upward edges requiring each floor floor_NN_cleared flag (ascension gating).
+ Human action before step                     None unless external setup is discovered.
+ AI allowed scope                             packages/core/region, packages/core/spire, tests.
+ AI blocked scope                             No 2D/3D rendering; no real-time multiplayer; no public UGC discovery; no marketplace; no creator monetization; no social chat or voice; no complex avatar system; no full economy; no PvP; no VR; no hardcoded secrets; no broad refactors; no cross-phase work.
+ Contracts touched                            SpireManifest to RegionMap edges, Consequence (ascend), WorldLedger flags.
+ Validator required                           Each N to N+1 edge requires the floor_N cleared flag; a stub floor is a legal soft-ending, not an error.
+ Tests required                               Up edge locked until boss cleared; cleared flag opens ascent; stub floor renders soft-ending.
+ Done when                                    Climbing is gated by clearing the floor below, derived not hand-wired.
+ Blocked by                                   W8-S15; W8-S14
+ Next allowed step                            W8-S17
+
+Cursor kickoff prompt:
+You are working in Cursor on Playable Worlds Lab.
+Current assignment:
+- Phase: Phase 5 - Stonepass Spire
+- Week: 8
+- Step ID: W8-S16
+
+- Step name: Derive vertical region edges and ascension gating from manifest
+
+Goal: Derive the vertical RegionMap from the SpireManifest with upward edges requiring each floor floor_NN_cleared flag (ascension gating).
+
+Before coding:
+1. Read the relevant project files and this step card.
+2. State a 3-7 bullet implementation plan.
+3. List exact files you expect to create or edit.
+4. Confirm source priority, allowed scope, blocked scope, validators, tests, and human setup.
+5. Confirm you will not work outside this step.
+
+Allowed scope: packages/core/region, packages/core/spire, tests.
+Blocked scope: No 2D/3D rendering; no real-time multiplayer; no public UGC discovery; no marketplace; no creator monetization; no social chat or voice; no complex avatar system; no full economy; no PvP; no VR; no hardcoded secrets; no broad refactors; no cross-phase work.
+Contracts touched: SpireManifest to RegionMap edges, Consequence (ascend), WorldLedger flags.
+Validation required: Each N to N+1 edge requires the floor_N cleared flag; a stub floor is a legal soft-ending, not an error.
+Testing required: Up edge locked until boss cleared; cleared flag opens ascent; stub floor renders soft-ending.
+
+Implementation requirements:
+- Make the smallest useful change.
+- Use schemas and deterministic validators before runtime depends on data.
+- AI may propose or explain, but deterministic engine code owns permanent world state.
+- If credentials, accounts, Supabase setup, browser action, billing, or API keys are needed,
+stop and tell the human owner exactly what to do.
+- Do not continue into the next step without explicit human approval.
+
+Done when: Climbing is gated by clearing the floor below, derived not hand-wired.
+
+Future Features alignment: Stonepass_Spire_Aincrad_Castle.md (ascension gating). Proven by W8-S17; persisted by W9-S7.
+
+Completion report required:
+- Task completed
+- Files changed and why
+- Tests run and exact result
+- Acceptance criteria evidence
+- Validation/fallback added
+- Human action required
+- Blocked items intentionally not touched
+- Step tracker CSV updated (§17 Step tracker CSV)
+- Next safe task only
+
+Stop after this step.
+
+
+### W8-S17 - Build Floor 2 and prove the ascension gate
+
+ Field                                        Instruction
+ Phase                                        Phase 5 - Stonepass Spire
+ Week                                         8
+ Goal                                         Author Floor 2 (e.g. frozen halls) as the second built floor and prove a working ascension gate from Floor 1 to Floor 2 in text (Castle proven).
+ Human action before step                     None unless external setup is discovered.
+ AI allowed scope                             packages/content/worlds/spire, packages/core/tests/integration.
+ AI blocked scope                             No 2D/3D rendering; no real-time multiplayer; no public UGC discovery; no marketplace; no creator monetization; no social chat or voice; no complex avatar system; no full economy; no PvP; no VR; no hardcoded secrets; no broad refactors; no cross-phase work.
+ Contracts touched                            WorldDefinition (floor_02), SpireManifest (built), RegionMap ascension edge.
+ Validator required                           Floor 2 validates standalone; manifest marks 2 built; ascension edge gated by floor_01_cleared.
+ Tests required                               Clear Floor 1 then ascend then play Floor 2; uncleared Floor 1 blocks ascent; both floors validate.
+ Done when                                    Two built floors plus one working ascension gate are playable in text (Castle proven milestone).
+ Blocked by                                   W8-S16; W5-S13
+ Next allowed step                            W8-S18
+
+Cursor kickoff prompt:
+You are working in Cursor on Playable Worlds Lab.
+Current assignment:
+- Phase: Phase 5 - Stonepass Spire
+- Week: 8
+- Step ID: W8-S17
+
+- Step name: Build Floor 2 and prove the ascension gate
+
+Goal: Author Floor 2 (e.g. frozen halls) as the second built floor and prove a working ascension gate from Floor 1 to Floor 2 in text (Castle proven).
+
+Before coding:
+1. Read the relevant project files and this step card.
+2. State a 3-7 bullet implementation plan.
+3. List exact files you expect to create or edit.
+4. Confirm source priority, allowed scope, blocked scope, validators, tests, and human setup.
+5. Confirm you will not work outside this step.
+
+Allowed scope: packages/content/worlds/spire, packages/core/tests/integration.
+Blocked scope: No 2D/3D rendering; no real-time multiplayer; no public UGC discovery; no marketplace; no creator monetization; no social chat or voice; no complex avatar system; no full economy; no PvP; no VR; no hardcoded secrets; no broad refactors; no cross-phase work.
+Contracts touched: WorldDefinition (floor_02), SpireManifest (built), RegionMap ascension edge.
+Validation required: Floor 2 validates standalone; manifest marks 2 built; ascension edge gated by floor_01_cleared.
+Testing required: Clear Floor 1 then ascend then play Floor 2; uncleared Floor 1 blocks ascent; both floors validate.
+
+Implementation requirements:
+- Make the smallest useful change.
+- Use schemas and deterministic validators before runtime depends on data.
+- AI may propose or explain, but deterministic engine code owns permanent world state.
+- If credentials, accounts, Supabase setup, browser action, billing, or API keys are needed,
+stop and tell the human owner exactly what to do.
+- Do not continue into the next step without explicit human approval.
+
+Done when: Two built floors plus one working ascension gate are playable in text (Castle proven milestone).
+
+Future Features alignment: Stonepass_Spire_Aincrad_Castle.md (Castle proven). Floors 3-100 are long-tail content via libraries.
+
+Completion report required:
+- Task completed
+- Files changed and why
+- Tests run and exact result
+- Acceptance criteria evidence
+- Validation/fallback added
+- Human action required
+- Blocked items intentionally not touched
+- Step tracker CSV updated (§17 Step tracker CSV)
+- Next safe task only
+
+Stop after this step.
+
+
+### W8-S18 - Add Tier A gear tiers and unlockable specials
+
+ Field                                        Instruction
+ Phase                                        Phase 5 - Combat Tier A
+ Week                                         8
+ Goal                                         Wire gear library tiers plus unlockable special moves into combat choices and floor-boss drops (clamped to allowed-reward list).
+ Human action before step                     None unless external setup is discovered.
+ AI allowed scope                             packages/core/progression, packages/content/libraries/gear, tests.
+ AI blocked scope                             No 2D/3D rendering; no real-time multiplayer; no public UGC discovery; no marketplace; no creator monetization; no social chat or voice; no complex avatar system; no full economy; no PvP; no VR; no hardcoded secrets; no broad refactors; no cross-phase work.
+ Contracts touched                            GearTemplate, ProgressionLedger, Consequence (clamped drops).
+ Validator required                           Gear tiers/specials gate choices; boss drop clamped to floor allowed-reward list; no economy.
+ Tests required                               Gear tier unlocks special choice; boss drop clamped; out-of-list reward rejected.
+ Done when                                    Gear gives build identity and gated boss drops without stats/economy.
+ Blocked by                                   W7-S13; W5-S11
+ Next allowed step                            W8-S19
+
+Cursor kickoff prompt:
+You are working in Cursor on Playable Worlds Lab.
+Current assignment:
+- Phase: Phase 5 - Combat Tier A
+- Week: 8
+- Step ID: W8-S18
+
+- Step name: Add Tier A gear tiers and unlockable specials
+
+Goal: Wire gear library tiers plus unlockable special moves into combat choices and floor-boss drops (clamped to allowed-reward list).
+
+Before coding:
+1. Read the relevant project files and this step card.
+2. State a 3-7 bullet implementation plan.
+3. List exact files you expect to create or edit.
+4. Confirm source priority, allowed scope, blocked scope, validators, tests, and human setup.
+5. Confirm you will not work outside this step.
+
+Allowed scope: packages/core/progression, packages/content/libraries/gear, tests.
+Blocked scope: No 2D/3D rendering; no real-time multiplayer; no public UGC discovery; no marketplace; no creator monetization; no social chat or voice; no complex avatar system; no full economy; no PvP; no VR; no hardcoded secrets; no broad refactors; no cross-phase work.
+Contracts touched: GearTemplate, ProgressionLedger, Consequence (clamped drops).
+Validation required: Gear tiers/specials gate choices; boss drop clamped to floor allowed-reward list; no economy.
+Testing required: Gear tier unlocks special choice; boss drop clamped; out-of-list reward rejected.
+
+Implementation requirements:
+- Make the smallest useful change.
+- Use schemas and deterministic validators before runtime depends on data.
+- AI may propose or explain, but deterministic engine code owns permanent world state.
+- If credentials, accounts, Supabase setup, browser action, billing, or API keys are needed,
+stop and tell the human owner exactly what to do.
+- Do not continue into the next step without explicit human approval.
+
+Done when: Gear gives build identity and gated boss drops without stats/economy.
+
+Future Features alignment: Combat_and_Encounter_Resolution.md (Tier A gear) and Item_and_Gear_Template_Library.md. Spire boss drops.
+
+Completion report required:
+- Task completed
+- Files changed and why
+- Tests run and exact result
+- Acceptance criteria evidence
+- Validation/fallback added
+- Human action required
+- Blocked items intentionally not touched
+- Step tracker CSV updated (§17 Step tracker CSV)
+- Next safe task only
+
+Stop after this step.
+
+
+### W8-S19 - Add Level 1 bounded EncounterResolver
+
+ Field                                        Instruction
+ Phase                                        Phase 5 - Combat Tier A
+ Week                                         8
+ Goal                                         Add a pure deterministic EncounterResolver mapping skill/gear tiers plus choice to discrete outcome bands (clean|victory|costly|repelled|defeat) to pre-authored consequences.
+ Human action before step                     None unless external setup is discovered.
+ AI allowed scope                             packages/core/combat/encounterResolver, tests.
+ AI blocked scope                             No 2D/3D rendering; no real-time multiplayer; no public UGC discovery; no marketplace; no creator monetization; no social chat or voice; no complex avatar system; no full economy; no PvP; no VR; no hardcoded secrets; no broad refactors; no cross-phase work.
+ Contracts touched                            EncounterResolver (pure fn), Consequence (outcome-band map), ProgressionLedger, gear tiers.
+ Validator required                           Deterministic, no RNG-as-truth; every band maps to an authored consequence; bounded inputs.
+ Tests required                               Same inputs map to the same band; each band maps to a consequence; missing mapping fails.
+ Done when                                    Encounters resolve to discrete authored outcomes deterministically.
+ Blocked by                                   W5-S12; W5-S10
+ Next allowed step                            W8-S20
+
+Cursor kickoff prompt:
+You are working in Cursor on Playable Worlds Lab.
+Current assignment:
+- Phase: Phase 5 - Combat Tier A
+- Week: 8
+- Step ID: W8-S19
+
+- Step name: Add Level 1 bounded EncounterResolver
+
+Goal: Add a pure deterministic EncounterResolver mapping skill/gear tiers plus choice to discrete outcome bands (clean|victory|costly|repelled|defeat) to pre-authored consequences.
+
+Before coding:
+1. Read the relevant project files and this step card.
+2. State a 3-7 bullet implementation plan.
+3. List exact files you expect to create or edit.
+4. Confirm source priority, allowed scope, blocked scope, validators, tests, and human setup.
+5. Confirm you will not work outside this step.
+
+Allowed scope: packages/core/combat/encounterResolver, tests.
+Blocked scope: No 2D/3D rendering; no real-time multiplayer; no public UGC discovery; no marketplace; no creator monetization; no social chat or voice; no complex avatar system; no full economy; no PvP; no VR; no hardcoded secrets; no broad refactors; no cross-phase work.
+Contracts touched: EncounterResolver (pure fn), Consequence (outcome-band map), ProgressionLedger, gear tiers.
+Validation required: Deterministic, no RNG-as-truth; every band maps to an authored consequence; bounded inputs.
+Testing required: Same inputs map to the same band; each band maps to a consequence; missing mapping fails.
+
+Implementation requirements:
+- Make the smallest useful change.
+- Use schemas and deterministic validators before runtime depends on data.
+- AI may propose or explain, but deterministic engine code owns permanent world state.
+- If credentials, accounts, Supabase setup, browser action, billing, or API keys are needed,
+stop and tell the human owner exactly what to do.
+- Do not continue into the next step without explicit human approval.
+
+Done when: Encounters resolve to discrete authored outcomes deterministically.
+
+Future Features alignment: Combat_and_Encounter_Resolution.md (Level 1 resolver). Powers floor encounters and boss raids; explainable via W9-S9.
+
+Completion report required:
+- Task completed
+- Files changed and why
+- Tests run and exact result
+- Acceptance criteria evidence
+- Validation/fallback added
+- Human action required
+- Blocked items intentionally not touched
+- Step tracker CSV updated (§17 Step tracker CSV)
+- Next safe task only
+
+Stop after this step.
+
+
+### W8-S20 - Add DifficultyProfile to WorldBlueprint with clamps
+
+ Field                                        Instruction
+ Phase                                        Phase 5 - Dynamic Difficulty
+ Week                                         8
+ Goal                                         Add DifficultyProfile to WorldBlueprint defining the bounds the Director adjust_difficulty action must stay within.
+ Human action before step                     None unless external setup is discovered.
+ AI allowed scope                             packages/core/schemas/worldBlueprint, packages/ai/agents/directorAgent, tests.
+ AI blocked scope                             No 2D/3D rendering; no real-time multiplayer; no public UGC discovery; no marketplace; no creator monetization; no social chat or voice; no complex avatar system; no full economy; no PvP; no VR; no hardcoded secrets; no broad refactors; no cross-phase work.
+ Contracts touched                            WorldBlueprint (DifficultyProfile), DirectorDecision adjust_difficulty clamp.
+ Validator required                           Profile bounds are enforced clamps; Director cannot exceed; bands align to the Spire curve.
+ Tests required                               In-bounds adjust passes; out-of-bounds clamped; profile validates within WorldBlueprint.
+ Done when                                    Difficulty bounds are authored data the Director cannot violate.
+ Blocked by                                   W8-S6; W4-S10
+ Next allowed step                            W9-S1
+
+Cursor kickoff prompt:
+You are working in Cursor on Playable Worlds Lab.
+Current assignment:
+- Phase: Phase 5 - Dynamic Difficulty
+- Week: 8
+- Step ID: W8-S20
+
+- Step name: Add DifficultyProfile to WorldBlueprint with clamps
+
+Goal: Add DifficultyProfile to WorldBlueprint defining the bounds the Director adjust_difficulty action must stay within.
+
+Before coding:
+1. Read the relevant project files and this step card.
+2. State a 3-7 bullet implementation plan.
+3. List exact files you expect to create or edit.
+4. Confirm source priority, allowed scope, blocked scope, validators, tests, and human setup.
+5. Confirm you will not work outside this step.
+
+Allowed scope: packages/core/schemas/worldBlueprint, packages/ai/agents/directorAgent, tests.
+Blocked scope: No 2D/3D rendering; no real-time multiplayer; no public UGC discovery; no marketplace; no creator monetization; no social chat or voice; no complex avatar system; no full economy; no PvP; no VR; no hardcoded secrets; no broad refactors; no cross-phase work.
+Contracts touched: WorldBlueprint (DifficultyProfile), DirectorDecision adjust_difficulty clamp.
+Validation required: Profile bounds are enforced clamps; Director cannot exceed; bands align to the Spire curve.
+Testing required: In-bounds adjust passes; out-of-bounds clamped; profile validates within WorldBlueprint.
+
+Implementation requirements:
+- Make the smallest useful change.
+- Use schemas and deterministic validators before runtime depends on data.
+- AI may propose or explain, but deterministic engine code owns permanent world state.
+- If credentials, accounts, Supabase setup, browser action, billing, or API keys are needed,
+stop and tell the human owner exactly what to do.
+- Do not continue into the next step without explicit human approval.
+
+Done when: Difficulty bounds are authored data the Director cannot violate.
+
+Future Features alignment: Dynamic_Difficulty_Director.md (DifficultyProfile) and Stonepass_Spire climb curve.
+
+Completion report required:
+- Task completed
+- Files changed and why
+- Tests run and exact result
+- Acceptance criteria evidence
+- Validation/fallback added
+- Human action required
+- Blocked items intentionally not touched
+- Step tracker CSV updated (§17 Step tracker CSV)
+- Next safe task only
+
+Stop after this step.
 
 
 ### Week 9
@@ -6783,6 +8076,204 @@ stop and tell the human owner exactly what to do.
 - Do not continue into the next step without explicit human approval.
 
 Done when: Share links work without public marketplace/discovery.
+
+Completion report required:
+- Task completed
+- Files changed and why
+- Tests run and exact result
+- Acceptance criteria evidence
+- Validation/fallback added
+- Human action required
+- Blocked items intentionally not touched
+- Step tracker CSV updated (§17 Step tracker CSV)
+- Next safe task only
+
+Stop after this step.
+
+
+### W9-S7 - Add WorldSession.currentFloor and persistent region/climb ledger
+
+ Field                                        Instruction
+ Phase                                        Phase 6 Prep - Persistence and Share Links
+ Week                                         9
+ Goal                                         Extend WorldSession with currentFloor and persist the region/climb ledger so a Spire run can be saved and resumed.
+ Human action before step                     None unless external setup is discovered.
+ AI allowed scope                             packages/core/schemas/worldSession, persistence adapter, tests.
+ AI blocked scope                             No 2D/3D rendering; no real-time multiplayer; no public UGC discovery; no marketplace; no creator monetization; no social chat or voice; no complex avatar system; no full economy; no PvP; no VR; no hardcoded secrets; no broad refactors; no cross-phase work.
+ Contracts touched                            WorldSession (currentFloor), region ledger, world_sessions storage.
+ Validator required                           currentFloor within manifest range; region ledger validates before save and after load.
+ Tests required                               Save mid-climb and resume restores floor and cleared flags; invalid floor rejected.
+ Done when                                    A climb can be saved and resumed (continue your climb).
+ Blocked by                                   W9-S5; W8-S16
+ Next allowed step                            W9-S8
+
+Cursor kickoff prompt:
+You are working in Cursor on Playable Worlds Lab.
+Current assignment:
+- Phase: Phase 6 Prep - Persistence and Share Links
+- Week: 9
+- Step ID: W9-S7
+
+- Step name: Add WorldSession.currentFloor and persistent region/climb ledger
+
+Goal: Extend WorldSession with currentFloor and persist the region/climb ledger so a Spire run can be saved and resumed.
+
+Before coding:
+1. Read the relevant project files and this step card.
+2. State a 3-7 bullet implementation plan.
+3. List exact files you expect to create or edit.
+4. Confirm source priority, allowed scope, blocked scope, validators, tests, and human setup.
+5. Confirm you will not work outside this step.
+
+Allowed scope: packages/core/schemas/worldSession, persistence adapter, tests.
+Blocked scope: No 2D/3D rendering; no real-time multiplayer; no public UGC discovery; no marketplace; no creator monetization; no social chat or voice; no complex avatar system; no full economy; no PvP; no VR; no hardcoded secrets; no broad refactors; no cross-phase work.
+Contracts touched: WorldSession (currentFloor), region ledger, world_sessions storage.
+Validation required: currentFloor within manifest range; region ledger validates before save and after load.
+Testing required: Save mid-climb and resume restores floor and cleared flags; invalid floor rejected.
+
+Implementation requirements:
+- Make the smallest useful change.
+- Use schemas and deterministic validators before runtime depends on data.
+- AI may propose or explain, but deterministic engine code owns permanent world state.
+- If credentials, accounts, Supabase setup, browser action, billing, or API keys are needed,
+stop and tell the human owner exactly what to do.
+- Do not continue into the next step without explicit human approval.
+
+Done when: A climb can be saved and resumed (continue your climb).
+
+Future Features alignment: Stonepass_Spire_Aincrad_Castle.md (save granularity) and Player_Progression_and_Mastery.md (persistence).
+
+Completion report required:
+- Task completed
+- Files changed and why
+- Tests run and exact result
+- Acceptance criteria evidence
+- Validation/fallback added
+- Human action required
+- Blocked items intentionally not touched
+- Step tracker CSV updated (§17 Step tracker CSV)
+- Next safe task only
+
+Stop after this step.
+
+
+### W9-S8 - Add persistent cross-floor/region progression
+
+ Field                                        Instruction
+ Phase                                        Phase 6 Prep - Persistence and Share Links
+ Week                                         9
+ Goal                                         Promote progression changes flagged persist=true to the region/account ledger so skills/unlocks carry across floors per blueprint rules.
+ Human action before step                     None unless external setup is discovered.
+ AI allowed scope                             packages/core/progression, persistence adapter, tests.
+ AI blocked scope                             No 2D/3D rendering; no real-time multiplayer; no public UGC discovery; no marketplace; no creator monetization; no social chat or voice; no complex avatar system; no full economy; no PvP; no VR; no hardcoded secrets; no broad refactors; no cross-phase work.
+ Contracts touched                            ProgressionLedger (persist rules), region ledger, WorldSession.
+ Validator required                           Only persist-flagged clamped changes promote; reads bounded; no economy.
+ Tests required                               Persistent unlock survives a new floor/session; non-persistent stays session-local.
+ Done when                                    Progression persists across the climb as a bounded mastery record.
+ Blocked by                                   W9-S7; W5-S8
+ Next allowed step                            W9-S9
+
+Cursor kickoff prompt:
+You are working in Cursor on Playable Worlds Lab.
+Current assignment:
+- Phase: Phase 6 Prep - Persistence and Share Links
+- Week: 9
+- Step ID: W9-S8
+
+- Step name: Add persistent cross-floor/region progression
+
+Goal: Promote progression changes flagged persist=true to the region/account ledger so skills/unlocks carry across floors per blueprint rules.
+
+Before coding:
+1. Read the relevant project files and this step card.
+2. State a 3-7 bullet implementation plan.
+3. List exact files you expect to create or edit.
+4. Confirm source priority, allowed scope, blocked scope, validators, tests, and human setup.
+5. Confirm you will not work outside this step.
+
+Allowed scope: packages/core/progression, persistence adapter, tests.
+Blocked scope: No 2D/3D rendering; no real-time multiplayer; no public UGC discovery; no marketplace; no creator monetization; no social chat or voice; no complex avatar system; no full economy; no PvP; no VR; no hardcoded secrets; no broad refactors; no cross-phase work.
+Contracts touched: ProgressionLedger (persist rules), region ledger, WorldSession.
+Validation required: Only persist-flagged clamped changes promote; reads bounded; no economy.
+Testing required: Persistent unlock survives a new floor/session; non-persistent stays session-local.
+
+Implementation requirements:
+- Make the smallest useful change.
+- Use schemas and deterministic validators before runtime depends on data.
+- AI may propose or explain, but deterministic engine code owns permanent world state.
+- If credentials, accounts, Supabase setup, browser action, billing, or API keys are needed,
+stop and tell the human owner exactly what to do.
+- Do not continue into the next step without explicit human approval.
+
+Done when: Progression persists across the climb as a bounded mastery record.
+
+Future Features alignment: Player_Progression_and_Mastery.md (persistent tier). The Spire climb record.
+
+Completion report required:
+- Task completed
+- Files changed and why
+- Tests run and exact result
+- Acceptance criteria evidence
+- Validation/fallback added
+- Human action required
+- Blocked items intentionally not touched
+- Step tracker CSV updated (§17 Step tracker CSV)
+- Next safe task only
+
+Stop after this step.
+
+
+### W9-S9 - Add seeded replay and variation attribution foundation
+
+ Field                                        Instruction
+ Phase                                        Phase 6 Prep - Persistence and Share Links
+ Week                                         9
+ Goal                                         Persist generationSeed with sessions and record per-difference causes so two runs can be compared and explained.
+ Human action before step                     None unless external setup is discovered.
+ AI allowed scope                             packages/core/session, packages/core/debug, tests.
+ AI blocked scope                             No 2D/3D rendering; no real-time multiplayer; no public UGC discovery; no marketplace; no creator monetization; no social chat or voice; no complex avatar system; no full economy; no PvP; no VR; no hardcoded secrets; no broad refactors; no cross-phase work.
+ Contracts touched                            WorldSession (generationSeed), DebugEvent (variation cause), AIResult.
+ Validator required                           Same seed plus same choices reproduces a run; each difference attributable to seed/flag/choice/AI.
+ Tests required                               Seeded replay reproduces a run; divergence attributed to a recorded cause.
+ Done when                                    Runs are reproducible and differences are explainable from records.
+ Blocked by                                   W9-S5; W4-S8
+ Next allowed step                            W10-S1
+
+Cursor kickoff prompt:
+You are working in Cursor on Playable Worlds Lab.
+Current assignment:
+- Phase: Phase 6 Prep - Persistence and Share Links
+- Week: 9
+- Step ID: W9-S9
+
+- Step name: Add seeded replay and variation attribution foundation
+
+Goal: Persist generationSeed with sessions and record per-difference causes so two runs can be compared and explained.
+
+Before coding:
+1. Read the relevant project files and this step card.
+2. State a 3-7 bullet implementation plan.
+3. List exact files you expect to create or edit.
+4. Confirm source priority, allowed scope, blocked scope, validators, tests, and human setup.
+5. Confirm you will not work outside this step.
+
+Allowed scope: packages/core/session, packages/core/debug, tests.
+Blocked scope: No 2D/3D rendering; no real-time multiplayer; no public UGC discovery; no marketplace; no creator monetization; no social chat or voice; no complex avatar system; no full economy; no PvP; no VR; no hardcoded secrets; no broad refactors; no cross-phase work.
+Contracts touched: WorldSession (generationSeed), DebugEvent (variation cause), AIResult.
+Validation required: Same seed plus same choices reproduces a run; each difference attributable to seed/flag/choice/AI.
+Testing required: Seeded replay reproduces a run; divergence attributed to a recorded cause.
+
+Implementation requirements:
+- Make the smallest useful change.
+- Use schemas and deterministic validators before runtime depends on data.
+- AI may propose or explain, but deterministic engine code owns permanent world state.
+- If credentials, accounts, Supabase setup, browser action, billing, or API keys are needed,
+stop and tell the human owner exactly what to do.
+- Do not continue into the next step without explicit human approval.
+
+Done when: Runs are reproducible and differences are explainable from records.
+
+Future Features alignment: Story_Seed_Determinism_and_Variation_Explorer.md (attribution). Explorer UI lands W12-S8.
 
 Completion report required:
 - Task completed
@@ -8428,6 +9919,72 @@ stop and tell the human owner exactly what to do.
 - Do not continue into the next step without explicit human approval.
 
 Done when: Creator cockpit can control changes safely.
+
+Completion report required:
+- Task completed
+- Files changed and why
+- Tests run and exact result
+- Acceptance criteria evidence
+- Validation/fallback added
+- Human action required
+- Blocked items intentionally not touched
+- Step tracker CSV updated (§17 Step tracker CSV)
+- Next safe task only
+
+Stop after this step.
+
+
+### W12-S8 - Build Variation Explorer UI (run A vs run B)
+
+ Field                                        Instruction
+ Phase                                        Phase 9 - Creator Cockpit v1
+ Week                                         12
+ Goal                                         Build a read-only Variation Explorer that diffs two recorded runs and attributes each difference to its cause.
+ Human action before step                     None unless external setup is discovered.
+ AI allowed scope                             apps/web/features/world-debug, components, smoke tests.
+ AI blocked scope                             No 2D/3D rendering; no real-time multiplayer; no public UGC discovery; no marketplace; no creator monetization; no social chat or voice; no complex avatar system; no full economy; no PvP; no VR; no hardcoded secrets; no broad refactors; no cross-phase work.
+ Contracts touched                            WorldSession, DebugEvent variation causes, seeds.
+ Validator required                           Read-only; differences shown with attributed cause; no state mutation.
+ Tests required                               Two seeded runs render a diff with per-difference causes; identical runs show no diff.
+ Done when                                    A human can compare two runs and see why they differed.
+ Blocked by                                   W9-S9
+ Next allowed step                            Next source-of-truth revision
+
+Cursor kickoff prompt:
+You are working in Cursor on Playable Worlds Lab.
+Current assignment:
+- Phase: Phase 9 - Creator Cockpit v1
+- Week: 12
+- Step ID: W12-S8
+
+- Step name: Build Variation Explorer UI (run A vs run B)
+
+Goal: Build a read-only Variation Explorer that diffs two recorded runs and attributes each difference to its cause.
+
+Before coding:
+1. Read the relevant project files and this step card.
+2. State a 3-7 bullet implementation plan.
+3. List exact files you expect to create or edit.
+4. Confirm source priority, allowed scope, blocked scope, validators, tests, and human setup.
+5. Confirm you will not work outside this step.
+
+Allowed scope: apps/web/features/world-debug, components, smoke tests.
+Blocked scope: No 2D/3D rendering; no real-time multiplayer; no public UGC discovery; no marketplace; no creator monetization; no social chat or voice; no complex avatar system; no full economy; no PvP; no VR; no hardcoded secrets; no broad refactors; no cross-phase work.
+Contracts touched: WorldSession, DebugEvent variation causes, seeds.
+Validation required: Read-only; differences shown with attributed cause; no state mutation.
+Testing required: Two seeded runs render a diff with per-difference causes; identical runs show no diff.
+
+Implementation requirements:
+- Make the smallest useful change.
+- Use schemas and deterministic validators before runtime depends on data.
+- AI may propose or explain, but deterministic engine code owns permanent world state.
+- If credentials, accounts, Supabase setup, browser action, billing, or API keys are needed,
+stop and tell the human owner exactly what to do.
+- Do not continue into the next step without explicit human approval.
+
+Done when: A human can compare two runs and see why they differed.
+
+Future Features alignment: Story_Seed_Determinism_and_Variation_Explorer.md (Variation Explorer UI).
 
 Completion report required:
 - Task completed
