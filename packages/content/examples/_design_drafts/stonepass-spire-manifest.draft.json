@@ -1,0 +1,69 @@
+{
+  "_draft": "ILLUSTRATIVE ONLY — non-production. References the proposed SpireManifest schema (not yet implemented). See Future_Features/Stonepass_Spire_Aincrad_Castle.md. Floors 1-5 shown concretely; a production manifest enumerates all 100 floors following the documented band curve.",
+  "schemaVersion": "0.2.0",
+  "id": "spire_stonepass",
+  "title": "Stonepass Spire",
+  "totalFloors": 100,
+  "startFloor": 1,
+  "floors": [
+    {
+      "floor": 1,
+      "theme": "stonepass_fields",
+      "status": "built",
+      "worldDefinitionRef": "world_stonepass_valley",
+      "bossId": "boss_dragon_stir",
+      "difficultyBand": 1,
+      "gearBand": 1,
+      "clearedFlag": "floor_01_cleared"
+    },
+    {
+      "floor": 2,
+      "theme": "frozen_halls",
+      "status": "built",
+      "worldDefinitionRef": "world_floor_02_frozen",
+      "bossId": "boss_ice_warden",
+      "difficultyBand": 1,
+      "gearBand": 1,
+      "clearedFlag": "floor_02_cleared"
+    },
+    {
+      "floor": 3,
+      "theme": "sunken_archive",
+      "status": "stub",
+      "worldDefinitionRef": null,
+      "bossId": null,
+      "difficultyBand": 2,
+      "gearBand": 2,
+      "clearedFlag": "floor_03_cleared"
+    },
+    {
+      "floor": 4,
+      "theme": "ember_terraces",
+      "status": "stub",
+      "worldDefinitionRef": null,
+      "bossId": null,
+      "difficultyBand": 2,
+      "gearBand": 2,
+      "clearedFlag": "floor_04_cleared"
+    },
+    {
+      "floor": 5,
+      "theme": "whispering_market",
+      "status": "stub",
+      "worldDefinitionRef": null,
+      "bossId": null,
+      "difficultyBand": 2,
+      "gearBand": 2,
+      "clearedFlag": "floor_05_cleared"
+    }
+  ],
+  "_bandCurveReference": {
+    "_note": "Floors 6-100 follow this pre-planned curve (status 'locked' until authored/generated).",
+    "floors_1_to_10": { "difficultyBand": 1, "gearBand": 1 },
+    "floors_11_to_25": { "difficultyBand": 2, "gearBand": 2 },
+    "floors_26_to_50": { "difficultyBand": 3, "gearBand": 3 },
+    "floors_51_to_75": { "difficultyBand": 4, "gearBand": 4 },
+    "floors_76_to_99": { "difficultyBand": 5, "gearBand": 5 },
+    "floor_100": { "difficultyBand": 6, "gearBand": 6, "_note": "the summit / capstone gate" }
+  }
+}

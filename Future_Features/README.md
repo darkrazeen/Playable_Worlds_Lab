@@ -17,6 +17,13 @@ Brainstorm and specification docs for features **scheduled or planned** in the s
 
 Each doc proposes its own suggested step IDs; none are scheduled until human-approved. "Earliest implementable" assumes the gating step is complete and prior phase gates passed.
 
+**Flagship direction: Stonepass Spire (Aincrad-style castle)**
+
+| Document | Topic | Earliest implementable | Gating prerequisite |
+| --- | --- | --- | --- |
+| [Stonepass_Spire_Aincrad_Castle.md](./Stonepass_Spire_Aincrad_Castle.md) | 100-floor vertical castle; floor = `WorldDefinition`; ascension gated by `floor_N_cleared`; **Spire Manifest** skeleton; single-player boss raids | Phase 3 (single floor) / Phase 5 (multi-floor) | After **W5** instance runtime; tower needs vertical **RegionMap** (Phase 5) + libraries to flesh out floors 3+ |
+| [Combat_and_Encounter_Resolution.md](./Combat_and_Encounter_Resolution.md) | RuneScape-inspired combat/skills — **Tier A (bounded, approved)**: usage-advanced skill tiers, gear tiers + unlockable specials, discrete outcome bands; Tier B (continuous XP) deferred | Phase 3 (Level 0, no new code) / Phase 5 (resolver) | After **W5** instances; richer with progression + items + Director; **Tier B needs a README boundary amendment** |
+
 **Gameplay systems & remembered state**
 
 | Document | Topic | Earliest implementable | Gating prerequisite |
@@ -67,6 +74,10 @@ LAYER 0  Engine + validators (built now: Phase 0–1)
 
 LAYER 1  Generation & content (scheduled: W7-S7+, W8-S6+)
          Player_World_Generation + Content Libraries + Quest_Generation
+
+FLAGSHIP  Stonepass Spire (Aincrad-style 100-floor castle) — single-player
+         Castle = vertical RegionMap · Floor = WorldDefinition · Boss raid = instance
+         Combat/skills = Tier A bounded (RuneScape-inspired train-by-doing)
 
 LAYER 2  Gameplay systems on remembered state (proposed)
          Faction/Reputation · NPC Memory · Items/Gear · Progression/Mastery · Region Composer

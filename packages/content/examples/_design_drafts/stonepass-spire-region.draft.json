@@ -1,0 +1,56 @@
+{
+  "_draft": "ILLUSTRATIVE ONLY — non-production. Vertical (tower) RegionMap DERIVED from stonepass-spire-manifest.draft.json. References the proposed RegionMap schema + vertical-topology addendum (not yet implemented). See Future_Features/Procedural_Region_and_Biome_Composer.md. Only built/stub-frontier floors appear; edges are upward-only and gated by the previous floor's clearedFlag.",
+  "schemaVersion": "0.2.0",
+  "id": "region_spire_stonepass",
+  "title": "Stonepass Spire (ascent)",
+  "topology": "vertical",
+  "startZoneId": "zone_floor_01",
+  "zones": [
+    {
+      "zoneId": "zone_floor_01",
+      "worldId": "world_stonepass_valley",
+      "worldVersionId": "stonepass_valley_v1",
+      "biomeTag": "stonepass_fields",
+      "entryBeatId": "beat_ogre_bridge",
+      "floor": 1
+    },
+    {
+      "zoneId": "zone_floor_02",
+      "worldId": "world_floor_02_frozen",
+      "worldVersionId": "floor_02_frozen_v1",
+      "biomeTag": "frozen_halls",
+      "entryBeatId": "beat_floor02_arrival",
+      "floor": 2
+    },
+    {
+      "zoneId": "zone_floor_03",
+      "worldId": null,
+      "worldVersionId": null,
+      "biomeTag": "sunken_archive",
+      "entryBeatId": "beat_floor03_sealed",
+      "floor": 3,
+      "_frontier": "stub — sealed-floor placeholder; soft end of the current climb"
+    }
+  ],
+  "edges": [
+    {
+      "fromZoneId": "zone_floor_01",
+      "toZoneId": "zone_floor_02",
+      "direction": "ascend",
+      "requiredFlags": ["floor_01_cleared"],
+      "travelConsequenceId": "consequence_ascend_to_02"
+    },
+    {
+      "fromZoneId": "zone_floor_02",
+      "toZoneId": "zone_floor_03",
+      "direction": "ascend",
+      "requiredFlags": ["floor_02_cleared"],
+      "travelConsequenceId": "consequence_ascend_to_03",
+      "_note": "leads to a stub floor — reaching it ends the playable climb until floor 3 is built"
+    }
+  ],
+  "regionLedgerSeed": {
+    "activeFlags": [],
+    "unlockedGoals": ["goal_ascend_spire"]
+  }
+}

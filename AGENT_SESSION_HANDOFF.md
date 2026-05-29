@@ -35,6 +35,7 @@
 - **First proof world:** Stonepass Valley (ogre bridge → choice branches → landslide → cave → dragon).
 - **Not day one:** 3D metaverse, full economy, multiplayer, public UGC marketplace.
 - **Long-term vision:** Rich Stonepass showcase (v2), AI Director variation, **player-themed worlds** (WorldBlueprint + content libraries — [Future_Features/Player_World_Generation_and_Content_Libraries.md](./Future_Features/Player_World_Generation_and_Content_Libraries.md)), **quest generation** ([Future_Features/Quest_Generation.md](./Future_Features/Quest_Generation.md), tracker W8-S9–S12), 2D/3D as output layers on same JSON.
+- **Flagship product direction (brainstorm, 2026-05-28):** **Stonepass Spire** — retune Stonepass into an Aincrad-style **100-floor castle** (single-player). Floor = `WorldDefinition`; castle = vertical `RegionMap` gated by `floor_N_cleared`; boss raids = multi-phase instances; **Tier A** RuneScape-inspired combat/skills (bounded, usage-advanced). Design only — see [Future_Features/Stonepass_Spire_Aincrad_Castle.md](./Future_Features/Stonepass_Spire_Aincrad_Castle.md) and [Future_Features/Combat_and_Encounter_Resolution.md](./Future_Features/Combat_and_Encounter_Resolution.md). **No code, no tracker rows, no phase change** — next step is still W2-S6. Out of scope for this direction: guilds, multiplayer, AI-authored NPCs, Tier B continuous XP (would require a README boundary amendment).
 
 ```text
 WorldDefinition → StoryBeats → PlayerChoices → Consequences → WorldLedger
@@ -201,8 +202,16 @@ Integration tests use `contentRoot = join(__dirname, "../../../content")`.
 
 - [Playable_Worlds_Lab_v4_1_FULL_CURSOR.md](./Playable_Worlds_Lab_v4_1_FULL_CURSOR.md) — §17 step tracker rules; **Phase 5 extension** (W7-S7–W8-S12); replay layer 10 (content libraries).
 - [Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv](./Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv) — W1-S1–S16 and W2-S1–S5 **Complete**; W2-S6 **Next**; W7-S7–S11 and W8-S6–S12 added as `Not started`.
-- [Future_Features/](./Future_Features/README.md) — **19** brainstorm/spec docs; player world generation + quest specs linked to tracker rows (W7-S7+, W8-S6+; all `Not started`).
+- [Future_Features/](./Future_Features/README.md) — **21** brainstorm/spec docs; player world generation + quest specs linked to tracker rows (W7-S7+, W8-S6+; all `Not started`).
 - [scripts/step-tracker-enrichment.json](./scripts/step-tracker-enrichment.json) — reference text for backfill.
+
+#### Stonepass Spire design package (2026-05-28, brainstorm — no code/tracker impact)
+
+- [Future_Features/Stonepass_Spire_Aincrad_Castle.md](./Future_Features/Stonepass_Spire_Aincrad_Castle.md) — flagship: 100-floor castle, `SpireManifest` skeleton, floor anatomy, single-player boss raids, climb curve, phased rollout.
+- [Future_Features/Combat_and_Encounter_Resolution.md](./Future_Features/Combat_and_Encounter_Resolution.md) — Tier A combat/skills (bounded, usage-advanced); Level 0 (no new code) → Level 1 `EncounterResolver`; Tier A→B migration path.
+- [Future_Features/Procedural_Region_and_Biome_Composer.md](./Future_Features/Procedural_Region_and_Biome_Composer.md) — added **vertical (tower) topology** section + `validateRegionMap` rules for the Spire.
+- [Future_Features/README.md](./Future_Features/README.md) — new "Flagship direction: Stonepass Spire" index section + `FLAGSHIP` layer in the vision stack.
+- `packages/content/examples/_design_drafts/` — **non-production** illustrative `*.draft.json` (Spire manifest + vertical region) + README. Uses `.draft.json` suffix; **never loaded by tests**, nothing imports it.
 
 ### 4.8 Verification state (2026-05-28)
 

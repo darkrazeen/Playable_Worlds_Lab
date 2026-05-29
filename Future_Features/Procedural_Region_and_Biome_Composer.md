@@ -4,7 +4,7 @@
 >
 > **Status:** Brainstorm / proposed direction — **not in step tracker yet** (Future_Features only).  
 > **Last updated:** 2026-05-28  
-> **Related:** [Player_World_Generation_and_Content_Libraries.md](./Player_World_Generation_and_Content_Libraries.md), [2D_Map_and_Node_Graph_Play_View.md](./2D_Map_and_Node_Graph_Play_View.md), [Quest_Generation.md](./Quest_Generation.md), [README.md](./README.md)
+> **Related:** [Stonepass_Spire_Aincrad_Castle.md](./Stonepass_Spire_Aincrad_Castle.md), [Player_World_Generation_and_Content_Libraries.md](./Player_World_Generation_and_Content_Libraries.md), [2D_Map_and_Node_Graph_Play_View.md](./2D_Map_and_Node_Graph_Play_View.md), [Quest_Generation.md](./Quest_Generation.md), [README.md](./README.md)
 
 **Rules:**
 
@@ -76,6 +76,48 @@ Travel:
 ```
 
 Each zone remains independently valid and playable; the region adds **connectivity + shared memory**.
+
+---
+
+## Region topologies (horizontal vs vertical)
+
+The `RegionMap` graph is topology-agnostic — the same zones + edges + region-ledger machinery supports more than one shape. Two are designed:
+
+| Topology | Shape | Edge semantics | Example |
+| --- | --- | --- | --- |
+| **Horizontal (default)** | Branching biome map; bidirectional travel; backtracking allowed | "travel to" gated by flags/standing | lava ⇄ ocean ⇄ machine region |
+| **Vertical (tower)** | Linear, upward-only, clear-gated; no skipping ahead | "ascend" gated by `floor_N_cleared` | [Stonepass Spire](./Stonepass_Spire_Aincrad_Castle.md) — 100 floors |
+
+### Vertical (tower) topology — the Stonepass Spire
+
+A tower is a `RegionMap` constrained to a **linear, ascending, clear-gated** form:
+
+```text
+Zones:   floor_01, floor_02, ..., floor_100   (each a WorldDefinition zone)
+Edges:   floor_N → floor_(N+1)                 ONLY (no skip, no down-edge in v1)
+Gate:    edge requires the previous floor's clearedFlag (floor_N_cleared)
+Travel:  the floor's "stairs" beat fires consequence_ascend_to_(N+1)
+Derived: the entire edge list is DERIVED from the Spire Manifest — not hand-wired
+```
+
+Differences from the horizontal default:
+
+- **Edges are generated, not authored.** A `SpireManifest` (see the Spire doc) declares 100 floor slots; the region's upward edges are derived as `floor_N → floor_N+1, requires floor_N_cleared`.
+- **Unbuilt floors are legal.** A `stub` floor is a **soft frontier** (a sealed-floor placeholder beat), not a reachability error. `validateRegionMap` must treat the contiguous built/stub prefix as valid and stop the climb at the frontier.
+- **Monotonic climb curve.** Difficulty/gear bands are non-decreasing up the tower; the validator can warn on band regressions.
+- **No backtracking required in v1.** Down-edges (descending to a cleared floor) are optional and out of scope for the first Spire pass.
+
+### `validateRegionMap` additions for vertical topology
+
+```text
+- edges form a single ascending chain floor_1 → ... → frontier (no gaps, no skips)
+- every edge gate references the correct previous-floor clearedFlag
+- a `built` floor never sits above a `locked` floor (a `stub` gap is allowed = frontier)
+- bands are monotonic non-decreasing (warn otherwise)
+- startZoneId == floor_(startFloor)
+```
+
+See [Stonepass_Spire_Aincrad_Castle.md](./Stonepass_Spire_Aincrad_Castle.md) for the `SpireManifest` schema, floor status lifecycle (`locked`/`stub`/`built`), and the floor anatomy that each zone follows. Illustrative draft JSON for a manifest + vertical region live in `packages/content/examples/_design_drafts/` (clearly marked non-production).
 
 ---
 
