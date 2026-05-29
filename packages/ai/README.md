@@ -7,7 +7,7 @@ AI provider contracts and test doubles. **AI proposes; validators check; the eng
 - `src/contracts/` — `AIProvider`, `AIRequest`, `AIResult` usage
 - `src/providers/` — `FakeProvider` (tests), `OpenAIProvider` (optional live calls, W4-S3)
 - `src/gateway/` — `AIGateway` (W4-S1); sole entry for structured provider calls
-- `src/agents/` — Phase 2 agents (stub directory)
+- `src/agents/` — `DirectorAgent` (W4-S4); NPC agents later
 
 ## Depends on
 
@@ -21,10 +21,11 @@ npm test -w @playable-worlds/ai
 
 - `tests/unit/providers/fakeProvider.test.ts`
 - `tests/unit/providers/openaiProvider.test.ts`
+- `tests/unit/agents/directorAgent.test.ts`
 - `tests/unit/gateway/aiGateway.test.ts`
 
-See `docs/ai-gateway.md`, `docs/fake-provider.md`, `docs/openai-provider.md`, and `docs/ai-provider-toggle.md`.
+See `docs/ai-gateway.md`, `docs/fake-provider.md`, `docs/openai-provider.md`, `docs/ai-provider-toggle.md`, and `docs/director-agent.md`.
 
 ## Phase 2
 
-`DirectorAgent` and agents call `AIGateway` only (W4-S4+). `OpenAIProvider` (W4-S3) is optional — use `FakeProvider` in CI.
+`DirectorAgent` (W4-S4) calls `AIGateway` only — never providers directly. `OpenAIProvider` (W4-S3) is optional — use `FakeProvider` in CI via `OPENAI_ENABLED=false`.

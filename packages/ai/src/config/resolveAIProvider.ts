@@ -1,10 +1,7 @@
 import type { AIProvider } from "../contracts/aiProvider.js";
 import { createAIGateway, type AIGateway } from "../gateway/aiGateway.js";
 import {
-  AI_PROVIDER_ENV,
-  OPENAI_ENABLED_ENV,
   resolveAIProviderMode,
-  resolveOpenAIEnabled,
   type AIProviderMode,
   type EnvSource,
   type ResolveAIProviderOptions,

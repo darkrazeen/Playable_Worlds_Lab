@@ -50,6 +50,18 @@ export {
   STONEPASS_DIRECTOR_VALLEY,
 } from "./providers/fakeProviderScenarios.js";
 export {
+  DirectorAgent,
+  DIRECTOR_TASK,
+  buildDefaultDirectorFallback,
+  buildDirectorContext,
+  buildDirectorGenerationSeed,
+  buildDirectorPrompt,
+  createDirectorAgent,
+  createDirectorAgentFromEnv,
+  type DirectorAgentOptions,
+  type DirectorSuggestionInput,
+} from "./agents/index.js";
+export {
   DEFAULT_OPENAI_BASE_URL,
   DEFAULT_OPENAI_MODEL,
   OPENAI_API_KEY_ENV,

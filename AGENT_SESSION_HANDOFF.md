@@ -3,7 +3,7 @@
 **Handoff date:** 2026-05-29  
 **Last reconciled:** 2026-05-29  
 **Workspace:** `Playable_Worlds_Lab`  
-**Purpose:** Onboard a Cursor/agent on the current repo state, contract rules, Phase 0 complete, Phase 1 complete, **Phase 2 W4-S1–S2 complete**, next step **W4-S3** — OpenAI provider placeholder.
+**Purpose:** Onboard a Cursor/agent on the current repo state, contract rules, Phase 0 complete, Phase 1 complete, **Phase 2 W4-S1–S3 complete**, next step **W4-S4** — Build DirectorAgent.
 
 ---
 
@@ -11,7 +11,7 @@
 
 1. **One step at a time** — Implement only the human-approved step from the tracker. Stop after completion report.
 2. **Core mantra:** AI proposes → Validators check → The game engine executes.
-3. **Do not jump phases** — No DirectorAgent wiring, 2D/3D, multiplayer, or UGC until phase gates pass. **Note:** deterministic runtime in `@playable-worlds/core` (W2-S1–S7, W3-S1–S7) is complete; web `/play` is a thin layer — do not re-implement engine logic there. **AI calls:** use `AIGateway` only (W4-S1), not `AIProvider` directly.
+3. **Do not jump phases** — No DirectorAgent wiring to `/play`, 2D/3D, multiplayer, or UGC until phase gates pass. **Note:** deterministic runtime in `@playable-worlds/core` (W2-S1–S7, W3-S1–S7) is complete; web `/play` is a thin layer — do not re-implement engine logic there. **AI calls:** use `AIGateway` only (W4-S1), not `AIProvider` directly. Prefer `createAIGatewayFromEnv()` so `OPENAI_ENABLED` in `.env.local` controls live vs fake provider.
 4. **Schema-first** — Zod schemas + tests + examples before runtime depends on data.
 5. **Do not invent object shapes** — Use contracts in FULL_CURSOR §9 + §22.
 6. **Update the step tracker CSV** after every step — see FULL_CURSOR §17 and column list in §5 below.
@@ -35,7 +35,7 @@
 - **First proof content:** **Stonepass Spire — Floor 1** (ogre bridge → branches; Floors 2–3 carry landslide/cave/boss as systems land). Legacy file: `stonepass-valley.world.json`.
 - **Not day one:** 3D metaverse, full economy, multiplayer, public UGC marketplace.
 - **Long-term vision:** Rich Stonepass showcase (v2), AI Director variation, **player-themed worlds** (WorldBlueprint + content libraries — [Future_Features/Player_World_Generation_and_Content_Libraries.md](./Future_Features/Player_World_Generation_and_Content_Libraries.md)), **quest generation** ([Future_Features/Quest_Generation.md](./Future_Features/Quest_Generation.md), tracker W8-S9–S12), 2D/3D as output layers on same JSON.
-- **Flagship product direction (scheduled 2026-05-29):** **Stonepass Spire** — retune Stonepass into an Aincrad-style **100-floor castle** (single-player). Floor = `WorldDefinition`; castle = vertical `RegionMap` gated by `floor_N_cleared`; boss raids = multi-phase instances; **Tier A** RuneScape-inspired combat/skills (bounded, usage-advanced). **23 tracker rows** interleaved into Weeks 4–12 (see §3 _Spire & gameplay systems_). Specs: [Future_Features/](./Future_Features/README.md). **Current approved step:** W4-S3 (OpenAI provider). Do not implement Spire rows until each reaches `Next` with human approval.
+- **Flagship product direction (scheduled 2026-05-29):** **Stonepass Spire** — retune Stonepass into an Aincrad-style **100-floor castle** (single-player). Floor = `WorldDefinition`; castle = vertical `RegionMap` gated by `floor_N_cleared`; boss raids = multi-phase instances; **Tier A** RuneScape-inspired combat/skills (bounded, usage-advanced). **23 tracker rows** interleaved into Weeks 4–12 (see §3 _Spire & gameplay systems_). Specs: [Future_Features/](./Future_Features/README.md). **Current approved step:** W4-S4 (DirectorAgent). Do not implement Spire rows until each reaches `Next` with human approval.
 
 ```text
 WorldDefinition → StoryBeats → PlayerChoices → Consequences → WorldLedger
@@ -55,56 +55,60 @@ W1-S1 through W1-S16 — all **Complete**.
 
 ### Phase 1 — complete (W2-S1–S7, W3-S1–S7)
 
-| Step   | Name                               | Status              |
-| ------ | ---------------------------------- | ------------------- |
-| W2-S1  | World JSON loader                  | **Complete**        |
-| W2-S2  | Initialize WorldSession            | **Complete**        |
-| W2-S3  | Story beat selector                | **Complete**        |
-| W2-S4  | Choice resolver                    | **Complete**        |
-| W2-S5  | Apply consequence through runtime  | **Complete**        |
-| W2-S6  | Text play screen                   | **Complete**        |
-| W2-S7  | Manual ogre path tests             | **Complete**        |
-| W3-S1  | Consequence Engine core            | **Complete**        |
-| W3-S2  | Validate consequence preconditions | **Complete**        |
-| W3-S3  | Finalize flag lifecycle rules      | **Complete**        |
-| W3-S4  | World Ledger UI panel              | **Complete**        |
-| W3-S5  | Debug log model usage              | **Complete**        |
-| W3-S6  | Debug log UI panel                 | **Complete**        |
-| W3-S7  | Phase 1 acceptance hardening       | **Complete**        |
+| Step  | Name                               | Status       |
+| ----- | ---------------------------------- | ------------ |
+| W2-S1 | World JSON loader                  | **Complete** |
+| W2-S2 | Initialize WorldSession            | **Complete** |
+| W2-S3 | Story beat selector                | **Complete** |
+| W2-S4 | Choice resolver                    | **Complete** |
+| W2-S5 | Apply consequence through runtime  | **Complete** |
+| W2-S6 | Text play screen                   | **Complete** |
+| W2-S7 | Manual ogre path tests             | **Complete** |
+| W3-S1 | Consequence Engine core            | **Complete** |
+| W3-S2 | Validate consequence preconditions | **Complete** |
+| W3-S3 | Finalize flag lifecycle rules      | **Complete** |
+| W3-S4 | World Ledger UI panel              | **Complete** |
+| W3-S5 | Debug log model usage              | **Complete** |
+| W3-S6 | Debug log UI panel                 | **Complete** |
+| W3-S7 | Phase 1 acceptance hardening       | **Complete** |
 
 ### Phase 2 — in progress (AI Director v1)
 
-| Step   | Name                            | Status              |
-| ------ | ------------------------------- | ------------------- |
-| W4-S1  | AI Gateway                      | **Complete**        |
-| W4-S2  | Expand FakeProvider scenarios   | **Complete**        |
-| W4-S3  | OpenAI provider placeholder     | **Next ← approved** |
-| W4-S4+ | DirectorAgent, NPC agents       | Not started         |
+| Step   | Name                           | Status              |
+| ------ | ------------------------------ | ------------------- |
+| W4-S1  | AI Gateway                     | **Complete**        |
+| W4-S2  | Expand FakeProvider scenarios  | **Complete**        |
+| W4-S3  | OpenAI provider + env toggle   | **Complete**        |
+| W4-S4  | Build DirectorAgent            | **Next ← approved** |
+| W4-S5+ | NPC agents, reasoning UI, etc. | Not started         |
 
 **Engine loop (working in tests and browser):** `loadWorld` → `initializeWorldSession` → `selectStoryBeat` → `resolvePlayerChoice` → `applyPlayerChoice` → ledger + debug trace update
 
-**AI loop (W4-S1–S2, not wired to play yet):** `AIGateway` → `FakeProvider` (tests) — DirectorAgent (W4-S4) will call gateway only
+**AI loop (W4-S1–S3, not wired to `/play` yet):** `createAIGatewayFromEnv()` → `FakeProvider` (default) or `OpenAIProvider` when `OPENAI_ENABLED=true` in `.env.local` — DirectorAgent (W4-S4) will call gateway only
 
-**Gap to close:** W4-S3 OpenAI provider; W4-S4 DirectorAgent; beat progression beyond ogre bridge branches (content/engine, not Phase 2 gate)
+**OpenAI toggle (local):** Keep `OPENAI_API_KEY` in gitignored `.env.local`; set `OPENAI_ENABLED=false` (off) or `true` (live). See `packages/ai/docs/ai-provider-toggle.md`.
+
+**Gap to close:** W4-S4 DirectorAgent; beat progression beyond ogre bridge branches (content/engine, not Phase 2 gate)
 
 ### Current snapshot (2026-05-29)
 
-| Area                                                                          | Status                                                                                                    |
-| ----------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------- |
-| Phase 0 schemas + validator                                                   | **Complete** (W1-S1–S16)                                                                                  |
-| Stonepass canonical JSON                                                      | **Complete** — passes `parseAndValidateWorldDefinition`                                                   |
-| FakeProvider                                                                  | **Complete** (W1-S16 + W4-S2 seed catalog & Stonepass presets)                                              |
-| Runtime core (load → consequence)                                             | **Complete** (W2-S1–S7, W3-S1–S7)                                                                           |
-| Browser text play UI                                                          | **Complete** — `/play` with ledger + debug panels (W3-S4–S6)                                                |
-| Beat progression                                                              | **Partial** — ogre bridge advances (landslide / valley); full Floor 1 arc not done                            |
-| AI Gateway                                                                    | **Complete (W4-S1)** — `packages/ai/src/gateway/`, `docs/ai-gateway.md`                                   |
-| DirectorAgent / agents                                                        | **Not started** (W4-S4+)                                                                                    |
-| OpenAI / real providers                                                       | **Not started** (W4-S3 next)                                                                                  |
-| Temporary instance runtime                                                    | Phase 3 — not started                                                                                       |
-| Spire & gameplay systems                                                      | **Scheduled** — tracker rows `Not started`; first Spire content step **W5-S13**                               |
-| Tests                                                                         | **276 passing** (45 files) — `npm run test:coverage` for report                                             |
-| CI                                                                            | typecheck, lint, **format:check**, test, **test:coverage**                                                  |
-| Step tracker                                                                  | **122 rows** (99 original + 23 Spire/gameplay rows added 2026-05-29)                                      |
+| Area                                            | Status                                                                             |
+| ----------------------------------------------- | ---------------------------------------------------------------------------------- |
+| Phase 0 schemas + validator                     | **Complete** (W1-S1–S16)                                                           |
+| Stonepass canonical JSON                        | **Complete** — passes `parseAndValidateWorldDefinition`                            |
+| FakeProvider                                    | **Complete** (W1-S16 + W4-S2 seed catalog & Stonepass presets)                     |
+| Runtime core (load → consequence)               | **Complete** (W2-S1–S7, W3-S1–S7)                                                  |
+| Browser text play UI                            | **Complete** — `/play` with ledger + debug panels (W3-S4–S6)                       |
+| Beat progression                                | **Partial** — ogre bridge advances (landslide / valley); full Floor 1 arc not done |
+| AI Gateway                                      | **Complete (W4-S1)** — `packages/ai/src/gateway/`, `docs/ai-gateway.md`            |
+| DirectorAgent / agents                          | **Not started** (W4-S4+)                                                           |
+| OpenAI provider + env toggle (`OPENAI_ENABLED`) | **Complete (W4-S3)** — `openaiProvider.ts`, `createAIGatewayFromEnv()`             |
+| DirectorAgent                                   | **Not started** (W4-S4 next)                                                       |
+| Temporary instance runtime                      | Phase 3 — not started                                                              |
+| Spire & gameplay systems                        | **Scheduled** — tracker rows `Not started`; first Spire content step **W5-S13**    |
+| Tests                                           | **295 passing** (47 files) — `npm run test:coverage` for report                    |
+| CI                                              | typecheck, lint, **format:check**, test, **test:coverage**                         |
+| Step tracker                                    | **122 rows** (99 original + 23 Spire/gameplay rows added 2026-05-29)               |
 
 ### Phase 5 extension — scheduled, not current work
 
@@ -265,37 +269,40 @@ Integration tests use `contentRoot = join(__dirname, "../../../content")`.
 
 ### 4.8 Phase 1 completion (W3-S1–S7) — summary
 
-| Area | Key paths |
-| ---- | --------- |
-| Consequence engine | `packages/core/src/consequence/consequenceEngine.ts` |
-| Flag lifecycle | `packages/core/src/ledger/flagLifecycle.ts`, `docs/flag-lifecycle.md` |
-| Debug trace | `packages/core/src/debug/buildDebugEvents.ts`, `debugTrace.ts` |
-| Beat progression | `advanceSessionBeat.ts`, `beat_ogre_bridge` `blockedByFlags` in Stonepass JSON |
-| Web UI | `apps/web/features/world-debug/`, `WorldPlayScreen.tsx` |
-| Acceptance | `phase1Acceptance.test.ts`, `packages/core/docs/phase1-acceptance.md` |
+| Area               | Key paths                                                                      |
+| ------------------ | ------------------------------------------------------------------------------ |
+| Consequence engine | `packages/core/src/consequence/consequenceEngine.ts`                           |
+| Flag lifecycle     | `packages/core/src/ledger/flagLifecycle.ts`, `docs/flag-lifecycle.md`          |
+| Debug trace        | `packages/core/src/debug/buildDebugEvents.ts`, `debugTrace.ts`                 |
+| Beat progression   | `advanceSessionBeat.ts`, `beat_ogre_bridge` `blockedByFlags` in Stonepass JSON |
+| Web UI             | `apps/web/features/world-debug/`, `WorldPlayScreen.tsx`                        |
+| Acceptance         | `phase1Acceptance.test.ts`, `packages/core/docs/phase1-acceptance.md`          |
 
-### 4.9 Phase 2 AI layer (W4-S1–S2) — summary
+### 4.9 Phase 2 AI layer (W4-S1–S3) — summary
 
-| Area | Key paths |
-| ---- | --------- |
-| AI Gateway | `packages/ai/src/gateway/aiGateway.ts`, `docs/ai-gateway.md` |
-| FakeProvider seeds | `fakeProvider.ts` (`responsesBySeed`, `scenarioCatalog`), `fakeProviderScenarios.ts` |
-| Tests | `packages/ai/tests/unit/gateway/aiGateway.test.ts`, `fakeProviderScenarios.test.ts` |
+| Area               | Key paths                                                                                                   |
+| ------------------ | ----------------------------------------------------------------------------------------------------------- |
+| AI Gateway         | `packages/ai/src/gateway/aiGateway.ts`, `docs/ai-gateway.md`                                                |
+| FakeProvider seeds | `fakeProvider.ts`, `fakeProviderScenarios.ts`, `docs/fake-provider.md`                                      |
+| OpenAI provider    | `openaiProvider.ts`, `docs/openai-provider.md`                                                              |
+| Provider toggle    | `config/envFlags.ts`, `config/resolveAIProvider.ts`, `docs/ai-provider-toggle.md`                           |
+| Factory            | `createAIProviderFromEnv()`, `createAIGatewayFromEnv()`, `getAIProviderStatus()`                            |
+| Tests              | `aiGateway.test.ts`, `fakeProviderScenarios.test.ts`, `openaiProvider.test.ts`, `resolveAIProvider.test.ts` |
 
-**Rule:** Call `new AIGateway({ provider })` — never call `provider.generateStructured()` from agents or runtime.
+**Rules:** Agents call `AIGateway` only — never `provider.generateStructured()` directly. Use `createAIGatewayFromEnv()` for env-driven fake vs OpenAI. **Default:** OpenAI off (`OPENAI_ENABLED` unset/false) even if `OPENAI_API_KEY` is in `.env.local`.
 
 ### 4.10 Verification state (2026-05-29)
 
 ```bash
-npm test              # 276 tests passing (45 files)
-npm run test:coverage # ~91% statements on core/ai/web features (report only)
+npm test              # 295 tests passing (47 files)
+npm run test:coverage # coverage report (CI gate)
 npm run typecheck
 npm run lint
 npm run format:check
 npm run build
 ```
 
-Key test areas: `packages/core/tests/integration/` (Stonepass paths, phase1 acceptance, beat progression), `apps/web/tests/` (play, ledger, debug, phase1 acceptance), `packages/ai/tests/unit/` (gateway, FakeProvider).
+Key test areas: `packages/core/tests/integration/`, `apps/web/tests/`, `packages/ai/tests/unit/` (gateway, providers, config).
 
 ---
 
@@ -342,12 +349,13 @@ playable-worlds-lab/
       docs/                              # flag-lifecycle, phase1-acceptance, beat-progression
       tests/unit/ + tests/integration/
     ai/
+      src/config/                        # envFlags, resolveAIProvider (OPENAI_ENABLED toggle)
       src/contracts/
-      src/providers/                     # FakeProvider + Stonepass presets (W4-S2)
+      src/providers/                     # FakeProvider, OpenAIProvider (W4-S2, W4-S3)
       src/gateway/                       # AIGateway (W4-S1) ✓
       src/agents/                        # DirectorAgent stub (W4-S4+)
-      docs/                              # ai-gateway.md, fake-provider.md
-      tests/unit/gateway/ + tests/unit/providers/
+      docs/                              # ai-gateway, fake-provider, openai-provider, ai-provider-toggle
+      tests/unit/config/ + gateway/ + providers/
     content/
       examples/                          # JSON fixtures + invalid validator demo
       worlds/stonepass/                  # stonepass-valley.world.json (canonical)
@@ -368,25 +376,26 @@ playable-worlds-lab/
 
 ## 7. What is NOT built yet
 
-| Item                                                                                                     | Step                                                                                                        |
-| -------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------- |
-| Full Stonepass JSON at `packages/content/worlds/stonepass/`                                              | **Done (W1-S15)**                                                                                           |
-| `AIProvider` + `FakeProvider`                                                                            | **Done (W1-S16)**                                                                                           |
-| World loader                                                                                             | **Done (W2-S1)**                                                                                            |
-| Session init at runtime                                                                                  | **Done (W2-S2)**                                                                                            |
-| Beat selector, choice resolver, first consequence apply                                                  | **Done (W2-S3–S5)**                                                                                         |
-| Browser text play UI                                                                                     | **Done (W2-S6)** — `/play`                                                                                  |
-| Consequence precondition validation                                                                      | **Done (W3-S2)**                                                                                            |
-| Flag lifecycle rules                                                                                     | **Done (W3-S3)** — `packages/core/src/ledger/`, `docs/flag-lifecycle.md`                                    |
-| World Ledger UI panel                                                                                    | **Done (W3-S4)** — `/play` sidebar `WorldLedgerPanel`                                                       |
-| Debug log model usage                                                                                    | **Done (W3-S5)** — typed builders + validation_failed on failures                                           |
-| Debug log UI panel                                                                                       | **Done (W3-S6)** — `/play` sidebar `DebugTracePanel`                                                        |
-| Phase 1 acceptance hardening                                                                             | **Done (W3-S7)**                                                                                            |
-| AI Gateway                                                                                               | **Done (W4-S1)** — `AIGateway`; see `packages/ai/docs/ai-gateway.md`                                        |
-| FakeProvider scenarios (seed catalog)                                                                  | **Done (W4-S2)** — see `packages/ai/docs/fake-provider.md`                                                  |
-| DirectorAgent, OpenAI provider                                                                         | W4-S3+                                                                                                      |
-| Temporary instance runtime                                                                               | Phase 3 (W5-\*)                                                                                             |
-| Content libraries, WorldBlueprint, quest generation                                                      | Phase 5 extension (W7-S7+, W8-S6+) — scheduled only                                                         |
+| Item                                                                                                     | Step                                                                                                |
+| -------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- |
+| Full Stonepass JSON at `packages/content/worlds/stonepass/`                                              | **Done (W1-S15)**                                                                                   |
+| `AIProvider` + `FakeProvider`                                                                            | **Done (W1-S16)**                                                                                   |
+| World loader                                                                                             | **Done (W2-S1)**                                                                                    |
+| Session init at runtime                                                                                  | **Done (W2-S2)**                                                                                    |
+| Beat selector, choice resolver, first consequence apply                                                  | **Done (W2-S3–S5)**                                                                                 |
+| Browser text play UI                                                                                     | **Done (W2-S6)** — `/play`                                                                          |
+| Consequence precondition validation                                                                      | **Done (W3-S2)**                                                                                    |
+| Flag lifecycle rules                                                                                     | **Done (W3-S3)** — `packages/core/src/ledger/`, `docs/flag-lifecycle.md`                            |
+| World Ledger UI panel                                                                                    | **Done (W3-S4)** — `/play` sidebar `WorldLedgerPanel`                                               |
+| Debug log model usage                                                                                    | **Done (W3-S5)** — typed builders + validation_failed on failures                                   |
+| Debug log UI panel                                                                                       | **Done (W3-S6)** — `/play` sidebar `DebugTracePanel`                                                |
+| Phase 1 acceptance hardening                                                                             | **Done (W3-S7)**                                                                                    |
+| AI Gateway                                                                                               | **Done (W4-S1)** — `AIGateway`; see `packages/ai/docs/ai-gateway.md`                                |
+| FakeProvider scenarios (seed catalog)                                                                    | **Done (W4-S2)** — see `packages/ai/docs/fake-provider.md`                                          |
+| OpenAI provider + `OPENAI_ENABLED` toggle                                                                | **Done (W4-S3)** — see `packages/ai/docs/openai-provider.md`, `ai-provider-toggle.md`               |
+| DirectorAgent                                                                                            | W4-S4+                                                                                              |
+| Temporary instance runtime                                                                               | Phase 3 (W5-\*)                                                                                     |
+| Content libraries, WorldBlueprint, quest generation                                                      | Phase 5 extension (W7-S7+, W8-S6+) — scheduled only                                                 |
 | Spire & gameplay systems (combat Tier A, progression, gear, RegionMap, SpireManifest, climb persistence) | W4-S8–S10, W5-S8–S13, W7-S12–S13, W8-S13–S20, W9-S7–S9, W12-S8 — scheduled only until row is `Next` |
 
 **Validation layers today:**
@@ -402,21 +411,21 @@ playable-worlds-lab/
 
 **Checklist:** [packages/core/docs/phase1-acceptance.md](./packages/core/docs/phase1-acceptance.md)
 
-**Automated proof:** `phase1Acceptance.test.ts`, ogre-path tests, web smoke tests — **276 tests** green (includes Phase 2 AI tests).
+**Automated proof:** `phase1Acceptance.test.ts`, ogre-path tests, web smoke tests — **295 tests** green (includes Phase 2 AI tests).
 
 ### Phase 2 — in progress
 
-**Done:** W4-S1 AI Gateway, W4-S2 FakeProvider expansion.
+**Done:** W4-S1 AI Gateway, W4-S2 FakeProvider expansion, W4-S3 OpenAI provider + env toggle (`OPENAI_ENABLED`, `createAIGatewayFromEnv`).
 
-**Next approved:** W4-S3 OpenAI provider placeholder.
+**Next approved:** W4-S4 DirectorAgent.
 
-## 9. Next step: W4-S3 — Create OpenAIProvider placeholder or implementation
+## 9. Next step: W4-S4 — Build DirectorAgent
 
-**Goal:** Add OpenAI provider stub or real implementation behind `AIProvider` + `AIGateway`.
+**Goal:** Use AI Gateway to suggest next beat, recap, or session wrap-up via `DirectorDecision` — **no permanent state mutation**.
 
-**Allowed scope:** `packages/ai/providers`, tests.
+**Allowed scope:** `packages/ai/agents/directorAgent`, tests.
 
-**FakeProvider (W4-S2 done):** See `packages/ai/docs/fake-provider.md` — seed catalog, Stonepass presets, reproducible scenarios.
+**Wire provider via:** `createAIGatewayFromEnv()` (respects `.env.local` toggle). **FakeProvider (W4-S2):** `packages/ai/docs/fake-provider.md`. **OpenAI (W4-S3):** `packages/ai/docs/ai-provider-toggle.md`.
 
 ---
 
@@ -464,8 +473,8 @@ npm run dev    # http://localhost:3000 — home; /play for Stonepass (W2-S6)
 
 1. This file — `AGENT_SESSION_HANDOFF.md`
 2. [Playable_Worlds_Lab_v4_1_FULL_CURSOR.md §22](./Playable_Worlds_Lab_v4_1_FULL_CURSOR.md#22-contract-v42-hybrid-addendum-implementation-tracking)
-3. [Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv](./Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv) — **status source of truth**; row W4-S3 (`Next`); **122 rows total**
-4. `packages/ai/docs/ai-gateway.md`, `packages/ai/docs/fake-provider.md`
+3. [Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv](./Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv) — **status source of truth**; row W4-S4 (`Next`); **122 rows total**
+4. `packages/ai/docs/ai-gateway.md`, `fake-provider.md`, `openai-provider.md`, `ai-provider-toggle.md`
 5. `packages/core/src/runtime/` and `packages/core/src/world/` for conventions
 6. `stonepass-valley.world.json` as reference content
 7. [Future_Features/](./Future_Features/README.md) — long-term vision including Spire track (**not current implementation**)
@@ -488,7 +497,10 @@ WorldLedger (W1-S6) ──► WorldSession (W1-S11)
 DebugEvent (W1-S12) ──┘
 
 DirectorDecision (W1-S7) ──► AIResult<T> (W1-S13)
-  ──► AIGateway (W4-S1) ──► FakeProvider (W1-S16, W4-S2) — agents must not skip gateway
+  ──► AIGateway (W4-S1) ──► createAIGatewayFromEnv()
+        ├── FakeProvider (default; W1-S16, W4-S2)
+        └── OpenAIProvider (W4-S3; OPENAI_ENABLED=true + key)
+      — agents must not skip gateway
 WorldDefinition ──► loadWorld (W2-S1) ──► initializeWorldSession (W2-S2)
   ──► selectStoryBeat / advanceSessionBeat (W2-S3, W3-S7)
   ──► resolvePlayerChoice (W2-S4) ──► applyConsequenceEngine (W3-S1)
@@ -497,4 +509,4 @@ WorldDefinition ──► loadWorld (W2-S1) ──► initializeWorldSession (W2
 
 ---
 
-_End of agent session handoff. Next approved implement: **W4-S3 OpenAI provider placeholder**._
+_End of agent session handoff. Next approved implement: **W4-S4 Build DirectorAgent**._

@@ -63,11 +63,11 @@ The first proof content is **Stonepass Spire — Floor 1** (legacy file `stonepa
 
 [![CI](https://github.com/darkrazeen/Playable_Worlds_Lab/actions/workflows/ci.yml/badge.svg)](https://github.com/darkrazeen/Playable_Worlds_Lab/actions/workflows/ci.yml)
 
-**Status:** **Phase 0 complete (16/16). Phase 1 text runtime complete (W2-S1–S7, W3-S1–S7).** Stonepass Spire Floor 1 runs in core and at `/play` with ledger + debug panels; acceptance tests cover load → init → choice → consequence → ledger/debug and blocked invalid choices. **Next:** **W4-S3** — OpenAI provider placeholder (see [step tracker](./Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv)).
+**Status:** **Phase 0 complete (16/16). Phase 1 text runtime complete (W2-S1–S7, W3-S1–S7).** Stonepass Spire Floor 1 runs in core and at `/play` with ledger + debug panels. **Phase 2 in progress:** W4-S1–S3 done (AI Gateway, FakeProvider, OpenAI provider + env toggle). **Next:** **W4-S4** — DirectorAgent (see [step tracker](./Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv)).
 
-**Verification (2026-05-29):** **276 tests** passing (45 files); `npm run typecheck`, `npm run lint`, `npm run format:check`, `npm test`, `npm run test:coverage`, and `npm run build` green. CI: `.github/workflows/ci.yml`. Phase 1 checklist: `packages/core/docs/phase1-acceptance.md`. Phase 2 AI layer: `packages/ai/docs/ai-gateway.md`, `packages/ai/docs/fake-provider.md`.
+**Verification (2026-05-29):** **295 tests** passing (47 files); `npm run typecheck`, `npm run lint`, `npm run format:check`, `npm test`, `npm run test:coverage`, and `npm run build` green. CI: `.github/workflows/ci.yml`. Phase 1: `packages/core/docs/phase1-acceptance.md`. Phase 2 AI: `packages/ai/docs/ai-gateway.md`, `fake-provider.md`, `openai-provider.md`, [`ai-provider-toggle.md`](./packages/ai/docs/ai-provider-toggle.md).
 
-Playable Worlds Lab should be treated as an active experimental product and engineering prototype. The deterministic engine loop works in `@playable-worlds/core` and is wired to the web app at **`/play`**. **Phase 1 is complete; Phase 2 is in progress** (W4-S1 AI Gateway and W4-S2 FakeProvider scenarios done; **W4-S3** OpenAI provider is next). Do not overbuild visuals, social systems, marketplaces, or multiplayer before phase gates.
+Playable Worlds Lab should be treated as an active experimental product and engineering prototype. The deterministic engine loop works in `@playable-worlds/core` and is wired to the web app at **`/play`**. **Phase 2 AI plumbing is in place** (gateway, fake/OpenAI providers, `OPENAI_ENABLED` toggle in `.env.local`); **DirectorAgent (W4-S4)** is next and not yet wired to `/play`. Do not overbuild visuals, social systems, marketplaces, or multiplayer before phase gates.
 
 The first milestone is not “build the full game.”
 
@@ -119,7 +119,8 @@ Progress is tracked in `Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv`. Updat
 | W3-S7                | Phase 1+               | Phase 1 acceptance hardening                                                               | **Complete**              |
 | W4-S1                | Phase 2                | AI Gateway                                                                                 | **Complete**              |
 | W4-S2                | Phase 2                | Expand FakeProvider scenarios                                                              | **Complete**              |
-| W4-S3 …              | Phase 2                | OpenAI provider placeholder                                                                | **Next**                  |
+| W4-S3                | Phase 2                | OpenAI provider placeholder                                                                | **Complete**              |
+| W4-S4 …              | Phase 2                | Build DirectorAgent                                                                        | **Next**                  |
 | W7-S7–S11, W8-S6–S12 | Phase 5 extension      | Content libraries, WorldBlueprint, quest generation                                        | Scheduled (`Not started`) |
 | W4-S8–S10            | Phase 2 ext (Spire)    | Seed plumbing, ledger difficulty signal, Director `adjust_difficulty`                      | Scheduled (`Not started`) |
 | W5-S8–S13            | Phase 3 ext (Spire)    | ProgressionLedger, Tier A skills, gear gating, Level 0 combat, **Floor 1**                 | Scheduled (`Not started`) |
@@ -153,7 +154,7 @@ Progress is tracked in `Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv`. Updat
 
 **W2-S1–S6 done when (met):** `loadWorld` / `loadWorldFromFile`; `initializeWorldSession`; `selectStoryBeat`; `resolvePlayerChoice` / `listAvailableChoices`; `applyConsequence` / `applyPlayerChoice`; browser text play at `/play` wired through `@playable-worlds/core` runtime (no direct ledger mutation in UI); Stonepass integration + web smoke tests; **203 tests** green (2026-05-29).
 
-**Next step:** **W4-S3** — Create OpenAIProvider placeholder or implementation.
+**Next step:** **W4-S4** — Build DirectorAgent (uses `createAIGatewayFromEnv()`; respects `OPENAI_ENABLED` in `.env.local`).
 
 ### Data contract (v4.2 hybrid)
 
@@ -183,19 +184,22 @@ npm -v
 
 ### Environment variables
 
-Copy the template — **no API keys are required yet** through Phase 1 text runtime:
+Copy the template — **no API keys required** for `/play` or CI (FakeProvider default):
 
 ```bash
 cp .env.example .env.local
 ```
 
-| Variable                                                | Needed now? | Purpose                      |
-| ------------------------------------------------------- | ----------- | ---------------------------- |
-| `OPENAI_API_KEY`, `ANTHROPIC_API_KEY`, `GEMINI_API_KEY` | No          | Phase 2+ AI providers        |
-| `SUPABASE_*`                                            | No          | Persistence / share phases   |
-| `NEXT_PUBLIC_APP_URL`                                   | No          | App URL when deploying later |
+| Variable                              | Needed now? | Purpose                                                                        |
+| ------------------------------------- | ----------- | ------------------------------------------------------------------------------ |
+| `OPENAI_ENABLED`                      | No          | `false` (default) = FakeProvider; `true` = live OpenAI                         |
+| `OPENAI_API_KEY`                      | Optional    | Live OpenAI only when `OPENAI_ENABLED=true` (keep in `.env.local`, gitignored) |
+| `AI_PROVIDER`                         | No          | Optional override: `fake` \| `openai`                                          |
+| `ANTHROPIC_API_KEY`, `GEMINI_API_KEY` | No          | Future providers                                                               |
+| `SUPABASE_*`                          | No          | Persistence / share phases                                                     |
+| `NEXT_PUBLIC_APP_URL`                 | No          | App URL when deploying later                                                   |
 
-Do not commit `.env` or `.env.local`. See [Environment Variables](#environment-variables) for full rules.
+Do not commit `.env` or `.env.local`. Toggle guide: [packages/ai/docs/ai-provider-toggle.md](./packages/ai/docs/ai-provider-toggle.md).
 
 ### Local dev URLs
 
@@ -210,7 +214,7 @@ Game logic lives in **`@playable-worlds/core`**; the web app is a thin presentat
 
 ## Current Repository Layout
 
-What exists after Phase 1 + W4-S1–S2 (agents and OpenAI provider are still Phase 2 work):
+What exists after Phase 1 + W4-S1–S3 (DirectorAgent W4-S4 not wired to `/play` yet):
 
 ```text
 playable-worlds-lab/
@@ -235,13 +239,14 @@ playable-worlds-lab/
       src/debug/
       docs/                      # phase1-acceptance, beat-progression, flag-lifecycle
       tests/unit/ + tests/integration/
-    ai/                          # @playable-worlds/ai — AIGateway (W4-S1), FakeProvider (W4-S2)
+    ai/                          # @playable-worlds/ai — gateway, providers, env toggle (W4-S1–S3)
+      src/config/                # OPENAI_ENABLED, createAIGatewayFromEnv
       src/contracts/
-      src/providers/             # FakeProvider + Stonepass seed presets
+      src/providers/             # FakeProvider, OpenAIProvider
       src/gateway/               # AIGateway (W4-S1)
       src/agents/                # DirectorAgent stub (W4-S4+)
-      docs/                      # ai-gateway.md, fake-provider.md
-      tests/unit/gateway/ + tests/unit/providers/
+      docs/                      # ai-gateway, fake-provider, openai-provider, ai-provider-toggle
+      tests/unit/config/ + gateway/ + providers/
     content/                     # @playable-worlds/content — examples + canonical Stonepass
       examples/                  # JSON fixtures
       worlds/stonepass/          # stonepass-valley.world.json (canonical)
@@ -256,7 +261,7 @@ playable-worlds-lab/
   Playable_Worlds_Lab_v4_1_FULL_CURSOR.md
 ```
 
-**Not created yet:** DirectorAgent (W4-S4+), OpenAI provider (W4-S3 next), temporary instance runtime (Phase 3), Supabase persistence. **Done:** AI Gateway (W4-S1), FakeProvider seed catalog (W4-S2), `scripts/validate-content.ts` CLI. **Done in Phase 1:** ogre-path tests (W2-S7), consequence engine (W3-S1), ledger + debug panels on `/play` (W3-S4–S7), beat progression on ogre bridge.
+**Not created yet:** DirectorAgent (W4-S4 next), temporary instance runtime (Phase 3), Supabase persistence. **Done:** AI Gateway (W4-S1), FakeProvider seed catalog (W4-S2), OpenAI provider + `OPENAI_ENABLED` toggle (W4-S3), `scripts/validate-content.ts` CLI. **Done in Phase 1:** ogre-path tests (W2-S7), consequence engine (W3-S1), ledger + debug panels on `/play` (W3-S4–S7), beat progression on ogre bridge.
 
 ---
 
@@ -314,7 +319,7 @@ npm run build -w @playable-worlds/web
 ### Verify the project
 
 ```bash
-npm test              # Vitest — 276 tests (core, ai, web)
+npm test              # Vitest — 295 tests (core, ai, web)
 npm run test:coverage # coverage report (CI runs this)
 npm run typecheck     # TypeScript — web + all workspace packages
 npm run lint          # ESLint — all workspaces
@@ -340,17 +345,17 @@ npm run format
 
 ### Root `package.json` scripts
 
-| Script                 | What it does                                                                      |
-| ---------------------- | --------------------------------------------------------------------------------- |
-| `npm run dev`          | Next.js dev server (`@playable-worlds/web`) on port 3000                          |
-| `npm run build`        | Next.js production build                                                          |
-| `npm run start`        | Next.js production server (after build)                                           |
-| `npm test`             | Vitest — 276 tests across core, ai, content, web                                  |
-| `npm run test:coverage`| Coverage report (runs in CI)                                                      |
-| `npm run typecheck`    | `tsc --noEmit` in all workspaces that define it                                   |
-| `npm run lint`         | ESLint in all workspaces (core, ai, content, web)                                 |
-| `npm run format`       | Prettier write                                                                    |
-| `npm run format:check` | Prettier check                                                                    |
+| Script                  | What it does                                             |
+| ----------------------- | -------------------------------------------------------- |
+| `npm run dev`           | Next.js dev server (`@playable-worlds/web`) on port 3000 |
+| `npm run build`         | Next.js production build                                 |
+| `npm run start`         | Next.js production server (after build)                  |
+| `npm test`              | Vitest — 295 tests across core, ai, content, web         |
+| `npm run test:coverage` | Coverage report (runs in CI)                             |
+| `npm run typecheck`     | `tsc --noEmit` in all workspaces that define it          |
+| `npm run lint`          | ESLint in all workspaces (core, ai, content, web)        |
+| `npm run format`        | Prettier write                                           |
+| `npm run format:check`  | Prettier check                                           |
 
 ---
 
@@ -683,7 +688,7 @@ Use this table when deciding whether to implement part of the reference scenario
 | Save / share / fork                             | Share mini-adventure with others | Phase 6                  |
 | 2D map / enter region visually                  | Same triggers, visual layer      | Phase 8                  |
 
-**Current build status (2026-05-29):** Phase 0 complete. **Phase 1 complete (W2-S1–S7, W3-S1–S7):** deterministic runtime, `/play` UI, ledger + debug panels, beat progression on ogre bridge, Phase 1 acceptance tests. **Phase 2 in progress:** **W4-S1** `AIGateway`, **W4-S2** FakeProvider Stonepass scenarios — **not wired to `/play` yet**. **Next:** W4-S3 OpenAI provider. **Not yet:** DirectorAgent, temporary instance runtime, persistence, share. See [step tracker](./Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv).
+**Current build status (2026-05-29):** Phase 0 complete. **Phase 1 complete (W2-S1–S7, W3-S1–S7):** deterministic runtime, `/play` UI, ledger + debug panels, beat progression on ogre bridge, Phase 1 acceptance tests. **Phase 2 in progress:** **W4-S1–S3** gateway, FakeProvider, OpenAI provider, **`OPENAI_ENABLED` toggle** (`createAIGatewayFromEnv`) — **not wired to `/play` yet**. **Next:** W4-S4 DirectorAgent. **Not yet:** temporary instance runtime, persistence, share. See [step tracker](./Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv).
 
 ---
 
@@ -1033,7 +1038,7 @@ This matters because AI game systems can become confusing fast. The creator and 
 
 The AI Gateway is the controlled access layer for all model/provider calls.
 
-**Implemented (W4-S1):** `packages/ai/src/gateway/aiGateway.ts` — `createAIGateway`, request validation, provider dispatch, optional `fallbackValue`. See [packages/ai/docs/ai-gateway.md](./packages/ai/docs/ai-gateway.md). **FakeProvider (W4-S2):** seed catalog and Stonepass director presets — [packages/ai/docs/fake-provider.md](./packages/ai/docs/fake-provider.md).
+**Implemented (W4-S1):** `packages/ai/src/gateway/aiGateway.ts` — `createAIGateway`, request validation, provider dispatch, optional `fallbackValue`. See [packages/ai/docs/ai-gateway.md](./packages/ai/docs/ai-gateway.md). **FakeProvider (W4-S2):** [packages/ai/docs/fake-provider.md](./packages/ai/docs/fake-provider.md). **OpenAI (W4-S3):** [packages/ai/docs/openai-provider.md](./packages/ai/docs/openai-provider.md). **ON/OFF toggle:** `OPENAI_ENABLED` in `.env.local` + `createAIGatewayFromEnv()` — [packages/ai/docs/ai-provider-toggle.md](./packages/ai/docs/ai-provider-toggle.md).
 
 It should handle:
 
@@ -1519,8 +1524,12 @@ Use `.env.example` to document required variables.
 Do not commit real secrets.
 
 ```bash
-# AI providers - blocked until the AI provider phase requires them
+# AI — FakeProvider default; OpenAI opt-in (see packages/ai/docs/ai-provider-toggle.md)
+OPENAI_ENABLED=false
+# AI_PROVIDER=fake
 OPENAI_API_KEY=
+OPENAI_MODEL=
+OPENAI_BASE_URL=
 ANTHROPIC_API_KEY=
 GEMINI_API_KEY=
 
@@ -1535,7 +1544,9 @@ NEXT_PUBLIC_APP_URL=
 
 Rules:
 
-- Real provider keys are not needed for FakeProvider tests.
+- **Default:** `OPENAI_ENABLED=false` — FakeProvider even if `OPENAI_API_KEY` is in `.env.local`.
+- Set `OPENAI_ENABLED=true` only when you want live OpenAI calls (restart `npm run dev` after changes).
+- Real provider keys are not needed for CI or local play without the toggle on.
 - Supabase variables are not needed before persistence and sharing work.
 - Service role keys must never be exposed to browser/client code.
 - Cursor or any AI coding assistant must update `.env.example` whenever a new env var is introduced.
@@ -2145,7 +2156,7 @@ The flagship direction is **[Stonepass Spire](./Future_Features/Stonepass_Spire_
 - **Phase 6 (W9-S7–S9):** `WorldSession.currentFloor` + persistent climb ledger; persistent progression; seeded replay + variation attribution.
 - **Phase 9 (W12-S8):** Variation Explorer UI.
 
-All of it obeys **AI proposes → validators check → engine executes**, stays **text-first** (no 2D until floors are fun as text), and stays inside the MVP boundary (**Tier A only**). Full step cards live in `Playable_Worlds_Lab_v4_1_FULL_CURSOR.md` §17; tracker rows are in the CSV. **Current approved step:** **W4-S3** (OpenAI provider placeholder). Spire rows stay `Not started` until each is `Next`.
+All of it obeys **AI proposes → validators check → engine executes**, stays **text-first** (no 2D until floors are fun as text), and stays inside the MVP boundary (**Tier A only**). Full step cards live in `Playable_Worlds_Lab_v4_1_FULL_CURSOR.md` §17; tracker rows are in the CSV. **Current approved step:** **W4-S4** (DirectorAgent). Spire rows stay `Not started` until each is `Next`.
 
 ---
 
