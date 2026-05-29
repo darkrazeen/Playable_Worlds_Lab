@@ -63,9 +63,11 @@ The first proof world is **Stonepass Valley** — a compact fantasy scenario use
 
 [![CI](https://github.com/darkrazeen/Playable_Worlds_Lab/actions/workflows/ci.yml/badge.svg)](https://github.com/darkrazeen/Playable_Worlds_Lab/actions/workflows/ci.yml)
 
-**Status:** **Phase 0 complete (16/16 steps).** Monorepo skeleton, all Phase 0 schemas, cross-file validator, canonical Stonepass world JSON, and `FakeProvider`. Phase 1 text runtime starts at W2-S1.
+**Status:** **Phase 0 complete (16/16 steps). Phase 1 in progress (5/7 through W2-S7).** All Phase 0 schemas, cross-file validator, canonical Stonepass world JSON, `FakeProvider`, and the **deterministic text runtime core** (load → session → beat → choice → consequence) are implemented and tested. **Next:** W2-S6 — browser text play screen.
 
-Playable Worlds Lab should be treated as an active experimental product and engineering prototype. The current priority is to build the foundation correctly, not to overbuild visuals, social systems, marketplaces, or multiplayer too early.
+**Verification (2026-05-28):** 200 tests passing (28 files); `npm run typecheck`, `npm run lint`, and `npm run build` green. CI workflow at `.github/workflows/ci.yml`.
+
+Playable Worlds Lab should be treated as an active experimental product and engineering prototype. The deterministic engine loop works in `@playable-worlds/core` tests; the web app is still a placeholder until W2-S6 wires it up. The current priority is to finish Phase 1 text play correctly, not to overbuild visuals, social systems, marketplaces, or multiplayer too early.
 
 The first milestone is not “build the full game.”
 
@@ -79,9 +81,9 @@ The first milestone is:
 
 Progress is tracked in `Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv`. Update this table when a step is finished.
 
-**Agent handoff (latest session):** [AGENT_SESSION_HANDOFF.md](./AGENT_SESSION_HANDOFF.md) — current state, v4.2 contract, next step **W2-S1**.
+**Agent handoff (latest session):** [AGENT_SESSION_HANDOFF.md](./AGENT_SESSION_HANDOFF.md) — current state, v4.2 contract, engine loop, next step **W2-S6**.
 
-**Future ideas (scheduled in step tracker as Not started):** see [Future_Features/](./Future_Features/README.md) — [player-themed worlds + content libraries](./Future_Features/Player_World_Generation_and_Content_Libraries.md), [quest generation (W8-S9–S12)](./Future_Features/Quest_Generation.md#quest-foundation-vs-ai-flavor-creator-contract).
+**Future ideas (scheduled in step tracker as Not started):** see [Future_Features/](./Future_Features/README.md) (19 brainstorm/spec docs) — [player-themed worlds + content libraries](./Future_Features/Player_World_Generation_and_Content_Libraries.md), [quest generation (W8-S9–S12)](./Future_Features/Quest_Generation.md#quest-foundation-vs-ai-flavor-creator-contract).
 
 | Step ID | Phase | Name | Status |
 | --- | --- | --- | --- |
@@ -131,9 +133,11 @@ Progress is tracked in `Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv`. Updat
 
 **W1-S10 done when (met):** `WorldDefinitionSchema` in `packages/core`; minimal Stonepass-like example passes at `schemaVersion: "0.2.0"`; missing `startingBeatId` or components fail; `npm test` includes WorldDefinition schema tests.
 
-**W1-S11–S16 done when (met):** WorldSession, DebugEvent, AIResult schemas; `validateWorldDefinition` + Stonepass canonical JSON at `packages/content/worlds/stonepass/`; `FakeProvider` in `packages/ai`; **150+ tests** green.
+**W1-S11–S16 done when (met):** WorldSession, DebugEvent, AIResult schemas; `validateWorldDefinition` + Stonepass canonical JSON at `packages/content/worlds/stonepass/`; `FakeProvider` in `packages/ai`.
 
-**Next step:** **W2-S1** — Build world JSON loader in `packages/core`.
+**W2-S1–S5 done when (met):** `loadWorld` / `loadWorldFromFile` in `packages/core/src/world/`; `initializeWorldSession`; `selectStoryBeat`; `resolvePlayerChoice` / `listAvailableChoices`; `applyConsequence` / `applyPlayerChoice` with ledger + debug trace updates; Stonepass integration tests for load, session, beat, choice, and fight_ogre consequence; **200 tests** green (2026-05-28).
+
+**Next step:** **W2-S6** — Build text play screen in `apps/web/features/world-play` (wire `@playable-worlds/core` runtime to browser UI).
 
 ### Data contract (v4.2 hybrid)
 
@@ -163,7 +167,7 @@ npm -v
 
 ### Environment variables
 
-Copy the template — **no API keys are required yet** for W1-S1 or early Phase 0:
+Copy the template — **no API keys are required yet** through Phase 1 text runtime:
 
 ```bash
 cp .env.example .env.local
@@ -179,42 +183,50 @@ Do not commit `.env` or `.env.local`. See [Environment Variables](#environment-v
 
 ### Local dev URL
 
-`npm run dev` starts the Next.js app at **`http://localhost:3000`** on your machine only. That verifies the web shell works; it is not production hosting and does not include game logic yet.
+`npm run dev` starts the Next.js app at **`http://localhost:3000`** on your machine only. That verifies the web shell works; it is not production hosting. **Game logic lives in `@playable-worlds/core`** (tested via Vitest); browser play UI arrives in W2-S6.
 
 ---
 
 ## Current Repository Layout
 
-What exists after W1-S1 (stubs are placeholders for later phases):
+What exists after W2-S5 (stubs are placeholders for later phases):
 
 ```text
 playable-worlds-lab/
   apps/
-    web/                    # @playable-worlds/web — Next.js 15, React, Tailwind, ESLint
-      app/                  # App Router (home page)
+    web/                         # @playable-worlds/web — Next.js 15, React, Tailwind (placeholder home)
+      app/                       # App Router
+      features/                  # W2-S6 world-play UI goes here
   packages/
-    core/                   # @playable-worlds/core — schemas through WorldLedger (Phase 0)
-      src/schemas/
-      tests/unit/schemas/
-    ai/                     # @playable-worlds/ai — gateway/agents (Phase 2+)
-    content/                # @playable-worlds/content — examples/ (world-dna-*.json)
-  tests/
-    smoke.test.ts           # Root Vitest smoke test
-  package.json              # npm workspaces + root scripts
-  package-lock.json
-  vitest.config.ts
-  tsconfig.base.json
-  .nvmrc
-  .env.example
-  .gitignore
-  .prettierrc
-  README.md
-  PROJECT_CONTEXT_Playable_Worlds_Lab.md
-  Future_Features/            # brainstorm specs (e.g. Quest_Generation.md)
+    core/                        # @playable-worlds/core — schemas, validators, runtime (Phase 0–1)
+      src/schemas/               # All Zod contracts (schemaVersion 0.2.0)
+      src/validators/            # validateWorldDefinition, parseAndValidateWorldDefinition
+      src/world/                 # loadWorld, loadWorldFromFile (W2-S1)
+      src/session/               # initializeWorldSession (W2-S2)
+      src/story/                 # selectStoryBeat, beatAccessibility (W2-S3)
+      src/runtime/               # resolvePlayerChoice, applyConsequence (W2-S4–S5)
+      src/debug/                 # appendDebugEvent
+      tests/unit/ + tests/integration/
+    ai/                          # @playable-worlds/ai — FakeProvider; gateway/agents stubs (Phase 2+)
+      src/contracts/
+      src/providers/
+      src/gateway/               # stub
+      src/agents/                # stub
+    content/                     # @playable-worlds/content — examples + canonical Stonepass
+      examples/                  # JSON fixtures
+      worlds/stonepass/          # stonepass-valley.world.json (canonical)
+      src/paths.ts               # contentRoot, Stonepass paths
+  docs/                          # source-priority, content-safety, decision-log
+  scripts/                       # step-tracker helpers
+  tests/smoke.test.ts
+  .github/workflows/ci.yml
+  AGENT_SESSION_HANDOFF.md
+  Future_Features/               # 19 brainstorm/spec docs
   Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv
+  Playable_Worlds_Lab_v4_1_FULL_CURSOR.md
 ```
 
-**Not created yet:** `validateWorldDefinition`, full Stonepass world file (`packages/content/worlds/stonepass`), AI providers, game runtime, Supabase, `scripts/validate-content.ts`.
+**Not created yet:** browser text play UI (W2-S6), full path integration tests (W2-S7), AI Gateway / DirectorAgent (Phase 2), temporary instance runtime (Phase 3), ledger/debug panels (Phase 4), Supabase persistence, `scripts/validate-content.ts` CLI.
 
 ---
 
@@ -240,9 +252,9 @@ Open **http://localhost:3000** in your browser. You should see the Playable Worl
 ### Verify the project
 
 ```bash
-npm test              # Vitest — tests/smoke.test.ts
+npm test              # Vitest — 200 tests across core, ai, and smoke (28 files)
 npm run typecheck     # TypeScript — web + all workspace packages
-npm run lint          # ESLint — apps/web
+npm run lint          # ESLint — all workspaces (core, ai, content, web)
 npm run build         # Production build — apps/web
 ```
 
@@ -267,9 +279,9 @@ npm run format
 | `npm run dev` | Next.js dev server (`@playable-worlds/web`) |
 | `npm run build` | Next.js production build |
 | `npm run start` | Next.js production server (after build) |
-| `npm test` | Vitest unit tests at repo root |
+| `npm test` | Vitest — 200 tests across all workspace packages |
 | `npm run typecheck` | `tsc --noEmit` in all workspaces that define it |
-| `npm run lint` | `next lint` in `apps/web` |
+| `npm run lint` | ESLint in all workspaces (core, ai, content, web) |
 | `npm run format` | Prettier write |
 | `npm run format:check` | Prettier check |
 
@@ -590,7 +602,7 @@ Use this table when deciding whether to implement part of the reference scenario
 | Save / share / fork | Share mini-adventure with others | Phase 6 |
 | 2D map / enter region visually | Same triggers, visual layer | Phase 8 |
 
-**Current build status:** Phase 0 schemas partially complete (`WorldDNA`, `PlayerChoice`). Story beats, consequences, Stonepass JSON, runtime, Director, instances, and share are **not implemented yet**. Treat this scenario as the **target authoring pattern**, not as permission to skip steps.
+**Current build status (2026-05-28):** Phase 0 complete — all schemas, validator, Stonepass JSON, FakeProvider. Phase 1 runtime core done (W2-S1–S5): load world, init session, select beat, resolve choice, apply consequence with ledger/debug updates. **Not yet:** browser play UI (W2-S6), AI Director, temporary instance runtime, persistence, share. Treat the regional quest scenario as the **target authoring pattern**, not as permission to skip phase gates.
 
 ---
 
@@ -1300,7 +1312,7 @@ Do not add state-management libraries, UI kits, game engines, auth systems, mark
 
 ## Recommended Repository Structure
 
-**W1-S1 implemented:** `apps/web`, `packages/core`, `packages/ai`, `packages/content`, root `tests/`. Remaining paths below are the target layout as phases complete.
+**W1-S1 through W2-S5 implemented:** `apps/web`, `packages/core` (schemas + validators + runtime), `packages/ai` (FakeProvider), `packages/content` (examples + Stonepass), root `tests/`, CI, `docs/`. Remaining paths below are the target layout as phases complete.
 
 ```text
 playable-worlds-lab/
@@ -1387,7 +1399,7 @@ This structure can be adjusted as the implementation becomes real, but the separ
 
 ## Getting Started
 
-> **Implemented:** W1-S1 monorepo skeleton. For prerequisites, env vars, layout, and commands, see [Implementation Progress](#implementation-progress), [Environment](#environment), [Current Repository Layout](#current-repository-layout), and [How to Run](#how-to-run).
+> **Implemented:** Phase 0 foundation + Phase 1 runtime core (W2-S1–S5). For prerequisites, env vars, layout, and commands, see [Implementation Progress](#implementation-progress), [Environment](#environment), [Current Repository Layout](#current-repository-layout), and [How to Run](#how-to-run).
 
 ### Clone or open the repo
 
@@ -1450,7 +1462,7 @@ Rules:
 
 Run from the **repository root** (npm workspaces).
 
-**Available now (W1-S1):**
+**Available now (Phase 0–1 through W2-S5):**
 
 ```bash
 npm run dev

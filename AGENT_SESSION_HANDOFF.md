@@ -11,7 +11,7 @@
 
 1. **One step at a time** — Implement only the human-approved step from the tracker. Stop after completion report.
 2. **Core mantra:** AI proposes → Validators check → The game engine executes.
-3. **Do not jump phases** — No runtime, UI game logic, AI Gateway, 2D/3D, multiplayer, or UGC until phase gates pass.
+3. **Do not jump phases** — No browser play UI beyond W2-S6 scope, AI Gateway, 2D/3D, multiplayer, or UGC until phase gates pass. **Note:** deterministic runtime in `@playable-worlds/core` (W2-S1–S5) is complete; do not re-implement it in the web layer.
 4. **Schema-first** — Zod schemas + tests + examples before runtime depends on data.
 5. **Do not invent object shapes** — Use contracts in FULL_CURSOR §9 + §22.
 6. **Update the step tracker CSV** after every step — see FULL_CURSOR §17 and column list in §5 below.
@@ -64,7 +64,23 @@ W1-S1 through W1-S16 — all **Complete**.
 | W2-S6 | Text play screen | **Next ← approved** |
 | W2-S7+ | Path tests, W3 consequence engine | Not started |
 
-**Engine loop (working):** `loadWorld` → `initializeWorldSession` → `selectStoryBeat` → `resolvePlayerChoice` → `applyPlayerChoice`
+**Engine loop (working in tests, not yet in browser):** `loadWorld` → `initializeWorldSession` → `selectStoryBeat` → `resolvePlayerChoice` → `applyPlayerChoice`
+
+**Gap to close:** W2-S6 wires this loop into `apps/web`. The home page at `http://localhost:3000` is still a placeholder.
+
+### Current snapshot (2026-05-28)
+
+| Area | Status |
+| --- | --- |
+| Phase 0 schemas + validator | **Complete** (W1-S1–S16) |
+| Stonepass canonical JSON | **Complete** — passes `parseAndValidateWorldDefinition` |
+| FakeProvider | **Complete** — no real AI calls |
+| Runtime core (load → consequence) | **Complete** (W2-S1–S5) |
+| Browser text play UI | **Not started** — W2-S6 next |
+| AI Gateway / Director | Phase 2 — not started |
+| Temporary instance runtime | Phase 3 — not started |
+| Tests | **200 passing** (28 files) |
+| CI | `.github/workflows/ci.yml` — typecheck, lint, test |
 
 ### Phase 5 extension — scheduled, not current work
 
@@ -109,7 +125,7 @@ Exports: `packages/core/src/schemas/index.ts` and `packages/core/src/index.ts` �
 | World graph validator | `validateWorldDefinition.ts` | Refs, duplicate IDs, flags, reachability, dead ends |
 | Parse + validate | `parseAndValidateWorldDefinition()` | Zod then cross-file checks |
 
-Tests: `packages/core/tests/unit/validators/validateWorldDefinition.test.ts` (11 tests).
+Tests: `packages/core/tests/unit/validators/validateWorldDefinition.test.ts` (17 tests).
 
 ### 4.3 Debug helpers (`packages/core/src/debug/`)
 
@@ -173,11 +189,19 @@ Documented in [Playable_Worlds_Lab_v4_1_FULL_CURSOR.md §22](./Playable_Worlds_L
 
 Integration tests use `contentRoot = join(__dirname, "../../../content")`.
 
+**W2-S1–S5 acceptance (met):**
+
+- Loader returns typed `WorldDefinition` or `{ ok: false, errors }` without throwing on invalid input.
+- Fresh Stonepass session starts at `beat_ogre_bridge` with empty ledger and turn 0.
+- All five ogre bridge choices resolve; invalid/fake choices return structured errors.
+- `applyPlayerChoice("fight_ogre")` updates flags, goals, locations, ledger events, choice history, debug trace, and turn number.
+- Session validates after each update via `WorldSessionSchema`.
+
 ### 4.7 Documentation and process updates (2026-05-28)
 
 - [Playable_Worlds_Lab_v4_1_FULL_CURSOR.md](./Playable_Worlds_Lab_v4_1_FULL_CURSOR.md) — §17 step tracker rules; **Phase 5 extension** (W7-S7–W8-S12); replay layer 10 (content libraries).
 - [Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv](./Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv) — W1-S1–S16 and W2-S1–S5 **Complete**; W2-S6 **Next**; W7-S7–S11 and W8-S6–S12 added as `Not started`.
-- [Future_Features/](./Future_Features/README.md) — player world generation + quest specs linked to tracker rows.
+- [Future_Features/](./Future_Features/README.md) — **19** brainstorm/spec docs; player world generation + quest specs linked to tracker rows (W7-S7+, W8-S6+; all `Not started`).
 - [scripts/step-tracker-enrichment.json](./scripts/step-tracker-enrichment.json) — reference text for backfill.
 
 ### 4.8 Verification state (2026-05-28)
@@ -228,20 +252,21 @@ Full rules: FULL_CURSOR §17. Do not fill `Commit Hash` unless the human provide
 
 ```text
 playable-worlds-lab/
-  apps/web/                              # Next.js shell (W2-S6 world-play UI next)
+  apps/web/                              # Next.js shell — placeholder home; W2-S6 world-play UI next
+    app/
+    features/                            # W2-S6 target: world-play
   packages/
     core/
       src/schemas/                       # All Zod contracts
-      src/world/                         # loadWorld (W2-S1)
-      src/session/                       # initializeWorldSession (W2-S2)
-      src/story/                         # selectStoryBeat (W2-S3)
-      src/runtime/                       # resolvePlayerChoice, applyConsequence (W2-S4–S5)
+      src/world/                         # loadWorld (W2-S1) ✓
+      src/session/                       # initializeWorldSession (W2-S2) ✓
+      src/story/                         # selectStoryBeat (W2-S3) ✓
+      src/runtime/                       # resolvePlayerChoice, applyConsequence (W2-S4–S5) ✓
       src/validators/                    # validateWorldDefinition (W1-S14)
       src/debug/                         # appendDebugEvent (W1-S12)
-      src/index.ts                       # Re-exports schemas + validators + debug
-      tests/unit/schemas/
-      tests/unit/validators/
-      tests/unit/debug/
+      src/index.ts                       # Re-exports schemas + validators + runtime
+      tests/unit/
+      tests/integration/                 # Stonepass load, session, beat, choice, consequence
     ai/
       src/contracts/                     # aiRequest, aiProvider
       src/providers/                     # fakeProvider
@@ -251,14 +276,17 @@ playable-worlds-lab/
     content/
       examples/                          # JSON fixtures + invalid validator demo
       worlds/stonepass/                  # stonepass-valley.world.json (canonical)
+      src/paths.ts                       # contentRoot, Stonepass paths
+  docs/                                  # source-priority, content-safety, decision-log
   scripts/
-    step-tracker-enrichment.json         # Tracker backfill reference
+    step-tracker-enrichment.json
     merge-step-tracker-columns.mjs
+  .github/workflows/ci.yml
   tests/smoke.test.ts
   Playable_Worlds_Lab_v4_1_FULL_CURSOR.md
   Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv
   AGENT_SESSION_HANDOFF.md               # This file
-  Future_Features/
+  Future_Features/                       # 19 brainstorm/spec docs
 ```
 
 ---
@@ -299,6 +327,12 @@ playable-worlds-lab/
 2. **Wire runtime** — use `loadWorld`, `initializeWorldSession`, `selectStoryBeat`, `listAvailableChoices`, `applyPlayerChoice` (no direct ledger mutation in UI).
 3. **Smoke test** — page renders and offers valid choices.
 4. **Update step tracker CSV** — all documentation columns per §17.
+
+**W2-S6 implementation notes:**
+
+- Add `transpilePackages: ["@playable-worlds/core", "@playable-worlds/content"]` to `apps/web/next.config.ts` before importing workspace packages (see `apps/web/README.md`).
+- Keep session state in React; call core runtime functions — never mutate ledger directly in UI.
+- Server-side world load may need a thin API route or pre-bundled Stonepass JSON depending on Next.js server/client boundaries.
 
 **Done when:** User can start Stonepass in browser and choose a valid action; smoke test passes.
 
@@ -345,7 +379,7 @@ npm test
 npm run typecheck
 npm run lint
 npm run build
-npm run dev    # http://localhost:3000 — web shell only
+npm run dev    # http://localhost:3000 — placeholder home page until W2-S6
 ```
 
 ---
