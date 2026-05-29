@@ -32,11 +32,12 @@ const result = await gateway.generateStructured({
 
 ## Outcomes
 
-| Outcome            | `ok`    | `fallbackUsed`         | When                                              |
-| ------------------ | ------- | ---------------------- | ------------------------------------------------- |
-| Success            | `true`  | `false`                | Provider returns schema-valid output              |
-| Validation failure | `false` | `true` (from provider) | Provider output fails Zod parse                   |
-| Provider error     | `false` | `false`                | Provider throws                                   |
-| Gateway fallback   | `true`  | `true`                 | `fallbackValue` supplied and parses after failure |
+| Outcome             | `ok`    | `fallbackUsed`         | When                                                        |
+| ------------------- | ------- | ---------------------- | ----------------------------------------------------------- |
+| Success             | `true`  | `false`                | Provider returns schema-valid output                        |
+| Validation failure  | `false` | `true` (from provider) | Provider output fails Zod parse                             |
+| Provider error      | `false` | `false`                | Provider throws (OpenAI returns structured failure instead) |
+| Unconfigured OpenAI | `false` | `false`                | No `OPENAI_API_KEY` — use `fallbackValue`                   |
+| Gateway fallback    | `true`  | `true`                 | `fallbackValue` supplied and parses after failure           |
 
 Agents (W4-S4+) call the gateway only. The engine never applies AI output to the ledger without validation.
