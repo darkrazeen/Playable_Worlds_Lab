@@ -6,9 +6,7 @@ import {
   applyConsequence,
   applyPlayerChoice,
 } from "../../../src/runtime/applyConsequence.js";
-import { applyConsequenceToLedger } from "../../../src/runtime/applyConsequenceToLedger.js";
 import { createWorldSession } from "../../../src/schemas/worldSession.js";
-import { createEmptyWorldLedger } from "../../../src/schemas/worldLedger.js";
 import { loadWorldFromFile } from "../../../src/world/loadWorld.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -18,31 +16,7 @@ const stonepassWorldPath = join(
   "worlds/stonepass/stonepass-valley.world.json",
 );
 
-describe("applyConsequenceToLedger", () => {
-  it("updates flags, goals, locations, and world events for fight_ogre", () => {
-    const world = loadWorldFromFile(stonepassWorldPath).world!;
-    const consequence = world.consequences.find((entry) => entry.id === "consequence_fight_ogre");
-    expect(consequence).toBeDefined();
-
-    const ledger = applyConsequenceToLedger(createEmptyWorldLedger(), consequence!, 1, {
-      choiceId: "fight_ogre",
-    });
-
-    expect(ledger.activeFlags).toEqual([
-      "ogre_defeated",
-      "bridge_open",
-      "landslide_triggered",
-    ]);
-    expect(ledger.resolvedFlags).toEqual(["ogre_blocks_bridge"]);
-    expect(ledger.unlockedGoals).toEqual(["goal_reach_valley", "goal_explore_cave"]);
-    expect(ledger.discoveredLocations).toEqual(["location_hidden_cave"]);
-    expect(ledger.worldEvents).toHaveLength(1);
-    expect(ledger.worldEvents[0]?.type).toBe("consequence");
-    expect(ledger.worldEvents[0]?.metadata?.consequenceId).toBe("consequence_fight_ogre");
-  });
-});
-
-describe("applyPlayerChoice", () => {
+describe("runtime applyConsequence delegates to Consequence Engine", () => {
   it("applies fight_ogre with remembered ledger and debug trace updates", () => {
     const world = loadWorldFromFile(stonepassWorldPath).world!;
     const session = createWorldSession(

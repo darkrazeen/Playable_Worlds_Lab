@@ -63,9 +63,9 @@ The first proof content is **Stonepass Spire — Floor 1** (legacy file `stonepa
 
 [![CI](https://github.com/darkrazeen/Playable_Worlds_Lab/actions/workflows/ci.yml/badge.svg)](https://github.com/darkrazeen/Playable_Worlds_Lab/actions/workflows/ci.yml)
 
-**Status:** **Phase 0 complete (16/16 steps). Phase 1 in progress (6/7 through W2-S7).** All Phase 0 schemas, cross-file validator, canonical Stonepass world JSON, `FakeProvider`, the **deterministic text runtime core** (load → session → beat → choice → consequence), and the **browser text play UI** are implemented and tested. **Next:** W2-S7 — manual Stonepass path tests.
+**Status:** **Phase 0 complete (16/16 steps). Phase 1 Week 2 complete (W2-S1–S7). Next: W3-S1.** All Phase 0 schemas, cross-file validator, canonical Stonepass Spire Floor 1 JSON, `FakeProvider`, the **deterministic text runtime core**, **browser text play UI**, and **ogre path integration tests** are implemented. **Next:** W3-S1 — Consequence Engine core.
 
-**Verification (2026-05-29):** 203 tests passing (29 files); `npm run typecheck`, `npm run lint`, and `npm run build` green. CI workflow at `.github/workflows/ci.yml`.
+**Verification (2026-05-29):** 209 tests passing (30 files); `npm run typecheck`, `npm run lint`, and `npm run build` green. CI workflow at `.github/workflows/ci.yml`.
 
 Playable Worlds Lab should be treated as an active experimental product and engineering prototype. The deterministic engine loop works in `@playable-worlds/core` and is wired to the web app at **`/play`**. The current priority is to finish Phase 1 path tests and consequence engine work correctly, not to overbuild visuals, social systems, marketplaces, or multiplayer too early.
 
@@ -81,7 +81,7 @@ The first milestone is:
 
 Progress is tracked in `Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv`. Update this table when a step is finished.
 
-**Agent handoff (latest session):** [AGENT_SESSION_HANDOFF.md](./AGENT_SESSION_HANDOFF.md) — current state, v4.2 contract, engine loop, next step **W2-S7**.
+**Agent handoff (latest session):** [AGENT_SESSION_HANDOFF.md](./AGENT_SESSION_HANDOFF.md) — current state, v4.2 contract, engine loop, next step **W3-S1**.
 
 **Future ideas (scheduled in step tracker as Not started):** see [Future_Features/](./Future_Features/README.md) — [player-themed worlds + content libraries](./Future_Features/Player_World_Generation_and_Content_Libraries.md), [quest generation (W8-S9–S12)](./Future_Features/Quest_Generation.md#quest-foundation-vs-ai-flavor-creator-contract), and the **flagship [Stonepass Spire](./Future_Features/Stonepass_Spire_Aincrad_Castle.md)** (Aincrad-style 100-floor castle) plus the gameplay systems it needs — combat **Tier A**, progression, gear, region composer, dynamic difficulty, and seed/variation — now interleaved into the tracker as **W4-S8 … W12-S8** (see the *Spire & Gameplay Systems track* in `Playable_Worlds_Lab_v4_1_FULL_CURSOR.md` §13).
 
@@ -109,8 +109,9 @@ Progress is tracked in `Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv`. Updat
 | **W2-S4** | Phase 1 — Text runtime | Choice resolver | **Done** |
 | **W2-S5** | Phase 1 — Text runtime | Apply consequence through runtime | **Done** |
 | **W2-S6** | Phase 1 — Text runtime | Build text play screen | **Done** |
-| **W2-S7** | Phase 1 — Text runtime | Manual Stonepass path tests | **Next** |
-| W3-* | Phase 1+ | Consequence engine, debug UI | Not started |
+| **W2-S7** | Phase 1 — Text runtime | Manual ogre path tests | **Done** |
+| W3-S1 | Phase 1 — Text runtime | Consequence Engine core | **Done** |
+| W3-S2 … | Phase 1+ | Preconditions, ledger writer, debug UI | **Next** |
 | W7-S7–S11, W8-S6–S12 | Phase 5 extension | Content libraries, WorldBlueprint, quest generation | Scheduled (`Not started`) |
 | W4-S8–S10 | Phase 2 ext (Spire) | Seed plumbing, ledger difficulty signal, Director `adjust_difficulty` | Scheduled (`Not started`) |
 | W5-S8–S13 | Phase 3 ext (Spire) | ProgressionLedger, Tier A skills, gear gating, Level 0 combat, **Floor 1** | Scheduled (`Not started`) |
@@ -144,7 +145,7 @@ Progress is tracked in `Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv`. Updat
 
 **W2-S1–S6 done when (met):** `loadWorld` / `loadWorldFromFile`; `initializeWorldSession`; `selectStoryBeat`; `resolvePlayerChoice` / `listAvailableChoices`; `applyConsequence` / `applyPlayerChoice`; browser text play at `/play` wired through `@playable-worlds/core` runtime (no direct ledger mutation in UI); Stonepass integration + web smoke tests; **203 tests** green (2026-05-29).
 
-**Next step:** **W2-S7** — Manual Stonepass path tests for all five ogre bridge choices.
+**Next step:** **W3-S2** — Validate consequence preconditions.
 
 ### Data contract (v4.2 hybrid)
 
@@ -299,7 +300,7 @@ npm run build -w @playable-worlds/web
 ### Verify the project
 
 ```bash
-npm test              # Vitest — 203 tests (core, ai, web smoke)
+npm test              # Vitest — 209 tests (core, ai, web smoke)
 npm run typecheck     # TypeScript — web + all workspace packages
 npm run lint          # ESLint — all workspaces
 npm run build         # Production build — apps/web

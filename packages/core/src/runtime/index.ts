@@ -4,7 +4,7 @@ export {
   type ApplyConsequenceContext,
   type ApplyConsequenceResult,
 } from "./applyConsequence.js";
-export { applyConsequenceToLedger } from "./applyConsequenceToLedger.js";
+export { applyConsequenceToLedger } from "../consequence/applyConsequenceToLedger.js";
 export {
   listAvailableChoices,
   resolvePlayerChoice,

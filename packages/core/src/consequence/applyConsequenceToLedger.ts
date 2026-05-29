@@ -10,7 +10,7 @@ function mergeUnique<T extends string>(existing: T[], additions: T[]): T[] {
   return [...merged];
 }
 
-/** Apply consequence fields to a ledger without mutating the input. */
+/** Apply consequence ledger fields without mutating the input ledger. */
 export function applyConsequenceToLedger(
   ledger: WorldLedger,
   consequence: Consequence,
@@ -44,6 +44,9 @@ export function applyConsequenceToLedger(
       metadata: {
         consequenceId: consequence.id,
         ...(metadata?.choiceId ? { choiceId: metadata.choiceId } : {}),
+        ...(consequence.visibleChanges.length > 0
+          ? { visibleChanges: consequence.visibleChanges }
+          : {}),
       },
     },
   ];

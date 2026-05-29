@@ -3,7 +3,7 @@
 **Handoff date:** 2026-05-29  
 **Last reconciled:** 2026-05-29  
 **Workspace:** `Playable_Worlds_Lab`  
-**Purpose:** Onboard a Cursor/agent on the current repo state, contract rules, Phase 0 complete, Phase 1 W2-S1–S6 complete, and the next approved step (**W2-S7**).
+**Purpose:** Onboard a Cursor/agent on the current repo state, contract rules, Phase 0 complete, Phase 1 W2 complete + W3-S1 complete, and the next approved step (**W3-S2**).
 
 ---
 
@@ -53,7 +53,7 @@ Tracked in [Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv](./Playable_Worlds_
 
 W1-S1 through W1-S16 — all **Complete**.
 
-### Phase 1 — in progress (6/7+ through W2-S7)
+### Phase 1 — in progress (7/7+ through W3)
 
 | Step | Name | Status |
 | --- | --- | --- |
@@ -63,11 +63,13 @@ W1-S1 through W1-S16 — all **Complete**.
 | W2-S4 | Choice resolver | **Complete** |
 | W2-S5 | Apply consequence through runtime | **Complete** |
 | W2-S6 | Text play screen | **Complete** |
-| W2-S7+ | Path tests, W3 consequence engine | **Next ← approved** |
+| W2-S7 | Manual ogre path tests | **Complete** |
+| W3-S1 | Consequence Engine core | **Complete** |
+| W3-S2+ | Preconditions, ledger writer, debug UI | **Next ← approved** |
 
 **Engine loop (working in tests and browser):** `loadWorld` → `initializeWorldSession` → `selectStoryBeat` → `resolvePlayerChoice` → `applyPlayerChoice`
 
-**Gap to close:** W2-S7 adds manual Stonepass path tests; browser play at `/play` is live.
+**Gap to close:** W3-S2 adds consequence precondition validation; beat progression in UI still deferred.
 
 ### Current snapshot (2026-05-29)
 
@@ -81,7 +83,7 @@ W1-S1 through W1-S16 — all **Complete**.
 | AI Gateway / Director | Phase 2 — not started |
 | Temporary instance runtime | Phase 3 — not started |
 | Spire & gameplay systems (combat Tier A, progression, gear, region, manifest) | **Scheduled** — tracker rows `Not started`; first Spire content step **W5-S13** (after Phase 3 instances) |
-| Tests | **203 passing** (29 files) |
+| Tests | **213 passing** (31 files) |
 | CI | `.github/workflows/ci.yml` — typecheck, lint, test |
 | Step tracker | **122 rows** (99 original + 23 Spire/gameplay rows added 2026-05-29) |
 
@@ -204,7 +206,7 @@ Documented in [Playable_Worlds_Lab_v4_1_FULL_CURSOR.md §22](./Playable_Worlds_L
 | Session init | `session/initializeWorldSession.ts` | Play-ready session at `startingBeatId` |
 | Beat selector | `story/selectStoryBeat.ts`, `beatAccessibility.ts` | Flag-gated beat selection |
 | Choice resolver | `runtime/resolvePlayerChoice.ts` | `resolvePlayerChoice`, `listAvailableChoices` |
-| Consequence apply | `runtime/applyConsequence.ts`, `applyConsequenceToLedger.ts` | `applyConsequence`, `applyPlayerChoice` |
+| Consequence apply | `consequence/consequenceEngine.ts`, `consequence/applyConsequenceToLedger.ts`; `runtime/applyConsequence.ts` delegates | `applyConsequenceEngine`, `applyConsequence`, `applyPlayerChoice` |
 | Content paths | `packages/content/src/paths.ts` | `contentRoot`, Stonepass paths |
 
 Integration tests use `contentRoot = join(__dirname, "../../../content")`.
@@ -352,23 +354,17 @@ playable-worlds-lab/
 
 ---
 
-## 8. Next step: W2-S7 — Manual Stonepass path tests
+## 8. Next step: W3-S2 — Validate consequence preconditions
 
-**Goal:** Add deterministic integration tests for all five ogre bridge choices without AI.
+**Goal:** Block consequences when prerequisites or session/world references are invalid.
 
-**Allowed scope:** `packages/core/tests/integration`, optional extension of `apps/web` smoke tests.
+**Allowed scope:** `packages/core/consequence`, validators, tests.
 
-**Blocked:** Consequence Engine refactor (W3-S1), ledger/debug panels, AI Gateway, cross-phase work.
+**Blocked:** Ledger/debug panels, AI Gateway, cross-phase work.
 
-### Deliverables
+**Done when:** Unmet prerequisite and fake consequence applications fail deterministically.
 
-1. **Integration tests** — each ogre choice from a fresh session updates ledger/debug as expected.
-2. **Validate world and session** before/after each action.
-3. **Update step tracker CSV** — all documentation columns per §17.
-
-**Done when:** All five ogre choices are covered by deterministic path tests.
-
-**After W2-S7:** W3-S1 Consequence Engine core (unless human reorders).
+**After W3-S2:** W3-S3 World Ledger writer (unless human reorders).
 
 ---
 
@@ -453,4 +449,4 @@ WorldDefinition ──► loadWorld (W2-S1) ──► initializeWorldSession (W2
 
 ---
 
-*End of agent session handoff. Next approved implement: **W2-S7 manual Stonepass path tests**.*
+*End of agent session handoff. Next approved implement: **W3-S2 validate consequence preconditions**.*
