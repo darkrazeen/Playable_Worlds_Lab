@@ -333,7 +333,7 @@ Combines FULL_CURSOR §1 replay layers with libraries:
 | Order | Prerequisite                                   | Enables                                                                      |
 | ----- | ---------------------------------------------- | ---------------------------------------------------------------------------- |
 | 1     | Phase 0 complete ✅                            | Schemas, Stonepass JSON, validator, FakeProvider                             |
-| 2     | Phase 1 in progress (W2-S6 next)               | Browser play of authored Stonepass                                           |
+| 2     | Phase 1 complete ✅                            | Browser play of authored Stonepass                                           |
 | 3     | Phase 1 complete (W3-\*)                       | Full consequence engine, ledger/debug UI                                     |
 | 4     | Phase 2 (W4-\*)                                | AI Gateway, Director, NPC reactions, reasoning panel                         |
 | 5     | Phase 3 (W5-\*)                                | Instance runtime — **encounters/puzzles become playable spaces**             |

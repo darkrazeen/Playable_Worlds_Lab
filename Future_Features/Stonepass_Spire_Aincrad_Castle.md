@@ -70,7 +70,7 @@ The implementation path does not change: **text-first → 2D → beyond.** The c
 - **The engine's natural units already match Aincrad's natural units.** A floor _is_ a `WorldDefinition`; a labyrinth _is_ a `TemporaryInstance`; "floor cleared → stairs open" _is_ a flag gating a region edge. Almost nothing is forced.
 - **The castle is just a vertical `RegionMap`.** The project already designed a region composer (lava → ocean → machine). A tower is the same graph with a **linear, upward, clear-gated topology**. We reuse, not reinvent.
 - **It is the cleanest possible single-player showcase.** Removing guilds/NPC-AI/multiplayer leaves exactly the deterministic, text-first, remembered-state core the engine is strongest at.
-- **Stonepass content is preserved, not discarded.** The legacy ogre → landslide → cave → dragon arc becomes **Floors 1–3** of the Spire (see [Floors 1–3 plan](#floors-13-early-climb-content-plan)).
+- **Stonepass content is preserved, not discarded.** The legacy ogre → landslide → cave → dragon arc becomes the whole of **Floor 1** of the Spire — the dragon is Floor 1's boss (see [Floor 1 plan](#floor-1-content-plan-the-valley-arc)).
 - **Incremental by construction.** The manifest lets the tower be complete in _structure_ while floors are filled in over many phases as variability (libraries, generation) improves.
 - **Determinism survives.** Clears, drops, and progression are engine-owned ledger truth; the Director only proposes flavor/pacing.
 
@@ -89,31 +89,37 @@ Phase 1 browser play loads **Floor 1** content from the legacy file; formal mult
 
 ---
 
-## Floors 1–3: early climb content plan
+## Floor 1 content plan (the Valley arc)
 
-The original single-world "Valley" arc is delivered across **the first three floors** as engine systems mature. This is the authoring target for the proof climb before the 100-floor manifest fills in.
+**Decision (2026-05-29, tracker model):** the entire legacy "Valley" arc — ogre bridge → landslide → hidden cave/labyrinth → dragon — is **Floor 1** of the Spire. The dragon is **Floor 1's boss**, and clearing it sets `floor_01_cleared` (per step `W5-S13`). Floor 2 is then a **new** floor (frozen halls) authored at `W8-S17` to prove the ascension gate.
 
-| Floor       | Player fantasy                                 | Legacy Valley arc                                   | Primary systems                                                 |
-| ----------- | ---------------------------------------------- | --------------------------------------------------- | --------------------------------------------------------------- |
-| **Floor 1** | Gate at the tower's foot — prove you may climb | Ogre bridge, five choices, first consequences       | Text runtime, beat flow (Phase 1 — **live now**)                |
-| **Floor 2** | Deeper into the tower — the labyrinth opens    | Landslide aftermath, hidden cave / dungeon instance | Temporary instances (Phase 3)                                   |
-| **Floor 3** | First true floor boss — stairs unlock upward   | Dragon (or multi-phase boss), `floor_03_cleared`    | Tier A combat, boss instances (W5-S8–S13), ascension edges (W8) |
+| Floor 1 stage    | Player fantasy                                 | Legacy Valley arc                             | Primary systems                                  |
+| ---------------- | ---------------------------------------------- | --------------------------------------------- | ------------------------------------------------ |
+| **Arrival/gate** | Gate at the tower's foot — prove you may climb | Ogre bridge, five choices, consequences       | Text runtime, beat flow (Phase 1 — **live now**) |
+| **Labyrinth**    | Deeper in — the labyrinth opens                | Landslide aftermath, hidden cave / dungeon    | Temporary instances (Phase 3, W5-S1–S7)          |
+| **Floor boss**   | First true floor boss — stairs unlock upward   | Dragon, multi-phase boss → `floor_01_cleared` | Tier A combat, boss instances (W5-S8–S13)        |
 
-**Until W8:** Floors 1–3 may share one `WorldDefinition` with narrative floor labels; `/play` is **Floor 1** today. **After W8:** separate floor worlds linked by vertical `RegionMap` and `SpireManifest`.
+| Floor       | Theme                  | Built by  | Cleared flag       |
+| ----------- | ---------------------- | --------- | ------------------ |
+| **Floor 1** | Stonepass (Valley arc) | W5-S13    | `floor_01_cleared` |
+| **Floor 2** | Frozen halls (new)     | W8-S17    | `floor_02_cleared` |
+| **Floor 3** | Sunken archive (stub)  | long tail | `floor_03_cleared` |
+
+**Until W8:** all Floor 1 stages share one `WorldDefinition`; `/play` is **Floor 1** today. **After W8:** Floor 2+ are separate floor worlds linked by vertical `RegionMap` and `SpireManifest`.
 
 ---
 
 ## The reframe: legacy Valley arc → Stonepass Spire
 
-| Before (deprecated product framing) | After (flagship)                                                 |
-| ----------------------------------- | ---------------------------------------------------------------- |
-| "Stonepass Valley" as the game      | **Stonepass Spire** — a 100-floor climb                          |
-| One small world (ogre bridge)       | **Floor 1** at the tower's base (ogre gate)                      |
-| Landslide → hidden cave             | **Floor 2** labyrinth (`TemporaryInstance`, type `dungeon`)      |
-| Dragon stirs (ending)               | **Floor 3** boss clear → `floor_03_cleared` → stairs to Floor 4+ |
-| "The end"                           | "Ascend the Spire" (`goal_ascend_spire`, macro arc)              |
+| Before (deprecated product framing) | After (flagship)                                                  |
+| ----------------------------------- | ----------------------------------------------------------------- |
+| "Stonepass Valley" as the game      | **Stonepass Spire** — a 100-floor climb                           |
+| One small world (ogre bridge)       | **Floor 1 — arrival/gate** at the tower's base (ogre gate)        |
+| Landslide → hidden cave             | **Floor 1 — labyrinth** (`TemporaryInstance`, type `dungeon`)     |
+| Dragon stirs (ending)               | **Floor 1 — boss** clear → `floor_01_cleared` → stairs to Floor 2 |
+| "The end"                           | "Ascend the Spire" (`goal_ascend_spire`, macro arc)               |
 
-The current canonical `stonepass-valley.world.json` is **Floor 1** content (title: **Stonepass Spire — Floor 1**). Phase 1 proof work is not wasted — it is the first floor of the flagship.
+The current canonical `stonepass-valley.world.json` is **Floor 1** content (title: **Stonepass Spire — Floor 1**) and holds the full Valley arc. Phase 1 proof work is not wasted — it is the first floor of the flagship. The first **new** floor (Floor 2, frozen halls) is authored at `W8-S17`.
 
 ---
 
@@ -340,18 +346,20 @@ Combat/skills/gear are specified in [Combat_and_Encounter_Resolution.md](./Comba
 
 ## Phased rollout plan
 
-Aligned to the existing roadmap; do **not** skip gates. The next _step_ remains W2-S6.
+Aligned to the existing roadmap; do **not** skip gates. The next _step_ is **W5-S1** (Phase 3 — cave from `cave_exposed`).
 
 ```text
-NOW (Phase 1)      Finish W2-S6 text play + W2-S7 path tests on the EXISTING
-                   Stonepass world. (It becomes Floor 1 later.)
+DONE (Phase 0–1)   Schemas + validators; text runtime; Stonepass Floor 1 playable
+                   at /play (ogre bridge). It IS Floor 1.
 
-Phase 2 (W4)       AI Director v1 → frame as the Spire's pacing + recap director.
+DONE (Phase 2 W4)  AI Director v1 → framed as the Spire's pacing + recap director;
+                   advisory difficulty heuristics + bounded adjust_difficulty (W4-S10).
 
-Phase 3 (W5)       Temporary-instance runtime (already roadmapped).
-                   → Build Floor 1 labyrinth + boss as instances.
+NOW (Phase 3 W5)   Temporary-instance runtime (already roadmapped).
+                   → Build Floor 1 labyrinth + boss (dragon) as instances.
                    → Tier A combat (Level 0, choice-gated): no new combat code.
                    → Session-local progression (skill tiers) + gear tiers (gating).
+                   → W5-S13: reframe Stonepass as Floor 1; dragon boss sets floor_01_cleared.
 
 DECISION GATE      Is a single floor genuinely FUN in text? If yes →
 
@@ -396,14 +404,14 @@ Long tail          Author/generate Floors 3 → 100 into the pre-planned bands.
 - **No stat-sim creep.** Tier A is **discrete tiers/flags only**. If combat ever needs continuous HP / damage numbers / RNG-as-truth, stop and re-decide (that is Tier B and requires an explicit README boundary amendment).
 - **AI never owns truth.** Director flavors and paces; the engine sets `floor_*_cleared` and grants gear/progression via validated consequences.
 - **Do not hand-author 100 floors.** Prove 2–3, then let libraries + generation fill the bands. Hand-authoring 100 floors is the trap that kills the project.
-- **One step at a time.** This doc is the destination; the next step is still W2-S6.
+- **One step at a time.** This doc is the destination; the next step is **W5-S1** (Phase 3 — cave from `cave_exposed`).
 - **No guilds / multiplayer / AI NPCs** in this scope (deferred deliberately, not forgotten).
 
 ---
 
 ## Open questions / decisions
 
-- **Floor 1 identity:** does the current Stonepass world become Floor 1 directly, or a Floor 0 tutorial that feeds into a fresh Floor 1? (Recommend: reuse as Floor 1.)
+- **Floor 1 identity:** ~~does the current Stonepass world become Floor 1 directly, or a Floor 0 tutorial?~~ **Resolved 2026-05-29:** the current Stonepass world (full Valley arc, dragon as boss) **is Floor 1**; clearing the dragon sets `floor_01_cleared`. Floor 2 (frozen halls) is the first new floor (`W8-S17`).
 - **Stub floor UX:** what does a sealed floor say/offer? (Recommend: a short authored "the way up is sealed" beat + the ledger recap of the climb so far.)
 - **Save granularity:** save per-floor on clear, or continuous? (Defer to Phase 6 persistence.)
 - **Summit (Floor 100):** authored set-piece vs generated capstone. (Defer; reserve the band.)

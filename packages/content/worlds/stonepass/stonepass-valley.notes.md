@@ -8,14 +8,14 @@
 - **Peaceful paths** (trick / feed / talk / sneak): bridge → Spire antechamber (→ elder counsel if talk)
 - Cave instance is unreachable on peaceful paths because `landslide_triggered` is never set
 
-## Floors 1–3 climb plan (authoring target)
+## Floor 1 climb plan (authoring target)
 
-The original "Valley" vision is delivered across the **first three Spire floors** as systems land:
+**Decision (2026-05-29, tracker model):** the entire legacy "Valley" arc is **Floor 1**. The dragon is Floor 1's boss; clearing it sets `floor_01_cleared` (per `W5-S13`). Floor 2 (frozen halls) is the first **new** floor, authored at `W8-S17`.
 
-| Floor       | Content (from legacy Valley arc)                    | Systems                             |
-| ----------- | --------------------------------------------------- | ----------------------------------- |
-| **Floor 1** | Ogre bridge, five entry choices, first consequences | Text runtime, beat flow (Phase 1)   |
-| **Floor 2** | Landslide aftermath, hidden cave / labyrinth        | Temporary instances (Phase 3)       |
-| **Floor 3** | Floor boss (dragon), `floor_03_cleared` → stairs up | Tier A combat, boss instances (W5+) |
+| Floor 1 stage    | Content (from legacy Valley arc)                    | Systems                             |
+| ---------------- | --------------------------------------------------- | ----------------------------------- |
+| **Arrival/gate** | Ogre bridge, five entry choices, first consequences | Text runtime, beat flow (Phase 1)   |
+| **Labyrinth**    | Landslide aftermath, hidden cave / labyrinth        | Temporary instances (Phase 3)       |
+| **Floor boss**   | Dragon boss → `floor_01_cleared` → stairs up        | Tier A combat, boss instances (W5+) |
 
-Until `RegionMap` and separate floor worlds exist (W8+), Floor 1–3 beats may live in one `WorldDefinition` with narrative floor labels; physical split happens at W5-S13 / W8.
+Until `RegionMap` and separate floor worlds exist (W8+), all Floor 1 stages live in one `WorldDefinition`; the formal Floor 1 reframe lands at `W5-S13`, the physical multi-floor split at W8.

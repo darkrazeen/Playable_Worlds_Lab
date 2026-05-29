@@ -65,7 +65,7 @@ The first proof content is **Stonepass Spire — Floor 1** (legacy file `stonepa
 
 **Status:** **Phase 0 complete (16/16). Phase 1 complete.** **Phase 2 complete (W4-S1–S10).** **Next (needs approval):** **W5-S1** — cave from `cave_exposed` flag.
 
-**Verification (2026-05-29):** **340 tests** passing (57 files). Difficulty: [`difficulty-heuristics.md`](./packages/core/docs/difficulty-heuristics.md).
+**Verification (2026-05-29):** **349 tests** passing (58 files). Difficulty: [`difficulty-heuristics.md`](./packages/core/docs/difficulty-heuristics.md); Director `adjust_difficulty`: [`director-agent.md`](./packages/ai/docs/director-agent.md).
 
 The first milestone is not “build the full game.”
 
@@ -453,26 +453,33 @@ The world engine comes first.
 
 ## First Proof World: Stonepass Spire
 
-**Stonepass Spire** is the flagship playable product. The early climb is authored across **Floors 1–3**, which deliver the legacy "Valley" proof arc as engine systems mature. **"Stonepass Valley" is deprecated** as a product/world name; _Stonepass_ may still appear in lore as the region at the tower's foot.
+**Stonepass Spire** is the flagship playable product. The entire legacy "Valley" arc (ogre → landslide → cave → dragon) is **Floor 1** of the climb, built out as engine systems mature; **Floor 2** (frozen halls) is the first new floor. **"Stonepass Valley" is deprecated** as a product/world name; _Stonepass_ may still appear in lore as the region at the tower's foot.
 
 **Floor 1** (live at `/play` today) serves two related purposes:
 
 1. **Engine proof (required)** — a small, validatable text world that proves choices, consequences, ledger memory, instances, and AI assistance work end-to-end.
-2. **Climb entry (flagship)** — the gate at the tower's base; Floors 2–3 add labyrinth and boss content as Phase 3+ systems land.
+2. **Climb entry (flagship)** — the tower's base floor; its labyrinth and dragon **boss** are added as Phase 3+ systems land, and clearing the dragon sets `floor_01_cleared`.
 
 Stonepass Spire is **not** a substitute for later 2D or 3D presentation. It is the reference climb that must work in text before visuals, sharing, or generated worlds scale up.
 
-### Floors 1–3 content map
+### Floor content map
 
-| Floor       | Content                                     | Systems                             |
-| ----------- | ------------------------------------------- | ----------------------------------- |
-| **Floor 1** | Ogre bridge, five choices (now)             | Text runtime (Phase 1)              |
-| **Floor 2** | Landslide, hidden cave / labyrinth          | Temporary instances (Phase 3)       |
-| **Floor 3** | Floor boss (dragon), clear flag → stairs up | Combat Tier A, boss instances (W5+) |
+The full Valley arc is **Floor 1** (decided 2026-05-29, tracker model). Each stage below is a stage _within_ Floor 1, not a separate floor.
 
-Until `RegionMap` exists (W8), Floor 1–3 beats may live in one `WorldDefinition`; `/play` loads **Floor 1**. See [Stonepass_Spire_Aincrad_Castle.md](./Future_Features/Stonepass_Spire_Aincrad_Castle.md).
+| Floor 1 stage | Content                                      | Systems                             |
+| ------------- | -------------------------------------------- | ----------------------------------- |
+| Arrival/gate  | Ogre bridge, five choices (now)              | Text runtime (Phase 1)              |
+| Labyrinth     | Landslide, hidden cave / labyrinth           | Temporary instances (Phase 3)       |
+| Floor boss    | Dragon boss → `floor_01_cleared` → stairs up | Combat Tier A, boss instances (W5+) |
 
-### Minimal proof chain (Floors 1–3 — gate)
+| Floor       | Theme                  | Built by |
+| ----------- | ---------------------- | -------- |
+| **Floor 1** | Stonepass (Valley arc) | W5-S13   |
+| **Floor 2** | Frozen halls (new)     | W8-S17   |
+
+Until `RegionMap` exists (W8), all Floor 1 stages live in one `WorldDefinition`; `/play` loads **Floor 1**. See [Stonepass_Spire_Aincrad_Castle.md](./Future_Features/Stonepass_Spire_Aincrad_Castle.md).
+
+### Minimal proof chain (Floor 1 — gate)
 
 The player reaches a bridge blocked by an ogre and can:
 
@@ -498,7 +505,7 @@ Player reaches ogre-blocked bridge
 -> New goal appears
 ```
 
-**Spire Floor 1–3 arc is done** when this chain (and core ogre choices on Floor 1) is playable in the browser as text, with ledger/debug visibility, validators passing, and AI suggesting — not mutating — truth (see [Definitions of Done](#definitions-of-done)).
+**Spire Floor 1 arc is done** when this chain (and core ogre choices) is playable in the browser as text, with ledger/debug visibility, validators passing, and AI suggesting — not mutating — truth (see [Definitions of Done](#definitions-of-done)).
 
 This loop proves:
 
@@ -742,7 +749,7 @@ The AI can suggest. The engine decides what becomes real.
 
 ### 4. Stonepass first
 
-Every core system should prove itself through **Stonepass Spire (Floors 1–3)** before generalizing into larger generated worlds.
+Every core system should prove itself through **Stonepass Spire — Floor 1** (the full Valley arc) before generalizing into larger generated worlds.
 
 ### 5. Text before visuals
 
@@ -1968,6 +1975,8 @@ Done when:
 
 ### Phase 4: Browser UI and Persistence
 
+> **Tracker reconciliation (2026-05-29):** this roadmap phase has **no dedicated rows** in the step tracker CSV. The browser-UI items below shipped early inside Phase 1+/Phase 2 (`W2-S6` play page, `W3-S4` ledger panel, `W3-S6` debug panel, `W4-S7` AI reasoning panel); **persistence/save-resume is tracked under Phase 6** (`W9-S1–S6`). The CSV's `Phase` labels therefore advance Phase 3 (W5) → Phase 5 (W7) with this UI work already absorbed. Treat the CSV as the source of truth for sequencing.
+
 Goal: make the text product usable in the browser.
 
 Build:
@@ -2302,7 +2311,7 @@ Because graphics can hide broken game logic. The project first needs to prove th
 
 ### Why Stonepass Spire?
 
-Stonepass Spire is small enough to build floor-by-floor but rich enough to prove the core systems. Floor 1's ogre bridge, Floor 2's landslide and cave, and Floor 3's dragon boss test choices, consequences, memory, temporary instances, and next-goal selection across the early climb.
+Stonepass Spire is small enough to build floor-by-floor but rich enough to prove the core systems. Floor 1's ogre bridge, its landslide and cave labyrinth, and its dragon boss test choices, consequences, memory, temporary instances, and next-goal selection — the full Floor 1 climb. Floor 2 (frozen halls) is the first new floor.
 
 ### Can AI generate entire worlds?
 
@@ -2347,6 +2356,6 @@ Do not assume open-source rights until a license is explicitly added.
 
 ## Current North Star
 
-Build **Stonepass Spire** as a browser-playable, text-first AI-directed climb where player choices change remembered world state, AI suggests validated next steps, temporary cave instances can awaken a dragon on Floor 3, and the whole climb can later be saved, tested, shared, forked, and remixed safely.
+Build **Stonepass Spire** as a browser-playable, text-first AI-directed climb where player choices change remembered world state, AI suggests validated next steps, temporary cave instances can awaken the Floor 1 dragon boss, and the whole climb can later be saved, tested, shared, forked, and remixed safely.
 
 **AI proposes. Validators check. The game engine executes.**

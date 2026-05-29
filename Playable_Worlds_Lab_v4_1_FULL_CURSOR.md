@@ -308,9 +308,9 @@ Not a AAA 3D open-world generator 3D is a later output layer, not the foundation
 Not an AI agent with full control over truth AI suggestions must pass validators and
 deterministic engine execution.
 
-## 6. Stonepass Spire MVP Scope (Floors 1–3)
+## 6. Stonepass Spire MVP Scope (Floor 1)
 
-**Stonepass Spire** is the first implementation target: the smallest climb that proves the magic. **"Stonepass Valley" is deprecated** as a product name. Floor 1 (ogre gate) is live; Floors 2–3 deliver landslide/cave/boss as systems land.
+**Stonepass Spire** is the first implementation target: the smallest climb that proves the magic. **"Stonepass Valley" is deprecated** as a product name. The whole Valley arc is **Floor 1** — ogre gate (live) → landslide → cave/labyrinth → dragon **boss** (`floor_01_cleared`) — delivered as systems land. Floor 2 (frozen halls) is the first new floor (`W8-S17`).
 
 Player reaches an ogre-blocked bridge (Floor 1)
 -> Player chooses fight, trick, feed, talk, or sneak
@@ -812,7 +812,7 @@ visual/platform earlier gates. cockpit, passport, defined before
 layers official packs, co-op, implementation
 2.5D/3D. starts.
 
-> **Spire & Gameplay Systems extension (added 2026-05-29):** Weeks 4–12 also carry interleaved steps for the flagship **Stonepass Spire** and its gameplay systems (combat Tier A, progression, gear, region composer, dynamic difficulty, seed/variation). See the _Spire & Gameplay Systems track_ table at the end of §13 and the step cards in §17. Phase gates are unchanged; the next step is still W2-S6.
+> **Spire & Gameplay Systems extension (added 2026-05-29):** Weeks 4–12 also carry interleaved steps for the flagship **Stonepass Spire** and its gameplay systems (combat Tier A, progression, gear, region composer, dynamic difficulty, seed/variation). See the _Spire & Gameplay Systems track_ table at the end of §13 and the step cards in §17. Phase gates are unchanged. The Phase 2 difficulty/seed rows (W4-S8–S10) are now **Complete**; the next step is **W5-S1** (Phase 3 — cave from `cave_exposed`).
 
 ## 13. Week-by-Week Implementation Plan
 
@@ -10373,25 +10373,29 @@ Replaces pre-v4.2 `suggest_*` / `request_*` action names.
 
 ### Implementation progress (Phase 0)
 
-| Step                             | v4.2 alignment                                                           |
-| -------------------------------- | ------------------------------------------------------------------------ |
-| W1-S5 Consequence                | Done                                                                     |
-| W1-S6 WorldLedger                | Done                                                                     |
-| W1-S7 DirectorDecision           | Done                                                                     |
-| W1-S8 TemporaryInstance          | Done                                                                     |
-| W1-S9 NPC                        | Done                                                                     |
-| W1-S10 WorldDefinition           | Done                                                                     |
-| W1-S11 WorldSession              | Done — `worldSession.ts`, `createWorldSession`, `schemaVersion: "0.2.0"` |
-| W1-S12 DebugEvent                | Done — tests, 3 examples, `appendDebugEvent` in `packages/core/debug`    |
-| W1-S13 AIResult                  | Done — `aiResult.ts`, `createAIResultSchema`, typed Director wrapper     |
-| W1-S14 validateWorldDefinition   | Done — `validateWorldDefinition`, `parseAndValidateWorldDefinition`      |
-| W1-S15 Stonepass JSON            | Done — `packages/content/worlds/stonepass/stonepass-valley.world.json`   |
-| W1-S16 AIProvider + FakeProvider | Done — `packages/ai/src/{contracts,providers}/`                          |
-| W2-S1 World JSON loader          | Done — `packages/core/src/world/loadWorld.ts`                            |
-| W2-S2 Initialize WorldSession    | Done — `packages/core/src/session/initializeWorldSession.ts`             |
-| W2-S3 Story beat selector        | Done — `packages/core/src/story/selectStoryBeat.ts`                      |
-| W2-S4 Choice resolver            | Done — `packages/core/src/runtime/resolvePlayerChoice.ts`                |
-| W2-S5 Apply consequence          | Done — `packages/core/src/runtime/applyConsequence.ts`                   |
-| W2-S6 Text play screen           | Next                                                                     |
-| W7-S7–S11 Content Libraries      | Scheduled (tracker 2026-05-28)                                           |
-| W8-S6–S12 WorldBlueprint + Quest | Scheduled (tracker 2026-05-28)                                           |
+| Step                              | v4.2 alignment                                                           |
+| --------------------------------- | ------------------------------------------------------------------------ |
+| W1-S5 Consequence                 | Done                                                                     |
+| W1-S6 WorldLedger                 | Done                                                                     |
+| W1-S7 DirectorDecision            | Done                                                                     |
+| W1-S8 TemporaryInstance           | Done                                                                     |
+| W1-S9 NPC                         | Done                                                                     |
+| W1-S10 WorldDefinition            | Done                                                                     |
+| W1-S11 WorldSession               | Done — `worldSession.ts`, `createWorldSession`, `schemaVersion: "0.2.0"` |
+| W1-S12 DebugEvent                 | Done — tests, 3 examples, `appendDebugEvent` in `packages/core/debug`    |
+| W1-S13 AIResult                   | Done — `aiResult.ts`, `createAIResultSchema`, typed Director wrapper     |
+| W1-S14 validateWorldDefinition    | Done — `validateWorldDefinition`, `parseAndValidateWorldDefinition`      |
+| W1-S15 Stonepass JSON             | Done — `packages/content/worlds/stonepass/stonepass-valley.world.json`   |
+| W1-S16 AIProvider + FakeProvider  | Done — `packages/ai/src/{contracts,providers}/`                          |
+| W2-S1 World JSON loader           | Done — `packages/core/src/world/loadWorld.ts`                            |
+| W2-S2 Initialize WorldSession     | Done — `packages/core/src/session/initializeWorldSession.ts`             |
+| W2-S3 Story beat selector         | Done — `packages/core/src/story/selectStoryBeat.ts`                      |
+| W2-S4 Choice resolver             | Done — `packages/core/src/runtime/resolvePlayerChoice.ts`                |
+| W2-S5 Apply consequence           | Done — `packages/core/src/runtime/applyConsequence.ts`                   |
+| W2-S6 Text play screen            | Done — `apps/web/.../play/page.tsx`                                      |
+| W2-S7 Manual ogre path tests      | Done — Phase 1 complete                                                  |
+| W3-S1–S7 Consequence/ledger/debug | Done — Phase 1+ complete                                                 |
+| W4-S1–S10 AI Director v1          | Done — Phase 2 complete (gateway, agents, fallback, seed, difficulty)    |
+| W5-S1 Cave from cave_exposed      | **Next** (Phase 3 — needs human approval)                                |
+| W7-S7–S11 Content Libraries       | Scheduled (tracker 2026-05-28)                                           |
+| W8-S6–S12 WorldBlueprint + Quest  | Scheduled (tracker 2026-05-28)                                           |
