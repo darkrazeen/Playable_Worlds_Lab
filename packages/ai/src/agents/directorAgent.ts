@@ -1,8 +1,13 @@
 import {
   DirectorDecisionSchema,
+  buildDifficultyTierTargetId,
+  clampDirectorDifficultyDecision,
+  computeAdvisoryDifficultySignal,
   type DirectorDecision,
   type DirectorDecisionAction,
   type AIResultOf,
+  type DifficultyProfile,
+  DEFAULT_DIFFICULTY_PROFILE,
   type WorldDefinition,
   type WorldSession,
 } from "@playable-worlds/core";
@@ -20,6 +25,7 @@ export const DIRECTOR_TASK = {
   SUMMARIZE_WORLD: "director_summarize_world",
   SUGGEST_SESSION_WRAPUP: "director_suggest_session_wrapup",
   GENERATE_INSTANCE: "director_generate_instance",
+  ADJUST_DIFFICULTY: "director_adjust_difficulty",
 } as const;
 
 export type DirectorAgentOptions = {
@@ -33,6 +39,8 @@ export type DirectorSuggestionInput = {
   generationSeed?: string;
   /** Deterministic fallback when the provider fails or returns invalid output. */
   fallback?: DirectorDecision;
+  /** Bounds for adjust_difficulty clamping (defaults to DEFAULT_DIFFICULTY_PROFILE). */
+  difficultyProfile?: DifficultyProfile;
 };
 
 export type DirectorTrackedResult = {
@@ -91,6 +99,16 @@ export class DirectorAgent {
     });
   }
 
+  /** Suggest a bounded difficulty tier adjustment (`adjust_difficulty`). */
+  suggestDifficultyAdjust(input: DirectorSuggestionInput): Promise<DirectorTrackedResult> {
+    return this.requestDirector({
+      ...input,
+      action: "adjust_difficulty",
+      task: DIRECTOR_TASK.ADJUST_DIFFICULTY,
+      prompt: buildDirectorPrompt("adjust_difficulty", input),
+    });
+  }
+
   private async requestDirector(
     input: DirectorSuggestionInput & {
       action: DirectorDecisionAction;
@@ -99,13 +117,19 @@ export class DirectorAgent {
     },
   ): Promise<DirectorTrackedResult> {
     const { session, action, task, prompt } = input;
-    const fallback = input.fallback ?? buildDefaultDirectorFallback(action, session);
+    const profile = input.difficultyProfile ?? DEFAULT_DIFFICULTY_PROFILE;
+    const fallback = input.fallback ?? buildDefaultDirectorFallback(action, session, { profile });
 
-    return generateStructuredWithDebug(this.gateway, {
+    const tracked = await generateStructuredWithDebug(this.gateway, {
       request: {
         task,
         prompt,
-        context: buildDirectorContext(session, input.world),
+        context: {
+          ...buildDirectorContext(session, input.world),
+          ...(action === "adjust_difficulty"
+            ? { difficultySignals: computeAdvisoryDifficultySignal(session, profile).signals }
+            : {}),
+        },
         generationSeed: input.generationSeed ?? buildDirectorGenerationSeed(session, task),
       },
       schema: DirectorDecisionSchema,
@@ -118,6 +142,22 @@ export class DirectorAgent {
         metadata: { action, targetId: fallback.targetId },
       },
     });
+
+    if (
+      tracked.result.ok &&
+      tracked.result.value?.action === "adjust_difficulty" &&
+      tracked.result.value
+    ) {
+      const { decision } = clampDirectorDifficultyDecision(tracked.result.value, profile);
+      if (decision !== tracked.result.value) {
+        return {
+          result: { ...tracked.result, value: decision },
+          session: tracked.session,
+        };
+      }
+    }
+
+    return tracked;
   }
 }
 
@@ -135,6 +175,8 @@ function buildDirectorOutcomeSummary(
       return `Director session wrap-up hint at ${session.currentBeatId}.`;
     case "generate_instance":
       return `Director instance draft suggestion at ${session.currentBeatId}.`;
+    case "adjust_difficulty":
+      return `Director difficulty adjustment (fallback target: ${fallback.targetId}).`;
     default:
       return `Director ${action} suggestion.`;
   }
@@ -190,6 +232,8 @@ export function buildDirectorPrompt(
       return `Suggest whether the player should wrap up the session at beat "${beat}". Use action suggest_session_wrapup.`;
     case "generate_instance":
       return `Suggest a short temporary instance the player could enter from beat "${beat}". Use action generate_instance with a proposed instance id as targetId.`;
+    case "adjust_difficulty":
+      return `Suggest an encounter-intensity tier adjustment for beat "${beat}". Use action adjust_difficulty with targetId difficulty_tier_<integer> within the world's allowed range.`;
     default:
       return `Director suggestion for action "${action}" at beat "${beat}".`;
   }
@@ -199,7 +243,10 @@ export function buildDirectorPrompt(
 export function buildDefaultDirectorFallback(
   action: DirectorDecisionAction,
   session: WorldSession,
+  options: { profile?: DifficultyProfile } = {},
 ): DirectorDecision {
+  const profile = options.profile ?? DEFAULT_DIFFICULTY_PROFILE;
+
   switch (action) {
     case "select_next_beat":
       return {
@@ -229,6 +276,15 @@ export function buildDefaultDirectorFallback(
         reason: `Deterministic fallback: no instance draft at beat ${session.currentBeatId}.`,
         confidence: 0.3,
       };
+    case "adjust_difficulty": {
+      const advisory = computeAdvisoryDifficultySignal(session, profile);
+      return {
+        action: "adjust_difficulty",
+        targetId: buildDifficultyTierTargetId(advisory.suggestedTier),
+        reason: `Deterministic fallback: advisory tier ${advisory.suggestedTier} from ledger signals (${advisory.struggleLevel} struggle).`,
+        confidence: 0.5,
+      };
+    }
     default:
       return {
         action,

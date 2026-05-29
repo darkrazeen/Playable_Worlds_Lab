@@ -69,6 +69,13 @@ export {
   type DirectorDecisionAction,
 } from "./directorDecision.js";
 export {
+  buildDifficultyTierTargetId,
+  clampDirectorDifficultyDecision,
+  DIFFICULTY_TIER_TARGET_PREFIX,
+  parseDifficultyTierTargetId,
+  type ClampDirectorDifficultyResult,
+} from "./directorDifficultyDecision.js";
+export {
   InstanceCleanupBehaviorSchema,
   parseTemporaryInstance,
   parseTemporaryInstanceRoom,

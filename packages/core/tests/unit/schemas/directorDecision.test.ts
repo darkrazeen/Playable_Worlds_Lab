@@ -46,6 +46,7 @@ describe("DirectorDecisionSchema", () => {
       "generate_npc_reaction",
       "summarize_world",
       "suggest_session_wrapup",
+      "adjust_difficulty",
     ] as const;
 
     for (const action of actions) {
@@ -53,10 +54,25 @@ describe("DirectorDecisionSchema", () => {
         DirectorDecisionSchema.safeParse({
           ...validSelectBeat,
           action,
-          targetId: action === "generate_npc_reaction" ? "npc_ogre" : validSelectBeat.targetId,
+          targetId:
+            action === "generate_npc_reaction"
+              ? "npc_ogre"
+              : action === "adjust_difficulty"
+                ? "difficulty_tier_2"
+                : validSelectBeat.targetId,
         }).success,
       ).toBe(true);
     }
+  });
+
+  it("rejects adjust_difficulty with non-tier targetId", () => {
+    expect(
+      DirectorDecisionSchema.safeParse({
+        ...validSelectBeat,
+        action: "adjust_difficulty",
+        targetId: "beat_valley_square",
+      }).success,
+    ).toBe(false);
   });
 
   it("parses via parseDirectorDecision helper", () => {
@@ -117,5 +133,16 @@ describe("DirectorDecisionSchema", () => {
       readFileSync(join(examplesDir, "director-decision-suggest-beat.example.json"), "utf8"),
     );
     expect(DirectorDecisionSchema.safeParse(example).success).toBe(true);
+  });
+
+  it("validates adjust_difficulty JSON example", () => {
+    const example = JSON.parse(
+      readFileSync(join(examplesDir, "director-decision-adjust-difficulty.example.json"), "utf8"),
+    );
+    expect(DirectorDecisionSchema.safeParse(example).success).toBe(true);
+    if (DirectorDecisionSchema.safeParse(example).success) {
+      expect(example.action).toBe("adjust_difficulty");
+      expect(example.targetId).toMatch(/^difficulty_tier_\d+$/);
+    }
   });
 });

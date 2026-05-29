@@ -1,0 +1,7 @@
+{
+  "action": "adjust_difficulty",
+  "targetId": "difficulty_tier_2",
+  "reason": "Ledger shows repeated failed checks; ease encounter intensity one tier.",
+  "confidence": 0.74,
+  "safetyNotes": ["teen-safe pacing"]
+}

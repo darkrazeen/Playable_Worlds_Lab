@@ -3,7 +3,7 @@
 **Handoff date:** 2026-05-29  
 **Last reconciled:** 2026-05-29  
 **Workspace:** `Playable_Worlds_Lab`  
-**Purpose:** Onboard a Cursor/agent on the current repo state, contract rules, Phase 0 complete, Phase 1 complete, **Phase 2 W4-S1–S8 complete**, next step **W4-S9** — Compute ledger-signal difficulty heuristics.
+**Purpose:** Onboard a Cursor/agent on the current repo state, contract rules, Phase 0 complete, Phase 1 complete, **Phase 2 W4-S1–S10 complete**, next step **W5-S1** — Generate or load cave from `cave_exposed` flag (requires human approval).
 
 ---
 
@@ -35,7 +35,7 @@
 - **First proof content:** **Stonepass Spire — Floor 1** (ogre bridge → branches; Floors 2–3 carry landslide/cave/boss as systems land). Legacy file: `stonepass-valley.world.json`.
 - **Not day one:** 3D metaverse, full economy, multiplayer, public UGC marketplace.
 - **Long-term vision:** Rich Stonepass showcase (v2), AI Director variation, **player-themed worlds** (WorldBlueprint + content libraries — [Future_Features/Player_World_Generation_and_Content_Libraries.md](./Future_Features/Player_World_Generation_and_Content_Libraries.md)), **quest generation** ([Future_Features/Quest_Generation.md](./Future_Features/Quest_Generation.md), tracker W8-S9–S12), 2D/3D as output layers on same JSON.
-- **Flagship product direction (scheduled 2026-05-29):** **Stonepass Spire** — retune Stonepass into an Aincrad-style **100-floor castle** (single-player). Floor = `WorldDefinition`; castle = vertical `RegionMap` gated by `floor_N_cleared`; boss raids = multi-phase instances; **Tier A** RuneScape-inspired combat/skills (bounded, usage-advanced). **23 tracker rows** interleaved into Weeks 4–12 (see §3 _Spire & gameplay systems_). Specs: [Future_Features/](./Future_Features/README.md). **Current approved step:** W4-S4 (DirectorAgent). Do not implement Spire rows until each reaches `Next` with human approval.
+- **Flagship product direction (scheduled 2026-05-29):** **Stonepass Spire** — retune Stonepass into an Aincrad-style **100-floor castle** (single-player). Floor = `WorldDefinition`; castle = vertical `RegionMap` gated by `floor_N_cleared`; boss raids = multi-phase instances; **Tier A** RuneScape-inspired combat/skills (bounded, usage-advanced). **23 tracker rows** interleaved into Weeks 4–12 (see §3 _Spire & gameplay systems_). Specs: [Future_Features/](./Future_Features/README.md). **Phase 2 Director v1 complete (W4-S10).** Next approved step: **W5-S1** (Phase 3). Do not implement Spire rows until each reaches `Next` with human approval.
 
 ```text
 WorldDefinition → StoryBeats → PlayerChoices → Consequences → WorldLedger
@@ -72,20 +72,21 @@ W1-S1 through W1-S16 — all **Complete**.
 | W3-S6 | Debug log UI panel                 | **Complete** |
 | W3-S7 | Phase 1 acceptance hardening       | **Complete** |
 
-### Phase 2 — in progress (AI Director v1)
+### Phase 2 — complete (AI Director v1, W4-S1–S10)
 
-| Step    | Name                          | Status              |
-| ------- | ----------------------------- | ------------------- |
-| W4-S1   | AI Gateway                    | **Complete**        |
-| W4-S2   | Expand FakeProvider scenarios | **Complete**        |
-| W4-S3   | OpenAI provider + env toggle  | **Complete**        |
-| W4-S4   | Build DirectorAgent           | **Complete**        |
-| W4-S5   | Build NPCReactionAgent        | **Complete**        |
-| W4-S6   | Integrate fallback / failure  | **Complete**        |
-| W4-S7   | Director reasoning panel      | **Complete**        |
-| W4-S8   | Thread generation seed        | **Complete**        |
-| W4-S9   | Difficulty heuristics         | **Next ← approved** |
-| W4-S10+ | Further Phase 2 steps         | Not started         |
+| Step    | Name                          | Status       |
+| ------- | ----------------------------- | ------------ |
+| W4-S1   | AI Gateway                    | **Complete** |
+| W4-S2   | Expand FakeProvider scenarios | **Complete** |
+| W4-S3   | OpenAI provider + env toggle  | **Complete** |
+| W4-S4   | Build DirectorAgent           | **Complete** |
+| W4-S5   | Build NPCReactionAgent        | **Complete** |
+| W4-S6   | Integrate fallback / failure  | **Complete** |
+| W4-S7   | Director reasoning panel      | **Complete** |
+| W4-S8   | Thread generation seed        | **Complete** |
+| W4-S9   | Difficulty heuristics         | **Complete** |
+| W4-S10  | Director adjust_difficulty    | **Complete** |
+| W4-S11+ | Further Phase 2 steps         | Not started  |
 
 **Engine loop (working in tests and browser):** `loadWorld` → `initializeWorldSession` → `selectStoryBeat` → `resolvePlayerChoice` → `applyPlayerChoice` → ledger + debug trace update
 
@@ -93,29 +94,30 @@ W1-S1 through W1-S16 — all **Complete**.
 
 **OpenAI toggle (local):** Keep `OPENAI_API_KEY` in gitignored `.env.local`; set `OPENAI_ENABLED=false` (off) or `true` (live). See `packages/ai/docs/ai-provider-toggle.md`.
 
-**Gap to close:** W4-S9 difficulty heuristics; beat progression beyond ogre bridge branches (content/engine, not Phase 2 gate)
+**Gap to close:** Phase 3 temporary instances (W5-S1+); beat progression beyond ogre bridge branches (content/engine, not Phase 2 gate)
 
 ### Current snapshot (2026-05-29)
 
-| Area                                            | Status                                                                             |
-| ----------------------------------------------- | ---------------------------------------------------------------------------------- |
-| Phase 0 schemas + validator                     | **Complete** (W1-S1–S16)                                                           |
-| Stonepass canonical JSON                        | **Complete** — passes `parseAndValidateWorldDefinition`                            |
-| FakeProvider                                    | **Complete** (W1-S16 + W4-S2 seed catalog & Stonepass presets)                     |
-| Runtime core (load → consequence)               | **Complete** (W2-S1–S7, W3-S1–S7)                                                  |
-| Browser text play UI                            | **Complete** — `/play` with ledger, debug, and Director reasoning panels           |
-| Beat progression                                | **Partial** — ogre bridge advances (landslide / valley); full Floor 1 arc not done |
-| AI Gateway                                      | **Complete (W4-S1)** — `packages/ai/src/gateway/`, `docs/ai-gateway.md`            |
-| DirectorAgent / NPCReactionAgent                | **Complete (W4-S4–S5)** — gateway-only, no ledger mutation                         |
-| AI fallback debug integration                   | **Complete (W4-S6)** — `recordAiGatewayOutcome`, `generateStructuredWithDebug`     |
-| OpenAI provider + env toggle (`OPENAI_ENABLED`) | **Complete (W4-S3)** — `openaiProvider.ts`, `createAIGatewayFromEnv()`             |
-| Director reasoning UI                           | **Complete (W4-S7)** — `DirectorReasoningPanel` on `/play`                         |
-| Temporary instance runtime                      | Phase 3 — not started                                                              |
-| Spire & gameplay systems                        | **Scheduled** — tracker rows `Not started`; first Spire content step **W5-S13**    |
-| Generation seed plumbing                        | **Complete (W4-S8)** — `WorldSession.generationSeed`, gateway `session` option     |
-| Tests                                           | **330 passing** (55 files) — `npm run test:coverage` for report                    |
-| CI                                              | typecheck, lint, **format:check**, test, **test:coverage**                         |
-| Step tracker                                    | **122 rows** (99 original + 23 Spire/gameplay rows added 2026-05-29)               |
+| Area                                            | Status                                                                              |
+| ----------------------------------------------- | ----------------------------------------------------------------------------------- |
+| Phase 0 schemas + validator                     | **Complete** (W1-S1–S16)                                                            |
+| Stonepass canonical JSON                        | **Complete** — passes `parseAndValidateWorldDefinition`                             |
+| FakeProvider                                    | **Complete** (W1-S16 + W4-S2 seed catalog & Stonepass presets)                      |
+| Runtime core (load → consequence)               | **Complete** (W2-S1–S7, W3-S1–S7)                                                   |
+| Browser text play UI                            | **Complete** — `/play` with ledger, debug, and Director reasoning panels            |
+| Beat progression                                | **Partial** — ogre bridge advances (landslide / valley); full Floor 1 arc not done  |
+| AI Gateway                                      | **Complete (W4-S1)** — `packages/ai/src/gateway/`, `docs/ai-gateway.md`             |
+| DirectorAgent / NPCReactionAgent                | **Complete (W4-S4–S5)** — gateway-only, no ledger mutation                          |
+| AI fallback debug integration                   | **Complete (W4-S6)** — `recordAiGatewayOutcome`, `generateStructuredWithDebug`      |
+| OpenAI provider + env toggle (`OPENAI_ENABLED`) | **Complete (W4-S3)** — `openaiProvider.ts`, `createAIGatewayFromEnv()`              |
+| Director reasoning UI                           | **Complete (W4-S7)** — `DirectorReasoningPanel` on `/play`                          |
+| Temporary instance runtime                      | Phase 3 — not started                                                               |
+| Spire & gameplay systems                        | **Scheduled** — tracker rows `Not started`; first Spire content step **W5-S13**     |
+| Generation seed plumbing                        | **Complete (W4-S8)** — `WorldSession.generationSeed`, gateway `session` option      |
+| Advisory difficulty heuristics                  | **Complete (W4-S9)** — `computeAdvisoryDifficultySignal` (ledger-only, no mutation) |
+| Tests                                           | **340 passing** (57 files) — `npm run test:coverage` for report                     |
+| CI                                              | typecheck, lint, **format:check**, test, **test:coverage**                          |
+| Step tracker                                    | **122 rows** (99 original + 23 Spire/gameplay rows added 2026-05-29)                |
 
 ### Phase 5 extension — scheduled, not current work
 

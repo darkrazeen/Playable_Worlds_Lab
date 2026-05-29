@@ -139,6 +139,12 @@ describe("DirectorAgent", () => {
     expect(buildDefaultDirectorFallback("generate_instance", session).action).toBe(
       "generate_instance",
     );
+    expect(buildDefaultDirectorFallback("adjust_difficulty", session).action).toBe(
+      "adjust_difficulty",
+    );
+    expect(buildDefaultDirectorFallback("adjust_difficulty", session).targetId).toMatch(
+      /^difficulty_tier_\d+$/,
+    );
   });
 
   it("supports recap and session wrap-up tasks", async () => {
@@ -202,5 +208,99 @@ describe("DirectorAgent", () => {
 
     expect(result.ok).toBe(true);
     expect(["beat_landslide_aftermath", "beat_valley_square"]).toContain(result.value?.targetId);
+  });
+
+  it("suggestDifficultyAdjust returns in-bounds adjust_difficulty decision", async () => {
+    const { session } = loadStonepassSession();
+    const before = snapshotSession(session);
+
+    const agent = createDirectorAgent(
+      createAIGateway(
+        new FakeProvider({
+          responsesByTask: {
+            director_adjust_difficulty: {
+              kind: "success",
+              value: {
+                action: "adjust_difficulty",
+                targetId: "difficulty_tier_2",
+                reason: "Moderate struggle on bridge check.",
+                confidence: 0.72,
+              },
+            },
+          },
+        }),
+      ),
+    );
+
+    const { result, session: trackedSession } = await agent.suggestDifficultyAdjust({ session });
+
+    expect(result.ok).toBe(true);
+    expect(result.fallbackUsed).toBe(false);
+    expect(result.value?.action).toBe("adjust_difficulty");
+    expect(result.value?.targetId).toBe("difficulty_tier_2");
+    expect(trackedSession.debugEvents.some((e) => e.type === "ai_suggestion")).toBe(true);
+    expect(snapshotSession(session)).toBe(before);
+  });
+
+  it("clamps out-of-bounds adjust_difficulty from provider", async () => {
+    const { session } = loadStonepassSession();
+
+    const agent = createDirectorAgent(
+      createAIGateway(
+        new FakeProvider({
+          responsesByTask: {
+            director_adjust_difficulty: {
+              kind: "success",
+              value: {
+                action: "adjust_difficulty",
+                targetId: "difficulty_tier_99",
+                reason: "Spike difficulty.",
+                confidence: 0.9,
+              },
+            },
+          },
+        }),
+      ),
+    );
+
+    const { result } = await agent.suggestDifficultyAdjust({ session });
+
+    expect(result.ok).toBe(true);
+    expect(result.value?.targetId).toBe("difficulty_tier_3");
+    expect(result.value?.reason).toContain("clamped");
+  });
+
+  it("falls back on invalid adjust_difficulty output without mutating session", async () => {
+    const worldResult = loadWorld("world_stonepass_valley", contentRoot);
+    const sessionResult = initializeWorldSession(worldResult.world!, {
+      sessionId: "session_director_difficulty_invalid",
+    });
+    const session = sessionResult.session!;
+    const before = snapshotSession(session);
+
+    const agent = createDirectorAgent(
+      createAIGateway(
+        new FakeProvider({
+          scenario: {
+            kind: "invalid",
+            raw: {
+              action: "adjust_difficulty",
+              targetId: "invalid_tier",
+              reason: "Bad target.",
+              confidence: 0.5,
+            },
+          },
+        }),
+      ),
+    );
+
+    const { result, session: trackedSession } = await agent.suggestDifficultyAdjust({ session });
+
+    expect(result.ok).toBe(true);
+    expect(result.fallbackUsed).toBe(true);
+    expect(result.value?.action).toBe("adjust_difficulty");
+    expect(result.value?.targetId).toMatch(/^difficulty_tier_\d+$/);
+    expect(trackedSession.debugEvents.some((e) => e.type === "fallback_used")).toBe(true);
+    expect(snapshotSession(session)).toBe(before);
   });
 });

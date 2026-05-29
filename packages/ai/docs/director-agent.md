@@ -4,12 +4,13 @@
 
 ## Methods
 
-| Method                   | Director action          | Task                              |
-| ------------------------ | ------------------------ | --------------------------------- |
-| `suggestNextBeat`        | `select_next_beat`       | `director_select_next_beat`       |
-| `suggestRecap`           | `summarize_world`        | `director_summarize_world`        |
-| `suggestSessionWrapup`   | `suggest_session_wrapup` | `director_suggest_session_wrapup` |
-| `suggestInstanceRequest` | `generate_instance`      | `director_generate_instance`      |
+| Method                    | Director action          | Task                              |
+| ------------------------- | ------------------------ | --------------------------------- |
+| `suggestNextBeat`         | `select_next_beat`       | `director_select_next_beat`       |
+| `suggestRecap`            | `summarize_world`        | `director_summarize_world`        |
+| `suggestSessionWrapup`    | `suggest_session_wrapup` | `director_suggest_session_wrapup` |
+| `suggestInstanceRequest`  | `generate_instance`      | `director_generate_instance`      |
+| `suggestDifficultyAdjust` | `adjust_difficulty`      | `director_adjust_difficulty`      |
 
 ## Usage
 
@@ -34,10 +35,16 @@ if (result.ok && result.value?.action === "select_next_beat") {
 Every call passes a schema-valid `fallbackValue` to the gateway:
 
 - Custom: `fallback` on `DirectorSuggestionInput`
-- Default: `buildDefaultDirectorFallback(action, session)` — e.g. hold at `currentBeatId` for `select_next_beat`
+- Default: `buildDefaultDirectorFallback(action, session, { profile })` — e.g. hold at `currentBeatId` for `select_next_beat`, advisory tier from ledger signals for `adjust_difficulty`
+
+## adjust_difficulty (W4-S10)
+
+- `targetId` must be `difficulty_tier_<integer>` (encounter-intensity tier).
+- Post-gateway clamp via `clampDirectorDifficultyDecision` and `DifficultyProfile.allowedRange` (default `[1, 3]`).
+- Advisory only — no ledger, flag, or reward mutation.
 
 ## Wiring
 
 - Use `createDirectorAgent(gateway)` in tests with `FakeProvider`
 - Use `createDirectorAgentFromEnv()` in local dev (toggle: [ai-provider-toggle.md](./ai-provider-toggle.md))
-- **Not wired to `/play` yet** — W4-S8+ seed threading and deeper runtime integration come later
+- Reasoning panel on `/play` (W4-S7) reads debug events; engine apply for `adjust_difficulty` is future work (W8-S20)
