@@ -10396,6 +10396,8 @@ Replaces pre-v4.2 `suggest_*` / `request_*` action names.
 | W2-S7 Manual ogre path tests      | Done — Phase 1 complete                                                  |
 | W3-S1–S7 Consequence/ledger/debug | Done — Phase 1+ complete                                                 |
 | W4-S1–S10 AI Director v1          | Done — Phase 2 complete (gateway, agents, fallback, seed, difficulty)    |
-| W5-S1 Cave from cave_exposed      | **Next** (Phase 3 — needs human approval)                                |
+| W5-S1 Cave from cave_exposed      | **Complete**                                                             |
+| W5-S2 Room system                 | **Complete**                                                             |
+| W5-S3 Encounter system            | **Next** (Phase 3 — needs human approval)                                |
 | W7-S7–S11 Content Libraries       | Scheduled (tracker 2026-05-28)                                           |
 | W8-S6–S12 WorldBlueprint + Quest  | Scheduled (tracker 2026-05-28)                                           |

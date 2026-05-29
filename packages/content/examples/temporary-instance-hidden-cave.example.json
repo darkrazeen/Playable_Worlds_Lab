@@ -4,7 +4,7 @@
   "type": "cave",
   "description": "A unstable cave exposed by the landslide beneath Stonepass Bridge.",
   "entranceText": "Cold air spills from a jagged opening in the cliff. Loose stones still skitter down the slope.",
-  "requiredEntryFlags": ["landslide_triggered"],
+  "requiredEntryFlags": ["cave_exposed"],
   "rooms": [
     {
       "id": "room_cave_entrance",

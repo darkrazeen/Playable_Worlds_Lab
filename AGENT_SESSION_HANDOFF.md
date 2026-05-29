@@ -3,7 +3,7 @@
 **Handoff date:** 2026-05-29  
 **Last reconciled:** 2026-05-29  
 **Workspace:** `Playable_Worlds_Lab`  
-**Purpose:** Onboard a Cursor/agent on the current repo state, contract rules, Phase 0 complete, Phase 1 complete, **Phase 2 W4-S1–S10 complete**, next step **W5-S1** — Generate or load cave from `cave_exposed` flag (requires human approval).
+**Purpose:** Onboard a Cursor/agent on the current repo state, contract rules, Phase 0–2 complete, **Phase 3 W5-S1–S2 complete**, next step **W5-S3** — Create encounter system (requires human approval).
 
 ---
 
@@ -94,7 +94,7 @@ W1-S1 through W1-S16 — all **Complete**.
 
 **OpenAI toggle (local):** Keep `OPENAI_API_KEY` in gitignored `.env.local`; set `OPENAI_ENABLED=false` (off) or `true` (live). See `packages/ai/docs/ai-provider-toggle.md`.
 
-**Gap to close:** Phase 3 temporary instances (W5-S1+); beat progression beyond ogre bridge branches (content/engine, not Phase 2 gate)
+**Gap to close:** Phase 3 encounters/puzzles/completion (W5-S3+); beat progression beyond ogre bridge branches (content/engine, not Phase 2 gate)
 
 ### Current snapshot (2026-05-29)
 

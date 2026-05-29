@@ -4,9 +4,9 @@
 
 ## Floor 1 content (current JSON — single world file)
 
-- **Fight path:** bridge → landslide → cave → dragon (ending / floor boss arc)
+- **Fight path:** bridge → landslide → `cave_exposed` → cave → dragon (ending / floor boss arc)
 - **Peaceful paths** (trick / feed / talk / sneak): bridge → Spire antechamber (→ elder counsel if talk)
-- Cave instance is unreachable on peaceful paths because `landslide_triggered` is never set
+- Cave instance is unreachable on peaceful paths because `cave_exposed` is never set
 
 ## Floor 1 climb plan (authoring target)
 

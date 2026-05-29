@@ -1,7 +1,7 @@
 {
   "id": "consequence_fight_ogre",
   "summary": "You defeat the ogre in a fierce struggle. The bridge clears, but the battle shakes the valley slopes.",
-  "addFlags": ["ogre_defeated", "bridge_open", "landslide_triggered"],
+  "addFlags": ["ogre_defeated", "bridge_open", "landslide_triggered", "cave_exposed"],
   "removeFlags": ["ogre_blocks_bridge"],
   "unlockGoals": ["goal_reach_valley"],
   "exposeLocations": ["location_hidden_cave"],

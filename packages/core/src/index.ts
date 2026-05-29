@@ -11,3 +11,4 @@ export * from "./consequence/index.js";
 export * from "./ledger/index.js";
 export * from "./difficulty/index.js";
 export * from "./runtime/index.js";
+export * from "./instances/index.js";

@@ -346,7 +346,7 @@ Combat/skills/gear are specified in [Combat_and_Encounter_Resolution.md](./Comba
 
 ## Phased rollout plan
 
-Aligned to the existing roadmap; do **not** skip gates. The next _step_ is **W5-S1** (Phase 3 — cave from `cave_exposed`).
+Aligned to the existing roadmap; do **not** skip gates. The next _step_ is **W5-S3** (Phase 3 — encounter system).
 
 ```text
 DONE (Phase 0–1)   Schemas + validators; text runtime; Stonepass Floor 1 playable
@@ -404,7 +404,7 @@ Long tail          Author/generate Floors 3 → 100 into the pre-planned bands.
 - **No stat-sim creep.** Tier A is **discrete tiers/flags only**. If combat ever needs continuous HP / damage numbers / RNG-as-truth, stop and re-decide (that is Tier B and requires an explicit README boundary amendment).
 - **AI never owns truth.** Director flavors and paces; the engine sets `floor_*_cleared` and grants gear/progression via validated consequences.
 - **Do not hand-author 100 floors.** Prove 2–3, then let libraries + generation fill the bands. Hand-authoring 100 floors is the trap that kills the project.
-- **One step at a time.** This doc is the destination; the next step is **W5-S1** (Phase 3 — cave from `cave_exposed`).
+- **One step at a time.** This doc is the destination; the next step is **W5-S3** (Phase 3 — encounter system).
 - **No guilds / multiplayer / AI NPCs** in this scope (deferred deliberately, not forgotten).
 
 ---

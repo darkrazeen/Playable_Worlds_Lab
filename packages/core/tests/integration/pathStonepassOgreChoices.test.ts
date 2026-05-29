@@ -33,7 +33,7 @@ const OGRE_PATH_CASES: OgrePathCase[] = [
     consequenceId: "consequence_fight_ogre",
     signatureFlag: "ogre_defeated",
     expectedBeatId: "beat_landslide_aftermath",
-    expectedActiveFlags: ["ogre_defeated", "bridge_open", "landslide_triggered"],
+    expectedActiveFlags: ["ogre_defeated", "bridge_open", "landslide_triggered", "cave_exposed"],
     expectedGoals: ["goal_reach_valley", "goal_explore_cave"],
     expectedDiscoveredLocations: ["location_hidden_cave"],
     mustNotHaveFlags: ["ogre_peaceful_crossing"],

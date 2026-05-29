@@ -71,6 +71,7 @@
           "id": "enter_hidden_cave",
           "label": "Enter the hidden cave",
           "description": "Climb over fallen stone and follow the draft into the dark.",
+          "requiredFlags": ["cave_exposed"],
           "consequenceId": "consequence_enter_cave"
         },
         {
@@ -148,7 +149,7 @@
     {
       "id": "consequence_fight_ogre",
       "summary": "You defeat the ogre in a fierce struggle. The bridge clears, but the battle shakes the valley slopes.",
-      "addFlags": ["ogre_defeated", "bridge_open", "landslide_triggered"],
+      "addFlags": ["ogre_defeated", "bridge_open", "landslide_triggered", "cave_exposed"],
       "removeFlags": ["ogre_blocks_bridge"],
       "unlockGoals": ["goal_reach_valley", "goal_explore_cave"],
       "exposeLocations": ["location_hidden_cave"],
@@ -220,7 +221,7 @@
     {
       "id": "consequence_survey_landslide",
       "summary": "You search the rubble and confirm no villagers were caught in the slide, but the cave mouth remains the only lead.",
-      "addFlags": ["landslide_surveyed"],
+      "addFlags": ["landslide_surveyed", "cave_exposed"],
       "exposeLocations": ["location_hidden_cave"],
       "unlockGoals": ["goal_explore_cave"],
       "visibleChanges": [
@@ -326,7 +327,7 @@
       "type": "cave",
       "description": "An unstable cave exposed by the landslide beneath Stonepass Bridge.",
       "entranceText": "Cold air spills from a jagged opening in the cliff. Loose stones still skitter down the slope.",
-      "requiredEntryFlags": ["landslide_triggered"],
+      "requiredEntryFlags": ["cave_exposed"],
       "rooms": [
         {
           "id": "room_cave_entrance",

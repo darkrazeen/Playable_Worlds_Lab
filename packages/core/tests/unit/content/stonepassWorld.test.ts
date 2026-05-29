@@ -42,6 +42,7 @@ describe("Stonepass Spire Floor 1 world content", () => {
 
     const fightConsequence = world.consequences.find((c) => c.id === "consequence_fight_ogre");
     expect(fightConsequence?.addFlags).toContain("landslide_triggered");
+    expect(fightConsequence?.addFlags).toContain("cave_exposed");
     expect(fightConsequence?.temporaryInstances).toContain("instance_hidden_cave");
 
     const caveComplete = world.consequences.find((c) => c.id === "consequence_cave_complete");
@@ -49,7 +50,7 @@ describe("Stonepass Spire Floor 1 world content", () => {
 
     const hiddenCave = world.temporaryInstances.find((i) => i.id === "instance_hidden_cave");
     expect(hiddenCave?.completionConsequenceId).toBe("consequence_cave_complete");
-    expect(hiddenCave?.requiredEntryFlags).toContain("landslide_triggered");
+    expect(hiddenCave?.requiredEntryFlags).toContain("cave_exposed");
   });
 
   it("rejects world-definition-stonepass-invalid.example.json", () => {

@@ -23,7 +23,12 @@ describe("applyConsequenceToLedger", () => {
       choiceId: "fight_ogre",
     });
 
-    expect(ledger.activeFlags).toEqual(["ogre_defeated", "bridge_open", "landslide_triggered"]);
+    expect(ledger.activeFlags).toEqual([
+      "ogre_defeated",
+      "bridge_open",
+      "landslide_triggered",
+      "cave_exposed",
+    ]);
     expect(ledger.resolvedFlags).toEqual(["ogre_blocks_bridge"]);
     expect(ledger.unlockedGoals).toEqual(["goal_reach_valley", "goal_explore_cave"]);
     expect(ledger.discoveredLocations).toEqual(["location_hidden_cave"]);
