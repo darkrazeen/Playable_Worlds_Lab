@@ -25,6 +25,7 @@
 | 3        | Repository code in `packages/core`                                                                                                                                                                                                                                     |
 | 4        | [README.md](./README.md) (secondary)                                                                                                                                                                                                                                   |
 | 5        | [Future_Features/](./Future_Features/README.md) — specs for scheduled `Not started` rows (W7-S7+ / W8-S6+ libraries & quest; **W4-S8–S10, W5-S8–S13, W7-S12–S13, W8-S13–S20, W9-S7–S9, W12-S8** Spire & gameplay systems). **Not current work** until a row is `Next`. |
+| —        | [docs/VISION_AND_MMO_DIRECTION.md](./docs/VISION_AND_MMO_DIRECTION.md) — strategic vision, MMO branches, gap analysis, question bank (planning only; does not override tracker) |
 
 ---
 
