@@ -8,7 +8,7 @@ When documents conflict, resolve in this order:
 | 2        | Human-approved step prompt                                                                                                            |
 | 3        | Repository code in `packages/core`                                                                                                    |
 | 4        | [README.md](../README.md) (secondary product narrative)                                                                               |
-| 5        | [Future_Features/](../Future_Features/README.md) (not step-tracker work until a row is `Next`)                                         |
+| 5        | [Future_Features/](../Future_Features/README.md) (not step-tracker work until a row is `Next`)                                        |
 
 **Status (Complete / Next / Not started):** always prefer [Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv](../Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv), with narrative summary in [AGENT_SESSION_HANDOFF.md](../AGENT_SESSION_HANDOFF.md).
 
