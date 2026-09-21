@@ -2,9 +2,9 @@
 
 > **Living document** for letting the AI Director **propose** pacing and difficulty adjustments — hint frequency, encounter intensity tier, optional-branch emphasis — based on ledger signals, always **inside immutable WorldBlueprint bounds**, never mutating truth.
 >
-> **Status:** Scheduled in step tracker — rows added 2026-05-29 as `Not started`: **W4-S9** (ledger-signal heuristics), **W4-S10** (`adjust_difficulty` action), **W8-S20** (`DifficultyProfile`). Implement only when each step reaches `Next` with human approval.  
-> **Last updated:** 2026-05-28  
-> **Related:** [Player_World_Generation_and_Content_Libraries.md](./Player_World_Generation_and_Content_Libraries.md), [Item_and_Gear_Template_Library.md](./Item_and_Gear_Template_Library.md), [Story_Seed_Determinism_and_Variation_Explorer.md](./Story_Seed_Determinism_and_Variation_Explorer.md), [README.md](./README.md)
+> **Status:** **W4-S9 / W4-S10 Complete** (advisory ledger heuristics + bounded Director `adjust_difficulty`). **W8-S20** (`DifficultyProfile`) remains `Not started`. Implement remaining steps only when each reaches `Next` with human approval.  
+> **Last updated:** 2026-09-20  
+> **Related:** [Player_World_Generation_and_Content_Libraries.md](./Player_World_Generation_and_Content_Libraries.md), [Item_and_Gear_Template_Library.md](./Item_and_Gear_Template_Library.md), [Story_Seed_Determinism_and_Variation_Explorer.md](./Story_Seed_Determinism_and_Variation_Explorer.md), [README.md](../README.md)
 
 **Rules:**
 
@@ -19,9 +19,9 @@
 
 | Feature                                 | Status                | Target phase (approx.)                 | Last updated |
 | --------------------------------------- | --------------------- | -------------------------------------- | ------------ |
-| DifficultyProfile in WorldBlueprint     | Brainstorm / proposed | Phase 5 (with WorldBlueprint W8-S6)    | 2026-05-28   |
-| Director difficulty decisions (bounded) | Brainstorm / proposed | Phase 2+ extension of DirectorDecision | 2026-05-28   |
-| Ledger-signal difficulty heuristics     | Brainstorm / proposed | Phase 2–3                              | 2026-05-28   |
+| DifficultyProfile in WorldBlueprint     | Scheduled (`Not started`) | Phase 5 (W8-S20)                   | 2026-09-20   |
+| Director difficulty decisions (bounded) | **Implemented (W4-S10)** | Phase 2                             | 2026-09-20   |
+| Ledger-signal difficulty heuristics     | **Implemented (W4-S9)**  | Phase 2                             | 2026-09-20   |
 
 ---
 

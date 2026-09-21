@@ -16,3 +16,7 @@ World data and templates for Playable Worlds Lab.
 ## Naming
 
 **Product:** Stonepass Spire — the full Valley arc is **Floor 1**; Floor 2 (frozen halls) is the first new floor. **Deprecated:** "Stonepass Valley" as a product name. See [Stonepass_Spire_Aincrad_Castle.md](../../Future_Features/Stonepass_Spire_Aincrad_Castle.md#product-naming-human-approved-2026-05-29).
+
+## Status (2026-09-20)
+
+Canonical Floor 1 JSON validates and drives `/play` + core instance tests. Formal Spire rename/reframe is **W5-S13** (`Not started`). Tracker next step: **W5-S9**.

@@ -2,9 +2,9 @@
 
 > **Living document** for a deterministic, text-first combat and skill system inspired by RuneScape's _train-by-doing_ progression — delivered in two stages. **Tier A (approved direction): bounded** — skills as discrete usage-advanced tiers, gear as tiers + unlockable specials, encounters resolved into discrete outcome bands. **Tier B (deferred): continuous** — XP curves and stateful leveling gear, which would require an explicit README boundary amendment. This doc specifies Tier A in full and maps the clean upgrade path to Tier B.
 >
-> **Status:** Tier A scheduled in step tracker — rows added 2026-05-29 as `Not started`: **W5-S9/S10** (skills), **W5-S12** (Level 0 encounters), **W8-S18** (Tier A gear), **W8-S19** (Level 1 EncounterResolver), plus **W4-S10** Director difficulty. **Tier B remains deferred** (needs a README boundary amendment). Implement only when each step reaches `Next` with human approval.
-> **Last updated:** 2026-05-28
-> **Related:** [Stonepass_Spire_Aincrad_Castle.md](./Stonepass_Spire_Aincrad_Castle.md), [Player_Progression_and_Mastery.md](./Player_Progression_and_Mastery.md), [Item_and_Gear_Template_Library.md](./Item_and_Gear_Template_Library.md), [Dynamic_Difficulty_Director.md](./Dynamic_Difficulty_Director.md), [Player_World_Generation_and_Content_Libraries.md](./Player_World_Generation_and_Content_Libraries.md), [Story_Seed_Determinism_and_Variation_Explorer.md](./Story_Seed_Determinism_and_Variation_Explorer.md), [README.md](./README.md)
+> **Status:** Tier A partially landed. **W4-S10 Complete** (Director difficulty). **W5-S9 Next** (clamped `progressionChanges`). Remaining: **W5-S10** (skills), **W5-S12** (Level 0 encounters), **W8-S18/S19** (gear specials + EncounterResolver) — `Not started`. **Tier B remains deferred** (needs a README boundary amendment). Implement only when each step reaches `Next` with human approval.
+> **Last updated:** 2026-09-20
+> **Related:** [Stonepass_Spire_Aincrad_Castle.md](./Stonepass_Spire_Aincrad_Castle.md), [Player_Progression_and_Mastery.md](./Player_Progression_and_Mastery.md), [Item_and_Gear_Template_Library.md](./Item_and_Gear_Template_Library.md), [Dynamic_Difficulty_Director.md](./Dynamic_Difficulty_Director.md), [Player_World_Generation_and_Content_Libraries.md](./Player_World_Generation_and_Content_Libraries.md), [Story_Seed_Determinism_and_Variation_Explorer.md](./Story_Seed_Determinism_and_Variation_Explorer.md), [README.md](../README.md)
 
 **Rules:**
 
@@ -22,12 +22,13 @@
 
 | Feature                                   | Status                                | Target phase (approx.)                   | Last updated |
 | ----------------------------------------- | ------------------------------------- | ---------------------------------------- | ------------ |
-| Level 0: choice-gated encounters          | Brainstorm / proposed                 | Phase 3 (no new code)                    | 2026-05-28   |
-| Tier A skills (bounded, usage-advanced)   | Brainstorm / proposed                 | Phase 3 (session) / Phase 6 (persistent) | 2026-05-28   |
-| Tier A gear (tiers + unlockable specials) | Brainstorm / proposed                 | Phase 5 (with items library)             | 2026-05-28   |
-| Level 1: bounded `EncounterResolver`      | Brainstorm / proposed                 | Phase 5 (after a floor is fun)           | 2026-05-28   |
-| Director `adjust_difficulty` integration  | Brainstorm / proposed                 | Phase 2+                                 | 2026-05-28   |
-| Tier B (continuous XP + leveling gear)    | **Deferred** (needs README amendment) | Post-decision                            | 2026-05-28   |
+| Level 0: choice-gated encounters          | Scheduled (`Not started` W5-S12)      | Phase 3                                  | 2026-09-20   |
+| Tier A skills (bounded, usage-advanced)   | Scheduled (`Not started` W5-S10)      | Phase 3 (session) / Phase 6 (persistent) | 2026-09-20   |
+| Clamped progressionChanges on Consequence | **Next (W5-S9)**                      | Phase 3                                  | 2026-09-20   |
+| Tier A gear (tiers + unlockable specials) | Scheduled (`Not started`)             | Phase 5 (with items library)             | 2026-09-20   |
+| Level 1: bounded `EncounterResolver`      | Scheduled (`Not started` W8-S19)      | Phase 5 (after a floor is fun)           | 2026-09-20   |
+| Director `adjust_difficulty` integration  | **Implemented (W4-S10)**              | Phase 2                                  | 2026-09-20   |
+| Tier B (continuous XP + leveling gear)    | **Deferred** (needs README amendment) | Post-decision                            | 2026-09-20   |
 
 ---
 

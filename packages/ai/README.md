@@ -29,4 +29,4 @@ See `docs/ai-gateway.md`, `docs/fake-provider.md`, `docs/openai-provider.md`, `d
 
 ## Phase 2
 
-`DirectorAgent` (W4-S4) and `NPCReactionAgent` (W4-S5) call `AIGateway` only. `OpenAIProvider` (W4-S3) is optional — use `FakeProvider` in CI via `OPENAI_ENABLED=false`.
+`DirectorAgent` (W4-S4) and `NPCReactionAgent` (W4-S5) call `AIGateway` only — **Complete**. Suggestions are advisory on `/play` (no auto-apply). `OpenAIProvider` (W4-S3) is optional — use `FakeProvider` in CI via `OPENAI_ENABLED=false`. Seed plumbing and advisory difficulty (W4-S8–S10) are also Complete.

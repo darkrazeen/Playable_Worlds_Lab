@@ -2,11 +2,9 @@
 
 Brainstorm and specification docs for features **scheduled or planned** in the step tracker. When a feature is approved for implementation, ensure step rows exist in `Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv` and planning sections in `Playable_Worlds_Lab_v4_1_FULL_CURSOR.md` — see each doc's maintainer section.
 
-**Tracker status (2026-05-28):** W7-S7–S11 (content libraries), W8-S6–S12 (WorldBlueprint + quest generation) are in the CSV as `Not started` — implement only when each step is human-approved as `Next`.
+**Tracker status (2026-09-20):** Flagship **Stonepass Spire** track interleaved across Weeks 4–12. **Complete:** W4-S8–S10 (seed/difficulty), **W5-S1–S8** (instances + `ProgressionLedger`). **Next:** **W5-S9** (clamped `progressionChanges`). Remaining Spire / libraries / quest rows stay `Not started`. Phase 3 instance automated gate (W5-S7) is met; optional human sign-off via `phase3-acceptance.md`. **Product naming:** play **Stonepass Spire — Floor 1** at `/play`; "Stonepass Valley" is deprecated as a product name (see [Stonepass_Spire_Aincrad_Castle.md](./Stonepass_Spire_Aincrad_Castle.md#product-naming-human-approved-2026-05-29)). **UI gap:** cave→dragon works in core tests; not yet in `/play`.
 
-**Tracker status (2026-05-29):** the flagship **Stonepass Spire** track and the gameplay systems it needs were added to the CSV, interleaved across Weeks 4–12 (W4-S8–S10, W5-S8–S13, W7-S12–S13, W8-S13–S20, W9-S7–S9, W12-S8). The Phase 2 difficulty/seed rows (W4-S8–S10) are now **Complete**; the rest remain `Not started`. **Phase 3 core instance gate (W5-S7) is Complete** — pending human sign-off via `phase3-acceptance.md`. The next step is **W5-S9** (clamped `progressionChanges` on Consequence). **Product naming:** play **Stonepass Spire — Floor 1** at `/play`; "Stonepass Valley" is deprecated as a product name (see [Stonepass_Spire_Aincrad_Castle.md](./Stonepass_Spire_Aincrad_Castle.md#product-naming-human-approved-2026-05-29)).
-
-**"Earliest implementable" = the prerequisite step/gate that must be `Complete` before this feature can start.** It does not mean the feature is scheduled — proposed features still need human-approved tracker rows. Current build state (2026-05-29): **Phase 0–2 and W5-S1–S8 complete**; **W5-S9 is next** (human approval required). `/play` loads **Stonepass Spire — Floor 1**. Tracker has **122 rows** (includes Spire & gameplay systems scheduled 2026-05-29).
+**"Earliest implementable" = the prerequisite step/gate that must be `Complete` before this feature can start.** It does not mean the feature is scheduled — proposed features still need human-approved tracker rows. Current build state (2026-09-20): **Phase 0–2 and W5-S1–S8 complete**; **W5-S9 is next** (human approval required). `/play` loads **Stonepass Spire — Floor 1**. Tracker has **122 rows** (48 Complete / 1 Next / 73 Not started).
 
 ### Scheduled in step tracker (CSV rows added 2026-05-28)
 
@@ -17,17 +15,17 @@ Brainstorm and specification docs for features **scheduled or planned** in the s
 
 ### Scheduled: Stonepass Spire & gameplay systems (CSV rows added 2026-05-29)
 
-The flagship **Stonepass Spire** (Aincrad-style 100-floor castle) and the systems it depends on are now interleaved into the tracker as `Not started` rows. Full step cards: `Playable_Worlds_Lab_v4_1_FULL_CURSOR.md` §17 (_Spire & Gameplay Systems track_ in §13).
+The flagship **Stonepass Spire** (Aincrad-style 100-floor castle) and the systems it depends on are interleaved into the tracker. Full step cards: `Playable_Worlds_Lab_v4_1_FULL_CURSOR.md` §17 (_Spire & Gameplay Systems track_ in §13).
 
-| Document                                                                                               | Scheduled steps                                | Target phase    |
-| ------------------------------------------------------------------------------------------------------ | ---------------------------------------------- | --------------- |
-| [Stonepass_Spire_Aincrad_Castle.md](./Stonepass_Spire_Aincrad_Castle.md)                               | W5-S13, W8-S15, W8-S16, W8-S17, W9-S7          | Phase 3 / 5 / 6 |
-| [Combat_and_Encounter_Resolution.md](./Combat_and_Encounter_Resolution.md)                             | W5-S9, W5-S10, W5-S12, W8-S18, W8-S19 (Tier A) | Phase 3 / 5     |
-| [Player_Progression_and_Mastery.md](./Player_Progression_and_Mastery.md)                               | W5-S8, W5-S9, W9-S8                            | Phase 3 / 6     |
-| [Item_and_Gear_Template_Library.md](./Item_and_Gear_Template_Library.md)                               | W5-S11, W7-S12, W7-S13, W8-S18                 | Phase 3 / 5     |
-| [Procedural_Region_and_Biome_Composer.md](./Procedural_Region_and_Biome_Composer.md)                   | W8-S13, W8-S14, W8-S16                         | Phase 5         |
-| [Dynamic_Difficulty_Director.md](./Dynamic_Difficulty_Director.md)                                     | W4-S9, W4-S10, W8-S20                          | Phase 2 / 5     |
-| [Story_Seed_Determinism_and_Variation_Explorer.md](./Story_Seed_Determinism_and_Variation_Explorer.md) | W4-S8, W9-S9, W12-S8                           | Phase 2 / 6 / 9 |
+| Document                                                                                               | Scheduled steps                                | Tracker note (2026-09-20)                          |
+| ------------------------------------------------------------------------------------------------------ | ---------------------------------------------- | -------------------------------------------------- |
+| [Stonepass_Spire_Aincrad_Castle.md](./Stonepass_Spire_Aincrad_Castle.md)                               | W5-S13, W8-S15, W8-S16, W8-S17, W9-S7          | All `Not started`                                  |
+| [Combat_and_Encounter_Resolution.md](./Combat_and_Encounter_Resolution.md)                             | W5-S9, W5-S10, W5-S12, W8-S18, W8-S19 (Tier A) | **W5-S9 Next**; rest `Not started`                 |
+| [Player_Progression_and_Mastery.md](./Player_Progression_and_Mastery.md)                               | W5-S8, W5-S9, W9-S8                            | **W5-S8 Complete**; **W5-S9 Next**; W9-S8 pending  |
+| [Item_and_Gear_Template_Library.md](./Item_and_Gear_Template_Library.md)                               | W5-S11, W7-S12, W7-S13, W8-S18                 | All `Not started`                                  |
+| [Procedural_Region_and_Biome_Composer.md](./Procedural_Region_and_Biome_Composer.md)                   | W8-S13, W8-S14, W8-S16                         | All `Not started`                                  |
+| [Dynamic_Difficulty_Director.md](./Dynamic_Difficulty_Director.md)                                     | W4-S9, W4-S10, W8-S20                          | **W4-S9/S10 Complete**; W8-S20 `Not started`       |
+| [Story_Seed_Determinism_and_Variation_Explorer.md](./Story_Seed_Determinism_and_Variation_Explorer.md) | W4-S8, W9-S9, W12-S8                           | **W4-S8 Complete**; W9-S9 / W12-S8 `Not started`   |
 
 **Tier B (continuous XP / stateful leveling gear) is NOT scheduled** — it requires an explicit README "What This Project Is Not" boundary amendment.
 

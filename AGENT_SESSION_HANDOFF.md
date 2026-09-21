@@ -1,7 +1,7 @@
 # Playable Worlds Lab — Agent Session Handoff
 
-**Handoff date:** 2026-05-29  
-**Last reconciled:** 2026-05-29  
+**Handoff date:** 2026-09-20  
+**Last reconciled:** 2026-09-20  
 **Workspace:** `Playable_Worlds_Lab`  
 **Purpose:** Onboard a Cursor/agent on the current repo state, contract rules, Phase 0–2 complete, **Phase 3 W5-S1–S8 complete**, next step **W5-S9** — clamped `progressionChanges` on Consequence (requires human approval).
 
@@ -26,6 +26,7 @@
 | 4        | [README.md](./README.md) (secondary)                                                                                                                                                                                                                                   |
 | 5        | [Future_Features/](./Future_Features/README.md) — specs for scheduled `Not started` rows (W7-S7+ / W8-S6+ libraries & quest; **W4-S8–S10, W5-S8–S13, W7-S12–S13, W8-S13–S20, W9-S7–S9, W12-S8** Spire & gameplay systems). **Not current work** until a row is `Next`. |
 | —        | [docs/VISION_AND_MMO_DIRECTION.md](./docs/VISION_AND_MMO_DIRECTION.md) — strategic vision, MMO branches, gap analysis, question bank (planning only; does not override tracker) |
+| —        | [Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv](./Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv) — **status source of truth** (Complete / Next / Not started) |
 
 ---
 
@@ -36,7 +37,7 @@
 - **First proof content:** **Stonepass Spire — Floor 1** (ogre bridge → branches; Floors 2–3 carry landslide/cave/boss as systems land). Legacy file: `stonepass-valley.world.json`.
 - **Not day one:** 3D metaverse, full economy, multiplayer, public UGC marketplace.
 - **Long-term vision:** Rich Stonepass showcase (v2), AI Director variation, **player-themed worlds** (WorldBlueprint + content libraries — [Future_Features/Player_World_Generation_and_Content_Libraries.md](./Future_Features/Player_World_Generation_and_Content_Libraries.md)), **quest generation** ([Future_Features/Quest_Generation.md](./Future_Features/Quest_Generation.md), tracker W8-S9–S12), 2D/3D as output layers on same JSON.
-- **Flagship product direction (scheduled 2026-05-29):** **Stonepass Spire** — retune Stonepass into an Aincrad-style **100-floor castle** (single-player). Floor = `WorldDefinition`; castle = vertical `RegionMap` gated by `floor_N_cleared`; boss raids = multi-phase instances; **Tier A** RuneScape-inspired combat/skills (bounded, usage-advanced). **23 tracker rows** interleaved into Weeks 4–12 (see §3 _Spire & gameplay systems_). Specs: [Future_Features/](./Future_Features/README.md). **Phase 2 Director v1 complete (W4-S10).** Next approved step: **W5-S1** (Phase 3). Do not implement Spire rows until each reaches `Next` with human approval.
+- **Flagship product direction (scheduled 2026-05-29):** **Stonepass Spire** — retune Stonepass into an Aincrad-style **100-floor castle** (single-player). Floor = `WorldDefinition`; castle = vertical `RegionMap` gated by `floor_N_cleared`; boss raids = multi-phase instances; **Tier A** RuneScape-inspired combat/skills (bounded, usage-advanced). **23 tracker rows** interleaved into Weeks 4–12 (see §3 _Spire & gameplay systems_). Specs: [Future_Features/](./Future_Features/README.md). **Phase 2 Director v1 complete (W4-S10).** **Phase 3 through W5-S8 complete.** Next approved step: **W5-S9** (clamped `progressionChanges`). Do not implement Spire rows until each reaches `Next` with human approval.
 
 ```text
 WorldDefinition → StoryBeats → PlayerChoices → Consequences → WorldLedger
@@ -95,9 +96,9 @@ W1-S1 through W1-S16 — all **Complete**.
 
 **OpenAI toggle (local):** Keep `OPENAI_API_KEY` in gitignored `.env.local`; set `OPENAI_ENABLED=false` (off) or `true` (live). See `packages/ai/docs/ai-provider-toggle.md`.
 
-**Gap to close:** Human sign-off on Phase 3 gate (`phase3-acceptance.md`); beat progression on peaceful ogre branches (content/engine, not Phase 2 gate)
+**Gap to close:** Optional human sign-off on Phase 3 instance gate (`phase3-acceptance.md`); wire cave/instance UX into `/play`; beat progression on peaceful ogre branches; then **W5-S9** when approved.
 
-### Current snapshot (2026-05-29)
+### Current snapshot (2026-09-20)
 
 | Area                                            | Status                                                                                           |
 | ----------------------------------------------- | ------------------------------------------------------------------------------------------------ |
@@ -112,14 +113,14 @@ W1-S1 through W1-S16 — all **Complete**.
 | AI fallback debug integration                   | **Complete (W4-S6)** — `recordAiGatewayOutcome`, `generateStructuredWithDebug`                   |
 | OpenAI provider + env toggle (`OPENAI_ENABLED`) | **Complete (W4-S3)** — `openaiProvider.ts`, `createAIGatewayFromEnv()`                           |
 | Director reasoning UI                           | **Complete (W4-S7)** — `DirectorReasoningPanel` on `/play`                                       |
-| Temporary instance runtime                      | **W5-S1–S7 complete** — fight-path chain + Phase 3 acceptance tests                              |
+| Temporary instance runtime                      | **W5-S1–S7 complete** — fight-path chain + Phase 3 acceptance tests (engine; **not in `/play`**) |
 | ProgressionLedger schema                        | **W5-S8 complete** — optional `WorldSession.progression`; bounded tiers/unlocks/milestones        |
-| Spire & gameplay systems                        | **Scheduled** — tracker rows `Not started`; first Spire content step **W5-S13**                  |
+| Spire & gameplay systems                        | **W4-S8–S10 + W5-S8 Complete**; **W5-S9 Next**; W5-S10–S13+ still `Not started`                  |
 | Generation seed plumbing                        | **Complete (W4-S8)** — `WorldSession.generationSeed`, gateway `session` option                   |
 | Advisory difficulty heuristics                  | **Complete (W4-S9)** — `computeAdvisoryDifficultySignal` (ledger-only, no mutation)              |
 | Tests                                           | **410 passing** (74 files) — `npm run test:coverage` for report                                  |
 | CI                                              | typecheck, lint, **format:check**, test, **test:coverage**                                       |
-| Step tracker                                    | **122 rows** (99 original + 23 Spire/gameplay rows; duplicate W4-S5/S6 stubs removed 2026-05-29) |
+| Step tracker                                    | **122 rows** (48 Complete / 1 Next / 73 Not started)                                             |
 
 ### Phase 5 extension — scheduled, not current work
 
@@ -133,7 +134,7 @@ Chain: W7-S6 → W7-S7 … → W7-S11 → W8-S1 … → W8-S5 → W8-S6 … → 
 
 ### Spire & gameplay systems — scheduled, not current work
 
-Tracker rows added **2026-05-29** (all `Not started`; interleaved into existing weeks — **122 total tracker rows**). Full step cards: FULL*CURSOR §17; summary table: FULL_CURSOR §13 \_Spire & Gameplay Systems track*.
+Tracker rows added **2026-05-29** (interleaved into existing weeks — **122 total tracker rows**). **Status as of 2026-09-20:** W4-S8–S10 and W5-S8 **Complete**; W5-S9 **Next**; remaining Spire rows `Not started`. Full step cards: FULL_CURSOR §17; summary table: FULL_CURSOR §13 _Spire & Gameplay Systems track_.
 
 | Phase         | Steps          | What they add                                                                              |
 | ------------- | -------------- | ------------------------------------------------------------------------------------------ |
@@ -356,37 +357,38 @@ Full rules: FULL_CURSOR §17. Do not fill `Commit Hash` unless the human provide
 
 ```text
 playable-worlds-lab/
-  apps/web/                              # Next.js — home + /play (W2-S6, W3-S4–S6 panels)
+  apps/web/                              # Next.js — home + /play (ledger, debug, Director panels)
     app/play/
     features/world-play/                 # WorldPlayScreen, worldPlayRuntime
-    features/world-debug/                # WorldLedgerPanel, DebugTracePanel
+    features/world-debug/                # WorldLedgerPanel, DebugTracePanel, DirectorReasoningPanel
     tests/                               # web smoke + phase1 acceptance
   packages/
     core/
-      src/schemas/                       # All Zod contracts
+      src/schemas/                       # All Zod contracts + ProgressionLedger (W5-S8)
       src/world/                         # loadWorld (W2-S1) ✓
       src/session/                       # initializeWorldSession (W2-S2) ✓
       src/story/                         # selectStoryBeat, advanceSessionBeat
       src/consequence/                   # consequenceEngine (W3-S1)
-      src/ledger/                          # flagLifecycle (W3-S3)
+      src/instances/                     # temporary instances (W5-S1–S7) ✓
+      src/ledger/                        # flagLifecycle (W3-S3)
       src/runtime/                       # resolvePlayerChoice, applyPlayerChoice
       src/validators/
       src/debug/
-      docs/                              # flag-lifecycle, phase1-acceptance, beat-progression
+      docs/                              # phase1/phase3-acceptance, instances, beat-progression
       tests/unit/ + tests/integration/
     ai/
       src/config/                        # envFlags, resolveAIProvider (OPENAI_ENABLED toggle)
       src/contracts/
       src/providers/                     # FakeProvider, OpenAIProvider (W4-S2, W4-S3)
       src/gateway/                       # AIGateway (W4-S1) ✓
-      src/agents/                        # DirectorAgent stub (W4-S4+)
-      docs/                              # ai-gateway, fake-provider, openai-provider, ai-provider-toggle
-      tests/unit/config/ + gateway/ + providers/
+      src/agents/                        # DirectorAgent (W4-S4), NPCReactionAgent (W4-S5)
+      docs/                              # ai-gateway, fake-provider, openai-provider, agents
+      tests/unit/config/ + gateway/ + providers/ + agents/
     content/
-      examples/                          # JSON fixtures + invalid validator demo
-      worlds/stonepass/                  # stonepass-valley.world.json (canonical)
+      examples/                          # JSON fixtures + cave-active session
+      worlds/stonepass/                  # stonepass-valley.world.json (canonical Floor 1)
       src/paths.ts                       # contentRoot, Stonepass paths
-  docs/                                  # source-priority, content-safety, decision-log
+  docs/                                  # source-priority, content-safety, decision-log, VISION_AND_MMO_DIRECTION
   scripts/
     step-tracker-enrichment.json
     merge-step-tracker-columns.mjs
@@ -395,7 +397,7 @@ playable-worlds-lab/
   Playable_Worlds_Lab_v4_1_FULL_CURSOR.md
   Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv
   AGENT_SESSION_HANDOFF.md               # This file
-  Future_Features/                       # 22 brainstorm/spec docs (8 scheduled in tracker)
+  Future_Features/                       # 22 brainstorm/spec docs (Spire + libraries scheduled)
 ```
 
 ---
@@ -404,25 +406,16 @@ playable-worlds-lab/
 
 | Item                                                                                                     | Step                                                                                                |
 | -------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- |
-| Full Stonepass JSON at `packages/content/worlds/stonepass/`                                              | **Done (W1-S15)**                                                                                   |
-| `AIProvider` + `FakeProvider`                                                                            | **Done (W1-S16)**                                                                                   |
-| World loader                                                                                             | **Done (W2-S1)**                                                                                    |
-| Session init at runtime                                                                                  | **Done (W2-S2)**                                                                                    |
-| Beat selector, choice resolver, first consequence apply                                                  | **Done (W2-S3–S5)**                                                                                 |
-| Browser text play UI                                                                                     | **Done (W2-S6)** — `/play`                                                                          |
-| Consequence precondition validation                                                                      | **Done (W3-S2)**                                                                                    |
-| Flag lifecycle rules                                                                                     | **Done (W3-S3)** — `packages/core/src/ledger/`, `docs/flag-lifecycle.md`                            |
-| World Ledger UI panel                                                                                    | **Done (W3-S4)** — `/play` sidebar `WorldLedgerPanel`                                               |
-| Debug log model usage                                                                                    | **Done (W3-S5)** — typed builders + validation_failed on failures                                   |
-| Debug log UI panel                                                                                       | **Done (W3-S6)** — `/play` sidebar `DebugTracePanel`                                                |
-| Phase 1 acceptance hardening                                                                             | **Done (W3-S7)**                                                                                    |
-| AI Gateway                                                                                               | **Done (W4-S1)** — `AIGateway`; see `packages/ai/docs/ai-gateway.md`                                |
-| FakeProvider scenarios (seed catalog)                                                                    | **Done (W4-S2)** — see `packages/ai/docs/fake-provider.md`                                          |
-| OpenAI provider + `OPENAI_ENABLED` toggle                                                                | **Done (W4-S3)** — see `packages/ai/docs/openai-provider.md`, `ai-provider-toggle.md`               |
-| DirectorAgent                                                                                            | W4-S4+                                                                                              |
-| Temporary instance runtime                                                                               | Phase 3 (W5-\*)                                                                                     |
+| Consequence `progressionChanges` (clamped)                                                               | **W5-S9 (Next)**                                                                                    |
+| Tier A skills, gear gating, Level 0 encounters, Floor 1 reframe                                          | W5-S10–S13 (`Not started`)                                                                          |
+| `/play` cave / temporary-instance UI                                                                     | Deferred from Phase 3 gate (engine done W5-S1–S7)                                                   |
+| Director auto-apply of suggestions                                                                       | Explicitly deferred (advisory only today)                                                           |
 | Content libraries, WorldBlueprint, quest generation                                                      | Phase 5 extension (W7-S7+, W8-S6+) — scheduled only                                                 |
-| Spire & gameplay systems (combat Tier A, progression, gear, RegionMap, SpireManifest, climb persistence) | W4-S8–S10, W5-S8–S13, W7-S12–S13, W8-S13–S20, W9-S7–S9, W12-S8 — scheduled only until row is `Next` |
+| Spire Floor 2+, RegionMap, SpireManifest, EncounterResolver, climb persistence, Variation Explorer       | W5-S13+, W7-S12+, W8-S13–S20, W9-S7–S9, W12-S8 — scheduled until row is `Next`                      |
+| Persistence / share / Supabase                                                                           | Phase 6                                                                                             |
+| 2D / 3D / multiplayer / UGC marketplace                                                                  | Later phases                                                                                        |
+
+**Already complete (do not re-implement):** Phase 0–2; temporary instance runtime (W5-S1–S7); `ProgressionLedger` schema (W5-S8); DirectorAgent / NPCReactionAgent (advisory); seed + difficulty (W4-S8–S10).
 
 **Validation layers today:**
 
@@ -437,17 +430,19 @@ playable-worlds-lab/
 
 **Checklist:** [packages/core/docs/phase1-acceptance.md](./packages/core/docs/phase1-acceptance.md)
 
-**Automated proof:** `phase1Acceptance.test.ts`, ogre-path tests, web smoke tests — **295 tests** green (includes Phase 2 AI tests).
+**Automated proof:** `phase1Acceptance.test.ts`, ogre-path tests, web smoke tests — included in the full suite (**410 tests** green as of 2026-09-20).
 
 ### Phase 2 — complete (W4-S10)
 
 **Done:** W4-S1–S10 — AI Gateway, agents, fallback, reasoning UI, seed plumbing, advisory difficulty, bounded `adjust_difficulty`.
 
-### Phase 3 — gate ready for human sign-off (W5-S7)
+### Phase 3 — instance gate automated (W5-S7); progression through W5-S8; next W5-S9
 
-**Checklist:** [packages/core/docs/phase3-acceptance.md](./packages/core/docs/phase3-acceptance.md)
+**Checklist:** [packages/core/docs/phase3-acceptance.md](./packages/core/docs/phase3-acceptance.md) — automated criteria met; optional human sign-off still useful. **UI for cave play deferred.**
 
-**Automated proof:** `phase3TemporaryInstanceAcceptance.test.ts` (9 tests) + related cave integration tests — **400 tests** green.
+**Done through W5-S8:** temporary instances + `ProgressionLedger` schema.
+
+**Automated proof:** `phase3TemporaryInstanceAcceptance.test.ts` + related cave integration tests — **410 tests** green.
 
 ## 9. Next step: W5-S9 — Extend Consequence with clamped progressionChanges
 
@@ -466,7 +461,8 @@ playable-worlds-lab/
 | Decision                         | Detail                                                                                                                                                          |
 | -------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **Step tracker**                 | [Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv](./Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv) is the only source of step status                        |
-| **Phase 1 hygiene (2026-05-29)** | Review fixes: web lint scope, CI format/coverage, unique world-event IDs, beat progression — see [PROJECT_REVIEW_2026-05-29.md](./PROJECT_REVIEW_2026-05-29.md) |
+| **Phase 1 hygiene (2026-05-29)** | Review fixes: web lint scope, CI format/coverage, unique world-event IDs, beat progression (historical; review note file not retained) |
+| **Doc reconciliation (2026-09-20)** | README, handoff, FULL_CURSOR status pointers, Future_Features, phase3-acceptance aligned to CSV (W5-S8 Complete / W5-S9 Next) |
 
 ---
 

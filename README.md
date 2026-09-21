@@ -59,13 +59,13 @@ The first proof content is **Stonepass Spire — Floor 1** (legacy file `stonepa
 
 ## Project Status
 
-**Last reconciled:** 2026-05-29
+**Last reconciled:** 2026-09-20
 
 [![CI](https://github.com/darkrazeen/Playable_Worlds_Lab/actions/workflows/ci.yml/badge.svg)](https://github.com/darkrazeen/Playable_Worlds_Lab/actions/workflows/ci.yml)
 
 **Status:** **Phase 0–2 complete. Phase 3 in progress:** **W5-S1–S8 complete.** **Next (needs approval):** **W5-S9** — clamped `progressionChanges` on Consequence.
 
-**Verification (2026-05-29):** **410 tests** passing (74 files). Progression: `ProgressionLedger` schema on optional `WorldSession.progression`.
+**Verification (2026-09-20):** **410 tests** passing (74 files). Engine: temporary instances (cave → puzzle → dragon) + `ProgressionLedger` on optional `WorldSession.progression`. **UI gap:** `/play` still shows main-world beats; cave/instance play is proven in core tests only.
 
 The first milestone is not “build the full game.”
 
@@ -129,9 +129,9 @@ Progress is tracked in `Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv`. Updat
 | W5-S7                | Phase 3                | Temporary instance acceptance tests                                                        | **Complete**              |
 | W5-S8                | Phase 3                | ProgressionLedger schema                                                                   | **Complete**              |
 | W5-S9                | Phase 3                | Extend Consequence with clamped progressionChanges                                         | **Next**                  |
+| W5-S10–S13           | Phase 3 ext (Spire)    | Tier A skills, gear gating, Level 0 combat, **Floor 1** reframe                            | Scheduled (`Not started`) |
 | W7-S7–S11, W8-S6–S12 | Phase 5 extension      | Content libraries, WorldBlueprint, quest generation                                        | Scheduled (`Not started`) |
 | W4-S8–S10            | Phase 2 ext (Spire)    | Seed plumbing, ledger difficulty signal, Director `adjust_difficulty`                      | **Complete**              |
-| W5-S8–S13            | Phase 3 ext (Spire)    | ProgressionLedger, Tier A skills, gear gating, Level 0 combat, **Floor 1**                 | Scheduled (`Not started`) |
 | W7-S12–S13           | Phase 5 ext (Spire)    | Gear/Item template library + seed                                                          | Scheduled (`Not started`) |
 | W8-S13–S20           | Phase 5 ext (Spire)    | RegionMap, **SpireManifest**, ascension, **Floor 2**, EncounterResolver, DifficultyProfile | Scheduled (`Not started`) |
 | W9-S7–S9             | Phase 6 ext (Spire)    | Climb persistence, persistent progression, seeded replay                                   | Scheduled (`Not started`) |
@@ -160,7 +160,9 @@ Progress is tracked in `Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv`. Updat
 
 **W1-S11–S16 done when (met):** WorldSession, DebugEvent, AIResult schemas; `validateWorldDefinition` + Stonepass canonical JSON at `packages/content/worlds/stonepass/`; `FakeProvider` in `packages/ai`.
 
-**W2-S1–S6 done when (met):** `loadWorld` / `loadWorldFromFile`; `initializeWorldSession`; `selectStoryBeat`; `resolvePlayerChoice` / `listAvailableChoices`; `applyConsequence` / `applyPlayerChoice`; browser text play at `/play` wired through `@playable-worlds/core` runtime (no direct ledger mutation in UI); Stonepass integration + web smoke tests; **203 tests** green (2026-05-29).
+**W2-S1–S6 done when (met):** `loadWorld` / `loadWorldFromFile`; `initializeWorldSession`; `selectStoryBeat`; `resolvePlayerChoice` / `listAvailableChoices`; `applyConsequence` / `applyPlayerChoice`; browser text play at `/play` wired through `@playable-worlds/core` runtime (no direct ledger mutation in UI); Stonepass integration + web smoke tests.
+
+**W5-S1–S8 done when (met):** temporary instance load/rooms/encounters/puzzles/completion/dragon path (engine + Phase 3 acceptance tests); `ProgressionLedger` on `WorldSession.progression`. **Cave UI in `/play` deferred** (not a Phase 3 gate blocker).
 
 **Next step:** **W5-S9** — Extend Consequence with clamped `progressionChanges` (human approval required).
 
@@ -216,13 +218,15 @@ Do not commit `.env` or `.env.local`. Toggle guide: [packages/ai/docs/ai-provide
 | **http://localhost:3000**      | Home page with link to play                                                                             |
 | **http://localhost:3000/play** | **Stonepass Spire — Floor 1** text play — ogre bridge beat, five choices, consequences via core runtime |
 
+Cave → puzzle → dragon works in **core integration tests**; instance navigation UI is not wired into `/play` yet.
+
 Game logic lives in **`@playable-worlds/core`**; the web app is a thin presentation layer. No API keys required for local play.
 
 ---
 
 ## Current Repository Layout
 
-What exists after Phase 1 + W4-S1–S7 (Director reasoning panel on `/play`; suggestions not auto-applied):
+What exists through **Phase 3 W5-S8** (Director advisory on `/play`; temporary instances in core; progression schema only — no `progressionChanges` yet):
 
 ```text
 playable-worlds-lab/
@@ -230,14 +234,15 @@ playable-worlds-lab/
     web/                         # @playable-worlds/web — Next.js 15, React, Tailwind
       app/
         page.tsx                 # Home — link to /play
-        play/page.tsx            # Stonepass text play (W2-S6)
+        play/page.tsx            # Stonepass Spire Floor 1 text play (W2-S6)
       features/world-play/       # WorldPlayScreen, worldPlayRuntime
-      features/world-debug/      # WorldLedgerPanel, DebugTracePanel (W3-S4–S6)
+      features/world-debug/      # WorldLedgerPanel, DebugTracePanel, DirectorReasoningPanel
       tests/                     # play smoke, phase1 acceptance, debug panels
   packages/
-    core/                        # @playable-worlds/core — schemas, validators, runtime (Phase 0–1)
-      src/schemas/               # All Zod contracts (schemaVersion 0.2.0)
+    core/                        # @playable-worlds/core — schemas, validators, runtime, instances
+      src/schemas/               # All Zod contracts (schemaVersion 0.2.0) + ProgressionLedger
       src/consequence/           # consequenceEngine (W3-S1)
+      src/instances/             # temporary instance load/rooms/encounters/puzzles/completion (W5)
       src/ledger/                # flagLifecycle (W3-S3)
       src/validators/
       src/world/                 # loadWorld (W2-S1)
@@ -245,31 +250,31 @@ playable-worlds-lab/
       src/story/                 # selectStoryBeat, advanceSessionBeat
       src/runtime/               # resolvePlayerChoice, applyPlayerChoice
       src/debug/
-      docs/                      # phase1-acceptance, beat-progression, flag-lifecycle
+      docs/                      # phase1/phase3-acceptance, beat-progression, flag-lifecycle, instances
       tests/unit/ + tests/integration/
-    ai/                          # @playable-worlds/ai — gateway, providers, env toggle (W4-S1–S3)
+    ai/                          # @playable-worlds/ai — gateway, providers, agents (Phase 2)
       src/config/                # OPENAI_ENABLED, createAIGatewayFromEnv
       src/contracts/
       src/providers/             # FakeProvider, OpenAIProvider
       src/gateway/               # AIGateway (W4-S1)
-      src/agents/                # DirectorAgent stub (W4-S4+)
-      docs/                      # ai-gateway, fake-provider, openai-provider, ai-provider-toggle
-      tests/unit/config/ + gateway/ + providers/
+      src/agents/                # DirectorAgent (W4-S4), NPCReactionAgent (W4-S5)
+      docs/                      # ai-gateway, agents, providers, fallback, toggles
+      tests/unit/config/ + gateway/ + providers/ + agents/
     content/                     # @playable-worlds/content — examples + canonical Stonepass
-      examples/                  # JSON fixtures
-      worlds/stonepass/          # stonepass-valley.world.json (canonical)
+      examples/                  # JSON fixtures (incl. cave-active session)
+      worlds/stonepass/          # stonepass-valley.world.json (canonical Floor 1; rename at W5-S13)
       src/paths.ts               # contentRoot, Stonepass paths
-  docs/                          # source-priority, content-safety, decision-log
+  docs/                          # source-priority, content-safety, decision-log, VISION_AND_MMO_DIRECTION
   scripts/                       # step-tracker helpers
   tests/smoke.test.ts
   .github/workflows/ci.yml
   AGENT_SESSION_HANDOFF.md
-  Future_Features/               # 22 brainstorm/spec docs (Spire track scheduled in tracker)
+  Future_Features/               # 22 brainstorm/spec docs (Spire + libraries scheduled in tracker)
   Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv
   Playable_Worlds_Lab_v4_1_FULL_CURSOR.md
 ```
 
-**Not created yet:** DirectorAgent (W4-S4 next), temporary instance runtime (Phase 3), Supabase persistence. **Done:** AI Gateway (W4-S1), FakeProvider seed catalog (W4-S2), OpenAI provider + `OPENAI_ENABLED` toggle (W4-S3), `scripts/validate-content.ts` CLI. **Done in Phase 1:** ogre-path tests (W2-S7), consequence engine (W3-S1), ledger + debug panels on `/play` (W3-S4–S7), beat progression on ogre bridge.
+**Not created yet:** `/play` cave/instance UI; Consequence `progressionChanges` (**W5-S9**); Tier A skills/gear/Floor 1 reframe (**W5-S10–S13**); content libraries / WorldBlueprint / quest gen; Floor 2+ / RegionMap / SpireManifest; persistence/share (Supabase); Director auto-apply. **Done through W5-S8:** Phase 0–2, temporary instance engine + Phase 3 acceptance tests, `ProgressionLedger` schema, AI Gateway + Director/NPC agents (advisory), seed + difficulty heuristics, ledger/debug/Director panels on `/play`.
 
 ---
 
@@ -327,7 +332,7 @@ npm run build -w @playable-worlds/web
 ### Verify the project
 
 ```bash
-npm test              # Vitest — 340 tests (core, ai, web)
+npm test              # Vitest — 410 tests (core, ai, content, web)
 npm run test:coverage # coverage report (CI runs this)
 npm run typecheck     # TypeScript — web + all workspace packages
 npm run lint          # ESLint — all workspaces
@@ -358,7 +363,7 @@ npm run format
 | `npm run dev`           | Next.js dev server (`@playable-worlds/web`) on port 3000 |
 | `npm run build`         | Next.js production build                                 |
 | `npm run start`         | Next.js production server (after build)                  |
-| `npm test`              | Vitest — 340 tests across core, ai, content, web         |
+| `npm test`              | Vitest — 410 tests across core, ai, content, web         |
 | `npm run test:coverage` | Coverage report (runs in CI)                             |
 | `npm run typecheck`     | `tsc --noEmit` in all workspaces that define it          |
 | `npm run lint`          | ESLint in all workspaces (core, ai, content, web)        |
@@ -703,7 +708,7 @@ Use this table when deciding whether to implement part of the reference scenario
 | Save / share / fork                             | Share mini-adventure with others | Phase 6                  |
 | 2D map / enter region visually                  | Same triggers, visual layer      | Phase 8                  |
 
-**Current build status (2026-05-29):** Phase 0–2 complete. **W5-S1–S8 complete** — `ProgressionLedger` schema on session-local progression. **Next:** W5-S9 progressionChanges (human approval).
+**Current build status (2026-09-20):** Phase 0–2 complete. **W5-S1–S8 complete** — temporary instance engine + `ProgressionLedger` schema. **Next:** W5-S9 `progressionChanges` (human approval). **UI gap:** cave/instance play not yet in `/play`.
 
 ---
 
@@ -1573,13 +1578,13 @@ Rules:
 
 Run from the **repository root** (npm workspaces).
 
-**Available now (Phase 0–1 through W2-S6):**
+**Available now (through Phase 3 W5-S8):**
 
 ```bash
 npm run dev          # http://localhost:3000 — home; /play for Stonepass Spire Floor 1
 npm run build
 npm run start
-npm test             # 203 tests
+npm test             # 410 tests
 npm run typecheck
 npm run lint
 npm run format
@@ -2173,7 +2178,7 @@ The flagship direction is **[Stonepass Spire](./Future_Features/Stonepass_Spire_
 - **Phase 6 (W9-S7–S9):** `WorldSession.currentFloor` + persistent climb ledger; persistent progression; seeded replay + variation attribution.
 - **Phase 9 (W12-S8):** Variation Explorer UI.
 
-All of it obeys **AI proposes → validators check → engine executes**, stays **text-first** (no 2D until floors are fun as text), and stays inside the MVP boundary (**Tier A only**). Full step cards live in `Playable_Worlds_Lab_v4_1_FULL_CURSOR.md` §17; tracker rows are in the CSV. **Current approved step:** **W4-S4** (DirectorAgent). Spire rows stay `Not started` until each is `Next`.
+All of it obeys **AI proposes → validators check → engine executes**, stays **text-first** (no 2D until floors are fun as text), and stays inside the MVP boundary (**Tier A only**). Full step cards live in `Playable_Worlds_Lab_v4_1_FULL_CURSOR.md` §17; tracker rows are in the CSV. **Current next step:** **W5-S9** (clamped `progressionChanges`). **Complete on Spire track so far:** W4-S8–S10, W5-S8. Remaining Spire rows stay `Not started` until each is `Next`.
 
 ---
 
