@@ -17,11 +17,11 @@
 
 ## Feature index entry
 
-| Feature                                 | Status                | Target phase (approx.)                 | Last updated |
-| --------------------------------------- | --------------------- | -------------------------------------- | ------------ |
-| DifficultyProfile in WorldBlueprint     | Scheduled (`Not started`) | Phase 5 (W8-S20)                   | 2026-09-20   |
-| Director difficulty decisions (bounded) | **Implemented (W4-S10)** | Phase 2                             | 2026-09-20   |
-| Ledger-signal difficulty heuristics     | **Implemented (W4-S9)**  | Phase 2                             | 2026-09-20   |
+| Feature                                 | Status                    | Target phase (approx.) | Last updated |
+| --------------------------------------- | ------------------------- | ---------------------- | ------------ |
+| DifficultyProfile in WorldBlueprint     | Scheduled (`Not started`) | Phase 5 (W8-S20)       | 2026-09-20   |
+| Director difficulty decisions (bounded) | **Implemented (W4-S10)**  | Phase 2                | 2026-09-20   |
+| Ledger-signal difficulty heuristics     | **Implemented (W4-S9)**   | Phase 2                | 2026-09-20   |
 
 ---
 

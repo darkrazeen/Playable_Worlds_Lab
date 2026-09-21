@@ -30,15 +30,15 @@ Playable Worlds Lab is a **text-first, schema-first game engine** where:
 
 ### Build status
 
-| Area | Status |
-|------|--------|
-| Phase 0 — Schemas & foundation | **Complete** (16/16) |
-| Phase 1 — Text game runtime | **Complete** |
-| Phase 2 — AI Director v1 | **Complete** |
-| Phase 3 — Cave instances & progression | **In progress** (W5-S1–S8 done) |
-| Tests | **410 passing** (74 files) |
-| Browser play (`/play`) | Ogre bridge, ledger, debug, Director reasoning panel |
-| **Next approved step** | **W5-S9** — clamped `progressionChanges` on Consequence |
+| Area                                   | Status                                                  |
+| -------------------------------------- | ------------------------------------------------------- |
+| Phase 0 — Schemas & foundation         | **Complete** (16/16)                                    |
+| Phase 1 — Text game runtime            | **Complete**                                            |
+| Phase 2 — AI Director v1               | **Complete**                                            |
+| Phase 3 — Cave instances & progression | **In progress** (W5-S1–S8 done)                         |
+| Tests                                  | **410 passing** (74 files)                              |
+| Browser play (`/play`)                 | Ogre bridge, ledger, debug, Director reasoning panel    |
+| **Next approved step**                 | **W5-S9** — clamped `progressionChanges` on Consequence |
 
 ### Architecture (mental model)
 
@@ -77,13 +77,13 @@ From product direction discussions (2026-05-30):
 
 ## 3. Central tension to resolve
 
-| What you want | What docs say today |
-|---------------|---------------------|
-| MMO-like games | No real-time multiplayer until single-player proof |
-| Standard MMO libraries | Planned Phase 5+ (W7-S7–S11), not built yet |
-| Multiple world creation | WorldBlueprint + Architect planned, not built yet |
-| AI Director | Built (advisory); auto-apply policy not decided |
-| Full RPG feel | Tier A only (bounded tiers); Tier B (XP/stats) deferred |
+| What you want           | What docs say today                                     |
+| ----------------------- | ------------------------------------------------------- |
+| MMO-like games          | No real-time multiplayer until single-player proof      |
+| Standard MMO libraries  | Planned Phase 5+ (W7-S7–S11), not built yet             |
+| Multiple world creation | WorldBlueprint + Architect planned, not built yet       |
+| AI Director             | Built (advisory); auto-apply policy not decided         |
+| Full RPG feel           | Tier A only (bounded tiers); Tier B (XP/stats) deferred |
 
 **This is not a dead end.** The engine is built for **MMO foundations** (libraries, persistence, shared worlds, Director). It **defers MMO live complexity** until single-player proof is solid.
 
@@ -211,20 +211,20 @@ flowchart TB
 
 ## 5. Gaps and inconsistencies in current docs
 
-| Gap | Docs say | User direction | Needs resolution |
-|-----|----------|----------------|------------------|
-| **"MMO" definition** | Async co-op maybe; no real-time | MMO-like | Pick: async persistent, hub multiverse, or real-time (major pivot) |
-| **Multiplayer** | Blocked until SP works | Multi-world + social | Async first vs real-time later |
-| **Economy** | No full economy | MMO features | Tier A flags/tiers only, or amend for currency/trading |
-| **Combat/progression** | Tier A bounded; Tier B deferred | RS-style train-by-doing | Is Tier A enough for v1? When to promote Tier B? |
-| **Spire vs multiverse** | Spire = single-player flagship | Multiple worlds | Is Spire one world in the hub, or the whole product? |
-| **Director power** | Suggest only | AI-driven MMO | Which actions auto-apply vs stay advisory? |
-| **UGC safety** | Curated, no marketplace chaos | Player world creation | Open vs invite-only vs staff-curated |
-| **Visual timing** | After text proof | MMO feel needs visuals | When is 2D/3D mandatory for target audience? |
-| **Platform** | Next.js web | MMO scale | Web-only vs desktop/native client |
-| **Server architecture** | Supabase mentioned | Persistence + MP | No authoritative game server design yet |
-| **Spire doc vs Phase 2** | Spire: no AI NPC dialogue | NPCReactionAgent exists | Policy for generated worlds vs Spire flagship |
-| **README drift** | Slightly stale in places | — | Sync with handoff after milestones |
+| Gap                      | Docs say                        | User direction          | Needs resolution                                                   |
+| ------------------------ | ------------------------------- | ----------------------- | ------------------------------------------------------------------ |
+| **"MMO" definition**     | Async co-op maybe; no real-time | MMO-like                | Pick: async persistent, hub multiverse, or real-time (major pivot) |
+| **Multiplayer**          | Blocked until SP works          | Multi-world + social    | Async first vs real-time later                                     |
+| **Economy**              | No full economy                 | MMO features            | Tier A flags/tiers only, or amend for currency/trading             |
+| **Combat/progression**   | Tier A bounded; Tier B deferred | RS-style train-by-doing | Is Tier A enough for v1? When to promote Tier B?                   |
+| **Spire vs multiverse**  | Spire = single-player flagship  | Multiple worlds         | Is Spire one world in the hub, or the whole product?               |
+| **Director power**       | Suggest only                    | AI-driven MMO           | Which actions auto-apply vs stay advisory?                         |
+| **UGC safety**           | Curated, no marketplace chaos   | Player world creation   | Open vs invite-only vs staff-curated                               |
+| **Visual timing**        | After text proof                | MMO feel needs visuals  | When is 2D/3D mandatory for target audience?                       |
+| **Platform**             | Next.js web                     | MMO scale               | Web-only vs desktop/native client                                  |
+| **Server architecture**  | Supabase mentioned              | Persistence + MP        | No authoritative game server design yet                            |
+| **Spire doc vs Phase 2** | Spire: no AI NPC dialogue       | NPCReactionAgent exists | Policy for generated worlds vs Spire flagship                      |
+| **README drift**         | Slightly stale in places        | —                       | Sync with handoff after milestones                                 |
 
 ---
 
@@ -232,16 +232,16 @@ flowchart TB
 
 Based on stated user goals + recommended path. **Edit this section when you decide.**
 
-| # | Question | Proposed answer | Confirmed? |
-|---|----------|-----------------|------------|
-| 1 | What kind of MMO? | **Hub multiverse + async shared worlds first** — not real-time action MMO on day one | ☐ |
-| 2 | Platform or one game? | **Both:** engine/platform long-term; **Stonepass Spire** as first flagship game inside the hub | ☐ |
-| 8 | Real-time multiplayer? | **Later phase** — async co-op is first multiplayer milestone | ☐ |
-| 17 | Currency needed? | **Not v1** — tier/flag-based rewards (Tier A); revisit when hub economy is spec'd | ☐ |
-| 27 | Who builds first library content? | **You manually** for Stonepass theme pack, then AI-assisted batch within validation bounds | ☐ |
-| 37 | Director auto-apply? | **Phased:** stay advisory through Phase 3; auto-apply `select_next_beat` only after playtest gate passes | ☐ |
-| 46 | One character across worlds? | **Yes (World Passport)** — long-term; session-local only until Phase 6 persistence | ☐ |
-| 71 | Spire no-multiplayer rule | **Applies to Spire flagship only** — whole product can add async MP via Branch C | ☐ |
+| #   | Question                          | Proposed answer                                                                                          | Confirmed? |
+| --- | --------------------------------- | -------------------------------------------------------------------------------------------------------- | ---------- |
+| 1   | What kind of MMO?                 | **Hub multiverse + async shared worlds first** — not real-time action MMO on day one                     | ☐          |
+| 2   | Platform or one game?             | **Both:** engine/platform long-term; **Stonepass Spire** as first flagship game inside the hub           | ☐          |
+| 8   | Real-time multiplayer?            | **Later phase** — async co-op is first multiplayer milestone                                             | ☐          |
+| 17  | Currency needed?                  | **Not v1** — tier/flag-based rewards (Tier A); revisit when hub economy is spec'd                        | ☐          |
+| 27  | Who builds first library content? | **You manually** for Stonepass theme pack, then AI-assisted batch within validation bounds               | ☐          |
+| 37  | Director auto-apply?              | **Phased:** stay advisory through Phase 3; auto-apply `select_next_beat` only after playtest gate passes | ☐          |
+| 46  | One character across worlds?      | **Yes (World Passport)** — long-term; session-local only until Phase 6 persistence                       | ☐          |
+| 71  | Spire no-multiplayer rule         | **Applies to Spire flagship only** — whole product can add async MP via Branch C                         | ☐          |
 
 ---
 
@@ -362,16 +362,16 @@ Skip what does not apply. **Start with questions 1, 2, 8, 17, 27, 37, 46, 71** �
 
 ### Already built (strong foundation)
 
-| Capability | Status | MMO relevance |
-|------------|--------|---------------|
-| Schema-first world model | Built | Every zone/quest/instance = JSON |
-| Validated consequences + ledger | Built | Persistent state, audit trail, merge-friendly |
-| Text runtime + debug trace | Built | Prove logic before graphics |
-| Temporary instances | Core done, UI lagging | Dungeons, raids, boss phases |
-| AI Gateway + Director + NPC agents | Built (advisory) | Live ops, flavor, pacing |
-| FakeProvider + OpenAI toggle | Built | Dev/test without API costs |
-| Step-by-step governance | Built | Scale without AI coding chaos |
-| Future specs (libraries, quests, regions, async) | Written | Blueprint exists; not coded |
+| Capability                                       | Status                | MMO relevance                                 |
+| ------------------------------------------------ | --------------------- | --------------------------------------------- |
+| Schema-first world model                         | Built                 | Every zone/quest/instance = JSON              |
+| Validated consequences + ledger                  | Built                 | Persistent state, audit trail, merge-friendly |
+| Text runtime + debug trace                       | Built                 | Prove logic before graphics                   |
+| Temporary instances                              | Core done, UI lagging | Dungeons, raids, boss phases                  |
+| AI Gateway + Director + NPC agents               | Built (advisory)      | Live ops, flavor, pacing                      |
+| FakeProvider + OpenAI toggle                     | Built                 | Dev/test without API costs                    |
+| Step-by-step governance                          | Built                 | Scale without AI coding chaos                 |
+| Future specs (libraries, quests, regions, async) | Written               | Blueprint exists; not coded                   |
 
 **Differentiator:** Most "AI MMO" pitches are prompt → chaos. This stack is **AI proposes within bounds → validators → deterministic engine**.
 
@@ -408,24 +408,24 @@ Skip what does not apply. **Start with questions 1, 2, 8, 17, 27, 37, 46, 71** �
 
 Build these instead of cloning WoW netcode first:
 
-| System | Why it matters |
-|--------|----------------|
-| WorldArchitect + library query | Procedural MMO content that stays validated |
-| AI Playtester + health score gate | Safe UGC at scale |
-| Director auto-apply policy | AI drives live world without breaking truth |
-| Variation Explorer | Explainable replays |
-| World Passport + cross-world progression rules | Meta-MMO identity |
-| Emergent quest weaving | Director fills gaps from validated quest pool |
-| Async ledger merge | Multiplayer without real-time |
-| Season / event blueprint schema | Live ops as data |
-| Simulated population layer | MMO feel before full multiplayer |
-| Creator studio UI | Non-dev world building |
+| System                                         | Why it matters                                |
+| ---------------------------------------------- | --------------------------------------------- |
+| WorldArchitect + library query                 | Procedural MMO content that stays validated   |
+| AI Playtester + health score gate              | Safe UGC at scale                             |
+| Director auto-apply policy                     | AI drives live world without breaking truth   |
+| Variation Explorer                             | Explainable replays                           |
+| World Passport + cross-world progression rules | Meta-MMO identity                             |
+| Emergent quest weaving                         | Director fills gaps from validated quest pool |
+| Async ledger merge                             | Multiplayer without real-time                 |
+| Season / event blueprint schema                | Live ops as data                              |
+| Simulated population layer                     | MMO feel before full multiplayer              |
+| Creator studio UI                              | Non-dev world building                        |
 
 ---
 
 ### Bottom line
 
-**Possible in this repo:** A next-gen **AI-directed world engine** powering MMO-*like* experiences — especially async persistent worlds, library-driven multiverse, and Director-run live content — without being a traditional real-time MMO on day one.
+**Possible in this repo:** A next-gen **AI-directed world engine** powering MMO-_like_ experiences — especially async persistent worlds, library-driven multiverse, and Director-run live content — without being a traditional real-time MMO on day one.
 
 **Still missing for "amazing MMO":**
 
@@ -466,14 +466,14 @@ Use as a planning baseline until human-approved. Adjust after theme pack decisio
 
 ### Minimum viable library (Floor 1 + one generated theme)
 
-| Library type | Floor 1 / Stonepass pack | Per extra theme pack (e.g. lava) | Notes |
-|--------------|--------------------------|----------------------------------|-------|
-| Creature templates | 8–12 | +10–15 | Ogre, bats, dragon, valley fauna |
-| NPC archetypes | 6–10 | +6–8 | Elder, merchant, guard, boss voice |
-| Encounter templates | 6–8 | +8–10 | Bridge, cave bats, boss phases |
-| Puzzle templates | 2–4 | +3–5 | Rune puzzle, gate locks |
-| Item/gear templates | 10–15 | +10–15 | Tier A flags/tiers only |
-| Quest blueprints | 3–5 | +5–8 | Regional + floor gate quests |
+| Library type        | Floor 1 / Stonepass pack | Per extra theme pack (e.g. lava) | Notes                              |
+| ------------------- | ------------------------ | -------------------------------- | ---------------------------------- |
+| Creature templates  | 8–12                     | +10–15                           | Ogre, bats, dragon, valley fauna   |
+| NPC archetypes      | 6–10                     | +6–8                             | Elder, merchant, guard, boss voice |
+| Encounter templates | 6–8                      | +8–10                            | Bridge, cave bats, boss phases     |
+| Puzzle templates    | 2–4                      | +3–5                             | Rune puzzle, gate locks            |
+| Item/gear templates | 10–15                    | +10–15                           | Tier A flags/tiers only            |
+| Quest blueprints    | 3–5                      | +5–8                             | Regional + floor gate quests       |
 
 **Total for "one theme + Stonepass":** ~35–50 validated library entries before WorldArchitect can assemble a credible non-Stonepass world.
 
@@ -490,11 +490,11 @@ Use as a planning baseline until human-approved. Adjust after theme pack decisio
 
 Parallel to the full 122-row tracker. **Not a replacement.**
 
-| Window | Goal | Outcomes |
-|--------|------|----------|
-| **Days 1–30** | Floor 1 playable end-to-end | W5-S9–S10, cave UI in `/play`, full ogre→dragon arc in browser |
-| **Days 31–60** | Spire combat identity | W5-S11–S13, Tier A skills + gear gating, Floor 1 boss sets `floor_01_cleared` |
-| **Days 61–90** | Library foundation | First Stonepass content pack spec + 25 validated entries; WorldBlueprint sketch; async co-op spec → tracker rows |
+| Window         | Goal                        | Outcomes                                                                                                         |
+| -------------- | --------------------------- | ---------------------------------------------------------------------------------------------------------------- |
+| **Days 1–30**  | Floor 1 playable end-to-end | W5-S9–S10, cave UI in `/play`, full ogre→dragon arc in browser                                                   |
+| **Days 31–60** | Spire combat identity       | W5-S11–S13, Tier A skills + gear gating, Floor 1 boss sets `floor_01_cleared`                                    |
+| **Days 61–90** | Library foundation          | First Stonepass content pack spec + 25 validated entries; WorldBlueprint sketch; async co-op spec → tracker rows |
 
 ---
 

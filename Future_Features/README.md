@@ -17,15 +17,15 @@ Brainstorm and specification docs for features **scheduled or planned** in the s
 
 The flagship **Stonepass Spire** (Aincrad-style 100-floor castle) and the systems it depends on are interleaved into the tracker. Full step cards: `Playable_Worlds_Lab_v4_1_FULL_CURSOR.md` §17 (_Spire & Gameplay Systems track_ in §13).
 
-| Document                                                                                               | Scheduled steps                                | Tracker note (2026-09-20)                          |
-| ------------------------------------------------------------------------------------------------------ | ---------------------------------------------- | -------------------------------------------------- |
-| [Stonepass_Spire_Aincrad_Castle.md](./Stonepass_Spire_Aincrad_Castle.md)                               | W5-S13, W8-S15, W8-S16, W8-S17, W9-S7          | All `Not started`                                  |
-| [Combat_and_Encounter_Resolution.md](./Combat_and_Encounter_Resolution.md)                             | W5-S9, W5-S10, W5-S12, W8-S18, W8-S19 (Tier A) | **W5-S9 Next**; rest `Not started`                 |
-| [Player_Progression_and_Mastery.md](./Player_Progression_and_Mastery.md)                               | W5-S8, W5-S9, W9-S8                            | **W5-S8 Complete**; **W5-S9 Next**; W9-S8 pending  |
-| [Item_and_Gear_Template_Library.md](./Item_and_Gear_Template_Library.md)                               | W5-S11, W7-S12, W7-S13, W8-S18                 | All `Not started`                                  |
-| [Procedural_Region_and_Biome_Composer.md](./Procedural_Region_and_Biome_Composer.md)                   | W8-S13, W8-S14, W8-S16                         | All `Not started`                                  |
-| [Dynamic_Difficulty_Director.md](./Dynamic_Difficulty_Director.md)                                     | W4-S9, W4-S10, W8-S20                          | **W4-S9/S10 Complete**; W8-S20 `Not started`       |
-| [Story_Seed_Determinism_and_Variation_Explorer.md](./Story_Seed_Determinism_and_Variation_Explorer.md) | W4-S8, W9-S9, W12-S8                           | **W4-S8 Complete**; W9-S9 / W12-S8 `Not started`   |
+| Document                                                                                               | Scheduled steps                                | Tracker note (2026-09-20)                         |
+| ------------------------------------------------------------------------------------------------------ | ---------------------------------------------- | ------------------------------------------------- |
+| [Stonepass_Spire_Aincrad_Castle.md](./Stonepass_Spire_Aincrad_Castle.md)                               | W5-S13, W8-S15, W8-S16, W8-S17, W9-S7          | All `Not started`                                 |
+| [Combat_and_Encounter_Resolution.md](./Combat_and_Encounter_Resolution.md)                             | W5-S9, W5-S10, W5-S12, W8-S18, W8-S19 (Tier A) | **W5-S9 Next**; rest `Not started`                |
+| [Player_Progression_and_Mastery.md](./Player_Progression_and_Mastery.md)                               | W5-S8, W5-S9, W9-S8                            | **W5-S8 Complete**; **W5-S9 Next**; W9-S8 pending |
+| [Item_and_Gear_Template_Library.md](./Item_and_Gear_Template_Library.md)                               | W5-S11, W7-S12, W7-S13, W8-S18                 | All `Not started`                                 |
+| [Procedural_Region_and_Biome_Composer.md](./Procedural_Region_and_Biome_Composer.md)                   | W8-S13, W8-S14, W8-S16                         | All `Not started`                                 |
+| [Dynamic_Difficulty_Director.md](./Dynamic_Difficulty_Director.md)                                     | W4-S9, W4-S10, W8-S20                          | **W4-S9/S10 Complete**; W8-S20 `Not started`      |
+| [Story_Seed_Determinism_and_Variation_Explorer.md](./Story_Seed_Determinism_and_Variation_Explorer.md) | W4-S8, W9-S9, W12-S8                           | **W4-S8 Complete**; W9-S9 / W12-S8 `Not started`  |
 
 **Tier B (continuous XP / stateful leveling gear) is NOT scheduled** — it requires an explicit README "What This Project Is Not" boundary amendment.
 

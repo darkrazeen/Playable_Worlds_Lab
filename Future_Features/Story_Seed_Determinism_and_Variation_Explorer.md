@@ -17,11 +17,11 @@
 
 ## Feature index entry
 
-| Feature                                      | Status                | Target phase (approx.)    | Last updated |
-| -------------------------------------------- | --------------------- | ------------------------- | ------------ |
-| Seed propagation through runtime + AI        | **Implemented (W4-S8)** | Phase 2                 | 2026-09-20   |
-| Variation attribution (per-difference cause) | Scheduled (`Not started`) | Phase 6 (W9-S9)       | 2026-09-20   |
-| Variation Explorer UI (run A vs run B diff)  | Scheduled (`Not started`) | Phase 9 (W12-S8)      | 2026-09-20   |
+| Feature                                      | Status                    | Target phase (approx.) | Last updated |
+| -------------------------------------------- | ------------------------- | ---------------------- | ------------ |
+| Seed propagation through runtime + AI        | **Implemented (W4-S8)**   | Phase 2                | 2026-09-20   |
+| Variation attribution (per-difference cause) | Scheduled (`Not started`) | Phase 6 (W9-S9)        | 2026-09-20   |
+| Variation Explorer UI (run A vs run B diff)  | Scheduled (`Not started`) | Phase 9 (W12-S8)       | 2026-09-20   |
 
 ---
 

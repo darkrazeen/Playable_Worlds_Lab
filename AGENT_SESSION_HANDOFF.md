@@ -25,8 +25,8 @@
 | 3        | Repository code in `packages/core`                                                                                                                                                                                                                                     |
 | 4        | [README.md](./README.md) (secondary)                                                                                                                                                                                                                                   |
 | 5        | [Future_Features/](./Future_Features/README.md) — specs for scheduled `Not started` rows (W7-S7+ / W8-S6+ libraries & quest; **W4-S8–S10, W5-S8–S13, W7-S12–S13, W8-S13–S20, W9-S7–S9, W12-S8** Spire & gameplay systems). **Not current work** until a row is `Next`. |
-| —        | [docs/VISION_AND_MMO_DIRECTION.md](./docs/VISION_AND_MMO_DIRECTION.md) — strategic vision, MMO branches, gap analysis, question bank (planning only; does not override tracker) |
-| —        | [Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv](./Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv) — **status source of truth** (Complete / Next / Not started) |
+| —        | [docs/VISION_AND_MMO_DIRECTION.md](./docs/VISION_AND_MMO_DIRECTION.md) — strategic vision, MMO branches, gap analysis, question bank (planning only; does not override tracker)                                                                                        |
+| —        | [Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv](./Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv) — **status source of truth** (Complete / Next / Not started)                                                                                                    |
 
 ---
 
@@ -114,7 +114,7 @@ W1-S1 through W1-S16 — all **Complete**.
 | OpenAI provider + env toggle (`OPENAI_ENABLED`) | **Complete (W4-S3)** — `openaiProvider.ts`, `createAIGatewayFromEnv()`                           |
 | Director reasoning UI                           | **Complete (W4-S7)** — `DirectorReasoningPanel` on `/play`                                       |
 | Temporary instance runtime                      | **W5-S1–S7 complete** — fight-path chain + Phase 3 acceptance tests (engine; **not in `/play`**) |
-| ProgressionLedger schema                        | **W5-S8 complete** — optional `WorldSession.progression`; bounded tiers/unlocks/milestones        |
+| ProgressionLedger schema                        | **W5-S8 complete** — optional `WorldSession.progression`; bounded tiers/unlocks/milestones       |
 | Spire & gameplay systems                        | **W4-S8–S10 + W5-S8 Complete**; **W5-S9 Next**; W5-S10–S13+ still `Not started`                  |
 | Generation seed plumbing                        | **Complete (W4-S8)** — `WorldSession.generationSeed`, gateway `session` option                   |
 | Advisory difficulty heuristics                  | **Complete (W4-S9)** — `computeAdvisoryDifficultySignal` (ledger-only, no mutation)              |
@@ -134,7 +134,7 @@ Chain: W7-S6 → W7-S7 … → W7-S11 → W8-S1 … → W8-S5 → W8-S6 … → 
 
 ### Spire & gameplay systems — scheduled, not current work
 
-Tracker rows added **2026-05-29** (interleaved into existing weeks — **122 total tracker rows**). **Status as of 2026-09-20:** W4-S8–S10 and W5-S8 **Complete**; W5-S9 **Next**; remaining Spire rows `Not started`. Full step cards: FULL_CURSOR §17; summary table: FULL_CURSOR §13 _Spire & Gameplay Systems track_.
+Tracker rows added **2026-05-29** (interleaved into existing weeks — **122 total tracker rows**). **Status as of 2026-09-20:** W4-S8–S10 and W5-S8 **Complete**; W5-S9 **Next**; remaining Spire rows `Not started`. Full step cards: FULL*CURSOR §17; summary table: FULL_CURSOR §13 \_Spire & Gameplay Systems track*.
 
 | Phase         | Steps          | What they add                                                                              |
 | ------------- | -------------- | ------------------------------------------------------------------------------------------ |
@@ -404,16 +404,16 @@ playable-worlds-lab/
 
 ## 7. What is NOT built yet
 
-| Item                                                                                                     | Step                                                                                                |
-| -------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- |
-| Consequence `progressionChanges` (clamped)                                                               | **W5-S9 (Next)**                                                                                    |
-| Tier A skills, gear gating, Level 0 encounters, Floor 1 reframe                                          | W5-S10–S13 (`Not started`)                                                                          |
-| `/play` cave / temporary-instance UI                                                                     | Deferred from Phase 3 gate (engine done W5-S1–S7)                                                   |
-| Director auto-apply of suggestions                                                                       | Explicitly deferred (advisory only today)                                                           |
-| Content libraries, WorldBlueprint, quest generation                                                      | Phase 5 extension (W7-S7+, W8-S6+) — scheduled only                                                 |
-| Spire Floor 2+, RegionMap, SpireManifest, EncounterResolver, climb persistence, Variation Explorer       | W5-S13+, W7-S12+, W8-S13–S20, W9-S7–S9, W12-S8 — scheduled until row is `Next`                      |
-| Persistence / share / Supabase                                                                           | Phase 6                                                                                             |
-| 2D / 3D / multiplayer / UGC marketplace                                                                  | Later phases                                                                                        |
+| Item                                                                                               | Step                                                                           |
+| -------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
+| Consequence `progressionChanges` (clamped)                                                         | **W5-S9 (Next)**                                                               |
+| Tier A skills, gear gating, Level 0 encounters, Floor 1 reframe                                    | W5-S10–S13 (`Not started`)                                                     |
+| `/play` cave / temporary-instance UI                                                               | Deferred from Phase 3 gate (engine done W5-S1–S7)                              |
+| Director auto-apply of suggestions                                                                 | Explicitly deferred (advisory only today)                                      |
+| Content libraries, WorldBlueprint, quest generation                                                | Phase 5 extension (W7-S7+, W8-S6+) — scheduled only                            |
+| Spire Floor 2+, RegionMap, SpireManifest, EncounterResolver, climb persistence, Variation Explorer | W5-S13+, W7-S12+, W8-S13–S20, W9-S7–S9, W12-S8 — scheduled until row is `Next` |
+| Persistence / share / Supabase                                                                     | Phase 6                                                                        |
+| 2D / 3D / multiplayer / UGC marketplace                                                            | Later phases                                                                   |
 
 **Already complete (do not re-implement):** Phase 0–2; temporary instance runtime (W5-S1–S7); `ProgressionLedger` schema (W5-S8); DirectorAgent / NPCReactionAgent (advisory); seed + difficulty (W4-S8–S10).
 
@@ -458,11 +458,11 @@ playable-worlds-lab/
 
 **Canonical log:** [docs/decision-log.md](./docs/decision-log.md) — do not duplicate the full table here.
 
-| Decision                         | Detail                                                                                                                                                          |
-| -------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Step tracker**                 | [Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv](./Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv) is the only source of step status                        |
-| **Phase 1 hygiene (2026-05-29)** | Review fixes: web lint scope, CI format/coverage, unique world-event IDs, beat progression (historical; review note file not retained) |
-| **Doc reconciliation (2026-09-20)** | README, handoff, FULL_CURSOR status pointers, Future_Features, phase3-acceptance aligned to CSV (W5-S8 Complete / W5-S9 Next) |
+| Decision                            | Detail                                                                                                                                   |
+| ----------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| **Step tracker**                    | [Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv](./Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv) is the only source of step status |
+| **Phase 1 hygiene (2026-05-29)**    | Review fixes: web lint scope, CI format/coverage, unique world-event IDs, beat progression (historical; review note file not retained)   |
+| **Doc reconciliation (2026-09-20)** | README, handoff, FULL_CURSOR status pointers, Future_Features, phase3-acceptance aligned to CSV (W5-S8 Complete / W5-S9 Next)            |
 
 ---
 
