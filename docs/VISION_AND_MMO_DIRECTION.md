@@ -13,7 +13,7 @@
 
 ---
 
-## 1. Project snapshot (as of 2026-05-29)
+## 1. Project snapshot (as of 2026-09-20)
 
 ### What this is
 

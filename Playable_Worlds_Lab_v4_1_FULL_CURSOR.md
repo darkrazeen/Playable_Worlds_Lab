@@ -17,6 +17,8 @@ Use this file as the project source-of-truth context. Do not skip the step cards
 
 **Contract v4.2:** See **§22** at the bottom of this file for hybrid schema field names and `schemaVersion: "0.2.0"` (supersedes §9 on listed conflicts).
 
+**Build status (reconciled 2026-09-20 — not part of the PDF extract):** Phase 0–2 complete; Phase 3 through **W5-S8** complete (`ProgressionLedger`); **Next = W5-S9** (clamped `progressionChanges`). Temporary instance engine complete (W5-S1–S7); cave UI in `/play` deferred. Status SoT: [Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv](./Playable_Worlds_Lab_v4_1_Notion_Step_Tracker.csv). Agent onboarding: [AGENT_SESSION_HANDOFF.md](./AGENT_SESSION_HANDOFF.md). Strategic planning (non-binding): [docs/VISION_AND_MMO_DIRECTION.md](./docs/VISION_AND_MMO_DIRECTION.md).
+
 ---
 
 ## Full Converted Source Content
@@ -30,13 +32,12 @@ Table of Contents
 Playable Worlds Lab - Unified Source of Truth v4.1
 Teen/Adult Edition: Product Strategy, Architecture, Implementation Plan, and AI Tool
 Operator Guide
-Status: Active source of truth for pre-code implementation
-Date: 2026-05-26
+Status: Active source of truth for contracts and step cards (PDF extract dated 2026-05-26). **Live build status:** see CSV + AGENT_SESSION_HANDOFF (reconciled 2026-09-20: W5-S8 Complete, W5-S9 Next).
+Date: 2026-05-26 (extract); status overlay 2026-09-20
 Core mantra: AI proposes. Validators check. The game engine executes.
 This document replaces the active working use of the Product Build Report v3, AI Coding Tool
 Execution Playbook, and Preflight Revision Pack v4. Older PDFs are archived references only.
-This v4.1 document is the one human operator and AI coding tools should follow before starting
-W1-S1.
+This v4.1 document is the one human operator and AI coding tools should follow for **step cards and contracts**. Use the Notion step tracker CSV for Complete / Next / Not started.
 
 ## 0. Project Summary: What We Are Building and Why
 
@@ -812,7 +813,7 @@ visual/platform earlier gates. cockpit, passport, defined before
 layers official packs, co-op, implementation
 2.5D/3D. starts.
 
-> **Spire & Gameplay Systems extension (added 2026-05-29):** Weeks 4–12 also carry interleaved steps for the flagship **Stonepass Spire** and its gameplay systems (combat Tier A, progression, gear, region composer, dynamic difficulty, seed/variation). See the _Spire & Gameplay Systems track_ table at the end of §13 and the step cards in §17. Phase gates are unchanged. The Phase 2 difficulty/seed rows (W4-S8–S10) are now **Complete**; the next step is **W5-S1** (Phase 3 — cave from `cave_exposed`).
+> **Spire & Gameplay Systems extension (added 2026-05-29; status 2026-09-20):** Weeks 4–12 also carry interleaved steps for the flagship **Stonepass Spire** and its gameplay systems (combat Tier A, progression, gear, region composer, dynamic difficulty, seed/variation). See the _Spire & Gameplay Systems track_ table at the end of §13 and the step cards in §17. Phase gates are unchanged. **Complete:** W4-S8–S10 (seed/difficulty) and **W5-S8** (`ProgressionLedger`). **Next:** **W5-S9** (clamped `progressionChanges`). Remaining Spire rows stay `Not started` until each is `Next`.
 
 ## 13. Week-by-Week Implementation Plan
 
@@ -890,33 +891,33 @@ back.
 
 ### Spire & Gameplay Systems track (interleaved steps — added 2026-05-29)
 
-These steps extend Weeks 4–12 to implement the flagship **Stonepass Spire** (Aincrad-style 100-floor castle) and the gameplay systems it depends on. They **interleave** into existing weeks (no renumbering of prior steps) and are gated by the phase steps named in **Blocked by**. They obey the core mantra (AI proposes → validators check → engine executes) and stay inside the README MVP boundary: combat is **Tier A only** (bounded tiers/flags/unlocks — no continuous XP, stat-sim, or economy). Full step cards are in §17; tracker rows are in the CSV as `Not started`. Specs: [Future_Features/](./Future_Features/README.md).
+These steps extend Weeks 4–12 to implement the flagship **Stonepass Spire** (Aincrad-style 100-floor castle) and the gameplay systems it depends on. They **interleave** into existing weeks (no renumbering of prior steps) and are gated by the phase steps named in **Blocked by**. They obey the core mantra (AI proposes → validators check → engine executes) and stay inside the README MVP boundary: combat is **Tier A only** (bounded tiers/flags/unlocks — no continuous XP, stat-sim, or economy). Full step cards are in §17; tracker status (2026-09-20): **W4-S8–S10 + W5-S8 Complete; W5-S9 Next; rest `Not started`**. Specs: [Future_Features/](./Future_Features/README.md).
 
-| Step   | Week / Phase | Adds                                         | Feature spec                    |
-| ------ | ------------ | -------------------------------------------- | ------------------------------- |
-| W4-S8  | 4 / Phase 2  | Generation-seed plumbing                     | Story Seed & Variation Explorer |
-| W4-S9  | 4 / Phase 2  | Ledger-signal difficulty (advisory)          | Dynamic Difficulty Director     |
-| W4-S10 | 4 / Phase 2  | Director `adjust_difficulty` (bounded)       | Dynamic Difficulty Director     |
-| W5-S8  | 5 / Phase 3  | `ProgressionLedger` schema                   | Player Progression & Mastery    |
-| W5-S9  | 5 / Phase 3  | Clamped `progressionChanges`                 | Progression / Combat            |
-| W5-S10 | 5 / Phase 3  | Tier A skills (usage + unlocks)              | Combat & Encounter Resolution   |
-| W5-S11 | 5 / Phase 3  | Gear gating via flags/tiers                  | Item & Gear Template Library    |
-| W5-S12 | 5 / Phase 3  | Level 0 choice-gated encounters              | Combat & Encounter Resolution   |
-| W5-S13 | 5 / Phase 3  | Stonepass becomes Spire **Floor 1**          | Stonepass Spire                 |
-| W7-S12 | 7 / Phase 5  | Gear/Item library schema                     | Item & Gear Template Library    |
-| W7-S13 | 7 / Phase 5  | Seed gear library (tier bands)               | Item & Gear Template Library    |
-| W8-S13 | 8 / Phase 5  | `RegionMap` schema + validator               | Procedural Region Composer      |
-| W8-S14 | 8 / Phase 5  | Cross-zone travel + region ledger            | Procedural Region Composer      |
-| W8-S15 | 8 / Phase 5  | `SpireManifest` skeleton + validator         | Stonepass Spire                 |
-| W8-S16 | 8 / Phase 5  | Vertical edges + ascension gating            | Stonepass Spire                 |
-| W8-S17 | 8 / Phase 5  | Floor 2 + ascension gate (**Castle proven**) | Stonepass Spire                 |
-| W8-S18 | 8 / Phase 5  | Tier A gear tiers + specials                 | Combat / Items                  |
-| W8-S19 | 8 / Phase 5  | Level 1 `EncounterResolver`                  | Combat & Encounter Resolution   |
-| W8-S20 | 8 / Phase 5  | `DifficultyProfile` in WorldBlueprint        | Dynamic Difficulty Director     |
-| W9-S7  | 9 / Phase 6  | `WorldSession.currentFloor` + climb ledger   | Stonepass Spire / Progression   |
-| W9-S8  | 9 / Phase 6  | Persistent cross-floor progression           | Player Progression & Mastery    |
-| W9-S9  | 9 / Phase 6  | Seeded replay + variation attribution        | Story Seed & Variation Explorer |
-| W12-S8 | 12 / Phase 9 | Variation Explorer UI                        | Story Seed & Variation Explorer |
+| Step   | Week / Phase | Adds                                         | Feature spec                    | Tracker (2026-09-20) |
+| ------ | ------------ | -------------------------------------------- | ------------------------------- | -------------------- |
+| W4-S8  | 4 / Phase 2  | Generation-seed plumbing                     | Story Seed & Variation Explorer | **Complete**         |
+| W4-S9  | 4 / Phase 2  | Ledger-signal difficulty (advisory)          | Dynamic Difficulty Director     | **Complete**         |
+| W4-S10 | 4 / Phase 2  | Director `adjust_difficulty` (bounded)       | Dynamic Difficulty Director     | **Complete**         |
+| W5-S8  | 5 / Phase 3  | `ProgressionLedger` schema                   | Player Progression & Mastery    | **Complete**         |
+| W5-S9  | 5 / Phase 3  | Clamped `progressionChanges`                 | Progression / Combat            | **Next**             |
+| W5-S10 | 5 / Phase 3  | Tier A skills (usage + unlocks)              | Combat & Encounter Resolution   | Not started          |
+| W5-S11 | 5 / Phase 3  | Gear gating via flags/tiers                  | Item & Gear Template Library    | Not started          |
+| W5-S12 | 5 / Phase 3  | Level 0 choice-gated encounters              | Combat & Encounter Resolution   | Not started          |
+| W5-S13 | 5 / Phase 3  | Stonepass becomes Spire **Floor 1**          | Stonepass Spire                 | Not started          |
+| W7-S12 | 7 / Phase 5  | Gear/Item library schema                     | Item & Gear Template Library    | Not started          |
+| W7-S13 | 7 / Phase 5  | Seed gear library (tier bands)               | Item & Gear Template Library    | Not started          |
+| W8-S13 | 8 / Phase 5  | `RegionMap` schema + validator               | Procedural Region Composer      | Not started          |
+| W8-S14 | 8 / Phase 5  | Cross-zone travel + region ledger            | Procedural Region Composer      | Not started          |
+| W8-S15 | 8 / Phase 5  | `SpireManifest` skeleton + validator         | Stonepass Spire                 | Not started          |
+| W8-S16 | 8 / Phase 5  | Vertical edges + ascension gating            | Stonepass Spire                 | Not started          |
+| W8-S17 | 8 / Phase 5  | Floor 2 + ascension gate (**Castle proven**) | Stonepass Spire                 | Not started          |
+| W8-S18 | 8 / Phase 5  | Tier A gear tiers + specials                 | Combat / Items                  | Not started          |
+| W8-S19 | 8 / Phase 5  | Level 1 `EncounterResolver`                  | Combat & Encounter Resolution   | Not started          |
+| W8-S20 | 8 / Phase 5  | `DifficultyProfile` in WorldBlueprint        | Dynamic Difficulty Director     | Not started          |
+| W9-S7  | 9 / Phase 6  | `WorldSession.currentFloor` + climb ledger   | Stonepass Spire / Progression   | Not started          |
+| W9-S8  | 9 / Phase 6  | Persistent cross-floor progression           | Player Progression & Mastery    | Not started          |
+| W9-S9  | 9 / Phase 6  | Seeded replay + variation attribution        | Story Seed & Variation Explorer | Not started          |
+| W12-S8 | 12 / Phase 9 | Variation Explorer UI                        | Story Seed & Variation Explorer | Not started          |
 
 **Milestones:** _single floor fun in text_ (W5-S13, decision gate) → _Castle proven_ = 2 built floors + 1 working ascension gate (W8-S17) → _continue your climb_ persistence (W9-S7).
 

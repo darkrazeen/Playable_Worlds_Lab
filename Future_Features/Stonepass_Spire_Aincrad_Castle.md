@@ -2,8 +2,8 @@
 
 > **Living document** for retuning the Stonepass proof world into a **vertical castle of 100 floors** (inspired by _Sword Art Online_'s Aincrad) where each floor is its own validated `WorldDefinition` (zone), floors stack into a `RegionMap`-derived tower, and ascension is gated by clearing the floor below. Single-player, text-first, fleshed out one floor at a time on top of a complete 100-floor **skeleton**.
 >
-> **Status:** Scheduled in step tracker — flagship rows added 2026-05-29 as `Not started`: **W5-S13** (Stonepass → Floor 1), **W8-S15** (SpireManifest), **W8-S16** (ascension edges), **W8-S17** (Floor 2 / Castle proven), **W9-S7** (climb persistence). Implement only when each step reaches `Next` with human approval; move to **Implemented** as steps land.
-> **Last updated:** 2026-05-29
+> **Status:** Flagship content steps remain scheduled — **W5-S13** (Stonepass → Floor 1), **W8-S15** (SpireManifest), **W8-S16** (ascension edges), **W8-S17** (Floor 2 / Castle proven), **W9-S7** (climb persistence) are `Not started`. Engine prerequisites for Floor 1 play: temporary instances **Complete (W5-S1–S7)**; progression schema **Complete (W5-S8)**; **W5-S9 Next**. Implement only when each step reaches `Next` with human approval; move to **Implemented** as steps land.
+> **Last updated:** 2026-09-20
 > **Related:** [Combat_and_Encounter_Resolution.md](./Combat_and_Encounter_Resolution.md), [Procedural_Region_and_Biome_Composer.md](./Procedural_Region_and_Biome_Composer.md), [Player_World_Generation_and_Content_Libraries.md](./Player_World_Generation_and_Content_Libraries.md), [Player_Progression_and_Mastery.md](./Player_Progression_and_Mastery.md), [Item_and_Gear_Template_Library.md](./Item_and_Gear_Template_Library.md), [Dynamic_Difficulty_Director.md](./Dynamic_Difficulty_Director.md), [2D_Map_and_Node_Graph_Play_View.md](./2D_Map_and_Node_Graph_Play_View.md), [README.md](./README.md)
 
 **Rules:**
